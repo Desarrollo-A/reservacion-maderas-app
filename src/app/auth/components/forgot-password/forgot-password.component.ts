@@ -25,4 +25,8 @@ export class ForgotPasswordComponent implements OnInit {
   send() {
     this.router.navigate(['/']);
   }
+
+  backToLogin(): void {
+    this.router.navigateByUrl('/auth/acceso');
+  }
 }

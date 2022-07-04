@@ -1,18 +1,18 @@
 import { Component, Inject, LOCALE_ID, Renderer2 } from '@angular/core';
-import { ConfigService } from '../@vex/config/config.service';
+import { ConfigService } from './shared/config/config.service';
 import { Settings } from 'luxon';
 import { DOCUMENT } from '@angular/common';
 import { Platform } from '@angular/cdk/platform';
-import { NavigationService } from '../@vex/services/navigation.service';
-import { LayoutService } from '../@vex/services/layout.service';
+import { NavigationService } from './shared/services/navigation.service';
+import { LayoutService } from './shared/services/layout.service';
 import { ActivatedRoute } from '@angular/router';
 import { coerceBooleanProperty } from '@angular/cdk/coercion';
-import { SplashScreenService } from '../@vex/services/splash-screen.service';
-import { VexConfigName } from '../@vex/config/config-name.model';
-import { ColorSchemeName } from '../@vex/config/colorSchemeName';
+import { SplashScreenService } from './shared/services/splash-screen.service';
+import { VexConfigName } from './shared/config/config-name.model';
+import { ColorSchemeName } from './shared/config/colorSchemeName';
 import { MatIconRegistry, SafeResourceUrlWithIconOptions } from '@angular/material/icon';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
-import { ColorVariable, colorVariables } from '../@vex/components/config-panel/color-variables';
+import { ColorVariable, colorVariables } from './shared/components/config-panel/color-variables';
 
 @Component({
   selector: 'vex-root',

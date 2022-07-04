@@ -4,9 +4,9 @@ import { NgModule } from '@angular/core';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { VexModule } from '../@vex/vex.module';
+import { SharedModule } from './shared/shared.module';
 import { HttpClientModule } from '@angular/common/http';
-import { CustomLayoutModule } from './custom-layout/custom-layout.module';
+import { HomeModule } from './dashboard/home/home.module';
 
 @NgModule({
   declarations: [AppComponent],
@@ -17,8 +17,8 @@ import { CustomLayoutModule } from './custom-layout/custom-layout.module';
     HttpClientModule,
 
     // Vex
-    VexModule,
-    CustomLayoutModule
+    SharedModule,
+    HomeModule
   ],
   providers: [],
   bootstrap: [AppComponent]

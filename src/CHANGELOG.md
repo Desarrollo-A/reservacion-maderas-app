@@ -126,7 +126,7 @@ This library and structure is needed so any subscriptions we create get automati
 ## 8.4.0 (2019-11-18)
 
 ### Features
-- Add CustomLayoutComponent to easily create your own custom layout component and customize the template even easier
+- Add HomeComponent to easily create your own custom layout component and customize the template even easier
 - If needed, you can now enable strictFunctionTypes & noImplicitReturns in your tsconfig.json
 - Add more customization options using NavigationService (Change title & logo in sidenav)
 - Add example config with customized completely customized layout and custom title & logo

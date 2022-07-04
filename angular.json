@@ -37,7 +37,7 @@
             ],
             "styles": [
               "src/styles.scss",
-              "src/@vex/styles/tailwind.scss"
+              "src/app/shared/styles/tailwind.scss"
             ],
             "scripts": [],
             "allowedCommonJsDependencies": [

@@ -7,7 +7,6 @@ import { NavigationService } from './shared/services/navigation.service';
 import { LayoutService } from './shared/services/layout.service';
 import { ActivatedRoute } from '@angular/router';
 import { coerceBooleanProperty } from '@angular/cdk/coercion';
-import { SplashScreenService } from './shared/services/splash-screen.service';
 import { VexConfigName } from './shared/config/config-name.model';
 import { ColorSchemeName } from './shared/config/colorSchemeName';
 import { MatIconRegistry, SafeResourceUrlWithIconOptions } from '@angular/material/icon';
@@ -28,7 +27,6 @@ export class AppComponent {
               private layoutService: LayoutService,
               private route: ActivatedRoute,
               private navigationService: NavigationService,
-              private splashScreenService: SplashScreenService,
               private readonly matIconRegistry: MatIconRegistry,
               private readonly domSanitizer: DomSanitizer) {
     Settings.defaultLocale = this.localeId;

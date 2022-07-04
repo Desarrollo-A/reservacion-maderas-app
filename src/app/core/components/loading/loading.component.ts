@@ -1,0 +1,20 @@
+import { Component } from '@angular/core';
+import { BehaviorSubject } from "rxjs";
+import { LoadingService } from "../../services/loading.service";
+
+@Component({
+  selector: 'app-loading',
+  template: `
+    <div class="overlay" *ngIf="isLoading$ | async">
+      <span class="loader"></span>
+    </div>
+  `,
+  styleUrls: ['./loading.component.scss']
+})
+export class LoadingComponent {
+  public isLoading$: BehaviorSubject<boolean>;
+
+  constructor(private loadingService: LoadingService) {
+    this.isLoading$ = this.loadingService.isLoading$;
+  }
+}

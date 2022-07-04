@@ -9,6 +9,9 @@ import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { HomeModule } from './dashboard/home/home.module';
 import { LoadingInterceptor } from "./core/interceptors/loading.interceptor";
 import { CoreModule } from "./core/core.module";
+import { ToastrModule } from "ngx-toastr";
+import { ErrorInterceptor } from "./core/interceptors/error.interceptor";
+import { TokenInterceptor } from "./core/interceptors/token.interceptor";
 
 @NgModule({
   declarations: [AppComponent],
@@ -17,9 +20,8 @@ import { CoreModule } from "./core/core.module";
     AppRoutingModule,
     BrowserAnimationsModule,
     HttpClientModule,
+    ToastrModule.forRoot(),
     CoreModule,
-
-    // Vex
     SharedModule,
     HomeModule
   ],
@@ -27,6 +29,16 @@ import { CoreModule } from "./core/core.module";
     {
       provide: HTTP_INTERCEPTORS,
       useClass: LoadingInterceptor,
+      multi: true
+    },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: ErrorInterceptor,
+      multi: true
+    },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: TokenInterceptor,
       multi: true
     }
   ],

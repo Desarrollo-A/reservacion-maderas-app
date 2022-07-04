@@ -1,0 +1,47 @@
+<div class="w-full h-full bg-pattern flex flex-col items-center justify-center">
+  <div @fadeInUp class="card overflow-hidden w-full max-w-xs">
+    <div class="p-6 pb-0 flex flex-col items-center justify-center">
+      <div class="fill-current text-center">
+        <img class="w-96" src="assets/img/logo-cm.png" alt="logo">
+      </div>
+    </div>
+
+    <div class="text-center mt-4">
+      <h2 class="title m-0">Bienvenido de nuevo</h2>
+      <h4 class="body-2 text-secondary m-0">Inicie sesión con sus credenciales.</h4>
+    </div>
+
+    <div [formGroup]="form" class="p-6 flex flex-col gap-4">
+      <div class="flex flex-col">
+        <mat-form-field class="flex-1">
+          <mat-label>Correo electrónico</mat-label>
+          <input formControlName="email" matInput required>
+          <mat-error *ngIf="form.get('email').hasError('required')">We need an email address to log you in</mat-error>
+        </mat-form-field>
+        <mat-form-field class="flex-1">
+          <mat-label>Contraseña</mat-label>
+          <input [type]="inputType" formControlName="password" matInput required>
+          <button (click)="toggleVisibility()" mat-icon-button matSuffix matTooltip="Visualizar contraseña" type="button">
+            <mat-icon *ngIf="visible" svgIcon="mat:visibility"></mat-icon>
+            <mat-icon *ngIf="!visible" svgIcon="mat:visibility_off"></mat-icon>
+          </button>
+          <mat-error *ngIf="form.get('password').hasError('required')">We need a password to log you in</mat-error>
+        </mat-form-field>
+      </div>
+
+      <div class="flex items-center justify-between">
+        <mat-checkbox class="caption" color="primary">Recordarme</mat-checkbox>
+        <a [routerLink]="['/auth/reestablecer']" class="caption">¿Olvidaste tu contraseña?</a>
+      </div>
+
+      <button (click)="send()" color="primary" mat-raised-button type="button">
+        INGRESAR
+      </button>
+
+      <p class="text-secondary text-center">
+        ¿No tienes una cuenta?<br/>
+        <a [routerLink]="['/register']">Clic aquí para crear una</a>
+      </p>
+    </div>
+  </div>
+</div>

@@ -19,6 +19,8 @@ import { MatDialogModule } from "@angular/material/dialog";
 import { MatTabsModule } from "@angular/material/tabs";
 import { MatInputModule } from "@angular/material/input";
 import { MatSidenavModule } from "@angular/material/sidenav";
+import { MatSnackBarModule } from "@angular/material/snack-bar";
+import { MatCheckboxModule } from "@angular/material/checkbox";
 
 
 @NgModule({
@@ -29,6 +31,7 @@ import { MatSidenavModule } from "@angular/material/sidenav";
   exports: [
     MatBottomSheetModule,
     MatButtonModule,
+    MatCheckboxModule,
     MatDialogModule,
     MatIconModule,
     MatInputModule,
@@ -41,6 +44,7 @@ import { MatSidenavModule } from "@angular/material/sidenav";
     MatSidenavModule,
     MatSlideToggleModule,
     MatSliderModule,
+    MatSnackBarModule,
     MatSortModule,
     MatTableModule,
     MatTabsModule,

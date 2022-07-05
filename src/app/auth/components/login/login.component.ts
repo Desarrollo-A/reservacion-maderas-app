@@ -28,8 +28,8 @@ export class LoginComponent implements OnInit {
     const data = JSON.parse(localStorage.getItem('credentials'));
 
     this.form = this.fb.group({
-      email: [(data) ? data.email : '',
-        [Validators.required, Validators.email, Validators.maxLength(150)]],
+      noEmployee: [(data) ? data.noEmployee : '',
+        [Validators.required, Validators.minLength(3), Validators.maxLength(50)]],
       password: [(data) ? data.password : '',
         [Validators.required, Validators.minLength(5), Validators.maxLength(50)]],
       rememberMe: [false]
@@ -39,7 +39,7 @@ export class LoginComponent implements OnInit {
   }
 
   send(): void {
-    //
+    this.router.navigateByUrl('/dashboard');
   }
 
   toggleVisibility(): void {

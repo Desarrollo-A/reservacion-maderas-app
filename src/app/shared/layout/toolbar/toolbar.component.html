@@ -98,7 +98,7 @@
 
     <div class="px-1">
       <button [matMenuTriggerFor]="languageMenu" mat-icon-button type="button">
-        <mat-icon svgIcon="flag:united-states"></mat-icon>
+        <mat-icon color="primary" svgIcon="mat:perm_identity"></mat-icon>
       </button>
     </div>
 
@@ -108,13 +108,13 @@
 
     <mat-menu #languageMenu="matMenu" overlapTrigger="false" xPosition="before" yPosition="below">
       <button mat-menu-item>
-        <mat-icon svgIcon="flag:united-states"></mat-icon>
-        <span>English</span>
+        <mat-icon svgIcon="mat:account_circle"></mat-icon>
+        <span>Mi perfil</span>
       </button>
 
-      <button mat-menu-item>
-        <mat-icon svgIcon="flag:germany"></mat-icon>
-        <span>German</span>
+      <button mat-menu-item (click)="logout()">
+        <mat-icon svgIcon="mat:logout"></mat-icon>
+        <span>Cerrar sesión</span>
       </button>
     </mat-menu>
   </div>

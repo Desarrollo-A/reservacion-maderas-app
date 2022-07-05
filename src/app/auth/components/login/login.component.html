@@ -15,20 +15,20 @@
     </div>
 
     <div [formGroup]="form"
-         class="p-6 flex flex-col gap-3">
+         class="p-6 flex flex-col gap-4">
       <div class="flex flex-col">
         <mat-form-field class="flex-1">
-          <mat-label>Correo electrónico</mat-label>
-          <input formControlName="email"
+          <mat-label>Usuario</mat-label>
+          <input formControlName="noEmployee"
                  matInput>
-          <mat-error *ngIf="formErrors.customError('email','required')">
+          <mat-error *ngIf="formErrors.customError('noEmployee','required')">
             Campo obligatorio
           </mat-error>
-          <mat-error *ngIf="formErrors.customError('email','email')">
-            Formato no válido para correo electrónico
+          <mat-error *ngIf="formErrors.customError('noEmployee','minlength')">
+            El usuario debe tener más de {{ formErrors.minLengthNumber('noEmployee') }} caracteres
           </mat-error>
-          <mat-error *ngIf="formErrors.customError('email','maxlength')">
-            El correo electrónico no debe tener más de {{ formErrors.maxLengthNumber('email') }} caracteres
+          <mat-error *ngIf="formErrors.customError('noEmployee','maxlength')">
+            El usuario no debe tener más de {{ formErrors.maxLengthNumber('noEmployee') }} caracteres
           </mat-error>
         </mat-form-field>
 

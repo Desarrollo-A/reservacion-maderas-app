@@ -1,21 +1,21 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { LayoutService } from '../../shared/services/layout.service';
+import { LayoutService } from '../shared/services/layout.service';
 import { filter, map, startWith } from 'rxjs/operators';
 import { NavigationEnd, Router } from '@angular/router';
-import { checkRouterChildsData } from '../../shared/utils/check-router-childs-data';
+import { checkRouterChildsData } from '../shared/utils/check-router-childs-data';
 import { BreakpointObserver } from '@angular/cdk/layout';
-import { ConfigService } from '../../shared/config/config.service';
+import { ConfigService } from '../shared/config/config.service';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
-import { SidebarComponent } from '../../shared/components/sidebar/sidebar.component';
+import { SidebarComponent } from '../shared/components/sidebar/sidebar.component';
 
 
 @UntilDestroy()
 @Component({
   selector: 'vex-home',
-  templateUrl: './home.component.html',
-  styleUrls: ['./home.component.scss']
+  templateUrl: './dashboard.component.html',
+  styleUrls: ['./dashboard.component.scss']
 })
-export class HomeComponent implements OnInit {
+export class DashboardComponent implements OnInit {
 
   sidenavCollapsed$ = this.layoutService.sidenavCollapsed$;
   isFooterVisible$ = this.configService.config$.pipe(map(config => config.footer.visible));

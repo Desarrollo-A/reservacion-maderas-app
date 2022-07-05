@@ -86,7 +86,7 @@ export const configs: VexConfig[] = [
       fixed: false
     }
   }),
-  mergeDeep({ ...defaultConfig }, {
+  /*mergeDeep({ ...defaultConfig }, {
     id: VexConfigName.hermes,
     name: 'Hermes',
     imgSrc: '//vex-landing.visurel.com/assets/img/layouts/hermes.png',
@@ -106,7 +106,7 @@ export const configs: VexConfig[] = [
     footer: {
       fixed: false
     },
-  }),
+  }),*/
   mergeDeep({ ...defaultConfig }, {
     id: VexConfigName.ares,
     name: 'Ares',
@@ -129,7 +129,7 @@ export const configs: VexConfig[] = [
       fixed: false
     },
   }),
-  mergeDeep({ ...defaultConfig }, {
+  /*mergeDeep({ ...defaultConfig }, {
     id: VexConfigName.zeus,
     name: 'Zeus',
     imgSrc: '//vex-landing.visurel.com/assets/img/layouts/zeus.png',
@@ -160,5 +160,5 @@ export const configs: VexConfig[] = [
     footer: {
       fixed: false
     }
-  })
+  })*/
 ];

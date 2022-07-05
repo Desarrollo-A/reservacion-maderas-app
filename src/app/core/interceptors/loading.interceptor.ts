@@ -9,16 +9,16 @@ export class LoadingInterceptor implements HttpInterceptor {
   constructor(private loadingService: LoadingService) {}
 
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    if (!request.url.includes('assets')) {
-      this.loadingService.show();
+    if (request.url.includes('assets')) {
+      return next.handle(request);
     }
+
+    this.loadingService.show();
 
     return next.handle(request)
       .pipe(
         finalize(() => {
-          if (!request.url.includes('assets')) {
-            this.loadingService.hide();
-          }
+          this.loadingService.hide();
         })
       );
   }

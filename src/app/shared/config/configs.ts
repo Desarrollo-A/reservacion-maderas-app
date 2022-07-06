@@ -10,7 +10,7 @@ const defaultConfig: VexConfig = {
   style: {
     colorScheme: ColorSchemeName.default,
     colors: {
-      primary: colorVariables.blue
+      primary: colorVariables.azul
     },
     borderRadius: {
       value: 0.25,

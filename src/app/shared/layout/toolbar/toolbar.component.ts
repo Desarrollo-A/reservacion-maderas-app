@@ -27,7 +27,6 @@ export class ToolbarComponent {
   isVerticalLayout$: Observable<boolean> = this.configService.config$.pipe(map(config => config.layout === 'vertical'));
   isNavbarInToolbar$: Observable<boolean> = this.configService.config$.pipe(map(config => config.navbar.position === 'in-toolbar'));
   isNavbarBelowToolbar$: Observable<boolean> = this.configService.config$.pipe(map(config => config.navbar.position === 'below-toolbar'));
-  userVisible$: Observable<boolean> = this.configService.config$.pipe(map(config => config.toolbar.user.visible));
 
   megaMenuOpen$: Observable<boolean> = of(false);
 
@@ -74,9 +73,5 @@ export class ToolbarComponent {
 
   openSearch(): void {
     this.layoutService.openSearch();
-  }
-
-  logout(): void {
-    this.router.navigateByUrl('/auth');
   }
 }

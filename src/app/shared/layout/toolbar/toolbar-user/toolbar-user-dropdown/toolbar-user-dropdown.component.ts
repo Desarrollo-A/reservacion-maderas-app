@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { MenuItem } from '../interfaces/menu-item.interface';
 import { trackById } from '../../../../utils/track-by';
 import { PopoverRef } from '../../../../components/popover/popover-ref';
@@ -13,8 +13,7 @@ export interface OnlineStatus {
 @Component({
   selector: 'vex-toolbar-user-dropdown',
   templateUrl: './toolbar-user-dropdown.component.html',
-  styleUrls: ['./toolbar-user-dropdown.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  styleUrls: ['./toolbar-user-dropdown.component.scss']
 })
 export class ToolbarUserDropdownComponent implements OnInit {
 
@@ -22,8 +21,8 @@ export class ToolbarUserDropdownComponent implements OnInit {
     {
       id: '1',
       icon: 'mat:account_circle',
-      label: 'My Profile',
-      description: 'Personal Information',
+      label: 'Mi perfil',
+      description: 'Información personal',
       colorClass: 'text-teal',
       route: '/apps/social'
     },
@@ -53,47 +52,12 @@ export class ToolbarUserDropdownComponent implements OnInit {
     }
   ];
 
-  statuses: OnlineStatus[] = [
-    {
-      id: 'online',
-      label: 'Online',
-      icon: 'mat:check_circle',
-      colorClass: 'text-green'
-    },
-    {
-      id: 'away',
-      label: 'Away',
-      icon: 'mat:access_time',
-      colorClass: 'text-orange'
-    },
-    {
-      id: 'dnd',
-      label: 'Do not disturb',
-      icon: 'mat:do_not_disturb',
-      colorClass: 'text-red'
-    },
-    {
-      id: 'offline',
-      label: 'Offline',
-      icon: 'mat:offline_bolt',
-      colorClass: 'text-gray'
-    }
-  ];
-
-  activeStatus: OnlineStatus = this.statuses[0];
-
   trackById = trackById;
 
   constructor(private cd: ChangeDetectorRef,
               private popoverRef: PopoverRef<ToolbarUserDropdownComponent>) { }
 
-  ngOnInit() {
-  }
-
-  setStatus(status: OnlineStatus) {
-    this.activeStatus = status;
-    this.cd.markForCheck();
-  }
+  ngOnInit() {}
 
   close() {
     this.popoverRef.close();

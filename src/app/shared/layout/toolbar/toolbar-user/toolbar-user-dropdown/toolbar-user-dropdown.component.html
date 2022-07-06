@@ -4,7 +4,7 @@
       <div class="dropdown-heading-icon flex items-center justify-center">
         <mat-icon svgIcon="mat:person"></mat-icon>
       </div>
-      <div class="dropdown-heading">David Smith</div>
+      <div class="dropdown-heading">Jorge Coronel</div>
     </div>
 
     <button [matMenuTriggerFor]="settingsMenu"
@@ -33,28 +33,10 @@
     </a>
   </div>
 
-  <div class="dropdown-footer flex items-center justify-between">
-    <button [matMenuTriggerFor]="statusMenu" class="dropdown-footer-select" mat-button type="button">
-      <ng-container *ngFor="let status of statuses; trackBy: trackById">
-        <span *ngIf="status === activeStatus">
-          <mat-icon [ngClass]="status.colorClass" [svgIcon]="status.icon"></mat-icon>
-          <span>{{ status.label }}</span>
-          <mat-icon class="dropdown-footer-select-caret" svgIcon="mat:arrow_drop_down"></mat-icon>
-        </span>
-      </ng-container>
-    </button>
-    <a (click)="close()" [routerLink]="['/login']" color="primary" mat-button>Logout</a>
+  <div class="dropdown-footer grid justify-items-end">
+    <a (click)="close()" [routerLink]="['/auth/login']" color="primary" mat-button>Cerrar sesión</a>
   </div>
 </div>
-
-<mat-menu #statusMenu="matMenu" xPosition="before" yPosition="below">
-  <button (click)="setStatus(status)"
-          *ngFor="let status of statuses; trackBy: trackById"
-          mat-menu-item>
-    <mat-icon [ngClass]="status.colorClass" [svgIcon]="status.icon"></mat-icon>
-    <span>{{ status.label }}</span>
-  </button>
-</mat-menu>
 
 
 <mat-menu #settingsMenu="matMenu" xPosition="before" yPosition="below">
@@ -70,7 +52,7 @@
 
   <button mat-menu-item>
     <mat-icon svgIcon="mat:lock"></mat-icon>
-    <span>Change Password</span>
+    <span>Cambiar contraseña</span>
   </button>
 
   <button mat-menu-item>

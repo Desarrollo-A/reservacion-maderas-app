@@ -119,7 +119,7 @@ export class AppComponent {
           {
             type: 'link',
             label: 'Analytics',
-            route: '/',
+            route: '/dashboard/home',
             icon: 'mat:insights',
             routerLinkActiveOptions: { exact: true }
           }

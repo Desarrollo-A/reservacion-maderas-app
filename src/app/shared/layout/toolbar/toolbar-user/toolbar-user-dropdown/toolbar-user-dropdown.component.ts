@@ -24,31 +24,31 @@ export class ToolbarUserDropdownComponent implements OnInit {
       label: 'Mi perfil',
       description: 'Información personal',
       colorClass: 'text-teal',
-      route: '/apps/social'
+      route: '/dasboard'
     },
     {
       id: '2',
-      icon: 'mat:move_to_inbox',
-      label: 'My Inbox',
-      description: 'Messages & Latest News',
-      colorClass: 'text-primary',
-      route: '/apps/chat'
+      icon: 'mat:key',
+      label: 'Contraseña',
+      description: 'Modificar mi contraseña',
+      colorClass: 'text-cyan',
+      route: '/dasboard'
     },
     {
       id: '3',
-      icon: 'mat:list_alt',
-      label: 'My Projects',
-      description: 'Tasks & Active Projects',
-      colorClass: 'text-amber',
-      route: '/apps/scrumboard'
+      icon: 'mat:info',
+      label: 'Ayuda',
+      description: 'Información sobre el sistema',
+      colorClass: 'text-primary',
+      route: '/dashboard'
     },
     {
       id: '4',
-      icon: 'mat:table_chart',
-      label: 'Billing Information',
-      description: 'Pricing & Current Plan',
+      icon: 'mat:list',
+      label: 'Otras opciones',
+      description: 'Ejemplo de otras opciones',
       colorClass: 'text-purple',
-      route: '/pages/pricing'
+      route: '/dashboard'
     }
   ];
 

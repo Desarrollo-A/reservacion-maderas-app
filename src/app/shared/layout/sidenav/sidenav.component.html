@@ -5,8 +5,23 @@
      class="sidenav flex flex-col">
   <div class="vex-sidenav-toolbar__container">
     <div class="sidenav-toolbar flex-none flex items-center">
-      <img [src]="imageUrl$ | async" alt="Logo" class="w-6 select-none flex-none"/>
-      <h2 class="vex-sidenav-toolbar__headline flex-auto">{{ title$ | async }}</h2>
+
+      <img *ngIf="!(collapsedOpen$ | async) && collapsed; else imgSort"
+           [src]="imageUrl$ | async" alt="Logo" class="w-6 select-none flex-none"/>
+
+      <ng-template #imgSort>
+        <img src="assets/img/logo/logo-cm.png" alt="Logo" class="w-48 select-none flex-none"/>
+      </ng-template>
+
+      <h2 *ngIf="!(collapsedOpen$ | async) && collapsed; else emptyText"
+          class="vex-sidenav-toolbar__headline flex-auto">
+        {{ title$ | async }}
+      </h2>
+
+      <ng-template #emptyText>
+        <span class="vex-sidenav-toolbar__headline flex-auto"></span>
+      </ng-template>
+
       <button (click)="toggleCollapse()"
               *ngIf="showCollapsePin$ | async"
               class="w-8 h-8 -mr-2 leading-none flex-none hidden lg:block"
@@ -19,17 +34,6 @@
                   class="text-[0.875rem] w-[0.875rem] h-[0.875rem]"
                   svgIcon="mat:radio_button_unchecked"></mat-icon>
       </button>
-    </div>
-
-    <div *ngIf="searchVisible$ | async" class="vex-sidenav-search__container">
-      <div class="vex-sidenav-search relative"
-           (click)="openSearch()"
-           matRipple
-           matRippleColor="var(--sidenav-item-ripple-color)">
-        <mat-icon class="flex-none vex-sidenav-search__icon" svgIcon="mat:search"></mat-icon>
-        <div class="flex-auto vex-sidenav-search__placeholder">Quick Search</div>
-        <div class="flex-none vex-sidenav-search__keybind">Ctrl K</div>
-      </div>
     </div>
 
     <div class="vex-sidenav-toolbar__divider"></div>

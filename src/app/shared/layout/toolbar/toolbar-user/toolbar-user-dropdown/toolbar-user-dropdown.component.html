@@ -7,13 +7,9 @@
       <div class="dropdown-heading">Jorge Coronel</div>
     </div>
 
-    <button [matMenuTriggerFor]="settingsMenu"
-            mat-icon-button
-            matTooltip="Settings"
-            matTooltipPosition="before"
-            type="button">
-      <mat-icon class="notifications-header-icon" svgIcon="mat:settings"></mat-icon>
-    </button>
+    <mat-icon class="notifications-header-icon mr-1"
+              svgIcon="mat:settings">
+    </mat-icon>
   </div>
 
   <div class="dropdown-content">
@@ -37,26 +33,3 @@
     <a (click)="close()" [routerLink]="['/auth/login']" color="primary" mat-button>Cerrar sesión</a>
   </div>
 </div>
-
-
-<mat-menu #settingsMenu="matMenu" xPosition="before" yPosition="below">
-  <button mat-menu-item>
-    <mat-icon svgIcon="mat:business"></mat-icon>
-    <span>Change Address</span>
-  </button>
-
-  <button mat-menu-item>
-    <mat-icon svgIcon="mat:verified_user"></mat-icon>
-    <span>Change Username</span>
-  </button>
-
-  <button mat-menu-item>
-    <mat-icon svgIcon="mat:lock"></mat-icon>
-    <span>Cambiar contraseña</span>
-  </button>
-
-  <button mat-menu-item>
-    <mat-icon svgIcon="mat:notifications_off"></mat-icon>
-    <span>Disable Notifications</span>
-  </button>
-</mat-menu>

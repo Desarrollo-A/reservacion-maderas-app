@@ -25,8 +25,8 @@ const defaultConfig: VexConfig = {
   layout: 'horizontal',
   boxed: false,
   sidenav: {
-    title: 'VEX',
-    imageUrl: 'assets/img/demo/logo.svg',
+    title: 'Panel',
+    imageUrl: 'assets/img/logo/logo-cm-sort.ico',
     showCollapsePin: true,
     user: {
       visible: true
@@ -85,29 +85,7 @@ export const configs: VexConfig[] = [
     footer: {
       fixed: false
     }
-  }),
-  /*mergeDeep({ ...defaultConfig }, {
-    id: VexConfigName.hermes,
-    name: 'Hermes',
-    imgSrc: '//vex-landing.visurel.com/assets/img/layouts/hermes.png',
-    layout: 'vertical',
-    boxed: true,
-    sidenav: {
-      user: {
-        visible: false
-      },
-      search: {
-        visible: false
-      },
-    },
-    toolbar: {
-      fixed: false
-    },
-    footer: {
-      fixed: false
-    },
-  }),*/
-  mergeDeep({ ...defaultConfig }, {
+  }), mergeDeep({ ...defaultConfig }, {
     id: VexConfigName.ares,
     name: 'Ares',
     imgSrc: '//vex-landing.visurel.com/assets/img/layouts/ares.png',
@@ -128,37 +106,5 @@ export const configs: VexConfig[] = [
     footer: {
       fixed: false
     },
-  }),
-  /*mergeDeep({ ...defaultConfig }, {
-    id: VexConfigName.zeus,
-    name: 'Zeus',
-    imgSrc: '//vex-landing.visurel.com/assets/img/layouts/zeus.png',
-    sidenav: {
-      state: 'collapsed'
-    },
-  }),
-  mergeDeep({ ...defaultConfig }, {
-    id: VexConfigName.ikaros,
-    name: 'Ikaros',
-    imgSrc: '//vex-landing.visurel.com/assets/img/layouts/ikaros.png',
-    layout: 'vertical',
-    boxed: true,
-    sidenav: {
-      user: {
-        visible: false
-      },
-      search: {
-        visible: false
-      },
-    },
-    toolbar: {
-      fixed: false
-    },
-    navbar: {
-      position: 'in-toolbar'
-    },
-    footer: {
-      fixed: false
-    }
-  })*/
+  })
 ];

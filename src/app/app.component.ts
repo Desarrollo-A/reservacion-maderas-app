@@ -12,6 +12,8 @@ import { ColorSchemeName } from './shared/config/colorSchemeName';
 import { MatIconRegistry, SafeResourceUrlWithIconOptions } from '@angular/material/icon';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { ColorVariable, colorVariables } from './shared/components/config-panel/color-variables';
+import { type } from 'os';
+import { link } from 'fs';
 
 @Component({
   selector: 'vex-root',
@@ -114,16 +116,102 @@ export class AppComponent {
     this.navigationService.items = [
       {
         type: 'subheading',
-        label: 'Dashboards',
+        label: 'Principal',
         children: [
           {
             type: 'link',
-            label: 'Analytics',
+            label: 'Home',
             route: '/dashboard/home',
-            icon: 'mat:insights',
+            icon: 'mat:roofing',
             routerLinkActiveOptions: { exact: true }
           }
         ]
+      },
+      {
+        type: 'subheading',
+        label: 'Aplicaciones',
+        children: [
+          {
+            type: 'dropdown',
+            label: 'Reservaciones',
+            icon: 'mat:content_paste',
+            
+            children: [
+              {
+                type: 'link',
+                label: 'Sala de Juntas',
+                route: '/dashboard/solicitud/sala'
+              },
+              {
+                type: 'link',
+                label: 'Automóvil',
+                route: '/dashboard/solicitud/auto'
+              },
+              {
+                type: 'link',
+                label: 'Conductor',
+                route: '/dashboard/solicitud/conductor'
+              }
+            ]
+          },
+          {
+            type: 'link',
+            label: 'Calendario',
+            route: '/dashboard/calendar',
+            icon: 'mat:date_range',
+            badge: {
+              value: '12',
+              bgClass: 'bg-deep-purple',
+              textClass: 'text-deep-purple-contrast',
+            },
+          },
+          
+
+          {
+            type: 'link',
+            label: 'Inventario',
+            route: '/dashboard/inventory',
+            icon: 'mat:inventory_2'
+          },
+          {
+            type: 'link',
+            label: 'Reportes',
+            route: '/dashboard/report',
+            icon: 'mat:auto_graph'
+          },
+          // {
+          //   type: 'link',
+          //   label: 'Historial',
+          //   route: '/dashboard/history',
+          //   icon: 'mat:manage_search'
+          // },
+
+          {
+            type: 'dropdown',
+            label: 'Historial',
+            icon: 'mat:manage_search',
+            
+            children: [
+              {
+                type: 'link',
+                label: 'Sala de Juntas',
+                route: '/dashboard/history/sala'
+              },
+              {
+                type: 'link',
+                label: 'Automóvil',
+                route: '/dashboard/history/auto'
+              },
+              {
+                type: 'link',
+                label: 'Conductor',
+                route: '/dashboard/history/conductor'
+              }
+            ]
+          },
+
+        ]
+
       }
     ];
   }

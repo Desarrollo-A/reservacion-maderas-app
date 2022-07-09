@@ -12,8 +12,6 @@ import { ColorSchemeName } from './shared/config/colorSchemeName';
 import { MatIconRegistry, SafeResourceUrlWithIconOptions } from '@angular/material/icon';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { ColorVariable, colorVariables } from './shared/components/config-panel/color-variables';
-import { type } from 'os';
-import { link } from 'fs';
 
 @Component({
   selector: 'vex-root',
@@ -121,7 +119,7 @@ export class AppComponent {
           {
             type: 'link',
             label: 'Home',
-            route: '/dashboard/home',
+            route: '/dashboard/inicio',
             icon: 'mat:roofing',
             routerLinkActiveOptions: { exact: true }
           }
@@ -135,7 +133,6 @@ export class AppComponent {
             type: 'dropdown',
             label: 'Reservaciones',
             icon: 'mat:content_paste',
-            
             children: [
               {
                 type: 'link',
@@ -157,7 +154,7 @@ export class AppComponent {
           {
             type: 'link',
             label: 'Calendario',
-            route: '/dashboard/calendar',
+            route: '/dashboard/calendario',
             icon: 'mat:date_range',
             badge: {
               value: '12',
@@ -165,53 +162,41 @@ export class AppComponent {
               textClass: 'text-deep-purple-contrast',
             },
           },
-          
-
           {
             type: 'link',
             label: 'Inventario',
-            route: '/dashboard/inventory',
+            route: '/dashboard/inventario',
             icon: 'mat:inventory_2'
           },
           {
             type: 'link',
             label: 'Reportes',
-            route: '/dashboard/report',
+            route: '/dashboard/reporte',
             icon: 'mat:auto_graph'
           },
-          // {
-          //   type: 'link',
-          //   label: 'Historial',
-          //   route: '/dashboard/history',
-          //   icon: 'mat:manage_search'
-          // },
-
           {
             type: 'dropdown',
             label: 'Historial',
             icon: 'mat:manage_search',
-            
             children: [
               {
                 type: 'link',
                 label: 'Sala de Juntas',
-                route: '/dashboard/history/sala'
+                route: '/dashboard/historial/sala'
               },
               {
                 type: 'link',
                 label: 'Automóvil',
-                route: '/dashboard/history/auto'
+                route: '/dashboard/historial/auto'
               },
               {
                 type: 'link',
                 label: 'Conductor',
-                route: '/dashboard/history/conductor'
+                route: '/dashboard/historial/conductor'
               }
             ]
-          },
-
+          }
         ]
-
       }
     ];
   }

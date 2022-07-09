@@ -3,13 +3,13 @@ import { RouterModule, Routes } from '@angular/router';
 import { DashboardComponent } from "./dashboard.component";
 
 const routes: Routes = [
-  { path: '', redirectTo: 'home', pathMatch: 'full' },
+  { path: '', redirectTo: 'inicio', pathMatch: 'full' },
   {
     path: '',
     component: DashboardComponent,
     children: [
       {
-        path: 'home',
+        path: 'inicio',
         loadChildren: () => import('./home/home.module').then(m => m.HomeModule)
       },
       {
@@ -17,19 +17,19 @@ const routes: Routes = [
         loadChildren: () => import('./request/request.module').then(m => m.RequestModule)
       },
       {
-        path: 'calendar',//para URL
+        path: 'calendario',//para URL
         loadChildren: () => import('./calendar/calendar.module').then(m => m.CalendarModule)
       },
       {
-        path: 'inventory',//para URL
+        path: 'inventario',//para URL
         loadChildren: () => import('./inventory/inventory.module').then(m => m.InventoryModule)
       },
       {
-        path: 'report',//para URL
+        path: 'reporte',//para URL
         loadChildren: () => import('./report/report.module').then(m => m.ReportModule)
       },
       {
-        path: 'history',//para URL
+        path: 'historial',//para URL
         loadChildren: () => import('./history/history.module').then(m => m.HistoryModule)
       }
     ]

@@ -1,15 +1,20 @@
 import { Injectable } from '@angular/core';
 import { UserSession } from "../interfaces/user-session";
-import { HttpClient } from "@angular/common/http";
+import { User } from "../../auth/interfaces/user";
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserSessionService {
-  private _apiToken: string = 'api-token';
+  private _apiToken = 'api-token';
+  private _credentials = 'credentials';
   private _userSession!: UserSession;
 
-  constructor(private http: HttpClient) {}
+  constructor() {}
+
+  get credentials(): User {
+    return JSON.parse(localStorage.getItem(this._credentials));
+  }
 
   get user(): UserSession {
     return { ...this._userSession };
@@ -19,19 +24,27 @@ export class UserSessionService {
     return localStorage.getItem(this._apiToken) ?? '';
   }
 
-  public setUser(userSession: UserSession) {
+  setUser(userSession: UserSession): void {
     this._userSession = userSession;
   }
 
-  public setToken(token: string) {
+  setToken(token: string): void {
     localStorage.setItem(this._apiToken, token);
   }
 
-  public removeToken(): void {
+  setCredentials(user: User): void {
+    localStorage.setItem(this._credentials, JSON.stringify(user));
+  }
+
+  removeCredentials(): void {
+    localStorage.removeItem(this._credentials);
+  }
+
+  removeToken(): void {
     localStorage.removeItem(this._apiToken);
   }
 
-  public clearUser(): void {
+  clearUser(): void {
     this._userSession = <UserSession>{};
   }
 }

@@ -1,0 +1,4 @@
+<app-employee-register *ngIf="!formHide"
+                          (checkUser)="checkUser()">
+</app-employee-register>
+<app-data-register *ngIf="formHide" (backTo)="formHide = false"></app-data-register>

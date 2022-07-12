@@ -1,0 +1,91 @@
+<div class="bg-pattern w-full h-full overflow-auto">
+  <div class="p-gutter container">
+    <div class="flex flex-col sm:flex-row gap-4 md:justify-center md:items-center md:h-screen">
+      <div @fadeInUp class="card flex-auto">
+        <div class="px-6 py-4 border-b flex items-center">
+          <h2 class="title m-0">Información del empleado</h2>
+        </div>
+
+        <div class="px-6 py-4 flex flex-col">
+          <div class="flex flex-col md:flex-row sm:gap-4">
+            <mat-form-field class="flex-auto">
+              <mat-label># Empleado</mat-label>
+              <input matInput readonly>
+            </mat-form-field>
+
+            <mat-form-field class="flex-auto">
+              <mat-label>Nombre Completo</mat-label>
+              <input matInput readonly>
+            </mat-form-field>
+
+            <mat-form-field class="flex-auto">
+              <mat-label>Teléfono</mat-label>
+              <input matInput readonly>
+            </mat-form-field>
+          </div>
+
+          <div class="flex flex-col md:flex-row sm:gap-4">
+            <mat-form-field class="flex-auto">
+              <mat-label>Teléfono Oficina</mat-label>
+              <input matInput readonly>
+            </mat-form-field>
+
+            <mat-form-field class="flex-auto">
+              <mat-label>Área</mat-label>
+              <input matInput readonly>
+            </mat-form-field>
+
+            <mat-form-field class="flex-auto">
+              <mat-label>Puesto</mat-label>
+              <input matInput readonly>
+            </mat-form-field>
+          </div>
+
+          <div class="flex flex-col md:flex-row sm:gap-4">
+            <mat-form-field class="flex-auto">
+              <mat-label>Oficina</mat-label>
+              <input matInput readonly>
+            </mat-form-field>
+
+            <mat-form-field class="flex-auto">
+              <mat-label>Sede</mat-label>
+              <input matInput readonly>
+            </mat-form-field>
+          </div>
+        </div>
+
+        <div class="px-6 py-4 border-b flex items-center">
+          <h2 class="title m-0">Información complementaria</h2>
+        </div>
+
+        <form class="px-6 py-4 flex flex-col">
+          <p class="mt-0 mb-4 text-secondary">
+            Favor de llenar los siguientes campos obligatorios para terminar el registro.
+          </p>
+
+          <div class="flex flex-col md:flex-row sm:gap-4">
+            <mat-form-field class="flex-auto">
+              <mat-label>Correo electrónico</mat-label>
+              <input matInput readonly>
+            </mat-form-field>
+
+            <mat-form-field class="flex-auto">
+              <mat-label>Contraseña</mat-label>
+              <input matInput readonly>
+            </mat-form-field>
+
+            <mat-form-field class="flex-auto">
+              <mat-label>Confirmación Contraseña</mat-label>
+              <input matInput readonly>
+            </mat-form-field>
+          </div>
+
+          <div class="flex items-center justify-end gap-2">
+            <button mat-button type="button" (click)="backTo.emit()">Regresar</button>
+            <button color="primary" mat-raised-button type="button">Registrar</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

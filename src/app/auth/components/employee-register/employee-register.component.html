@@ -7,23 +7,23 @@
     </div>
 
     <div class="text-center mt-4">
-      <h2 class="title m-0">Reestablecer contraseña</h2>
-      <h4 class="body-2 text-secondary m-0 p-1">Ingrese su correo electrónico para reestablecer su contraseña.</h4>
+      <h2 class="title m-0">Registrar una cuenta</h2>
+      <h4 class="body-2 text-secondary m-0 p-1">Ingrese su número de empleado.</h4>
     </div>
 
     <div [formGroup]="form" class="p-6 flex flex-col">
       <mat-form-field>
-        <mat-label>Correo electrónico</mat-label>
+        <mat-label>Usuario</mat-label>
 
-        <mat-icon class="mr-2" matPrefix svgIcon="mat:mail"></mat-icon>
-        <input formControlName="email" matInput required>
-        <mat-error *ngIf="form.get('email').hasError('required')">
-          We can't recover your password, without your email.
+        <mat-icon class="mr-2" matPrefix svgIcon="mat:badge"></mat-icon>
+        <input formControlName="noEmployee" matInput required>
+        <mat-error *ngIf="form.get('noEmployee').hasError('required')">
+          Campo oligatorio.
         </mat-error>
       </mat-form-field>
 
       <button (click)="send()" class="mt-2" color="primary" mat-raised-button type="button">
-        REESTABLECER
+        CONFIRMAR
       </button>
 
       <button (click)="backToLogin()" class="mt-3" mat-button type="button">

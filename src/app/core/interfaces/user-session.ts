@@ -1,10 +1,10 @@
 export interface UserSession {
   id: number;
+  noEmployee: string;
   fullName: string;
   email: string;
-  personalPhone: string;
-  role: Role;
   token: string;
+  role: Role;
 }
 
 interface Role {

@@ -36,4 +36,12 @@ export class AuthService {
         })
       );
   }
+
+
+  //Función para recuperación de contraseña
+  forgotPassword(data: User): Observable<void> {
+    const url = `${this.url}/restore-password`;
+    return this.http.post<void>(url, data);   
+  }
+
 }

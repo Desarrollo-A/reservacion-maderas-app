@@ -60,8 +60,12 @@ export class AuthService {
     return this.http.get<UserSession>(url).pipe(
       tap(user => this.userSessionService.setUser(user))
     );
-
   }
 
+  ChangePassword(data: User): Observable<void>{
+     const url = `${this.url}/change-password`
+     return this.http.post<void>(url, data)
+  }
+  
 
 }

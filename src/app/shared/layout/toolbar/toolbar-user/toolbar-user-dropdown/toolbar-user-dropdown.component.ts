@@ -2,6 +2,8 @@ import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { MenuItem } from '../interfaces/menu-item.interface';
 import { trackById } from '../../../../utils/track-by';
 import { PopoverRef } from '../../../../components/popover/popover-ref';
+import { AuthService } from 'src/app/auth/services/auth.service';
+import { Router } from "@angular/router";
 
 export interface OnlineStatus {
   id: 'online' | 'away' | 'dnd' | 'offline';
@@ -55,11 +57,16 @@ export class ToolbarUserDropdownComponent implements OnInit {
   trackById = trackById;
 
   constructor(private cd: ChangeDetectorRef,
+              private router: Router,
+              private authService: AuthService,
               private popoverRef: PopoverRef<ToolbarUserDropdownComponent>) { }
 
   ngOnInit() {}
 
   close() {
-    this.popoverRef.close();
+    this.authService.logout().subscribe(() => {
+      this.popoverRef.close();
+      this.router.navigateByUrl('/acceso');
+    });
   }
 }

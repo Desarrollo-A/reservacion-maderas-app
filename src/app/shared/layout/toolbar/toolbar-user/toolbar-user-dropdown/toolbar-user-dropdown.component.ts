@@ -4,6 +4,7 @@ import { trackById } from '../../../../utils/track-by';
 import { PopoverRef } from '../../../../components/popover/popover-ref';
 import { AuthService } from 'src/app/auth/services/auth.service';
 import { Router } from "@angular/router";
+import { UserSessionService } from 'src/app/core/services/user-session.service';
 
 export interface OnlineStatus {
   id: 'online' | 'away' | 'dnd' | 'offline';
@@ -59,7 +60,15 @@ export class ToolbarUserDropdownComponent implements OnInit {
   constructor(private cd: ChangeDetectorRef,
               private router: Router,
               private authService: AuthService,
+              private userSession: UserSessionService,
               private popoverRef: PopoverRef<ToolbarUserDropdownComponent>) { }
+
+
+  get userName(): string{
+    let full = this.userSession.user.fullName.split(" ");
+    let name = full[0]+' '+full[1];
+    return name;
+  }            
 
   ngOnInit() {}
 

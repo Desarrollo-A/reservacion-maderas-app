@@ -4,7 +4,7 @@
       <div class="dropdown-heading-icon flex items-center justify-center">
         <mat-icon svgIcon="mat:person"></mat-icon>
       </div>
-      <div class="dropdown-heading">Jorge Coronel</div>
+      <div class="dropdown-heading">{{ userName|slice:0:15 }}{{(userName.length > 15) ? '...' : ''}}</div>
     </div>
 
     <mat-icon class="notifications-header-icon mr-1"
@@ -28,8 +28,8 @@
       <mat-icon class="notification-chevron flex-none" svgIcon="mat:chevron_right"></mat-icon>
     </a>
   </div>
-
+ 
   <div class="dropdown-footer grid justify-items-end">
-    <a (click)="close()" [routerLink]="['/auth/login']" color="primary" mat-button>Cerrar sesión</a>
+    <button (click)="close()"  color="primary" mat-button>Cerrar sesión</button>
   </div>
 </div>

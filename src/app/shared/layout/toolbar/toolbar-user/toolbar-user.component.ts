@@ -20,9 +20,9 @@ export class ToolbarUserComponent implements OnInit {
   }
 
   get userName(): string{
-    let full = this.userSession.user.fullName.split(" ");
+    const full = this.userSession.user.fullName.split(" ");
     return full[0]+' '+full[1];
-  } 
+  }
 
   showPopover(originRef: HTMLElement) {
     this.dropdownOpen = true;

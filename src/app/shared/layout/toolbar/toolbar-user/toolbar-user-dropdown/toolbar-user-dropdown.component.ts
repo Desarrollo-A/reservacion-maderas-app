@@ -6,13 +6,6 @@ import { AuthService } from 'src/app/auth/services/auth.service';
 import { Router } from "@angular/router";
 import { UserSessionService } from 'src/app/core/services/user-session.service';
 
-export interface OnlineStatus {
-  id: 'online' | 'away' | 'dnd' | 'offline';
-  label: string;
-  icon: string;
-  colorClass: string;
-}
-
 @Component({
   selector: 'vex-toolbar-user-dropdown',
   templateUrl: './toolbar-user-dropdown.component.html',
@@ -64,11 +57,10 @@ export class ToolbarUserDropdownComponent implements OnInit {
               private popoverRef: PopoverRef<ToolbarUserDropdownComponent>) { }
 
 
-  get userName(): string{
-    let full = this.userSession.user.fullName.split(" ");
-    let name = full[0]+' '+full[1];
-    return name;
-  }            
+  get userName(): string {
+    const full = this.userSession.user.fullName.split(" ");
+    return full[0]+' '+full[1];
+  }
 
   ngOnInit() {}
 

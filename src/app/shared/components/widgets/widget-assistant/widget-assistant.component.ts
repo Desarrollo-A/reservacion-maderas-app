@@ -6,15 +6,14 @@ import { UserSessionService } from 'src/app/core/services/user-session.service';
   templateUrl: './widget-assistant.component.html',
   styleUrls: ['./widget-assistant.component.scss']
 })
-export class WidgetAssistantComponent implements OnInit{
+export class WidgetAssistantComponent implements OnInit {
 
-  constructor( private userService: UserSessionService) { }
+  constructor(private userService: UserSessionService) { }
 
-  get userFullName(): string{
+  get userFullName(): string {
    return this.userService.user.fullName;
-  } 
-  
-  
+  }
+
   ngOnInit() {
   }
 

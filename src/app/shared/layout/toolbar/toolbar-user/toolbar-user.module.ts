@@ -5,15 +5,22 @@ import { ToolbarUserDropdownComponent } from './toolbar-user-dropdown/toolbar-us
 import { RelativeDateTimeModule } from '../../../pipes/relative-date-time/relative-date-time.module';
 import { RouterModule } from '@angular/router';
 import { MaterialModule } from "../../../../material/material.module";
+import { ChangePasswordComponent } from './components/change-password/change-password.component';
+import { ReactiveFormsModule } from '@angular/forms';
 
 
 @NgModule({
-  declarations: [ToolbarUserComponent, ToolbarUserDropdownComponent],
+  declarations: [
+    ToolbarUserComponent,
+    ToolbarUserDropdownComponent,
+    ChangePasswordComponent
+  ],
   imports: [
     CommonModule,
     MaterialModule,
     RelativeDateTimeModule,
     RouterModule,
+    ReactiveFormsModule
   ],
   exports: [ToolbarUserComponent]
 })

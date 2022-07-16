@@ -13,23 +13,59 @@
   </div>
 
   <div class="dropdown-content">
-    <a (click)="close()"
-       *ngFor="let item of items; trackBy: trackById"
-       [routerLink]="item.route"
+    <a class="notification flex items-center"
+       matRipple>
+      <mat-icon svgIcon ="mat:account_circle"
+                class="notification-icon flex-none text-teal"></mat-icon>
+      <div class="flex-auto">
+        <div class="notification-label">Mi perfil</div>
+        <div class="notification-description">Información personal</div>
+      </div>
+      <mat-icon class="notification-chevron flex-none" svgIcon="mat:chevron_right"></mat-icon>
+    </a>
+
+
+    <a (click)="openDialogChangePassword()"
        class="notification flex items-center"
        matRipple>
-      <mat-icon [svgIcon]="item.icon"
-                [ngClass]="item.colorClass"
-                class="notification-icon flex-none"></mat-icon>
+      <mat-icon svgIcon ="mat:key"
+                class="notification-icon flex-none text-cyan"></mat-icon>
       <div class="flex-auto">
-        <div class="notification-label">{{ item.label }}</div>
-        <div class="notification-description">{{ item.description }}</div>
+        <div class="notification-label">Contraseña</div>
+        <div class="notification-description">Modificar mi contraseña</div>
+      </div>
+      <mat-icon class="notification-chevron flex-none" svgIcon="mat:chevron_right"></mat-icon>
+    </a>
+
+
+    <a class="notification flex items-center"
+       matRipple>
+      <mat-icon svgIcon="mat:info"
+                 class="notification-icon flex-none text-primary"></mat-icon>
+      <div class="flex-auto">
+        <div class="notification-label">Ayuda</div>
+        <div class="notification-description">Información sobre el sistema</div>
+      </div>
+      <mat-icon class="notification-chevron flex-none" svgIcon="mat:chevron_right"></mat-icon>
+    </a>
+
+
+    <a class="notification flex items-center"
+       matRipple>
+      <mat-icon svgIcon="mat:list"
+                class="notification-icon flex-none text-purple"></mat-icon>
+      <div class="flex-auto">
+        <div class="notification-label">Otras opciones</div>
+        <div class="notification-description">Ejemplo de otras opciones</div>
       </div>
       <mat-icon class="notification-chevron flex-none" svgIcon="mat:chevron_right"></mat-icon>
     </a>
   </div>
- 
+
   <div class="dropdown-footer grid justify-items-end">
-    <button (click)="close()"  color="primary" mat-button>Cerrar sesión</button>
+    <button (click)="logout()"  color="primary" mat-button>Cerrar sesión</button>
   </div>
 </div>
+
+
+

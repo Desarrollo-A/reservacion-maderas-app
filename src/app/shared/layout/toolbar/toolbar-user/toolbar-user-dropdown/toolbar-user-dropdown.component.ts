@@ -4,13 +4,7 @@ import { trackById } from '../../../../utils/track-by';
 import { PopoverRef } from '../../../../components/popover/popover-ref';
 import { AuthService } from 'src/app/auth/services/auth.service';
 import { Router } from "@angular/router";
-
-export interface OnlineStatus {
-  id: 'online' | 'away' | 'dnd' | 'offline';
-  label: string;
-  icon: string;
-  colorClass: string;
-}
+import { UserSessionService } from 'src/app/core/services/user-session.service';
 
 @Component({
   selector: 'vex-toolbar-user-dropdown',
@@ -59,7 +53,14 @@ export class ToolbarUserDropdownComponent implements OnInit {
   constructor(private cd: ChangeDetectorRef,
               private router: Router,
               private authService: AuthService,
+              private userSession: UserSessionService,
               private popoverRef: PopoverRef<ToolbarUserDropdownComponent>) { }
+
+
+  get userName(): string {
+    const full = this.userSession.user.fullName.split(" ");
+    return full[0]+' '+full[1];
+  }
 
   ngOnInit() {}
 

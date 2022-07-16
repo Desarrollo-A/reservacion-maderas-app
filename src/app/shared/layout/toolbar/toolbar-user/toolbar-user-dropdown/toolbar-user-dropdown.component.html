@@ -4,7 +4,7 @@
       <div class="dropdown-heading-icon flex items-center justify-center">
         <mat-icon svgIcon="mat:person"></mat-icon>
       </div>
-      <div class="dropdown-heading">Jorge Coronel</div>
+      <div class="dropdown-heading">{{ userName|slice:0:15 }}{{(userName.length > 15) ? '...' : ''}}</div>
     </div>
 
     <mat-icon class="notifications-header-icon mr-1"

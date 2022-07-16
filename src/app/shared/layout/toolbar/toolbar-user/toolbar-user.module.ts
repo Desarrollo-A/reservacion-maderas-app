@@ -10,7 +10,11 @@ import { ReactiveFormsModule } from '@angular/forms';
 
 
 @NgModule({
-  declarations: [ToolbarUserComponent, ToolbarUserDropdownComponent, ChangePasswordComponent],
+  declarations: [
+    ToolbarUserComponent,
+    ToolbarUserDropdownComponent,
+    ChangePasswordComponent
+  ],
   imports: [
     CommonModule,
     MaterialModule,

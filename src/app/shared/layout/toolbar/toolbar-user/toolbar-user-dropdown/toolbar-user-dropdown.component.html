@@ -13,9 +13,7 @@
   </div>
 
   <div class="dropdown-content">
-    <a (click)="close()"
-        
-       class="notification flex items-center"
+    <a class="notification flex items-center"
        matRipple>
       <mat-icon svgIcon ="mat:account_circle"
                 class="notification-icon flex-none text-teal"></mat-icon>
@@ -28,7 +26,6 @@
 
 
     <a (click)="openDialogChangePassword()"
-        
        class="notification flex items-center"
        matRipple>
       <mat-icon svgIcon ="mat:key"
@@ -41,9 +38,7 @@
     </a>
 
 
-    <a (click)="close()"
-        
-       class="notification flex items-center"
+    <a class="notification flex items-center"
        matRipple>
       <mat-icon svgIcon="mat:info"
                  class="notification-icon flex-none text-primary"></mat-icon>
@@ -55,9 +50,7 @@
     </a>
 
 
-    <a (click)="close()"
-        
-       class="notification flex items-center"
+    <a class="notification flex items-center"
        matRipple>
       <mat-icon svgIcon="mat:list"
                 class="notification-icon flex-none text-purple"></mat-icon>
@@ -68,9 +61,9 @@
       <mat-icon class="notification-chevron flex-none" svgIcon="mat:chevron_right"></mat-icon>
     </a>
   </div>
- 
+
   <div class="dropdown-footer grid justify-items-end">
-    <button (click)="close()"  color="primary" mat-button>Cerrar sesión</button>
+    <button (click)="logout()"  color="primary" mat-button>Cerrar sesión</button>
   </div>
 </div>
 

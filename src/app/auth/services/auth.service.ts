@@ -40,7 +40,7 @@ export class AuthService {
   //Función para recuperación de contraseña
   forgotPassword(data: User): Observable<void> {
     const url = `${this.url}/restore-password`;
-    return this.http.post<void>(url, data);   
+    return this.http.post<void>(url, data);
   }
 
   logout(): Observable<void> {
@@ -52,7 +52,7 @@ export class AuthService {
         this.userSessionService.removeToken();
         this.userSessionService.clearUser();
       })
-    );   
+    );
   }
 
   getUserSession(): Observable<UserSession> {
@@ -62,10 +62,8 @@ export class AuthService {
     );
   }
 
-  ChangePassword(data: User): Observable<void>{
-     const url = `${this.url}/change-password`
-     return this.http.post<void>(url, data)
+  changePassword(data: User): Observable<void> {
+     const url = `${this.url}/change-password`;
+     return this.http.post<void>(url, data);
   }
-  
-
 }

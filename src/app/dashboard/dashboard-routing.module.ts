@@ -31,6 +31,10 @@ const routes: Routes = [
       {
         path: 'historial',//para URL
         loadChildren: () => import('./history/history.module').then(m => m.HistoryModule)
+      },
+      {
+        path: 'mantenimiento',
+        loadChildren: () => import('./maintenance/maintenance.module').then(m => m.MaintenanceModule)
       }
     ]
   },

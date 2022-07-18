@@ -7,6 +7,7 @@ import { BreakpointObserver } from '@angular/cdk/layout';
 import { ConfigService } from '../shared/config/config.service';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { SidebarComponent } from '../shared/components/sidebar/sidebar.component';
+import { NavigationService } from "../shared/services/navigation.service";
 
 
 @UntilDestroy()
@@ -31,8 +32,30 @@ export class DashboardComponent implements OnInit {
 
   constructor(private layoutService: LayoutService,
               private configService: ConfigService,
+              private navigationService: NavigationService,
               private breakpointObserver: BreakpointObserver,
-              private router: Router) { }
+              private router: Router) {
+    this.navigationService.items = [
+      {
+        type: 'subheading',
+        label: 'Principal',
+        children: [
+          {
+            type: 'link',
+            label: 'Home',
+            route: '/dashboard/inicio',
+            icon: 'mat:roofing',
+            routerLinkActiveOptions: { exact: true }
+          }
+        ]
+      },
+      {
+        type: 'subheading',
+        label: 'Aplicaciones',
+        children: this.navigationService.childrenItems
+      }
+    ];
+  }
 
   ngOnInit() {
     this.layoutService.configpanelOpen$.pipe(

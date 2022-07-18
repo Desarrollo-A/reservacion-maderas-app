@@ -19,9 +19,8 @@ export class ToolbarUserComponent implements OnInit {
   ngOnInit() {
   }
 
-  get userName(): string{
-    const full = this.userSession.user.fullName.split(" ");
-    return full[0]+' '+full[1];
+  get userName(): string {
+    return this.userSession.userFirstLastName;
   }
 
   showPopover(originRef: HTMLElement) {

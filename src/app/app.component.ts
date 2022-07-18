@@ -3,7 +3,6 @@ import { ConfigService } from './shared/config/config.service';
 import { Settings } from 'luxon';
 import { DOCUMENT } from '@angular/common';
 import { Platform } from '@angular/cdk/platform';
-import { NavigationService } from './shared/services/navigation.service';
 import { LayoutService } from './shared/services/layout.service';
 import { ActivatedRoute } from '@angular/router';
 import { coerceBooleanProperty } from '@angular/cdk/coercion';
@@ -26,7 +25,6 @@ export class AppComponent {
               @Inject(LOCALE_ID) private localeId: string,
               private layoutService: LayoutService,
               private route: ActivatedRoute,
-              private navigationService: NavigationService,
               private readonly matIconRegistry: MatIconRegistry,
               private readonly domSanitizer: DomSanitizer) {
     Settings.defaultLocale = this.localeId;
@@ -53,21 +51,6 @@ export class AppComponent {
         }
       }
     );
-
-    /**
-     * Customize the template to your needs with the ConfigService
-     * Example:
-     *  this.configService.updateConfig({
-     *    sidenav: {
-     *      title: 'Custom App',
-     *      imageUrl: '//placehold.it/100x100',
-     *      showCollapsePin: false
-     *    },
-     *    footer: {
-     *      visible: false
-     *    }
-     *  });
-     */
 
     /**
      * Config Related Subscriptions
@@ -107,97 +90,5 @@ export class AppComponent {
         });
       }
     });
-
-    /**
-     * Add your own routes here
-     */
-    this.navigationService.items = [
-      {
-        type: 'subheading',
-        label: 'Principal',
-        children: [
-          {
-            type: 'link',
-            label: 'Home',
-            route: '/dashboard/inicio',
-            icon: 'mat:roofing',
-            routerLinkActiveOptions: { exact: true }
-          }
-        ]
-      },
-      {
-        type: 'subheading',
-        label: 'Aplicaciones',
-        children: [
-          {
-            type: 'dropdown',
-            label: 'Reservaciones',
-            icon: 'mat:content_paste',
-            children: [
-              {
-                type: 'link',
-                label: 'Sala de Juntas',
-                route: '/dashboard/solicitud/sala'
-              },
-              {
-                type: 'link',
-                label: 'Automóvil',
-                route: '/dashboard/solicitud/auto'
-              },
-              {
-                type: 'link',
-                label: 'Conductor',
-                route: '/dashboard/solicitud/conductor'
-              }
-            ]
-          },
-          {
-            type: 'link',
-            label: 'Calendario',
-            route: '/dashboard/calendario',
-            icon: 'mat:date_range',
-            badge: {
-              value: '12',
-              bgClass: 'bg-deep-purple',
-              textClass: 'text-deep-purple-contrast',
-            },
-          },
-          {
-            type: 'link',
-            label: 'Inventario',
-            route: '/dashboard/inventario',
-            icon: 'mat:inventory_2'
-          },
-          {
-            type: 'link',
-            label: 'Reportes',
-            route: '/dashboard/reporte',
-            icon: 'mat:auto_graph'
-          },
-          {
-            type: 'dropdown',
-            label: 'Historial',
-            icon: 'mat:manage_search',
-            children: [
-              {
-                type: 'link',
-                label: 'Sala de Juntas',
-                route: '/dashboard/historial/sala'
-              },
-              {
-                type: 'link',
-                label: 'Automóvil',
-                route: '/dashboard/historial/auto'
-              },
-              {
-                type: 'link',
-                label: 'Conductor',
-                route: '/dashboard/historial/conductor'
-              }
-            ]
-          }
-        ]
-      }
-    ];
   }
 }

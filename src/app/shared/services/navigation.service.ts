@@ -1,5 +1,10 @@
 import { Injectable } from '@angular/core';
-import { NavigationDropdown, NavigationItem, NavigationLink, NavigationSubheading } from '../interfaces/navigation-item.interface';
+import {
+  NavigationDropdown,
+  NavigationItem,
+  NavigationLink,
+  NavigationSubheading
+} from '../interfaces/navigation-item.interface';
 import { Subject } from 'rxjs';
 
 @Injectable({
@@ -7,12 +12,17 @@ import { Subject } from 'rxjs';
 })
 export class NavigationService {
 
-  items: NavigationItem[] = [];
+  public items: NavigationItem[] = [];
+  public childrenItems: Array<NavigationLink | NavigationDropdown>;
 
   private _openChangeSubject = new Subject<NavigationDropdown>();
   openChange$ = this._openChangeSubject.asObservable();
 
   constructor() {}
+
+  clearItems(): void {
+    this.items = [];
+  }
 
   triggerOpenChange(item: NavigationDropdown) {
     this._openChangeSubject.next(item);

@@ -2,9 +2,9 @@ import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { PopoverRef } from '../../../../components/popover/popover-ref';
 import { AuthService } from 'src/app/auth/services/auth.service';
 import { Router } from "@angular/router";
-import { UserSessionService } from 'src/app/core/services/user-session.service';
 import { MatDialog } from '@angular/material/dialog';
 import { ChangePasswordComponent } from '../components/change-password/change-password.component';
+import { UserSessionService } from 'src/app/core/services/user-session.service';
 
 @Component({
   selector: 'vex-toolbar-user-dropdown',
@@ -21,8 +21,7 @@ export class ToolbarUserDropdownComponent implements OnInit {
 
 
   get userName(): string {
-    const full = this.userSession.user.fullName.split(" ");
-    return full[0]+' '+full[1];
+    return this.userSession.userFirstLastName;
   }
 
   ngOnInit() {}

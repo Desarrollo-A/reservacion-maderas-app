@@ -11,7 +11,7 @@ export class WidgetAssistantComponent implements OnInit {
   constructor(private userService: UserSessionService) { }
 
   get userFullName(): string {
-   return this.userService.user.fullName;
+   return this.userService.user.fullName ?? '';
   }
 
   ngOnInit() {

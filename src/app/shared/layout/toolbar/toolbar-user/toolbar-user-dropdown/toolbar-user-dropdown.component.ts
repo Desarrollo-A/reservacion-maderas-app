@@ -21,8 +21,7 @@ export class ToolbarUserDropdownComponent implements OnInit {
 
 
   get userName(): string {
-    const full = this.userSession.user.fullName.split(" ");
-    return full[0]+' '+full[1];
+    return this.userSession.userFirstLastName;
   }
 
   ngOnInit() {}

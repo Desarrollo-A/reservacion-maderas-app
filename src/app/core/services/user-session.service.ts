@@ -20,6 +20,11 @@ export class UserSessionService {
     return { ...this._userSession };
   }
 
+  get userFirstLastName(): string {
+    const full = this.user.fullName.split(" ") ?? '';
+    return (full === '') ? '' : full[0]+' '+full[1];
+  }
+
   get token(): string {
     return localStorage.getItem(this._apiToken) ?? '';
   }

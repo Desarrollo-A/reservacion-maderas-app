@@ -21,7 +21,7 @@ export class UserSessionService {
   }
 
   get userFirstLastName(): string {
-    const full = this.user.fullName.split(" ") ?? '';
+    const full = this.user.fullName?.split(" ") ?? '';
     return (full === '') ? '' : full[0]+' '+full[1];
   }
 

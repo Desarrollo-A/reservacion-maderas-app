@@ -5,6 +5,8 @@ import { RequestRoutingModule } from './request-routing.module';
 import { RoomComponent } from './pages/room/room.component';
 import { DriverComponent } from './pages/driver/driver.component';
 import { CarComponent } from './pages/car/car.component';
+import { MaterialModule } from "../../material/material.module";
+import { ReactiveFormsModule } from "@angular/forms";
 
 
 @NgModule({
@@ -15,7 +17,9 @@ import { CarComponent } from './pages/car/car.component';
   ],
   imports: [
     CommonModule,
-    RequestRoutingModule
+    RequestRoutingModule,
+    MaterialModule,
+    ReactiveFormsModule
   ]
 })
 export class RequestModule { }

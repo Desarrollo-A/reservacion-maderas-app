@@ -18,7 +18,10 @@ const routes: Routes = [
       },
       {
         path: 'calendario',//para URL
-        loadChildren: () => import('./calendar/calendar.module').then(m => m.CalendarModule)
+        loadChildren: () => import('./calendar/calendar.module').then(m => m.CalendarModule),
+        data: {
+          toolbarShadowEnabled: true
+        }
       },
       {
         path: 'inventario',//para URL

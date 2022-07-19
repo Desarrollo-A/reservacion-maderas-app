@@ -1,1 +1,85 @@
-<p>room works!</p>
+<div [@stagger]="true" class="p-gutter container">
+  <div class="flex flex-col sm:flex-row gap-4">
+    <div @fadeInUp class="card flex-auto">
+      <div class="px-6 py-4 border-b flex items-center">
+        <h2 class="title m-0">Solicitar Sala de Juntas</h2>
+      </div>
+
+      <div class="px-6 py-4 flex flex-col gap-2">
+        <div class="flex flex-col sm:flex-row sm:gap-4">
+          <mat-form-field class="flex-auto">
+            <mat-label>Sede</mat-label>
+            <mat-select>
+              <mat-option>Querétaro</mat-option>
+              <mat-option>Celaya</mat-option>
+              <mat-option>Cancún</mat-option>
+            </mat-select>
+          </mat-form-field>
+
+          <mat-form-field class="flex-auto">
+            <mat-label>Sala</mat-label>
+            <mat-select>
+              <mat-option>Carranza</mat-option>
+              <mat-option>Arcos</mat-option>
+              <mat-option>BQ1</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+
+        <div class="flex flex-col md:flex-row md:gap-4">
+          <mat-form-field class="flex-auto">
+            <mat-label>Fecha de reservación</mat-label>
+            <input [matDatepicker]="datepickerRef" matInput readonly>
+            <mat-datepicker-toggle [for]="datepickerRef" matSuffix></mat-datepicker-toggle>
+            <mat-datepicker #datepickerRef></mat-datepicker>
+          </mat-form-field>
+
+          <mat-form-field class="flex-auto">
+            <mat-label>Hora inicio</mat-label>
+            <input matInput type="time">
+          </mat-form-field>
+
+          <mat-form-field class="flex-auto">
+            <mat-label>Hora final</mat-label>
+            <input matInput type="time">
+          </mat-form-field>
+        </div>
+
+        <div class="flex flex-col sm:flex-row sm:gap-4">
+          <mat-form-field class="flex-auto">
+            <mat-label>N° de personas a ingresar</mat-label>
+            <input matInput type="number">
+          </mat-form-field>
+
+          <mat-form-field class="flex-auto">
+            <mat-label>N° de personas externas</mat-label>
+            <input matInput type="number">
+          </mat-form-field>
+        </div>
+
+        <div class="flex flex-col sm:flex-row sm:gap-4 mb-3 sm:mb-0">
+          <mat-form-field class="flex-auto">
+            <mat-label>Tipo de reunión</mat-label>
+            <mat-select>
+              <mat-option>Administrativa</mat-option>
+              <mat-option>Ejecutiva</mat-option>
+            </mat-select>
+          </mat-form-field>
+
+          <div class="flex-auto sm:mt-3 sm:ml-3">
+            <mat-slide-toggle>Agregar al Google Calendar</mat-slide-toggle>
+          </div>
+        </div>
+
+        <mat-form-field>
+          <mat-label>Comentarios</mat-label>
+          <textarea matInput></textarea>
+        </mat-form-field>
+
+        <div class="flex items-center justify-end gap-2">
+          <button color="primary" mat-raised-button type="button">Agendar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

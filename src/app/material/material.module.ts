@@ -22,6 +22,8 @@ import { MatSidenavModule } from "@angular/material/sidenav";
 import { MatSnackBarModule } from "@angular/material/snack-bar";
 import { MatCheckboxModule } from "@angular/material/checkbox";
 import { MatDatepickerModule } from "@angular/material/datepicker";
+import { MatSelectModule } from "@angular/material/select";
+import { MatAutocompleteModule } from "@angular/material/autocomplete";
 
 
 @NgModule({
@@ -30,6 +32,7 @@ import { MatDatepickerModule } from "@angular/material/datepicker";
     CommonModule
   ],
   exports: [
+    MatAutocompleteModule,
     MatBottomSheetModule,
     MatButtonModule,
     MatCheckboxModule,
@@ -44,6 +47,7 @@ import { MatDatepickerModule } from "@angular/material/datepicker";
     MatProgressBarModule,
     MatRadioModule,
     MatRippleModule,
+    MatSelectModule,
     MatSidenavModule,
     MatSlideToggleModule,
     MatSliderModule,

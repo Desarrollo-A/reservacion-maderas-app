@@ -1,5 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { LOCALE_ID, NgModule } from '@angular/core';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -11,6 +11,10 @@ import { CoreModule } from "./core/core.module";
 import { ToastrModule } from "ngx-toastr";
 import { ErrorInterceptor } from "./core/interceptors/error.interceptor";
 import { TokenInterceptor } from "./core/interceptors/token.interceptor";
+import { registerLocaleData } from "@angular/common";
+import localeMX from '@angular/common/locales/es-MX';
+
+registerLocaleData(localeMX);
 
 @NgModule({
   declarations: [AppComponent],
@@ -38,7 +42,8 @@ import { TokenInterceptor } from "./core/interceptors/token.interceptor";
       provide: HTTP_INTERCEPTORS,
       useClass: TokenInterceptor,
       multi: true
-    }
+    },
+    { provide: LOCALE_ID, useValue: 'es-MX' }
   ],
   bootstrap: [AppComponent]
 })

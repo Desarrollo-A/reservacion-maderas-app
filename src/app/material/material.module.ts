@@ -4,7 +4,7 @@ import { MatIconModule } from "@angular/material/icon";
 import { MatButtonModule } from "@angular/material/button";
 import { MatRadioModule } from "@angular/material/radio";
 import { MatSlideToggleModule } from "@angular/material/slide-toggle";
-import { MatRippleModule } from "@angular/material/core";
+import { MatNativeDateModule, MatRippleModule } from "@angular/material/core";
 import { MatSliderModule } from "@angular/material/slider";
 import { MatMenuModule } from "@angular/material/menu";
 import { MatProgressBarModule } from "@angular/material/progress-bar";
@@ -21,6 +21,7 @@ import { MatInputModule } from "@angular/material/input";
 import { MatSidenavModule } from "@angular/material/sidenav";
 import { MatSnackBarModule } from "@angular/material/snack-bar";
 import { MatCheckboxModule } from "@angular/material/checkbox";
+import { MatDatepickerModule } from "@angular/material/datepicker";
 
 
 @NgModule({
@@ -32,11 +33,13 @@ import { MatCheckboxModule } from "@angular/material/checkbox";
     MatBottomSheetModule,
     MatButtonModule,
     MatCheckboxModule,
+    MatDatepickerModule,
     MatDialogModule,
     MatIconModule,
     MatInputModule,
     MatListModule,
     MatMenuModule,
+    MatNativeDateModule,
     MatPaginatorModule,
     MatProgressBarModule,
     MatRadioModule,

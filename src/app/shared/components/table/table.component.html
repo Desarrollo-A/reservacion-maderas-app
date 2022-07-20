@@ -1,0 +1,162 @@
+<table @stagger
+       [dataSource]="dataSource"
+       class="w-full"
+       mat-table
+       matSort
+       (matSortChange)="announceSortChange($event)">
+  <ng-container *ngFor="let column of columns">
+    <!-- Columna de imágenes -->
+    <ng-container *ngIf="column.type === 'image'"
+                  [matColumnDef]="column.property">
+      <th *matHeaderCellDef mat-header-cell>
+        {{ column.label }}
+      </th>
+      <td *matCellDef="let row" class="w-8 min-w-8 pr-0" mat-cell>
+        <img [src]="row[column.property]"
+             class="avatar h-8 w-8 align-middle"
+             alt="imagen">
+      </td>
+    </ng-container>
+
+    <!-- Columna de badge -->
+    <ng-container *ngIf="column.type === 'badge'"
+                  [matColumnDef]="column.property">
+      <th *matHeaderCellDef mat-header-cell>
+        {{ column.label }}
+      </th>
+      <td *matCellDef="let row"
+          [ngClass]="column.cssClasses"
+          mat-cell>
+        <div class="w-3 h-3 rounded-full"
+             [matTooltip]="row[column.property]"></div>
+      </td>
+    </ng-container>
+
+    <!-- Columna de textos -->
+    <ng-container *ngIf="column.type === 'text'"
+                  [matColumnDef]="column.property">
+      <th *matHeaderCellDef
+          class="uppercase"
+          mat-header-cell
+          mat-sort-header>
+        {{ column.label }}
+      </th>
+      <td *matCellDef="let row"
+          [ngClass]="column.cssClasses"
+          mat-cell>
+        {{ row[column.property] }}
+      </td>
+    </ng-container>
+
+    <ng-container *ngIf="column.type === 'status'"
+                  [matColumnDef]="column.property">
+      <th *matHeaderCellDef
+          class="uppercase"
+          mat-header-cell
+          mat-sort-header>
+        {{ column.label }}
+      </th>
+      <td *matCellDef="let row" mat-cell>
+        <div (click)="$event.stopPropagation()"
+             class="flex items-center gap-1">
+          <div [ngClass]="[row['label' + column.property].textClass, row['label' + column.property].bgClass]"
+               class="rounded px-2 py-1 font-medium text-xs flex-none">
+            {{ row['label' + column.property].text }}
+          </div>
+        </div>
+      </td>
+    </ng-container>
+
+    <!-- Action Column -->
+    <ng-container *ngIf="column.type === 'actions'"
+                  matColumnDef="actions">
+      <th *matHeaderCellDef
+          mat-header-cell></th>
+      <td *matCellDef="let row"
+          class="w-10 text-secondary"
+          mat-cell>
+        <button (click)="$event.stopPropagation()"
+                [matMenuTriggerData]="{ row }"
+                [matMenuTriggerFor]="actionsMenu"
+                mat-icon-button
+                type="button">
+          <mat-icon svgIcon="mat:more_horiz"></mat-icon>
+        </button>
+      </td>
+    </ng-container>
+
+    <!-- Acción sin actualizar column -->
+    <ng-container *ngIf="column.type === 'actionWithoutUpdateMenu'"
+                  matColumnDef="actions">
+      <th *matHeaderCellDef
+          mat-header-cell></th>
+      <td *matCellDef="let row"
+          class="w-10 text-secondary"
+          mat-cell>
+        <button (click)="$event.stopPropagation()"
+                [matMenuTriggerData]="{ row }"
+                [matMenuTriggerFor]="actionWithoutUpdateMenu"
+                mat-icon-button
+                type="button">
+          <mat-icon svgIcon="mat:more_horiz"></mat-icon>
+        </button>
+      </td>
+    </ng-container>
+
+    <!-- Acción sin actualizar column -->
+    <ng-container *ngIf="column.type === 'actionWithoutDeleteMenu'"
+                  matColumnDef="actions">
+      <th *matHeaderCellDef
+          mat-header-cell></th>
+      <td *matCellDef="let row"
+          class="w-10 text-secondary"
+          mat-cell>
+        <button (click)="$event.stopPropagation()"
+                [matMenuTriggerData]="{ row }"
+                [matMenuTriggerFor]="actionWithoutDeleteMenu"
+                mat-icon-button
+                type="button">
+          <mat-icon svgIcon="mat:more_horiz"></mat-icon>
+        </button>
+      </td>
+    </ng-container>
+  </ng-container>
+
+  <tr *matHeaderRowDef="visibleColumns"
+      mat-header-row></tr>
+  <tr *matRowDef="let row; columns: visibleColumns;"
+      @fadeInUp
+      class="hover:bg-hover trans-ease-out cursor-pointer"
+      mat-row></tr>
+</table>
+
+<mat-menu #actionsMenu="matMenu" xPosition="before" yPosition="below">
+  <ng-template let-row="row" matMenuContent>
+    <button (click)="update(row.id)" mat-menu-item>
+      <mat-icon svgIcon="mat:edit"></mat-icon>
+      <span>Modificar</span>
+    </button>
+    <button (click)="delete(row.id)" mat-menu-item>
+      <mat-icon svgIcon="mat:delete"></mat-icon>
+      <span>Eliminar</span>
+    </button>
+  </ng-template>
+</mat-menu>
+
+<mat-menu #actionWithoutUpdateMenu="matMenu" xPosition="before" yPosition="below">
+  <ng-template let-row="row" matMenuContent>
+    <button (click)="delete(row.id)" mat-menu-item>
+      <mat-icon svgIcon="mat:delete"></mat-icon>
+      <span>Eliminar</span>
+    </button>
+  </ng-template>
+</mat-menu>
+
+<mat-menu #actionWithoutDeleteMenu="matMenu" xPosition="before" yPosition="below">
+  <ng-template let-row="row" matMenuContent>
+    <button (click)="update(row.id)" mat-menu-item>
+      <mat-icon svgIcon="mat:edit"></mat-icon>
+      <span>Modificar</span>
+    </button>
+  </ng-template>
+</mat-menu>

@@ -1,0 +1,7 @@
+<mat-paginator [length]="_meta.total"
+               [pageIndex]="_meta.currentPage - 1"
+               [pageSizeOptions]="pageSizeOptions"
+               [showFirstLastButtons]="true"
+               (page)="pageChange($event)"
+               aria-label="Selecciona la página">
+</mat-paginator>

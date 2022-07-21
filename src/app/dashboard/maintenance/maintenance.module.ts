@@ -6,11 +6,13 @@ import { RoomComponent } from './pages/room/room.component';
 import { PageLayoutModule } from "../../shared/components/page-layout/page-layout.module";
 import { MaterialModule } from "../../material/material.module";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
+import { CarComponent } from './pages/car/car.component';
 
 
 @NgModule({
   declarations: [
-    RoomComponent
+    RoomComponent,
+    CarComponent
   ],
   imports: [
     CommonModule,

@@ -10,46 +10,46 @@
           <div class="flex flex-col md:flex-row sm:gap-4">
             <mat-form-field class="flex-auto">
               <mat-label># Empleado</mat-label>
-              <input matInput readonly>
+              <input matInput readonly [value]="data.noEmployee">
             </mat-form-field>
 
             <mat-form-field class="flex-auto">
               <mat-label>Nombre Completo</mat-label>
-              <input matInput readonly>
+              <input matInput readonly [value]="data.fullName">
             </mat-form-field>
 
             <mat-form-field class="flex-auto">
               <mat-label>Teléfono</mat-label>
-              <input matInput readonly>
+              <input matInput readonly [value]="data.personalPhone">
             </mat-form-field>
           </div>
 
           <div class="flex flex-col md:flex-row sm:gap-4">
             <mat-form-field class="flex-auto">
               <mat-label>Teléfono Oficina</mat-label>
-              <input matInput readonly>
+              <input matInput readonly [value]="data.officePhone">
             </mat-form-field>
 
             <mat-form-field class="flex-auto">
               <mat-label>Área</mat-label>
-              <input matInput readonly>
+              <input matInput readonly [value]="data.area">
             </mat-form-field>
 
             <mat-form-field class="flex-auto">
               <mat-label>Puesto</mat-label>
-              <input matInput readonly>
+              <input matInput readonly [value]="data.position">
             </mat-form-field>
           </div>
 
           <div class="flex flex-col md:flex-row sm:gap-4">
             <mat-form-field class="flex-auto">
               <mat-label>Oficina</mat-label>
-              <input matInput readonly>
+              <input matInput readonly [value]="data.office.name">
             </mat-form-field>
 
             <mat-form-field class="flex-auto">
               <mat-label>Sede</mat-label>
-              <input matInput readonly>
+              <input matInput readonly [value]="data.office.state.name">
             </mat-form-field>
           </div>
         </div>
@@ -58,7 +58,8 @@
           <h2 class="title m-0">Información complementaria</h2>
         </div>
 
-        <form class="px-6 py-4 flex flex-col">
+        <form [formGroup]="form"
+              class="px-6 py-4 flex flex-col">
           <p class="mt-0 mb-4 text-secondary">
             Favor de llenar los siguientes campos obligatorios para terminar el registro.
           </p>
@@ -66,23 +67,62 @@
           <div class="flex flex-col md:flex-row sm:gap-4">
             <mat-form-field class="flex-auto">
               <mat-label>Correo electrónico</mat-label>
-              <input matInput readonly>
+              <input matInput readonly [value]="data.email">
             </mat-form-field>
 
             <mat-form-field class="flex-auto">
               <mat-label>Contraseña</mat-label>
-              <input matInput readonly>
+              <input matInput [type]="inputTypeNew" formControlName="password">
+              <button (click)="toggleVisibility(true)"
+                      mat-icon-button
+                      matSuffix
+                      [matTooltip]="tooltipPasswordNew"
+                      type="button">
+                <mat-icon *ngIf="visibleNew" svgIcon="mat:visibility"></mat-icon>
+                <mat-icon *ngIf="!visibleNew" svgIcon="mat:visibility_off"></mat-icon>
+              </button>
+
+              <mat-error *ngIf="formErrors.customError('password', 'required')">
+                Campo obligatorio
+              </mat-error>
+              <mat-error *ngIf="formErrors.customError('password', 'minlength')">
+                La contraseña debe tener más de {{formErrors.minLengthNumber('password')}} caracteres
+              </mat-error>
+              <mat-error *ngIf="formErrors.customError('password', 'maxlength')">
+                La contraseña no debe tener más de {{formErrors.maxLengthNumber('password')}} caracteres
+              </mat-error>
             </mat-form-field>
 
             <mat-form-field class="flex-auto">
               <mat-label>Confirmación Contraseña</mat-label>
-              <input matInput readonly>
+              <input matInput [type]="inputTypeConfirm" formControlName="confirmPassword">
+              <button (click)="toggleVisibility(false)"
+                      mat-icon-button
+                      matSuffix
+                      [matTooltip]="tooltipPasswordConfirm"
+                      type="button">
+                <mat-icon *ngIf="visibleConfirm" svgIcon="mat:visibility"></mat-icon>
+                <mat-icon *ngIf="!visibleConfirm" svgIcon="mat:visibility_off"></mat-icon>
+              </button>
+
+              <mat-error *ngIf="formErrors.customError('confirmPassword', 'differentPassword')">
+                Las contraseñas deben ser iguales
+              </mat-error>
             </mat-form-field>
           </div>
 
           <div class="flex items-center justify-end gap-2">
-            <button mat-button type="button" (click)="backTo.emit()">Regresar</button>
-            <button color="primary" mat-raised-button type="button">Registrar</button>
+            <button mat-button
+                    type="button"
+                    (click)="backTo.emit()">
+              Regresar
+            </button>
+            <button color="primary"
+                    mat-raised-button
+                    type="button"
+                    (click)="save()">
+              Registrar
+            </button>
           </div>
         </form>
       </div>

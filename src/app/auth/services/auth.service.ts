@@ -9,6 +9,9 @@ import { NavigationDropdown, NavigationLink } from "../../shared/interfaces/navi
 import { Menu } from "../interfaces/menu";
 import { map } from "rxjs/operators";
 import { NavigationService } from "../../shared/services/navigation.service";
+import { ResponseUser } from "../interfaces/response-user";
+import { UserService } from "../../dashboard/user/services/user.service";
+import { UserModel } from "../../dashboard/user/models/user.model";
 
 @Injectable({
   providedIn: 'root'
@@ -18,7 +21,8 @@ export class AuthService {
 
   constructor(private http: HttpClient,
               private userSessionService: UserSessionService,
-              private navigationService: NavigationService) {}
+              private navigationService: NavigationService,
+              private userService: UserService) {}
 
   get url(): string {
     return environment.baseUrl + environment.api + this._baseUrl;
@@ -37,6 +41,21 @@ export class AuthService {
           } else {
             this.userSessionService.removeCredentials();
           }
+        }),
+        switchMap(() => this.getNavigationMenu()),
+        map<Array<NavigationLink | NavigationDropdown>, void>(navigationItem => {
+          this.navigationService.childrenItems = navigationItem;
+        })
+      );
+  }
+
+  createUser(data: UserModel): Observable<void> {
+    return this.userService.store(data)
+      .pipe(
+        tap(user => {
+          // Se guarda información del token en localStorage
+          this.userSessionService.setToken(user.token);
+          this.userSessionService.setUser(user);
         }),
         switchMap(() => this.getNavigationMenu()),
         map<Array<NavigationLink | NavigationDropdown>, void>(navigationItem => {
@@ -78,6 +97,17 @@ export class AuthService {
   changePassword(data: User): Observable<void> {
      const url = `${this.url}/change-password`;
      return this.http.post<void>(url, data);
+  }
+
+  checkEmployee(numEmployee: string): Observable<ResponseUser> {
+    const url = `${environment.baseUrlCapital}info_empleado`;
+    const body = btoa(JSON.stringify({ numempleado: numEmployee }));
+
+    return this.http.post<{response: string}>(url, body).pipe(
+      map<{response: string}, ResponseUser>(({response}) => {
+        return JSON.parse(decodeURIComponent(window.atob(response)));
+      })
+    );
   }
 
   getNavigationMenu(): Observable<Array<NavigationLink | NavigationDropdown>> {

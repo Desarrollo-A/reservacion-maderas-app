@@ -16,13 +16,22 @@
         <mat-label>Usuario</mat-label>
 
         <mat-icon class="mr-2" matPrefix svgIcon="mat:badge"></mat-icon>
-        <input formControlName="noEmployee" matInput required>
-        <mat-error *ngIf="form.get('noEmployee').hasError('required')">
+        <input #noEmployee
+               formControlName="noEmployee"
+               matInput
+               (input)="noEmployee.value = noEmployee.value.toUpperCase()">
+        <mat-error *ngIf="formErrors.errorObject('noEmployee', 'required')">
           Campo oligatorio.
+        </mat-error>
+        <mat-error *ngIf="formErrors.errorObject('noEmployee', 'minlength')">
+          El No. de empleado debe tener más de {{ formErrors.minLengthNumber('noEmployee') }} caracteres
+        </mat-error>
+        <mat-error *ngIf="formErrors.customError('noEmployee','maxlength')">
+          El No. de empleado no debe tener más de {{ formErrors.maxLengthNumber('noEmployee') }} caracteres
         </mat-error>
       </mat-form-field>
 
-      <button (click)="send()" class="mt-2" color="primary" mat-raised-button type="button">
+      <button (click)="check()" class="mt-4" color="primary" mat-raised-button type="button">
         CONFIRMAR
       </button>
 

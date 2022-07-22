@@ -1,13 +1,11 @@
 <div class="dropdown">
   <div class="dropdown-header flex items-center justify-between">
     <div>
-      <div class="dropdown-heading">Notifications</div>
-      <div class="dropdown-subheading">You have {{ notifications.length }} new notifications.</div>
+      <div class="dropdown-heading">Notificaciones</div>
+      <div class="dropdown-subheading">Tienes {{ notifications.length }} nuevas notificaciones.</div>
     </div>
 
-    <button [matMenuTriggerFor]="settingsMenu" mat-icon-button type="button">
-      <mat-icon class="notifications-header-icon" svgIcon="mat:settings"></mat-icon>
-    </button>
+    <mat-icon class="notifications-header-icon" svgIcon="mat:settings"></mat-icon>
   </div>
 
   <div class="dropdown-content">
@@ -28,18 +26,6 @@
   </div>
 
   <div class="dropdown-footer flex items-center justify-center">
-    <button color="primary" mat-button type="button">MARK ALL AS READ</button>
+    <button color="primary" mat-button type="button">Marcar todas como leídas</button>
   </div>
 </div>
-
-<mat-menu #settingsMenu="matMenu" xPosition="before" yPosition="below">
-  <button mat-menu-item>
-    <mat-icon svgIcon="mat:clear_all"></mat-icon>
-    <span>Mark all as read</span>
-  </button>
-
-  <button mat-menu-item>
-    <mat-icon svgIcon="mat:notifications_off"></mat-icon>
-    <span>Disable Notifications</span>
-  </button>
-</mat-menu>

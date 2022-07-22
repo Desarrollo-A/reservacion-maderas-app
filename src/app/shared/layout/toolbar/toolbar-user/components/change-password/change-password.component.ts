@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { AbstractControl, FormBuilder, FormGroup, ValidationErrors, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
 import { ToastrService } from 'ngx-toastr';
 import { User } from 'src/app/auth/interfaces/user';
 import { AuthService } from 'src/app/auth/services/auth.service';
 import { FormErrors } from 'src/app/shared/utils/form-error';
+import { comparePassword } from "../../../../../utils/form-validations";
 
 @Component({
   selector: 'app-change-password',
@@ -35,7 +36,7 @@ export class ChangePasswordComponent implements OnInit {
       password: ['',[Validators.required, Validators.minLength(5), Validators.maxLength(50)]],
       confirmPassword: ['']
     },{
-      validators: [this.comparePassword('password', 'confirmPassword')]
+      validators: [comparePassword('password', 'confirmPassword')]
     })
 
     this.formErrors = new FormErrors (this.form);
@@ -76,20 +77,5 @@ export class ChangePasswordComponent implements OnInit {
       this.toastService.success('La contraseña se ha modificado correctamente','Proceso exitoso');
       this.dialogRef.close(true);
     });
-  }
-
-  comparePassword(password: string, confirmPassword: string) {
-    return (formGroup: AbstractControl): ValidationErrors | null => {
-      const pass1 = formGroup.get(password)?.value;
-      const pass2 = formGroup.get(confirmPassword)?.value;
-
-      if (pass1 !== pass2) {
-        let error = { differentPassword: true };
-        formGroup.get(confirmPassword)?.setErrors(error);
-        return error;
-      }
-      formGroup.get(confirmPassword)?.setErrors(null);
-      return null;
-    }
   }
 }

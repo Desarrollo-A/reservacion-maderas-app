@@ -7,9 +7,15 @@
     <mat-icon svgIcon="mat:close"></mat-icon>
   </button>
 
-  <input #searchInput (keyup.enter)="search()" [formControl]="searchCtrl" class="search-input" placeholder="Search..."/>
-  <div class="search-hint">Hit enter to search</div>
+  <input #searchInput
+         (keyup.enter)="search()"
+         [formControl]="searchCtrl"
+         class="search-input"
+         placeholder="Buscar..."/>
+  <div class="search-hint">Presiona enter para buscar</div>
 </div>
 
-<div (click)="close()" *ngIf="show$ | async" class="search-overlay"></div>
+<div (click)="close()"
+     *ngIf="show$ | async" class="search-overlay">
+</div>
 

@@ -1,17 +1,18 @@
-import { AfterViewInit,Component, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { UntypedFormControl } from '@angular/forms';
-import { MatFormFieldDefaultOptions, MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field';
+import { MAT_FORM_FIELD_DEFAULT_OPTIONS, MatFormFieldDefaultOptions } from '@angular/material/form-field';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
-import { untilDestroyed } from '@ngneat/until-destroy';
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { Observable, of } from 'rxjs';
 import { Lookup } from 'src/app/core/interfaces/lookup';
-import { InventoryModel } from 'src/app/dashboard/maintenance/model/inventory-model';
+import { InventoryModel } from 'src/app/dashboard/inventory/models/inventory-model';
 import { fadeInUp400ms } from 'src/app/shared/animations/fade-in-up.animation';
 import { stagger40ms } from 'src/app/shared/animations/stagger.animation';
 import { TableColumn } from 'src/app/shared/interfaces/table-column.interface';
 
+@UntilDestroy()
 @Component({
   selector: 'app-inventory',
   templateUrl: './inventory.component.html',
@@ -31,26 +32,26 @@ import { TableColumn } from 'src/app/shared/interfaces/table-column.interface';
 })
 
 export class InventoryComponent implements OnInit,AfterViewInit {
-@ViewChild(MatPaginator,{static: true})
-paginator: MatPaginator;
-@ViewChild(MatSort, {static:true})
-sort: MatSort;
+  @ViewChild(MatPaginator,{static: true})
+  paginator: MatPaginator;
+  @ViewChild(MatSort, {static:true})
+  sort: MatSort;
 
-inventorys: InventoryModel[];
-columns: TableColumn<InventoryModel>[] = [
-{label: 'Nombre', property: 'name', type: 'text', visible: true},
-{label: 'Descripción', property: 'description', type: 'text', visible: true},
-{label: 'Stock', property: 'cantidadStock', type: 'text', visible: true},
-{label: 'Estatus', property: 'status', type: 'button', visible: true },
-{label: 'Tipo Inv.', property: 'typeInventory', type: 'button', visible: true },
-{label: 'Unidad', property: 'unit', type: 'button', visible: true },
-{ label: 'Acciones', property: 'actions', type: 'button', visible: true }
-];
+  inventorys: InventoryModel[];
+  columns: TableColumn<InventoryModel>[] = [
+    {label: 'Nombre', property: 'name', type: 'text', visible: true},
+    {label: 'Descripción', property: 'description', type: 'text', visible: true},
+    {label: 'Stock', property: 'cantidadStock', type: 'text', visible: true},
+    {label: 'Estatus', property: 'status', type: 'button', visible: true },
+    {label: 'Tipo Inv.', property: 'typeInventory', type: 'button', visible: true },
+    {label: 'Unidad', property: 'unit', type: 'button', visible: true },
+    { label: 'Acciones', property: 'actions', type: 'button', visible: true }
+  ];
 
-pageSize = 10;
-pageSizeOptions: number[] = [5, 10, 20, 50];
-dataSource: MatTableDataSource<InventoryModel> | null;
-searchCtrl = new UntypedFormControl();
+  pageSize = 10;
+  pageSizeOptions: number[] = [5, 10, 20, 50];
+  dataSource: MatTableDataSource<InventoryModel> | null;
+  searchCtrl = new UntypedFormControl();
 
   constructor() { }
 
@@ -66,18 +67,19 @@ searchCtrl = new UntypedFormControl();
       untilDestroyed(this)
     ).subscribe(value => this.onFilterChange(value));
   }
+
   ngAfterViewInit(): void {
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
   }
+
   trackByProperty<T>(index: number, column: TableColumn<T>) {
     return column.property;
   }
+
   get visibleColumns() {
     return this.columns.filter(column => column.visible).map(column => column.property);
   }
-
- 
 
   toggleColumnVisibility(column, event){
     event.stopPropagation();
@@ -95,12 +97,11 @@ searchCtrl = new UntypedFormControl();
   }
 
   getData(): Observable<InventoryModel[]> {
-    console.log(2);
     return of<InventoryModel[]>([
       {name:'Lápiz #2', description: 'Lapiz de madera  - paq con 12 pzas.', cantidadStock: 2, status: <Lookup>{name: 'Activo'}, typeInventory: <Lookup>{name: 'Papeleria'} , unit: <Lookup>{name: 'Pieza'},  },
       {name:'Marcatextos', description: 'Marcatextos fosforecente de 6mm', cantidadStock: 5, status: <Lookup>{name: 'Inactivo'}, typeInventory: <Lookup>{name: 'Papeleria'} , unit: <Lookup>{name: 'Pieza'},  },
       {name:'Pegamento en barra', description: 'Pegamento tipo barra - 22g', cantidadStock: 2, status: <Lookup>{name: 'Activo'}, typeInventory: <Lookup>{name: 'Papeleria'} , unit: <Lookup>{name: 'Pieza'},  },
-      
+
       {name:'Gasa Le Roy', description: 'Gasa absolvente esteril - 7.5 x 5 cm', cantidadStock: 7, status: <Lookup>{name: 'Activo'}, typeInventory: <Lookup>{name: 'Botiquin'} , unit: <Lookup>{name: 'Sobre'},  },
       {name:'Venda', description: 'Venda elástica - 7.5 x 5 m', cantidadStock: 3, status: <Lookup>{name: 'Activo'}, typeInventory: <Lookup>{name: 'Botiquin'} , unit: <Lookup>{name: 'Paquete'},  },
       {name:'Buscapina', description: 'Pastillas de 250/500 grs - Caja con 10 tabletas', cantidadStock: 6, status: <Lookup>{name: 'Activo'}, typeInventory: <Lookup>{name: 'Botiquin'} , unit: <Lookup>{name: 'Caja'},  },

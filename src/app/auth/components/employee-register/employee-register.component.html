@@ -18,6 +18,7 @@
         <mat-icon class="mr-2" matPrefix svgIcon="mat:badge"></mat-icon>
         <input #noEmployee
                formControlName="noEmployee"
+               autocomplete="off"
                matInput
                (input)="noEmployee.value = noEmployee.value.toUpperCase()">
         <mat-error *ngIf="formErrors.errorObject('noEmployee', 'required')">

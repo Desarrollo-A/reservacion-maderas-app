@@ -1,5 +1,4 @@
 import { Lookup } from "../../../core/interfaces/lookup";
-import { Room } from "../interfaces/room";
 
 export class RoomModel {
   id: number;
@@ -11,7 +10,7 @@ export class RoomModel {
   statusId: number;
   status: Lookup;
 
-  constructor(room: Room) {
+  constructor(room) {
     this.id = room.id;
     this.code = room.code;
     this.name = room.name;

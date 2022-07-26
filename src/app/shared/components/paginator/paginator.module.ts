@@ -11,8 +11,11 @@ import { TranslatePaginator } from "./translate-paginator";
   imports: [
     MaterialModule
   ],
+  exports: [
+    PaginatorComponent
+  ],
   providers: [
-    { provide: MatPaginatorIntl, useClass: TranslatePaginator }
+    {provide: MatPaginatorIntl, useClass: TranslatePaginator}
   ]
 })
 export class PaginatorModule { }

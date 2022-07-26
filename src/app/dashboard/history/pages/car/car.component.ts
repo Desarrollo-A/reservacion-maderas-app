@@ -21,32 +21,33 @@ import { addHours, startOfDay } from "date-fns";
   providers: [
     {
       provide: MAT_FORM_FIELD_DEFAULT_OPTIONS,
-      useValue:{
+      useValue: {
         appearance: 'standard'
       } as MatFormFieldDefaultOptions
     }
   ],
 })
 export class CarComponent implements OnInit, AfterViewInit {
-  @ViewChild(MatPaginator,{ static:true })
-  paginator:MatPaginator;
-  @ViewChild(MatSort, {static:true})
+  @ViewChild(MatPaginator, {static: true})
+  paginator: MatPaginator;
+  @ViewChild(MatSort, {static: true})
   sort: MatSort;
 
   requests: RequestCarModel[];
   columns: TableColumn<RequestCarModel>[] = [
-    { label: 'Solicitante', property: 'user', type: 'text', visible: true },
-    { label: 'Fecha Inicio', property: 'startDate', type: 'date', visible: true },
-    { label: 'Fecha Fin', property: 'endDate', type: 'date', visible: true },
-    { label: 'Automovil', property: 'car', type: 'text', visible: true },
-    { label: 'Estatus', property: 'labelStatus', type: 'button', visible: true },
-    { label: 'Acciones', property: 'actions', type: 'button', visible: true }
+    {label: 'Solicitante', property: 'user', type: 'text', visible: true},
+    {label: 'Fecha Inicio', property: 'startDate', type: 'date', visible: true},
+    {label: 'Fecha Fin', property: 'endDate', type: 'date', visible: true},
+    {label: 'Automovil', property: 'car', type: 'text', visible: true},
+    {label: 'Estatus', property: 'labelStatus', type: 'button', visible: true},
+    {label: 'Acciones', property: 'actions', type: 'button', visible: true}
   ];
   pageSize = 10;
   pageSizeOptions: number[] = [5, 10, 20, 50];
   dataSource: MatTableDataSource<RequestCarModel> | null;
 
-  constructor() { }
+  constructor() {
+  }
 
   ngOnInit(): void {
     this.dataSource = new MatTableDataSource();
@@ -72,8 +73,22 @@ export class CarComponent implements OnInit, AfterViewInit {
 
   getData(): Observable<RequestCarModel[]> {
     return of<RequestCarModel[]>([
-      { id: 1, startDate: addHours(startOfDay(new Date()), 8), endDate: addHours(startOfDay(new Date()), 9), car: 'Volkswagen Vento Color negro', user: 'Diego Ramírez Rivera', status: 'Disponible' },
-      { id: 2, startDate: addHours(startOfDay(new Date()), 10), endDate: addHours(startOfDay(new Date()), 11), car: 'Tesla Model S', user: 'Citlali González Nuñez', status: 'Ocupado' }
+      {
+        id: 1,
+        startDate: addHours(startOfDay(new Date()), 8),
+        endDate: addHours(startOfDay(new Date()), 9),
+        car: 'Volkswagen Vento Color negro',
+        user: 'Diego Ramírez Rivera',
+        status: 'Disponible'
+      },
+      {
+        id: 2,
+        startDate: addHours(startOfDay(new Date()), 10),
+        endDate: addHours(startOfDay(new Date()), 11),
+        car: 'Tesla Model S',
+        user: 'Citlali González Nuñez',
+        status: 'Ocupado'
+      }
     ].map(requestCarModel => new RequestCarModel(requestCarModel)));
   }
 }

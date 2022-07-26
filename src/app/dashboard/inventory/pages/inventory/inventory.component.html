@@ -1,12 +1,13 @@
 <vex-page-layout>
-    <vex-page-layout-header class="pb-16 flex flex-col items-start justify-center">
-      <div class="container w-full flex flex-col sm:flex-row justify-between">
-        <div>
-          <h1 class="title mt-0 mb-1">Inventario</h1>
-        </div>
-       </div>
-</vex-page-layout-header>
-<vex-page-layout-content class="container -mt-6">
+  <vex-page-layout-header class="pb-16 flex flex-col items-start justify-center">
+    <div class="container w-full flex flex-col sm:flex-row justify-between">
+      <div>
+        <h1 class="title mt-0 mb-1">Inventario</h1>
+      </div>
+    </div>
+  </vex-page-layout-header>
+
+  <vex-page-layout-content class="container -mt-6">
     <div class="card overflow-auto -mt-16">
       <div class="bg-app-bar px-6 h-16 border-b sticky left-0 flex items-center">
         <h2 class="title my-0 ltr:pr-4 rtl:pl-4 ltr:mr-4 rtl:ml-4 ltr:border-r rtl:border-l hidden sm:block flex-none">
@@ -21,22 +22,21 @@
                  type="search">
         </div>
         <span class="flex-1"></span>
-        
-            <button [matMenuTriggerFor]="columnFilterMenu"
-            class="ml-4 flex-none"
-            mat-icon-button
-            matTooltip="Filtrar columnas"
-            type="button">
-                <mat-icon svgIcon="mat:filter_list"></mat-icon>
-            </button>
-            <button 
+
+        <button [matMenuTriggerFor]="columnFilterMenu"
                 class="ml-4 flex-none"
+                mat-icon-button
+                matTooltip="Filtrar columnas"
+                type="button">
+          <mat-icon svgIcon="mat:filter_list"></mat-icon>
+        </button>
+        <button class="ml-4 flex-none"
                 color="primary"
                 mat-mini-fab
                 matTooltip="Agregar automovil"
                 type="button">
-                    <mat-icon svgIcon="mat:add"></mat-icon>
-            </button>
+          <mat-icon svgIcon="mat:add"></mat-icon>
+        </button>
       </div>
 
       <table @stagger [dataSource]="dataSource" class="w-full" mat-table matSort>
@@ -58,28 +58,30 @@
             </div>
           </td>
         </ng-container>
+
         <ng-container matColumnDef="typeInventory">
-            <th *matHeaderCellDef class="uppercase" mat-header-cell mat-sort-header>Tipo inventario</th>
-            <td *matCellDef="let row" mat-cell>
-              <div (click)="$event.stopPropagation()" class="flex items-center gap-1">
-                <div [ngClass]="[row.labelTypeInventory.textClass, row.labelTypeInventory.bgClass]"
-                     class="rounded px-2 py-1 font-medium text-xs flex-none">
-                  {{ row.labelTypeInventory.text }}
-                </div>
+          <th *matHeaderCellDef class="uppercase" mat-header-cell mat-sort-header>Tipo inventario</th>
+          <td *matCellDef="let row" mat-cell>
+            <div (click)="$event.stopPropagation()" class="flex items-center gap-1">
+              <div [ngClass]="[row.labelTypeInventory.textClass, row.labelTypeInventory.bgClass]"
+                   class="rounded px-2 py-1 font-medium text-xs flex-none">
+                {{ row.labelTypeInventory.text }}
               </div>
-            </td>
-          </ng-container>
-          <ng-container matColumnDef="unit">
-            <th *matHeaderCellDef class="uppercase" mat-header-cell mat-sort-header>Unidad</th>
-            <td *matCellDef="let row" mat-cell>
-              <div (click)="$event.stopPropagation()" class="flex items-center gap-1">
-                <div [ngClass]="[row.labelUnit.textClass, row.labelUnit.bgClass]"
-                     class="rounded px-2 py-1 font-medium text-xs flex-none">
-                  {{ row.labelUnit.text }}
-                </div>
+            </div>
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="unit">
+          <th *matHeaderCellDef class="uppercase" mat-header-cell mat-sort-header>Unidad</th>
+          <td *matCellDef="let row" mat-cell>
+            <div (click)="$event.stopPropagation()" class="flex items-center gap-1">
+              <div [ngClass]="[row.labelUnit.textClass, row.labelUnit.bgClass]"
+                   class="rounded px-2 py-1 font-medium text-xs flex-none">
+                {{ row.labelUnit.text }}
               </div>
-            </td>
-          </ng-container>
+            </div>
+          </td>
+        </ng-container>
 
         <ng-container matColumnDef="actions">
           <th *matHeaderCellDef mat-header-cell mat-sort-header></th>
@@ -105,6 +107,7 @@
     </div>
   </vex-page-layout-content>
 </vex-page-layout>
+
 <mat-menu #actionsMenu="matMenu" xPosition="before" yPosition="below">
   <ng-template let-room="room" matMenuContent>
     <button mat-menu-item>
@@ -127,4 +130,3 @@
   </button>
 </mat-menu>
 
-  

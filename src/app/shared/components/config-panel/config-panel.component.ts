@@ -1,9 +1,7 @@
 import { Component, Inject } from '@angular/core';
 import { ConfigService } from '../../config/config.service';
-import { MatSlideToggleChange } from '@angular/material/slide-toggle';
 import { map } from 'rxjs/operators';
 import { LayoutService } from '../../services/layout.service';
-import { MatRadioChange } from '@angular/material/radio';
 import { VexConfigName } from '../../config/config-name.model';
 import { ColorVariable, colorVariables } from './color-variables';
 import { DOCUMENT } from '@angular/common';
@@ -11,7 +9,6 @@ import { ColorSchemeName } from '../../config/colorSchemeName';
 import { Observable } from 'rxjs';
 import { VexConfig } from '../../config/vex-config.interface';
 import { CSSValue } from '../../interfaces/css-value.type';
-import { isNil } from '../../utils/isNil';
 import { defaultRoundedButtonBorderRadius } from '../../config/constants';
 
 @Component({
@@ -122,66 +119,6 @@ export class ConfigPanelComponent {
     this.configService.updateConfig({
       style: {
         colorScheme: ColorSchemeName.default
-      }
-    });
-  }
-
-  layoutRTLChange(change: MatSlideToggleChange): void {
-    this.configService.updateConfig({
-      direction: change.checked ? 'rtl' : 'ltr'
-    });
-  }
-
-  toolbarPositionChange(change: MatRadioChange): void {
-    this.configService.updateConfig({
-      toolbar: {
-        fixed: change.value === 'fixed'
-      }
-    });
-  }
-
-  footerVisibleChange(change: MatSlideToggleChange): void {
-    this.configService.updateConfig({
-      footer: {
-        visible: change.checked
-      }
-    });
-  }
-
-  footerPositionChange(change: MatRadioChange): void {
-    this.configService.updateConfig({
-      footer: {
-        fixed: change.value === 'fixed'
-      }
-    });
-  }
-
-  isSelectedBorderRadius(borderRadius: CSSValue, config: VexConfig): boolean {
-    return borderRadius.value === config.style.borderRadius.value && borderRadius.unit === config.style.borderRadius.unit;
-  }
-
-  selectBorderRadius(borderRadius: CSSValue): void {
-    this.configService.updateConfig({
-      style: {
-        borderRadius: borderRadius
-      }
-    });
-  }
-
-  isSelectedButtonStyle(buttonStyle: CSSValue | undefined, config: VexConfig): boolean {
-    if (isNil(config.style.button.borderRadius) && isNil(buttonStyle)) {
-      return true;
-    }
-
-    return buttonStyle?.value === config.style.button.borderRadius?.value;
-  }
-
-  selectButtonStyle(borderRadius: CSSValue | undefined): void {
-    this.configService.updateConfig({
-      style: {
-        button: {
-          borderRadius: borderRadius
-        }
       }
     });
   }

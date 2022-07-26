@@ -7,6 +7,7 @@ import { PageLayoutModule } from "../../shared/components/page-layout/page-layou
 import { MaterialModule } from "../../material/material.module";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { CarComponent } from './pages/car/car.component';
+import { PaginatorModule } from "../../shared/components/paginator/paginator.module";
 
 
 @NgModule({
@@ -18,6 +19,7 @@ import { CarComponent } from './pages/car/car.component';
     CommonModule,
     MaintenanceRoutingModule,
     MaterialModule,
+    PaginatorModule,
     PageLayoutModule,
     FormsModule,
     ReactiveFormsModule

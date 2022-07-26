@@ -1,11 +1,20 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { Meta } from "../../../core/interfaces/pagination-response";
 import { PageEvent } from "@angular/material/paginator";
+import { MAT_FORM_FIELD_DEFAULT_OPTIONS, MatFormFieldDefaultOptions } from "@angular/material/form-field";
 
 @Component({
   selector: 'app-paginator',
   templateUrl: './paginator.component.html',
-  styles: ['']
+  styles: [''],
+  providers: [
+    {
+      provide: MAT_FORM_FIELD_DEFAULT_OPTIONS,
+      useValue: {
+        appearance: 'standard'
+      } as MatFormFieldDefaultOptions
+    }
+  ]
 })
 export class PaginatorComponent {
   @Input()

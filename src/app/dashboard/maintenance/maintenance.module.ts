@@ -8,12 +8,14 @@ import { MaterialModule } from "../../material/material.module";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { CarComponent } from './pages/car/car.component';
 import { PaginatorModule } from "../../shared/components/paginator/paginator.module";
+import { ChangeStatusRoomComponent } from './components/change-status-room/change-status-room.component';
 
 
 @NgModule({
   declarations: [
     RoomComponent,
-    CarComponent
+    CarComponent,
+    ChangeStatusRoomComponent
   ],
   imports: [
     CommonModule,

@@ -31,4 +31,14 @@ export class RoomService {
         })
       );
   }
+
+  findById(id: number): Observable<RoomModel> {
+    const url = `${this.url}/${id}`;
+    return this.http.get<RoomModel>(url);
+  }
+
+  changeStatus(id: number, statusId: number): Observable<void> {
+    const url = `${this.url}/change-status/${id}`;
+    return this.http.patch<void>(url, { statusId });
+  }
 }

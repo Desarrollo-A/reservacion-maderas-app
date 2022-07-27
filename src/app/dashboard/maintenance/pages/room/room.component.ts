@@ -10,6 +10,8 @@ import { FormControl } from "@angular/forms";
 import { Filters, TypesEnum } from "../../../../core/interfaces/filters";
 import { Sort } from "@angular/material/sort";
 import { getSort } from "../../../../shared/utils/http-functions";
+import { MatDialog } from "@angular/material/dialog";
+import { ChangeStatusRoomComponent } from "../../components/change-status-room/change-status-room.component";
 
 @Component({
   selector: 'app-room',
@@ -35,19 +37,32 @@ export class RoomComponent implements OnInit {
   searchCtrl = new FormControl('');
   filters: Filters = { filters: [] };
 
-  constructor(private roomService: RoomService) {}
+  constructor(private roomService: RoomService,
+              private dialog: MatDialog) {}
 
   ngOnInit(): void {
     this.dataSource = new MatTableDataSource<RoomModel>();
-    this.getData();
+    this.prepareFilters();
+  }
+
+  get visibleColumns() {
+    return this.columns.filter(column => column.visible).map(column => column.property);
   }
 
   trackByProperty<T>(index: number, column: TableColumn<T>) {
     return column.property;
   }
 
-  get visibleColumns() {
-    return this.columns.filter(column => column.visible).map(column => column.property);
+  showChangeStatus(id: number): void {
+    this.roomService.findById(id).subscribe(room => {
+      this.dialog.open(ChangeStatusRoomComponent, {
+        data: room
+      }).afterClosed().subscribe(updated => {
+        if (updated) {
+          this.prepareFilters();
+        }
+      });
+    });
   }
 
   sortChange(sortState: Sort): void {

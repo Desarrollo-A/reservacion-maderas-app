@@ -78,7 +78,8 @@
 
 <mat-menu #actionsMenu="matMenu" xPosition="before" yPosition="below">
   <ng-template let-room="room" matMenuContent>
-    <button mat-menu-item>
+    <button (click)="showChangeStatus(room.id)"
+            mat-menu-item>
       <mat-icon svgIcon="mat:sync"></mat-icon>
       <span>Cambiar estatus</span>
     </button>

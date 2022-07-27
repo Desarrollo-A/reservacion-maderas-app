@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { BehaviorSubject } from "rxjs";
+import { delay, Observable } from "rxjs";
 import { LoadingService } from "../../services/loading.service";
 
 @Component({
@@ -12,9 +12,12 @@ import { LoadingService } from "../../services/loading.service";
   styleUrls: ['./loading.component.scss']
 })
 export class LoadingComponent {
-  public isLoading$: BehaviorSubject<boolean>;
+  public isLoading$: Observable<boolean>;
 
   constructor(private loadingService: LoadingService) {
-    this.isLoading$ = this.loadingService.isLoading$;
+    this.isLoading$ = this.loadingService.isLoading$.asObservable()
+      .pipe(
+        delay(0)
+      );
   }
 }

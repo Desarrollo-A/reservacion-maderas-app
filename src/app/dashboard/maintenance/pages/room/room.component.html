@@ -18,12 +18,14 @@
           <mat-icon class="icon-sm text-secondary" svgIcon="mat:search"></mat-icon>
           <input class="px-4 py-2 border-0 outline-none w-full bg-transparent"
                  placeholder="Buscar..."
-                 type="search">
+                 type="search"
+                 [formControl]="searchCtrl"
+                 (keyup.enter)="search()">
         </div>
       </div>
 
-      <table @stagger [dataSource]="dataSource" class="w-full" mat-table matSort>
-        <!-- Text Columns -->
+      <table @stagger [dataSource]="dataSource" class="w-full" mat-table matSort
+             (matSortChange)="sortChange($event)">
         <ng-container *ngFor="let column of columns; trackBy: trackByProperty">
           <ng-container *ngIf="column.type === 'text'" [matColumnDef]="column.property">
             <th *matHeaderCellDef class="uppercase" mat-header-cell mat-sort-header> {{ column.label }}</th>
@@ -31,9 +33,9 @@
           </ng-container>
         </ng-container>
 
-        <!-- Label Column -->
-        <ng-container matColumnDef="statusNameLabel">
-          <th *matHeaderCellDef class="uppercase" mat-header-cell mat-sort-header>Estatus</th>
+
+        <ng-container matColumnDef="statusLabel">
+          <th *matHeaderCellDef class="uppercase" mat-header-cell>Estatus</th>
           <td *matCellDef="let row" mat-cell>
             <div (click)="$event.stopPropagation()" class="flex items-center gap-1">
               <div [ngClass]="[row.labelStatus.textClass, row.labelStatus.bgClass]"
@@ -44,7 +46,6 @@
           </td>
         </ng-container>
 
-        <!-- Action Column -->
         <ng-container matColumnDef="actions">
           <th *matHeaderCellDef mat-header-cell></th>
           <td *matCellDef="let row" class="w-10 text-secondary" mat-cell>
@@ -65,16 +66,22 @@
             mat-row></tr>
       </table>
 
-      <mat-paginator [pageSizeOptions]="pageSizeOptions" [pageSize]="pageSize" class="sticky left-0"></mat-paginator>
+      <ng-container *ngIf="roomResponse">
+        <app-paginator [pageSizeOptions]="pageSizeOptions"
+                       [meta]="roomResponse.meta"
+                       (onChanges)="paginatorChanges($event)">
+        </app-paginator>
+      </ng-container>
     </div>
   </vex-page-layout-content>
 </vex-page-layout>
 
 <mat-menu #actionsMenu="matMenu" xPosition="before" yPosition="below">
   <ng-template let-room="room" matMenuContent>
-    <button mat-menu-item>
-      <mat-icon svgIcon="mat:edit"></mat-icon>
-      <span>Modificar</span>
+    <button (click)="showChangeStatus(room.id)"
+            mat-menu-item>
+      <mat-icon svgIcon="mat:sync"></mat-icon>
+      <span>Cambiar estatus</span>
     </button>
   </ng-template>
 </mat-menu>

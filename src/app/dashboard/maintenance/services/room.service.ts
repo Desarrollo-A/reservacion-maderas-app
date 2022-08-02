@@ -37,6 +37,11 @@ export class RoomService {
     return this.http.get<RoomModel>(url);
   }
 
+  findAllByState(stateId: number): Observable<RoomModel[]> {
+    const url = `${this.url}/find-all-state/${stateId}`;
+    return this.http.get<RoomModel[]>(url);
+  }
+
   changeStatus(id: number, statusId: number): Observable<void> {
     const url = `${this.url}/change-status/${id}`;
     return this.http.patch<void>(url, { statusId });

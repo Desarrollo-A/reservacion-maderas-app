@@ -6,4 +6,5 @@ export enum TypeLookup {
   INVENTORY_TYPE = 5, // TIPO DE INVENTARIO (Papelería, Botiquín, Limpieza, Cafetería)
   UNIT_TYPE = 6, // UNIDAD DE MEDIDA (Pieza, Caja, Paquete, Kilo, Galón, Garrafa, Par, Bolsa, Bote),
   STATUS_ROOM = 7, // (ACTIVA, BAJA, MANTENIMIENTO)
+  REQUEST_TYPE_NOTIFICATIONS = 8 // (Sala, Automóvil, Conductor, Inventario)
 }

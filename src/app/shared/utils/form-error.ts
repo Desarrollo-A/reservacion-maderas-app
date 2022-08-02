@@ -15,6 +15,14 @@ export class FormErrors {
     return this.form.get(field)?.getError(error);
   }
 
+  public maxNumber(field: string): number {
+    return this.errorObject(field, 'max').max;
+  }
+
+  public minNumber(field: string): number {
+    return this.errorObject(field, 'min').min;
+  }
+
   public maxLengthNumber(field: string): number {
     return this.errorObject(field, 'maxlength').requiredLength;
   }

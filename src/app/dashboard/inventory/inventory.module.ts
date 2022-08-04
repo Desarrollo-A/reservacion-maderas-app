@@ -6,6 +6,7 @@ import { InventoryComponent } from './pages/inventory/inventory.component';
 import { MaterialModule } from 'src/app/material/material.module';
 import { PageLayoutModule } from 'src/app/shared/components/page-layout/page-layout.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { PaginatorModule } from "../../shared/components/paginator/paginator.module";
 
 
 @NgModule({
@@ -18,7 +19,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     MaterialModule,
     PageLayoutModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    PaginatorModule
   ]
 })
 export class InventoryModule { }

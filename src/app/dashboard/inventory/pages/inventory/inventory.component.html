@@ -19,7 +19,8 @@
           <input [formControl]="searchCtrl"
                  class="px-4 py-2 border-0 outline-none w-full bg-transparent"
                  placeholder="Buscar..."
-                 type="search">
+                 type="search"
+                 (keyup.enter)="search()">
         </div>
         <span class="flex-1"></span>
 
@@ -33,13 +34,14 @@
         <button class="ml-4 flex-none"
                 color="primary"
                 mat-mini-fab
-                matTooltip="Agregar automovil"
+                matTooltip="Agregar producto"
                 type="button">
           <mat-icon svgIcon="mat:add"></mat-icon>
         </button>
       </div>
 
-      <table @stagger [dataSource]="dataSource" class="w-full" mat-table matSort>
+      <table @stagger [dataSource]="dataSource" class="w-full" mat-table matSort
+             (matSortChange)="sortChange($event)">
         <ng-container *ngFor="let column of columns; trackBy: trackByProperty">
           <ng-container *ngIf="column.type === 'text'" [matColumnDef]="column.property">
             <th *matHeaderCellDef class="uppercase" mat-header-cell mat-sort-header> {{ column.label }}</th>
@@ -48,46 +50,45 @@
         </ng-container>
 
         <ng-container matColumnDef="status">
-          <th *matHeaderCellDef class="uppercase" mat-header-cell mat-sort-header>Estatus</th>
+          <th *matHeaderCellDef class="uppercase" mat-header-cell>Estatus</th>
           <td *matCellDef="let row" mat-cell>
             <div (click)="$event.stopPropagation()" class="flex items-center gap-1">
-              <div [ngClass]="[row.labelStatus.textClass, row.labelStatus.bgClass]"
+              <div [ngClass]="{'text-green': row.status, 'text-warn': !row.status, 'bg-green-light': row.status,
+                                'bg-red-light': !row.status}"
                    class="rounded px-2 py-1 font-medium text-xs flex-none">
-                {{ row.labelStatus.text }}
+                {{ (row.status) ? 'Activo' : 'Inactivo' }}
               </div>
             </div>
           </td>
         </ng-container>
 
         <ng-container matColumnDef="typeInventory">
-          <th *matHeaderCellDef class="uppercase" mat-header-cell mat-sort-header>Tipo inventario</th>
+          <th *matHeaderCellDef class="uppercase" mat-header-cell>Tipo inventario</th>
           <td *matCellDef="let row" mat-cell>
             <div (click)="$event.stopPropagation()" class="flex items-center gap-1">
-              <div [ngClass]="[row.labelTypeInventory.textClass, row.labelTypeInventory.bgClass]"
-                   class="rounded px-2 py-1 font-medium text-xs flex-none">
-                {{ row.labelTypeInventory.text }}
+              <div class="rounded px-2 py-1 font-medium text-xs flex-none text-orange bg-orange-light">
+                {{ row.typeInventoryName }}
               </div>
             </div>
           </td>
         </ng-container>
 
         <ng-container matColumnDef="unit">
-          <th *matHeaderCellDef class="uppercase" mat-header-cell mat-sort-header>Unidad</th>
+          <th *matHeaderCellDef class="uppercase" mat-header-cell>Unidad</th>
           <td *matCellDef="let row" mat-cell>
             <div (click)="$event.stopPropagation()" class="flex items-center gap-1">
-              <div [ngClass]="[row.labelUnit.textClass, row.labelUnit.bgClass]"
-                   class="rounded px-2 py-1 font-medium text-xs flex-none">
-                {{ row.labelUnit.text }}
+              <div class="rounded px-2 py-1 font-medium text-xs flex-none text-teal bg-teal-light">
+                {{ row.unitName }}
               </div>
             </div>
           </td>
         </ng-container>
 
         <ng-container matColumnDef="actions">
-          <th *matHeaderCellDef mat-header-cell mat-sort-header></th>
+          <th *matHeaderCellDef mat-header-cell></th>
           <td *matCellDef="let row" class="w-10 text-secondary" mat-cell>
             <button (click)="$event.stopPropagation()"
-                    [matMenuTriggerData]="{ room: row }"
+                    [matMenuTriggerData]="{ inventory: row }"
                     [matMenuTriggerFor]="actionsMenu"
                     mat-icon-button
                     type="button">
@@ -103,13 +104,18 @@
             mat-row></tr>
       </table>
 
-      <mat-paginator [pageSizeOptions]="pageSizeOptions" [pageSize]="pageSize" class="sticky left-0"></mat-paginator>
+      <ng-container *ngIf="inventoryResponse">
+        <app-paginator [pageSizeOptions]="pageSizeOptions"
+                       [meta]="inventoryResponse.meta"
+                       (onChanges)="paginatorChanges($event)">
+        </app-paginator>
+      </ng-container>
     </div>
   </vex-page-layout-content>
 </vex-page-layout>
 
 <mat-menu #actionsMenu="matMenu" xPosition="before" yPosition="below">
-  <ng-template let-room="room" matMenuContent>
+  <ng-template let-inventory="inventory" matMenuContent>
     <button mat-menu-item>
       <mat-icon svgIcon="mat:edit"></mat-icon>
       <span>Modificar</span>

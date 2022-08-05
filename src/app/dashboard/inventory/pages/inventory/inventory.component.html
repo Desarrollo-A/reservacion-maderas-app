@@ -35,18 +35,32 @@
                 color="primary"
                 mat-mini-fab
                 matTooltip="Agregar producto"
-                type="button">
+                type="button"
+                (click)="openDialog()">
           <mat-icon svgIcon="mat:add"></mat-icon>
         </button>
       </div>
 
       <table @stagger [dataSource]="dataSource" class="w-full" mat-table matSort
              (matSortChange)="sortChange($event)">
-        <ng-container *ngFor="let column of columns; trackBy: trackByProperty">
-          <ng-container *ngIf="column.type === 'text'" [matColumnDef]="column.property">
-            <th *matHeaderCellDef class="uppercase" mat-header-cell mat-sort-header> {{ column.label }}</th>
-            <td *matCellDef="let row" [ngClass]="column.cssClasses" mat-cell>{{ row[column.property] }}</td>
-          </ng-container>
+        <!-- Nombre columna -->
+        <ng-container matColumnDef="name">
+          <th *matHeaderCellDef class="uppercase" mat-header-cell mat-sort-header>Nombre</th>
+          <td *matCellDef="let row" mat-cell>{{ row.name }}</td>
+        </ng-container>
+
+        <!-- Descripción columna -->
+        <ng-container matColumnDef="description">
+          <th *matHeaderCellDef class="uppercase" mat-header-cell mat-sort-header>Descripción</th>
+          <td *matCellDef="let row" mat-cell>
+            {{ (row.description) ? (row.description | slice:0:35) : '' }}{{ (row.description && row.description?.length > 35) ? '...' : '' }}
+          </td>
+        </ng-container>
+
+        <!-- Stock columna -->
+        <ng-container matColumnDef="stock">
+          <th *matHeaderCellDef class="uppercase" mat-header-cell mat-sort-header>Stock</th>
+          <td *matCellDef="let row" mat-cell>{{ row.stock }}</td>
         </ng-container>
 
         <ng-container matColumnDef="status">
@@ -116,7 +130,7 @@
 
 <mat-menu #actionsMenu="matMenu" xPosition="before" yPosition="below">
   <ng-template let-inventory="inventory" matMenuContent>
-    <button mat-menu-item>
+    <button mat-menu-item (click)="openDialog(inventory.id)">
       <mat-icon svgIcon="mat:edit"></mat-icon>
       <span>Modificar</span>
     </button>

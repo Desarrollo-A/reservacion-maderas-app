@@ -36,4 +36,18 @@ export class InventoryService {
     const url = `${this.url}/${id}`;
     return this.http.get<InventoryModel>(url);
   }
+
+  store(inventory: InventoryModel): Observable<InventoryModel> {
+    return this.http.post<InventoryModel>(this.url, inventory);
+  }
+
+  update(id: number, inventory: InventoryModel): Observable<InventoryModel> {
+    const url = `${this.url}/${id}`;
+    return this.http.put<InventoryModel>(url, inventory);
+  }
+
+  delete(id: number): Observable<void> {
+    const url = `${this.url}/${id}`;
+    return this.http.delete<void>(url);
+  }
 }

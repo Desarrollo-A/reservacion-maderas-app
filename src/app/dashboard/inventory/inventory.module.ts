@@ -7,11 +7,13 @@ import { MaterialModule } from 'src/app/material/material.module';
 import { PageLayoutModule } from 'src/app/shared/components/page-layout/page-layout.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { PaginatorModule } from "../../shared/components/paginator/paginator.module";
+import { ItemCreateUpdateComponent } from './components/item-create-update/item-create-update.component';
 
 
 @NgModule({
   declarations: [
-    InventoryComponent
+    InventoryComponent,
+    ItemCreateUpdateComponent
   ],
   imports: [
     CommonModule,

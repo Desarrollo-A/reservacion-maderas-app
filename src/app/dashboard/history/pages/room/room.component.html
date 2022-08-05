@@ -18,41 +18,68 @@
           <mat-icon class="icon-sm text-secondary" svgIcon="mat:search"></mat-icon>
           <input class="px-4 py-2 border-0 outline-none w-full bg-transparent"
                  placeholder="Buscar..."
-                 type="search">
+                 type="search"
+                 [formControl]="searchCtrl"
+                 (keyup.enter)="search()">
         </div>
       </div>
 
-      <table @stagger [dataSource]="dataSource" class="w-full" mat-table matSort>
-        <!-- Text Columns -->
-        <ng-container *ngFor="let column of columns; trackBy: trackByProperty">
-          <ng-container *ngIf="column.type === 'text'" [matColumnDef]="column.property">
-            <th *matHeaderCellDef class="uppercase" mat-header-cell mat-sort-header> {{ column.label }}</th>
-            <td *matCellDef="let row" [ngClass]="column.cssClasses" mat-cell>{{ row[column.property] }}</td>
-          </ng-container>
-        </ng-container>
-
-        <!-- Date Column -->
-        <ng-container matColumnDef="startDate">
-          <th *matHeaderCellDef class="uppercase" mat-header-cell mat-sort-header>
-            Fecha Inicio
-          </th>
+      <table @stagger [dataSource]="dataSource" class="w-full" mat-table matSort
+             (matSortChange)="sortChange($event)">
+        <!-- Solicitante column -->
+        <ng-container matColumnDef="fullName">
+          <th *matHeaderCellDef class="uppercase" mat-header-cell mat-sort-header>Solicitante</th>
           <td *matCellDef="let row" mat-cell>
-            {{ row.startDate | date:'dd-MM-y / h:mm a' }}
+            {{ row.fullName }}
           </td>
         </ng-container>
 
-        <!-- Date Column -->
-        <ng-container matColumnDef="endDate">
-          <th *matHeaderCellDef class="uppercase" mat-header-cell mat-sort-header>
-            Fecha Fin
-          </th>
+        <!-- Fecha column -->
+        <ng-container matColumnDef="startDate">
+          <th *matHeaderCellDef class="uppercase" mat-header-cell mat-sort-header>Fecha</th>
           <td *matCellDef="let row" mat-cell>
-            {{ row.endDate | date:'dd-MM-y / h:mm a' }}
+            {{ row.startDate | date:'dd-MM-y' }}
+          </td>
+        </ng-container>
+
+        <!-- Hora inicio Column -->
+        <ng-container matColumnDef="startTime">
+          <th *matHeaderCellDef class="uppercase" mat-header-cell>Hora Inicio</th>
+          <td *matCellDef="let row" mat-cell>
+            {{ row.startDate | date:'h:mm a' }}
+          </td>
+        </ng-container>
+
+        <!-- Hora fin Column -->
+        <ng-container matColumnDef="endTime">
+          <th *matHeaderCellDef class="uppercase" mat-header-cell>Hora Fin</th>
+          <td *matCellDef="let row" mat-cell>
+            {{ row.endDate | date:'h:mm a' }}
+          </td>
+        </ng-container>
+
+        <!-- Sala column -->
+        <ng-container matColumnDef="roomName">
+          <th *matHeaderCellDef class="uppercase" mat-header-cell mat-sort-header>Sala</th>
+          <td *matCellDef="let row" mat-cell>
+            {{ row.roomName }}
+          </td>
+        </ng-container>
+
+        <!-- Tipo reunión Column -->
+        <ng-container matColumnDef="levelMeeting">
+          <th *matHeaderCellDef class="uppercase" mat-header-cell mat-sort-header>Tipo de reunión</th>
+          <td *matCellDef="let row" mat-cell>
+            <div (click)="$event.stopPropagation()" class="flex items-center gap-1">
+              <div class="rounded px-2 py-1 font-medium text-xs flex-none text-purple bg-deep-purple-light">
+                {{ row.levelMeeting }}
+              </div>
+            </div>
           </td>
         </ng-container>
 
         <!-- Label Column -->
-        <ng-container matColumnDef="labelStatus">
+        <ng-container matColumnDef="status">
           <th *matHeaderCellDef class="uppercase" mat-header-cell mat-sort-header>Estatus</th>
           <td *matCellDef="let row" mat-cell>
             <div (click)="$event.stopPropagation()" class="flex items-center gap-1">
@@ -66,7 +93,7 @@
 
         <!-- Action Column -->
         <ng-container matColumnDef="actions">
-          <th *matHeaderCellDef mat-header-cell mat-sort-header></th>
+          <th *matHeaderCellDef mat-header-cell></th>
           <td *matCellDef="let row" class="w-10 text-secondary" mat-cell>
             <button (click)="$event.stopPropagation()"
                     [matMenuTriggerData]="{ room: row }"
@@ -85,7 +112,12 @@
             mat-row></tr>
       </table>
 
-      <mat-paginator [pageSizeOptions]="pageSizeOptions" [pageSize]="pageSize" class="sticky left-0"></mat-paginator>
+      <ng-container *ngIf="requestRoomResponse">
+        <app-paginator [pageSizeOptions]="pageSizeOptions"
+                       [meta]="requestRoomResponse.meta"
+                       (onChanges)="paginatorChanges($event)">
+        </app-paginator>
+      </ng-container>
     </div>
   </vex-page-layout-content>
 </vex-page-layout>
@@ -93,16 +125,8 @@
 <mat-menu #actionsMenu="matMenu" xPosition="before" yPosition="below">
   <ng-template let-room="room" matMenuContent>
     <button mat-menu-item>
-      <mat-icon svgIcon="mat:done"></mat-icon>
-      <span>Aprobar</span>
-    </button>
-    <button mat-menu-item>
-      <mat-icon svgIcon="mat:close"></mat-icon>
-      <span>Rechazar</span>
-    </button>
-    <button mat-menu-item>
-      <mat-icon svgIcon="mat:reply"></mat-icon>
-      <span>Propuesta</span>
+      <mat-icon svgIcon="mat:visibility"></mat-icon>
+      <span>Detalle</span>
     </button>
   </ng-template>
 </mat-menu>

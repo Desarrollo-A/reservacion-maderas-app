@@ -8,6 +8,7 @@ import { DriverComponent } from './pages/driver/driver.component';
 import { MaterialModule } from "../../material/material.module";
 import { PageLayoutModule } from "../../shared/components/page-layout/page-layout.module";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
+import { PaginatorModule } from "../../shared/components/paginator/paginator.module";
 
 
 @NgModule({
@@ -22,7 +23,8 @@ import { FormsModule, ReactiveFormsModule } from "@angular/forms";
     MaterialModule,
     PageLayoutModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    PaginatorModule
   ]
 })
 export class HistoryModule { }

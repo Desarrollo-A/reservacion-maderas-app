@@ -12,6 +12,10 @@ import { MatDialog } from "@angular/material/dialog";
 import { InventoryService } from "../../services/inventory.service";
 import { Sort } from "@angular/material/sort";
 import { getSort } from "../../../../shared/utils/http-functions";
+import { ItemCreateUpdateComponent } from "../../components/item-create-update/item-create-update.component";
+import { DeleteConfirmComponent } from "../../../../shared/components/delete-confirm/delete-confirm.component";
+import { of, switchMap } from "rxjs";
+import { ToastrService } from "ngx-toastr";
 
 @UntilDestroy()
 @Component({
@@ -28,9 +32,9 @@ export class InventoryComponent implements OnInit {
   inventoryResponse: PaginationResponse<InventoryModel>;
   dataSource: MatTableDataSource<InventoryModel> | null;
   columns: TableColumn<InventoryModel>[] = [
-    {label: 'Nombre', property: 'name', type: 'text', visible: true},
-    {label: 'Descripción', property: 'description', type: 'text', visible: true},
-    {label: 'Stock', property: 'stock', type: 'text', visible: true},
+    {label: 'Nombre', property: 'name', visible: true},
+    {label: 'Descripción', property: 'description', visible: true},
+    {label: 'Stock', property: 'stock', visible: true},
     {label: 'Estatus', property: 'status', visible: true},
     {label: 'Tipo Inventario', property: 'typeInventory', visible: true},
     {label: 'Unidad', property: 'unit', visible: true},
@@ -42,7 +46,8 @@ export class InventoryComponent implements OnInit {
   filters: Filters = {filters: []};
 
   constructor(private dialog: MatDialog,
-              private inventoryService: InventoryService) {
+              private inventoryService: InventoryService,
+              private toastrService: ToastrService) {
   }
 
   ngOnInit(): void {
@@ -54,8 +59,39 @@ export class InventoryComponent implements OnInit {
     return this.columns.filter(column => column.visible).map(column => column.property);
   }
 
-  trackByProperty<T>(index: number, column: TableColumn<T>) {
-    return column.property;
+  openDialog(id?: number): void {
+    if (!id) {
+      this.dialog.open(ItemCreateUpdateComponent, {
+        width: '100%',
+        data: null
+      }).afterClosed().subscribe(created => {
+        if (created) {
+          this.prepareFilters();
+        }
+      });
+    } else {
+      this.inventoryService.findById(id).subscribe(inventory => {
+        this.dialog.open(ItemCreateUpdateComponent, {
+          width: '100%',
+          data: inventory
+        }).afterClosed().subscribe(created => {
+          if (created) {
+            this.prepareFilters();
+          }
+        });
+      });
+    }
+  }
+
+  deleteItem(id: number): void {
+    this.dialog.open(DeleteConfirmComponent, { autoFocus: false }).afterClosed().pipe(
+      switchMap(confirm => (confirm) ? this.inventoryService.delete(id) : of(false))
+    ).subscribe(confirm => {
+      if (confirm) {
+        this.toastrService.success('Item de inventario eliminado', 'Proceso exitoso');
+        this.prepareFilters();
+      }
+    });
   }
 
   sortChange(sortState: Sort): void {

@@ -9,12 +9,14 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { PaginatorModule } from "../../shared/components/paginator/paginator.module";
 import { ItemCreateUpdateComponent } from './components/item-create-update/item-create-update.component';
 import { DeleteConfirmModule } from "../../shared/components/delete-confirm/delete-confirm.module";
+import { UpdateStockComponent } from './components/update-stock/update-stock.component';
 
 
 @NgModule({
   declarations: [
     InventoryComponent,
-    ItemCreateUpdateComponent
+    ItemCreateUpdateComponent,
+    UpdateStockComponent
   ],
   imports: [
     CommonModule,

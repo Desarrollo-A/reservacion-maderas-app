@@ -46,8 +46,11 @@ export class InventoryService {
     return this.http.put<InventoryModel>(url, inventory);
   }
 
-  delete(id: number): Observable<void> {
+  delete(id: number): Observable<boolean> {
     const url = `${this.url}/${id}`;
-    return this.http.delete<void>(url);
+    return this.http.delete<void>(url)
+      .pipe(
+        map(() => true)
+      );
   }
 }

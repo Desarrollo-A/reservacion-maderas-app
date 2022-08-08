@@ -113,6 +113,7 @@
 
         <tr *matHeaderRowDef="visibleColumns" mat-header-row></tr>
         <tr *matRowDef="let row; columns: visibleColumns;"
+            (click)="openDialog(row.id)"
             @fadeInUp
             class="hover:bg-hover trans-ease-out cursor-pointer"
             mat-row></tr>
@@ -134,7 +135,7 @@
       <mat-icon svgIcon="mat:edit"></mat-icon>
       <span>Modificar</span>
     </button>
-    <button  mat-menu-item>
+    <button mat-menu-item (click)="deleteItem(inventory.id)">
       <mat-icon svgIcon="mat:delete"></mat-icon>
       <span>Borrar</span>
     </button>

@@ -13,6 +13,9 @@ import { InventoryService } from "../../services/inventory.service";
 import { Sort } from "@angular/material/sort";
 import { getSort } from "../../../../shared/utils/http-functions";
 import { ItemCreateUpdateComponent } from "../../components/item-create-update/item-create-update.component";
+import { DeleteConfirmComponent } from "../../../../shared/components/delete-confirm/delete-confirm.component";
+import { of, switchMap } from "rxjs";
+import { ToastrService } from "ngx-toastr";
 
 @UntilDestroy()
 @Component({
@@ -43,7 +46,8 @@ export class InventoryComponent implements OnInit {
   filters: Filters = {filters: []};
 
   constructor(private dialog: MatDialog,
-              private inventoryService: InventoryService) {
+              private inventoryService: InventoryService,
+              private toastrService: ToastrService) {
   }
 
   ngOnInit(): void {
@@ -77,6 +81,17 @@ export class InventoryComponent implements OnInit {
         });
       });
     }
+  }
+
+  deleteItem(id: number): void {
+    this.dialog.open(DeleteConfirmComponent, { autoFocus: false }).afterClosed().pipe(
+      switchMap(confirm => (confirm) ? this.inventoryService.delete(id) : of(false))
+    ).subscribe(confirm => {
+      if (confirm) {
+        this.toastrService.success('Item de inventario eliminado', 'Proceso exitoso');
+        this.prepareFilters();
+      }
+    });
   }
 
   sortChange(sortState: Sort): void {

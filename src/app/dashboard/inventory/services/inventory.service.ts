@@ -37,6 +37,11 @@ export class InventoryService {
     return this.http.get<InventoryModel>(url);
   }
 
+  updateStock(id: number, stock: number): Observable<void> {
+    const url = `${this.url}/stock/${id}`;
+    return this.http.patch<void>(url, { stock });
+  }
+
   store(inventory: InventoryModel): Observable<InventoryModel> {
     return this.http.post<InventoryModel>(this.url, inventory);
   }

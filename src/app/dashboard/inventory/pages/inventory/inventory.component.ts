@@ -16,6 +16,7 @@ import { ItemCreateUpdateComponent } from "../../components/item-create-update/i
 import { DeleteConfirmComponent } from "../../../../shared/components/delete-confirm/delete-confirm.component";
 import { of, switchMap } from "rxjs";
 import { ToastrService } from "ngx-toastr";
+import { UpdateStockComponent } from "../../components/update-stock/update-stock.component";
 
 @UntilDestroy()
 @Component({
@@ -74,8 +75,8 @@ export class InventoryComponent implements OnInit {
         this.dialog.open(ItemCreateUpdateComponent, {
           width: '100%',
           data: inventory
-        }).afterClosed().subscribe(created => {
-          if (created) {
+        }).afterClosed().subscribe(updated => {
+          if (updated) {
             this.prepareFilters();
           }
         });
@@ -91,6 +92,16 @@ export class InventoryComponent implements OnInit {
         this.toastrService.success('Item de inventario eliminado', 'Proceso exitoso');
         this.prepareFilters();
       }
+    });
+  }
+
+  changeStock(id: number): void {
+    this.inventoryService.findById(id).subscribe(inventory => {
+      this.dialog.open(UpdateStockComponent, { data: inventory }).afterClosed().subscribe(updated => {
+        if (updated) {
+          this.prepareFilters();
+        }
+      });
     });
   }
 

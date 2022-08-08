@@ -139,6 +139,10 @@
       <mat-icon svgIcon="mat:delete"></mat-icon>
       <span>Borrar</span>
     </button>
+    <button mat-menu-item (click)="changeStock(inventory.id)">
+      <mat-icon svgIcon="mat:swap_vert"></mat-icon>
+      <span>Cambiar stock</span>
+    </button>
   </ng-template>
 </mat-menu>
 

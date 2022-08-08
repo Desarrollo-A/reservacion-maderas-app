@@ -31,7 +31,7 @@
             El usuario debe tener más de {{ formErrors.minLengthNumber('noEmployee') }} caracteres
           </mat-error>
           <mat-error *ngIf="formErrors.customError('noEmployee','maxlength')">
-            El usuario no debe tener más de {{ formErrors.maxLengthNumber('noEmployee') }} caracteres
+            El usuario debe tener menos de {{ formErrors.maxLengthNumber('noEmployee') }} caracteres
           </mat-error>
         </mat-form-field>
 

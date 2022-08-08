@@ -1,0 +1,125 @@
+<form [formGroup]="form" (ngSubmit)="save()">
+  <div class="flex items-center" mat-dialog-title>
+    <h2 class="headline m-0 flex-auto">{{ (data) ? 'Actualizar' : 'Nuevo' }} Item</h2>
+
+    <button class="text-secondary" mat-dialog-close mat-icon-button type="button">
+      <mat-icon svgIcon="mat:close"></mat-icon>
+    </button>
+  </div>
+
+  <mat-divider class="-mx-6 text-border"></mat-divider>
+
+  <mat-dialog-content class="flex flex-col gap-2 mt-4">
+    <div class="flex flex-col md:flex-row md:gap-3">
+      <mat-form-field class="flex-auto">
+        <mat-label>Nombre</mat-label>
+        <input cdkFocusInitial
+               matInput
+               type="text"
+               formControlName="name">
+
+        <mat-error *ngIf="formErrors.customError('name', 'required')">
+          Campo obligatorio.
+        </mat-error>
+        <mat-error *ngIf="formErrors.customError('name', 'minlength')">
+          El nombre debe tener más de {{ formErrors.minLengthNumber('name') }} caracteres.
+        </mat-error>
+        <mat-error *ngIf="formErrors.customError('name', 'maxlength')">
+          El nombre debe tener menos de {{ formErrors.maxLengthNumber('name') }} caracteres.
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field class="flex-auto" *ngIf="!data">
+        <mat-label>Stock Inicial</mat-label>
+        <input matInput
+               type="number"
+               formControlName="stock">
+
+        <mat-error *ngIf="formErrors.customError('stock', 'required')">
+          Campo obligatorio.
+        </mat-error>
+        <mat-error *ngIf="formErrors.customError('stock', 'min')">
+          El stock debe ser igual o mayor a {{ formErrors.minNumber('stock') }}.
+        </mat-error>
+        <mat-error *ngIf="formErrors.customError('stock', 'max')">
+          El stock debe ser igual o menor a {{ formErrors.maxNumber('stock') }}.
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field class="flex-auto" *ngIf="data">
+        <mat-label>Estatus</mat-label>
+        <mat-select formControlName="status">
+          <mat-option [value]="true">Activo</mat-option>
+          <mat-option [value]="false">Inactivo</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field class="flex-auto">
+        <mat-label>Stock Mínimo</mat-label>
+        <input matInput type="number" formControlName="minimumStock">
+
+        <mat-error *ngIf="formErrors.customError('minimumStock', 'required')">
+          Campo obligatorio.
+        </mat-error>
+        <mat-error *ngIf="formErrors.customError('minimumStock', 'min')">
+          El stock mínimo debe ser igual o mayor a {{ formErrors.minNumber('minimumStock') }}.
+        </mat-error>
+        <mat-error *ngIf="formErrors.customError('minimumStock', 'max')">
+          El stock mínimo debe ser igual o menor a {{ formErrors.maxNumber('minimumStock') }}.
+        </mat-error>
+      </mat-form-field>
+    </div>
+
+    <mat-form-field class="flex-auto">
+      <mat-label>Descripción</mat-label>
+      <textarea matInput formControlName="description"></textarea>
+    </mat-form-field>
+
+    <div class="flex flex-col md:flex-row md:gap-3">
+      <mat-form-field class="flex-auto">
+        <mat-label>Tipo</mat-label>
+        <mat-select formControlName="typeId" #type>
+          <mat-option *ngFor="let lookup of typeInventories"
+                      [value]="lookup.id">
+            {{ lookup.name }}
+          </mat-option>
+        </mat-select>
+
+        <mat-error *ngIf="formErrors.customError('typeId', 'required')">
+          Campo obligatorio.
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field class="flex-auto">
+        <mat-label>Unidad de Medidad</mat-label>
+        <mat-select formControlName="unitId">
+          <mat-option *ngFor="let lookup of unitInventories"
+                      [value]="lookup.id">
+            {{ lookup.name }}
+          </mat-option>
+        </mat-select>
+
+        <mat-error *ngIf="formErrors.customError('unitId', 'required')">
+          Campo obligatorio.
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field class="flex-auto" *ngIf="typeCafeteria && typeCafeteria.id === type.value">
+        <mat-label>N° de Juntas a Descontar</mat-label>
+        <input matInput type="number" formControlName="meeting">
+
+        <mat-error *ngIf="formErrors.customError('meeting', 'min')">
+          El número debe ser igual o mayor a {{ formErrors.minNumber('meeting') }}.
+        </mat-error>
+        <mat-error *ngIf="formErrors.customError('meeting', 'max')">
+          El número debe ser igual o menor a {{ formErrors.maxNumber('meeting') }}.
+        </mat-error>
+      </mat-form-field>
+    </div>
+  </mat-dialog-content>
+
+  <mat-dialog-actions align="end">
+    <button mat-button mat-dialog-close type="button">Cancelar</button>
+    <button color="primary" mat-flat-button type="submit">Guardar</button>
+  </mat-dialog-actions>
+</form>

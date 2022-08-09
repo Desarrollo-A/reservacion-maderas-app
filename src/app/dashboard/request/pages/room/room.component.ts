@@ -6,7 +6,7 @@ import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { FormErrors } from "../../../../shared/utils/form-error";
 import { StateService } from "../../../../core/services/state.service";
 import { forkJoin, of, switchMap, tap } from "rxjs";
-import { RoomModel } from "../../../maintenance/model/room-model";
+import { RoomModel } from "../../../maintenance/model/room.model";
 import { RoomService } from "../../../maintenance/services/room.service";
 import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
 import { ToastrService } from "ngx-toastr";

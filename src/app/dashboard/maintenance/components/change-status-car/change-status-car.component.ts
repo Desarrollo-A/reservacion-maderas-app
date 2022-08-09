@@ -6,7 +6,7 @@ import { TypeLookup } from 'src/app/core/enums/type-lookup';
 import { Lookup } from 'src/app/core/interfaces/lookup';
 import { LookupService } from 'src/app/core/services/lookup.service';
 import { FormErrors } from 'src/app/shared/utils/form-error';
-import { CarModel } from '../../model/car-model';
+import { CarModel } from '../../model/car.model';
 import { CarService } from '../../services/car.service';
 
 @Component({
@@ -20,11 +20,12 @@ export class ChangeStatusCarComponent implements OnInit {
   status: Lookup[] = [];
 
   constructor(@Inject(MAT_DIALOG_DATA) public car: CarModel,
-             private dialogRef: MatDialogRef<ChangeStatusCarComponent>,
-             private lookupService: LookupService,
-             private fb: FormBuilder,
-             private carService: CarService,
-             private toastrService: ToastrService) { }
+              private dialogRef: MatDialogRef<ChangeStatusCarComponent>,
+              private lookupService: LookupService,
+              private fb: FormBuilder,
+              private carService: CarService,
+              private toastrService: ToastrService) {
+  }
 
   ngOnInit(): void {
     this.loadStatus();
@@ -37,7 +38,7 @@ export class ChangeStatusCarComponent implements OnInit {
 
   }
 
-  get name():string{
+  get name(): string {
     return `${this.car.trademark} ${this.car.model}`;
   }
 
@@ -53,12 +54,10 @@ export class ChangeStatusCarComponent implements OnInit {
       return;
     }
 
-    const { statusId } = this.form.getRawValue();
+    const {statusId} = this.form.getRawValue();
     this.carService.changeStatus(this.car.id, statusId).subscribe(() => {
       this.toastrService.success('Registro actualizado', 'Proceso exitoso');
       this.dialogRef.close(true);
     });
   }
-
-
 }

@@ -9,13 +9,15 @@ import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { CarComponent } from './pages/car/car.component';
 import { PaginatorModule } from "../../shared/components/paginator/paginator.module";
 import { ChangeStatusRoomComponent } from './components/change-status-room/change-status-room.component';
+import { ChangeStatusCarComponent } from './components/change-status-car/change-status-car.component';
 
 
 @NgModule({
   declarations: [
     RoomComponent,
     CarComponent,
-    ChangeStatusRoomComponent
+    ChangeStatusRoomComponent,
+    ChangeStatusCarComponent
   ],
   imports: [
     CommonModule,

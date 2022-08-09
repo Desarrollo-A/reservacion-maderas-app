@@ -16,10 +16,11 @@
 
         <div class="bg-foreground rounded-full border px-4 max-w-[300px] flex-auto flex items-center border border-gray-300">
           <mat-icon class="icon-sm text-secondary" svgIcon="mat:search"></mat-icon>
-          <input [formControl]="searchCtrl"
-                 class="px-4 py-2 border-0 outline-none w-full bg-transparent"
+          <input class="px-4 py-2 border-0 outline-none w-full bg-transparent"
                  placeholder="Buscar..."
-                 type="search">
+                 type="search"
+                 [formControl]="searchCtrl"
+                 (keyup.enter)="search()">
         </div>
         <span class="flex-1"></span>
 
@@ -30,18 +31,11 @@
           type="button">
           <mat-icon svgIcon="mat:filter_list"></mat-icon>
         </button>
-        <button
-            class="ml-4 flex-none"
-            color="primary"
-            mat-mini-fab
-            matTooltip="Agregar automovil"
-            type="button">
-          <mat-icon svgIcon="mat:add"></mat-icon>
-        </button>
+
       </div>
 
-      <table @stagger [dataSource]="dataSource" class="w-full" mat-table matSort>
-        <!-- Text Columns -->
+      <table @stagger [dataSource]="dataSource" class="w-full" mat-table matSort
+      (matSortChange)="sortChange($event)">
         <ng-container *ngFor="let column of columns; trackBy: trackByProperty">
           <ng-container *ngIf="column.type === 'text'" [matColumnDef]="column.property">
             <th *matHeaderCellDef class="uppercase" mat-header-cell mat-sort-header> {{ column.label }}</th>
@@ -67,7 +61,7 @@
           <th *matHeaderCellDef mat-header-cell></th>
           <td *matCellDef="let row" class="w-10 text-secondary" mat-cell>
             <button (click)="$event.stopPropagation()"
-                    [matMenuTriggerData]="{ room: row }"
+                    [matMenuTriggerData]="{ car: row }"
                     [matMenuTriggerFor]="actionsMenu"
                     mat-icon-button
                     type="button">
@@ -82,24 +76,17 @@
             class="hover:bg-hover trans-ease-out cursor-pointer"
             mat-row></tr>
       </table>
-
-      <mat-paginator [pageSizeOptions]="pageSizeOptions" [pageSize]="pageSize" class="sticky left-0"></mat-paginator>
+        <ng-container *ngIf="carResponse">
+          <app-paginator [pageSizeOptions]="pageSizeOptions"
+                        [meta]="carResponse.meta"
+                        (onChanges)="paginatorChanges($event)">
+          </app-paginator>
+        </ng-container>
     </div>
   </vex-page-layout-content>
 </vex-page-layout>
 
-<mat-menu #actionsMenu="matMenu" xPosition="before" yPosition="below">
-  <ng-template let-room="room" matMenuContent>
-    <button mat-menu-item>
-      <mat-icon svgIcon="mat:edit"></mat-icon>
-      <span>Modificar</span>
-    </button>
-    <button  mat-menu-item>
-      <mat-icon svgIcon="mat:delete"></mat-icon>
-      <span>Borrar</span>
-    </button>
-  </ng-template>
-</mat-menu>
+
 
 <mat-menu #columnFilterMenu="matMenu" xPosition="before" yPosition="below">
   <button (click)="toggleColumnVisibility(column, $event)" *ngFor="let column of columns"
@@ -108,4 +95,14 @@
       {{ column.label }}
     </mat-checkbox>
   </button>
+</mat-menu>
+
+<mat-menu #actionsMenu="matMenu" xPosition="before" yPosition="below">
+  <ng-template let-car="car" matMenuContent>
+    <button (click)="showChangeStatus(car.id)"
+            mat-menu-item>
+      <mat-icon svgIcon="mat:sync"></mat-icon>
+      <span>Cambiar estatus</span>
+    </button>
+  </ng-template>
 </mat-menu>

@@ -3,7 +3,7 @@ import { fadeInUp400ms } from "../../../../shared/animations/fade-in-up.animatio
 import { stagger40ms } from "../../../../shared/animations/stagger.animation";
 import { TableColumn } from "../../../../shared/interfaces/table-column.interface";
 import { MatTableDataSource } from "@angular/material/table";
-import { RoomModel } from "../../model/room-model";
+import { RoomModel } from "../../model/room.model";
 import { Meta, PaginationResponse } from "../../../../core/interfaces/pagination-response";
 import { RoomService } from "../../services/room.service";
 import { FormControl } from "@angular/forms";

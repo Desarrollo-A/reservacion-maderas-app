@@ -76,17 +76,16 @@
             class="hover:bg-hover trans-ease-out cursor-pointer"
             mat-row></tr>
       </table>
-        <ng-container *ngIf="carResponse">
-          <app-paginator [pageSizeOptions]="pageSizeOptions"
-                        [meta]="carResponse.meta"
-                        (onChanges)="paginatorChanges($event)">
-          </app-paginator>
-        </ng-container>
+
+      <ng-container *ngIf="carResponse">
+        <app-paginator [pageSizeOptions]="pageSizeOptions"
+                      [meta]="carResponse.meta"
+                      (onChanges)="paginatorChanges($event)">
+        </app-paginator>
+      </ng-container>
     </div>
   </vex-page-layout-content>
 </vex-page-layout>
-
-
 
 <mat-menu #columnFilterMenu="matMenu" xPosition="before" yPosition="below">
   <button (click)="toggleColumnVisibility(column, $event)" *ngFor="let column of columns"

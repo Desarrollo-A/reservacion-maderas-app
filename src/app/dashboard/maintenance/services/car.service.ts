@@ -4,7 +4,7 @@ import { map, Observable } from 'rxjs';
 import { PaginationResponse } from 'src/app/core/interfaces/pagination-response';
 import { getPaginateParams } from 'src/app/shared/utils/http-functions';
 import { environment } from 'src/environments/environment';
-import { CarModel } from '../model/car-model';
+import { CarModel } from '../model/car.model';
 
 @Injectable({
   providedIn: 'root'
@@ -35,8 +35,6 @@ export class CarService {
     const url = `${this.url}/${id}`;
     return this.http.get<CarModel>(url);
   }
-
-  
 
   changeStatus(id: number, statusId: number): Observable<void> {
     const url = `${this.url}/change-status/${id}`;

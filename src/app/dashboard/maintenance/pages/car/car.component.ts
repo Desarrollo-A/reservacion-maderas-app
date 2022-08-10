@@ -1,16 +1,13 @@
-import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { MAT_FORM_FIELD_DEFAULT_OPTIONS, MatFormFieldDefaultOptions } from '@angular/material/form-field';
-import { MatPaginator } from '@angular/material/paginator';
-import { MatSort, Sort } from '@angular/material/sort';
+import { Sort } from '@angular/material/sort';
 import { fadeInUp400ms } from 'src/app/shared/animations/fade-in-up.animation';
 import { stagger40ms } from 'src/app/shared/animations/stagger.animation';
 import { TableColumn } from 'src/app/shared/interfaces/table-column.interface';
-import { CarModel } from '../../model/car-model';
-import { Lookup } from 'src/app/core/interfaces/lookup';
+import { CarModel } from '../../model/car.model';
 import { MatTableDataSource } from '@angular/material/table';
-import { Observable, of } from 'rxjs';
-import { FormControl, UntypedFormControl } from '@angular/forms';
-import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
+import { FormControl } from '@angular/forms';
+import { UntilDestroy } from '@ngneat/until-destroy';
 import { Filters, TypesEnum } from 'src/app/core/interfaces/filters';
 import { Meta, PaginationResponse } from 'src/app/core/interfaces/pagination-response';
 import { MatDialog } from '@angular/material/dialog';
@@ -26,15 +23,7 @@ import { ChangeStatusCarComponent } from '../../components/change-status-car/cha
   animations: [
     fadeInUp400ms,
     stagger40ms
-  ],
-  providers: [
-    {
-      provide: MAT_FORM_FIELD_DEFAULT_OPTIONS,
-      useValue:{
-        appearance: 'standard'
-      } as MatFormFieldDefaultOptions
-    }
-  ],
+  ]
 })
 export class CarComponent implements OnInit {
   carResponse: PaginationResponse<CarModel>;
@@ -84,6 +73,7 @@ export class CarComponent implements OnInit {
       });
     });
   }
+
   sortChange(sortState: Sort): void {
     const sort = getSort(sortState);
     this.orderBy = (sort.length === 0) ? '' : sort;

@@ -1,6 +1,6 @@
 <div class="container p-gutter grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
-  <vex-widget-assistant class="col-span-1 sm:col-span-2 md:col-span-4"></vex-widget-assistant>
-
+  <vex-widget-assistant class="col-span-1 sm:col-span-2 md:col-span-4" *ngIf="userRole"></vex-widget-assistant>
+ 
   <vex-widget-quick-value-center [change]="124.4"
                                  icon="mat:group"
                                  iconClass="text-primary bg-primary/10"

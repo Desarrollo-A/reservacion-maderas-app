@@ -17,6 +17,7 @@ import { DeleteConfirmComponent } from "../../../../shared/components/delete-con
 import { of, switchMap } from "rxjs";
 import { ToastrService } from "ngx-toastr";
 import { UpdateStockComponent } from "../../components/update-stock/update-stock.component";
+import { UpdateImageComponent } from "../../components/update-image/update-image.component";
 
 @UntilDestroy()
 @Component({
@@ -33,7 +34,9 @@ export class InventoryComponent implements OnInit {
   inventoryResponse: PaginationResponse<InventoryModel>;
   dataSource: MatTableDataSource<InventoryModel> | null;
   columns: TableColumn<InventoryModel>[] = [
+    {label: 'Imagen', property: 'image', visible: true },
     {label: 'Nombre', property: 'name', visible: true},
+    {label: 'Marca', property: 'trademark', visible: true},
     {label: 'Descripción', property: 'description', visible: true},
     {label: 'Stock', property: 'stock', visible: true},
     {label: 'Estatus', property: 'status', visible: true},
@@ -105,6 +108,17 @@ export class InventoryComponent implements OnInit {
     });
   }
 
+  changeImage(id: number): void {
+    this.inventoryService.findById(id).subscribe(inventory => {
+      this.dialog.open(UpdateImageComponent, { data: inventory, autoFocus: false })
+        .afterClosed().subscribe(updated => {
+          if (updated) {
+            this.prepareFilters();
+          }
+        });
+    });
+  }
+
   sortChange(sortState: Sort): void {
     this.orderBy = getSort(sortState);
     this.prepareFilters();
@@ -134,6 +148,7 @@ export class InventoryComponent implements OnInit {
     }
 
     this.generateFilter('name', TypesEnum.String, filter);
+    this.generateFilter('trademark', TypesEnum.String, filter);
     this.generateFilter('description', TypesEnum.String, filter);
     this.generateFilter('lookup', TypesEnum.String, filter);
     if (!isNaN(Number(filter))) {

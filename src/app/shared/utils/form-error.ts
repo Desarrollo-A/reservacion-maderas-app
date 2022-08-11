@@ -11,6 +11,10 @@ export class FormErrors {
     return this.form.get(field)?.hasError(error) && this.form.get(field)?.touched;
   }
 
+  public customErrorFile(field: string, error: string): boolean | undefined {
+    return this.form.get(field)?.hasError(error);
+  }
+
   public errorObject(field: string, error: string): any {
     return this.form.get(field)?.getError(error);
   }

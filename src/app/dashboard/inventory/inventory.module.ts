@@ -10,13 +10,16 @@ import { PaginatorModule } from "../../shared/components/paginator/paginator.mod
 import { ItemCreateUpdateComponent } from './components/item-create-update/item-create-update.component';
 import { DeleteConfirmModule } from "../../shared/components/delete-confirm/delete-confirm.module";
 import { UpdateStockComponent } from './components/update-stock/update-stock.component';
+import { ImageModule } from "../../shared/pipes/image/image.module";
+import { UpdateImageComponent } from './components/update-image/update-image.component';
 
 
 @NgModule({
   declarations: [
     InventoryComponent,
     ItemCreateUpdateComponent,
-    UpdateStockComponent
+    UpdateStockComponent,
+    UpdateImageComponent
   ],
   imports: [
     CommonModule,
@@ -26,7 +29,8 @@ import { UpdateStockComponent } from './components/update-stock/update-stock.com
     FormsModule,
     ReactiveFormsModule,
     PaginatorModule,
-    DeleteConfirmModule
+    DeleteConfirmModule,
+    ImageModule
   ]
 })
 export class InventoryModule { }

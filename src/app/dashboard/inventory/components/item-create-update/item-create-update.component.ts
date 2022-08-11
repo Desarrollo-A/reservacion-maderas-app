@@ -38,6 +38,7 @@ export class ItemCreateUpdateComponent implements OnInit {
       name: [this.data?.name ?? '', [Validators.required, Validators.minLength(3), Validators.maxLength(50)]],
       description: [this.data?.description ?? null],
       minimumStock: [this.data?.minimumStock ?? 0, [Validators.required, Validators.min(0), Validators.max(100)]],
+      trademark: [this.data?.trademark ?? null, [Validators.maxLength(100)]],
       typeId: [this.data?.typeId ?? null, [Validators.required]],
       unitId: [this.data?.unitId ?? null, [Validators.required]],
       meeting: [this.data?.meeting ?? null, [Validators.min(1), Validators.max(25)]],

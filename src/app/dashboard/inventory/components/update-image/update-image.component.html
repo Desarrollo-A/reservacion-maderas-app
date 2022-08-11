@@ -1,0 +1,43 @@
+<div class="flex items-center" mat-dialog-title>
+  <h2 class="headline m-0 flex-auto">Cambiar imagen</h2>
+
+  <button class="text-secondary" mat-dialog-close mat-icon-button type="button">
+    <mat-icon svgIcon="mat:close"></mat-icon>
+  </button>
+</div>
+
+<mat-divider class="-mx-6 text-border"></mat-divider>
+
+<mat-dialog-content class="flex flex-col mt-2 justify-center">
+  <div class="mx-auto">
+    <img *ngIf="!imgTemp" class="h-52 w-52 object-cover rounded" [src]="data.image|image" [alt]="data.name">
+    <img *ngIf="imgTemp" class="h-52 w-52 object-cover rounded" [src]="imgTemp" [alt]="data.name">
+  </div>
+
+  <form [formGroup]="form" class="mb-3 w-96 mt-3">
+    <label for="file"
+           class="form-label inline-block mb-2 text-gray-700">
+      Seleccione una imagen
+    </label>
+    <input class="block w-full px-2 py-1 text-sm font-normal text-gray-700 bg-white bg-clip-padding
+      border border-solid border-gray-300 rounded transition ease-in-out m-0
+      focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
+           id="file"
+           type="file"
+           accept="image/*"
+           formControlName="image"
+           (change)="changeImage($event.target['files'][0])">
+
+    <mat-error *ngIf="formErrors.customError('image', 'required')">
+      Campo obligatorio.
+    </mat-error>
+    <mat-error *ngIf="formErrors.customErrorFile('imageSrc', 'imageSize')">
+      El tamaño de la imagen debe ser menor a 2mb.
+    </mat-error>
+  </form>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-button mat-dialog-close type="button">Cancelar</button>
+  <button color="primary" mat-flat-button (click)="save()">Guardar</button>
+</mat-dialog-actions>

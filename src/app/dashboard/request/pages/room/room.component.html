@@ -29,6 +29,9 @@
                 {{ room.name }} - Oficina {{ room.office.name }}
               </mat-option>
             </mat-select>
+            <mat-error *ngIf="formErrors.customError('roomId', 'required')">
+              Campo obligatorio.
+            </mat-error>
           </mat-form-field>
         </div>
 
@@ -148,7 +151,7 @@
           <button color="primary"
                   mat-raised-button
                   type="button"
-                  (click)="save($event)">
+                  (click)="save()">
             Agendar
           </button>
         </div>

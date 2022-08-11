@@ -11,7 +11,7 @@
     <div class="card overflow-auto -mt-16">
       <div class="bg-app-bar px-6 h-16 border-b sticky left-0 flex items-center">
         <h2 class="title my-0 ltr:pr-4 rtl:pl-4 ltr:mr-4 rtl:ml-4 ltr:border-r rtl:border-l hidden sm:block flex-none">
-          <span>Articulos</span>
+          <span>Artículos</span>
         </h2>
 
         <div class="bg-foreground rounded-full border px-4 max-w-[300px] flex-auto flex items-center border border-gray-300">
@@ -43,10 +43,24 @@
 
       <table @stagger [dataSource]="dataSource" class="w-full" mat-table matSort
              (matSortChange)="sortChange($event)">
+        <!-- Image Column -->
+        <ng-container matColumnDef="image">
+          <th *matHeaderCellDef mat-header-cell></th>
+          <td *matCellDef="let row" class="w-8 min-w-8 pr-0" mat-cell>
+            <img [alt]="row.name" [src]="row.image|image" class="avatar h-8 w-8 align-middle">
+          </td>
+        </ng-container>
+
         <!-- Nombre columna -->
         <ng-container matColumnDef="name">
           <th *matHeaderCellDef class="uppercase" mat-header-cell mat-sort-header>Nombre</th>
           <td *matCellDef="let row" mat-cell>{{ row.name }}</td>
+        </ng-container>
+
+        <!-- Marca columna -->
+        <ng-container matColumnDef="trademark">
+          <th *matHeaderCellDef class="uppercase" mat-header-cell mat-sort-header>Marca</th>
+          <td *matCellDef="let row" mat-cell>{{ row.trademark }}</td>
         </ng-container>
 
         <!-- Descripción columna -->
@@ -142,6 +156,10 @@
     <button mat-menu-item (click)="changeStock(inventory.id)">
       <mat-icon svgIcon="mat:swap_vert"></mat-icon>
       <span>Cambiar stock</span>
+    </button>
+    <button mat-menu-item (click)="changeImage(inventory.id)">
+      <mat-icon svgIcon="mat:image"></mat-icon>
+      <span>Cambiar imagen</span>
     </button>
   </ng-template>
 </mat-menu>

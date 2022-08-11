@@ -5,7 +5,7 @@ import { StateModel } from "../../../../core/models/state.model";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { FormErrors } from "../../../../shared/utils/form-error";
 import { StateService } from "../../../../core/services/state.service";
-import { forkJoin, of, switchMap, tap } from "rxjs";
+import { forkJoin, switchMap, tap } from "rxjs";
 import { RoomModel } from "../../../maintenance/model/room.model";
 import { RoomService } from "../../../maintenance/services/room.service";
 import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
@@ -82,7 +82,7 @@ export class RoomComponent implements OnInit {
     }
   }
 
-  save(e): void {
+  save(): void {
     if (this.form.invalid) {
       this.form.markAllAsTouched();
       return;

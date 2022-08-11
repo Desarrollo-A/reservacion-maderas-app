@@ -42,6 +42,15 @@ export class InventoryService {
     return this.http.patch<void>(url, { stock });
   }
 
+  updateImage(id: number, image: File): Observable<void> {
+    const data = new FormData();
+    data.append('image', image);
+    data.append('_method', 'PUT');
+
+    const url = `${this.url}/image/${id}`;
+    return this.http.post<void>(url, data);
+  }
+
   store(inventory: InventoryModel): Observable<InventoryModel> {
     return this.http.post<InventoryModel>(this.url, inventory);
   }

@@ -6,6 +6,8 @@ export class InventoryModel {
   name: string;
   description?: string;
   stock: number;
+  trademark?: number;
+  image: string;
   minimumStock: number;
   meeting?: number;
   status: boolean;
@@ -21,6 +23,8 @@ export class InventoryModel {
     this.name = inventory.name;
     this.description = inventory.description;
     this.stock = inventory.stock;
+    this.trademark = inventory.trademark;
+    this.image = inventory.image;
     this.minimumStock = inventory.minimumStock;
     this.meeting = inventory.meeting;
     this.status = inventory.status;

@@ -3,6 +3,7 @@ import { startOfDay } from "date-fns";
 
 const START_WORKING_HOUR = 8;
 const FINISH_WORKING_HOUR = 18;
+const SIZE_IMAGE = 2097152;
 
 export const comparePassword = (password: string, confirmPassword: string) => {
   return (formGroup: AbstractControl): ValidationErrors | null => {
@@ -17,6 +18,18 @@ export const comparePassword = (password: string, confirmPassword: string) => {
     formGroup.get(confirmPassword)?.setErrors(null);
     return null;
   }
+}
+
+export const sizeImage = (control: FormControl): ValidationErrors | null => {
+  if (control.value) {
+    const file: File = control.value;
+
+    if (file.size > SIZE_IMAGE) {
+      return { imageSize: true };
+    }
+  }
+
+  return null;
 }
 
 export const dateBeforeNow = (control: FormControl): ValidationErrors | null => {

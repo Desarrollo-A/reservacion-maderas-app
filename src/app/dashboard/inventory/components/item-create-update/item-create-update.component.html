@@ -10,7 +10,7 @@
   <mat-divider class="-mx-6 text-border"></mat-divider>
 
   <mat-dialog-content class="flex flex-col gap-2 mt-4">
-    <div class="flex flex-col md:flex-row md:gap-3">
+    <div class="flex flex-col sm:flex-row sm:gap-3">
       <mat-form-field class="flex-auto">
         <mat-label>Nombre</mat-label>
         <input cdkFocusInitial
@@ -29,6 +29,19 @@
         </mat-error>
       </mat-form-field>
 
+      <mat-form-field class="flex-auto">
+        <mat-label>Marca</mat-label>
+        <input matInput
+               type="text"
+               formControlName="trademark">
+
+        <mat-error *ngIf="formErrors.customError('trademark', 'maxlength')">
+          La marca debe tener menos de {{ formErrors.maxLengthNumber('trademark') }} caracteres.
+        </mat-error>
+      </mat-form-field>
+    </div>
+
+    <div class="flex flex-col sm:flex-row sm:gap-3">
       <mat-form-field class="flex-auto" *ngIf="!data">
         <mat-label>Stock Inicial</mat-label>
         <input matInput

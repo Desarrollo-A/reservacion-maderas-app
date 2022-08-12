@@ -1,0 +1,89 @@
+<vex-page-layout mode="card">
+
+  <vex-page-layout-header class="flex flex-col items-start justify-center">
+    <div class="container">
+      <h2 class="title m-0">Detalle de la solicitud</h2>
+      <vex-breadcrumbs [crumbs]="breadcrumbs"></vex-breadcrumbs>
+    </div>
+  </vex-page-layout-header>
+
+  <vex-page-layout-content class="container">
+    <div class="card p-6">
+      <div class="flex">
+        <h2 class="m-0 title mb-6">Sala Carranza</h2>
+
+        <span class="flex-1"></span>
+
+        <div class="flex items-center">
+          <button class="rounded -mt-6 px-3 py-2 text-sm flex-none text-primary bg-primary/10">
+            Nueva
+          </button>
+        </div>
+      </div>
+
+      <mat-divider class="-mx-6 text-border"></mat-divider>
+
+      <div @fadeInUp class="flex-auto">
+        <div class="px-6 py-4 flex flex-col">
+          <div class="flex flex-col sm:flex-row sm:gap-4">
+            <mat-form-field class="flex-auto">
+              <mat-label>Solicitante</mat-label>
+              <input matInput readonly value="Jorge Coronel González">
+            </mat-form-field>
+
+            <mat-form-field class="flex-auto">
+              <mat-label>Puesto</mat-label>
+              <input matInput readonly value="Programador JR">
+            </mat-form-field>
+          </div>
+
+          <div class="flex flex-col sm:flex-row sm:gap-4">
+            <mat-form-field class="flex-auto">
+              <mat-label>Oficina</mat-label>
+              <input matInput readonly value="Venustiano Carranza">
+            </mat-form-field>
+
+            <mat-form-field class="flex-auto">
+              <mat-label>Tipo de reunión</mat-label>
+              <input matInput readonly value="Administrativa">
+            </mat-form-field>
+          </div>
+
+          <div class="flex flex-col md:flex-row md:gap-4">
+            <mat-form-field class="flex-auto">
+              <mat-label>Fecha reservación</mat-label>
+              <input matInput readonly value="19/08/2022">
+            </mat-form-field>
+
+            <mat-form-field class="flex-auto">
+              <mat-label>Hora inicio</mat-label>
+              <input matInput readonly value="08:00 AM">
+            </mat-form-field>
+
+            <mat-form-field class="flex-auto">
+              <mat-label>Hora fin</mat-label>
+              <input matInput readonly value="09:00 AM">
+            </mat-form-field>
+          </div>
+
+          <div class="flex flex-col sm:flex-row sm:gap-4">
+            <mat-form-field class="flex-auto">
+              <mat-label>N° de personas a ingresar</mat-label>
+              <input matInput readonly value="10">
+            </mat-form-field>
+
+            <mat-form-field class="flex-auto">
+              <mat-label>N° de personas externas</mat-label>
+              <input matInput readonly value="2">
+            </mat-form-field>
+          </div>
+
+          <mat-form-field class="flex-auto">
+            <mat-label>Comentarios</mat-label>
+            <textarea matInput readonly>Viene el jefazo, por favor, que todo esté en orden.</textarea>
+          </mat-form-field>
+        </div>
+      </div>
+    </div>
+  </vex-page-layout-content>
+</vex-page-layout>

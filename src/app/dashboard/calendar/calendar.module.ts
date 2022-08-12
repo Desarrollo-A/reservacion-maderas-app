@@ -9,6 +9,7 @@ import { adapterFactory } from "angular-calendar/date-adapters/date-fns";
 import { ScrollbarModule } from "../../shared/components/scrollbar/scrollbar.module";
 import { ReactiveFormsModule } from "@angular/forms";
 import { PageLayoutModule } from "../../shared/components/page-layout/page-layout.module";
+import { PageNotFoundModule } from "../../shared/components/page-not-found/page-not-found.module";
 
 
 @NgModule({
@@ -25,7 +26,8 @@ import { PageLayoutModule } from "../../shared/components/page-layout/page-layou
     }),
     ScrollbarModule,
     ReactiveFormsModule,
-    PageLayoutModule
+    PageLayoutModule,
+    PageNotFoundModule
   ]
 })
 export class CalendarModule { }

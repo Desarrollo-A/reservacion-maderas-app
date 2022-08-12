@@ -11,6 +11,7 @@ import {
   WidgetLargeGoalChartModule
 } from "../../shared/components/widgets/widget-large-goal-chart/widget-large-goal-chart.module";
 import { WidgetAssistantModule } from "../../shared/components/widgets/widget-assistant/widget-assistant.module";
+import { PageNotFoundModule } from "../../shared/components/page-not-found/page-not-found.module";
 
 
 @NgModule({
@@ -23,7 +24,8 @@ import { WidgetAssistantModule } from "../../shared/components/widgets/widget-as
     MaterialModule,
     WidgetQuickValueCenterModule,
     WidgetLargeGoalChartModule,
-    WidgetAssistantModule
+    WidgetAssistantModule,
+    PageNotFoundModule
   ]
 })
 export class HomeModule { }

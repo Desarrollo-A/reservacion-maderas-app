@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { CalendarComponent} from "./pages/calendar/calendar.component";
+import { PageNotFoundComponent } from "../../shared/components/page-not-found/page-not-found.component";
 
 const routes: Routes = [
   {
@@ -12,7 +13,7 @@ const routes: Routes = [
       scrollDisabled: true
     }
   },
-  { path: '**', redirectTo: '' }
+  { path: '**', component: PageNotFoundComponent }
 ];
 
 @NgModule({

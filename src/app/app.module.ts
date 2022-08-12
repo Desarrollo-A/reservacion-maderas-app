@@ -13,6 +13,7 @@ import { ErrorInterceptor } from "./core/interceptors/error.interceptor";
 import { TokenInterceptor } from "./core/interceptors/token.interceptor";
 import { registerLocaleData } from "@angular/common";
 import localeMX from '@angular/common/locales/es-MX';
+import { PageNotFoundModule } from "./shared/components/page-not-found/page-not-found.module";
 
 registerLocaleData(localeMX);
 
@@ -25,7 +26,8 @@ registerLocaleData(localeMX);
     HttpClientModule,
     ToastrModule.forRoot(),
     CoreModule,
-    SharedModule
+    SharedModule,
+    PageNotFoundModule
   ],
   providers: [
     {

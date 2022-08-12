@@ -29,7 +29,7 @@ export class ToolbarUserDropdownComponent implements OnInit {
   logout() {
     this.authService.logout().subscribe(() => {
       this.popoverRef.close();
-      this.router.navigateByUrl('/acceso');
+      this.router.navigateByUrl('/auth/acceso');
     });
   }
 

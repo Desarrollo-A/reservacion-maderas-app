@@ -3,9 +3,14 @@ import { RouterModule, Routes } from '@angular/router';
 import { LoginComponent } from "./pages/login/login.component";
 import { ForgotPasswordComponent } from "./pages/forgot-password/forgot-password.component";
 import { RegisterComponent } from "./pages/register/register.component";
-import { LoginGuard } from '../core/guards/login.guard';
+import { PageNotFoundComponent } from "../shared/components/page-not-found/page-not-found.component";
 
 const routes: Routes = [
+  {
+    path: '',
+    redirectTo: 'acceso',
+    pathMatch: 'full'
+  },
   {
     path: 'acceso',
     component: LoginComponent,
@@ -21,7 +26,7 @@ const routes: Routes = [
     component: RegisterComponent,
     title: 'Registrar una cuenta',
   },
-  { path: '**', redirectTo: 'acceso' }
+  { path: '**', component: PageNotFoundComponent }
 ];
 
 @NgModule({

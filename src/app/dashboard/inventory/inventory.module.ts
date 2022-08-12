@@ -12,6 +12,7 @@ import { DeleteConfirmModule } from "../../shared/components/delete-confirm/dele
 import { UpdateStockComponent } from './components/update-stock/update-stock.component';
 import { ImageModule } from "../../shared/pipes/image/image.module";
 import { UpdateImageComponent } from './components/update-image/update-image.component';
+import { PageNotFoundModule } from "../../shared/components/page-not-found/page-not-found.module";
 
 
 @NgModule({
@@ -30,7 +31,8 @@ import { UpdateImageComponent } from './components/update-image/update-image.com
     ReactiveFormsModule,
     PaginatorModule,
     DeleteConfirmModule,
-    ImageModule
+    ImageModule,
+    PageNotFoundModule
   ]
 })
 export class InventoryModule { }

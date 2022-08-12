@@ -10,6 +10,7 @@ import { Filters, TypesEnum } from "../../../../core/interfaces/filters";
 import { RequestRoomService } from "../../../request/services/request-room.service";
 import { Sort } from "@angular/material/sort";
 import { getSort } from "../../../../shared/utils/http-functions";
+import { Breadcrumbs } from "../../../../shared/components/breadcrumbs/breadcrumbs.model";
 
 @Component({
   selector: 'app-room',

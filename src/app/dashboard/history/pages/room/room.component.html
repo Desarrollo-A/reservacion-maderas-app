@@ -3,6 +3,7 @@
     <div class="container w-full flex flex-col sm:flex-row justify-between">
       <div>
         <h1 class="title mt-0 mb-1">Historial</h1>
+        <vex-breadcrumbs></vex-breadcrumbs>
       </div>
     </div>
   </vex-page-layout-header>
@@ -124,9 +125,9 @@
 
 <mat-menu #actionsMenu="matMenu" xPosition="before" yPosition="below">
   <ng-template let-room="room" matMenuContent>
-    <button mat-menu-item>
+    <a mat-menu-item [routerLink]="['/dashboard/historial/sala', room.id]">
       <mat-icon svgIcon="mat:visibility"></mat-icon>
       <span>Detalle</span>
-    </button>
+    </a>
   </ng-template>
 </mat-menu>

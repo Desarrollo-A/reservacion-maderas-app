@@ -9,13 +9,16 @@ import { MaterialModule } from "../../material/material.module";
 import { PageLayoutModule } from "../../shared/components/page-layout/page-layout.module";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { PaginatorModule } from "../../shared/components/paginator/paginator.module";
+import { RoomDetailComponent } from './pages/room-detail/room-detail.component';
+import { BreadcrumbsModule } from "../../shared/components/breadcrumbs/breadcrumbs.module";
 
 
 @NgModule({
   declarations: [
     RoomComponent,
     CarComponent,
-    DriverComponent
+    DriverComponent,
+    RoomDetailComponent
   ],
   imports: [
     CommonModule,
@@ -24,7 +27,8 @@ import { PaginatorModule } from "../../shared/components/paginator/paginator.mod
     PageLayoutModule,
     FormsModule,
     ReactiveFormsModule,
-    PaginatorModule
+    PaginatorModule,
+    BreadcrumbsModule
   ]
 })
 export class HistoryModule { }

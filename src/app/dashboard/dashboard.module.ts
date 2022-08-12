@@ -10,6 +10,7 @@ import { ConfigPanelModule } from "../shared/components/config-panel/config-pane
 import { SidebarModule } from "../shared/components/sidebar/sidebar.module";
 import { QuickpanelModule } from "../shared/layout/quickpanel/quickpanel.module";
 import { DashboardComponent } from "./dashboard.component";
+import { PageNotFoundModule } from "../shared/components/page-not-found/page-not-found.module";
 
 
 @NgModule({
@@ -25,7 +26,8 @@ import { DashboardComponent } from "./dashboard.component";
     ConfigPanelModule,
     SidebarModule,
     QuickpanelModule,
-    DashboardRoutingModule
+    DashboardRoutingModule,
+    PageNotFoundModule
   ]
 })
 export class DashboardModule { }

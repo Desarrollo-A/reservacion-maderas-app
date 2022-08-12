@@ -10,6 +10,7 @@ import { CarComponent } from './pages/car/car.component';
 import { PaginatorModule } from "../../shared/components/paginator/paginator.module";
 import { ChangeStatusRoomComponent } from './components/change-status-room/change-status-room.component';
 import { ChangeStatusCarComponent } from './components/change-status-car/change-status-car.component';
+import { PageNotFoundModule } from "../../shared/components/page-not-found/page-not-found.module";
 
 
 @NgModule({
@@ -26,7 +27,8 @@ import { ChangeStatusCarComponent } from './components/change-status-car/change-
     PaginatorModule,
     PageLayoutModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    PageNotFoundModule
   ]
 })
 export class MaintenanceModule { }

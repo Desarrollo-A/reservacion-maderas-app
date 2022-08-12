@@ -11,6 +11,7 @@ import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { PaginatorModule } from "../../shared/components/paginator/paginator.module";
 import { RoomDetailComponent } from './pages/room-detail/room-detail.component';
 import { BreadcrumbsModule } from "../../shared/components/breadcrumbs/breadcrumbs.module";
+import { PageNotFoundModule } from "../../shared/components/page-not-found/page-not-found.module";
 
 
 @NgModule({
@@ -28,7 +29,8 @@ import { BreadcrumbsModule } from "../../shared/components/breadcrumbs/breadcrum
     FormsModule,
     ReactiveFormsModule,
     PaginatorModule,
-    BreadcrumbsModule
+    BreadcrumbsModule,
+    PageNotFoundModule
   ]
 })
 export class HistoryModule { }

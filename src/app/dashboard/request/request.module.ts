@@ -7,6 +7,7 @@ import { DriverComponent } from './pages/driver/driver.component';
 import { CarComponent } from './pages/car/car.component';
 import { MaterialModule } from "../../material/material.module";
 import { ReactiveFormsModule } from "@angular/forms";
+import { PageNotFoundModule } from "../../shared/components/page-not-found/page-not-found.module";
 
 
 @NgModule({
@@ -19,7 +20,8 @@ import { ReactiveFormsModule } from "@angular/forms";
     CommonModule,
     RequestRoutingModule,
     MaterialModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    PageNotFoundModule
   ]
 })
 export class RequestModule { }

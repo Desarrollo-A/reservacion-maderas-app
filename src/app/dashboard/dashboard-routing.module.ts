@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { DashboardComponent } from "./dashboard.component";
+import { PageNotFoundComponent } from "../shared/components/page-not-found/page-not-found.component";
 
 const routes: Routes = [
   { path: '', redirectTo: 'inicio', pathMatch: 'full' },
@@ -38,9 +39,10 @@ const routes: Routes = [
       {
         path: 'mantenimiento',
         loadChildren: () => import('./maintenance/maintenance.module').then(m => m.MaintenanceModule)
-      }
+      },
+      { path: '**', component: PageNotFoundComponent }
     ]
-  },
+  }
 ];
 
 @NgModule({

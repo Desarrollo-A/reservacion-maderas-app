@@ -1,10 +1,10 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { FormControl, UntypedFormControl } from '@angular/forms';
-import { MatFormFieldDefaultOptions, MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field';
+import { UntypedFormControl } from '@angular/forms';
+import { MAT_FORM_FIELD_DEFAULT_OPTIONS, MatFormFieldDefaultOptions } from '@angular/material/form-field';
 import { MatPaginator } from '@angular/material/paginator';
-import { MatSort, Sort } from '@angular/material/sort';
+import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
-import { untilDestroyed } from '@ngneat/until-destroy';
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { Observable, of } from 'rxjs';
 import { NameRol } from 'src/app/core/enums/name-rol';
 import { Lookup } from 'src/app/core/interfaces/lookup';
@@ -13,6 +13,7 @@ import { stagger40ms } from 'src/app/shared/animations/stagger.animation';
 import { TableColumn } from 'src/app/shared/interfaces/table-column.interface';
 import { UserModel } from '../../models/user.model';
 
+@UntilDestroy()
 @Component({
   selector: 'app-user-list',
   templateUrl: './user-list.component.html',
@@ -68,7 +69,7 @@ sort: MatSort;
       untilDestroyed(this)
     ).subscribe(value => this.onFilterChange(value));
   }
-  
+
 
   ngAfterViewInit(): void {
     this.dataSource.paginator = this.paginator;

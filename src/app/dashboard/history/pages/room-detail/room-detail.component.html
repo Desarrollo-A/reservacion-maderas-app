@@ -7,10 +7,10 @@
     </div>
   </vex-page-layout-header>
 
-  <vex-page-layout-content class="container">
+  <vex-page-layout-content class="container" *ngIf="requestRoom">
     <div class="card p-6">
       <div class="flex">
-        <h2 class="m-0 title mb-6">Sala Carranza</h2>
+        <h2 class="m-0 title mb-6">Sala <b>{{requestRoom.room.name}}</b></h2>
 
         <span class="flex-1"></span>
 
@@ -28,59 +28,59 @@
           <div class="flex flex-col sm:flex-row sm:gap-4">
             <mat-form-field class="flex-auto">
               <mat-label>Solicitante</mat-label>
-              <input matInput readonly value="Jorge Coronel González">
+              <input matInput readonly [value]="requestRoom.request.user.fullName">
             </mat-form-field>
 
             <mat-form-field class="flex-auto">
               <mat-label>Puesto</mat-label>
-              <input matInput readonly value="Programador JR">
+              <input matInput readonly [value]="requestRoom.request.user.position">
             </mat-form-field>
           </div>
 
           <div class="flex flex-col sm:flex-row sm:gap-4">
             <mat-form-field class="flex-auto">
               <mat-label>Oficina</mat-label>
-              <input matInput readonly value="Venustiano Carranza">
+              <input matInput readonly [value]="requestRoom.room.office.name">
             </mat-form-field>
 
             <mat-form-field class="flex-auto">
               <mat-label>Tipo de reunión</mat-label>
-              <input matInput readonly value="Administrativa">
+              <input matInput readonly [value]="requestRoom.level.name">
             </mat-form-field>
           </div>
 
           <div class="flex flex-col md:flex-row md:gap-4">
             <mat-form-field class="flex-auto">
               <mat-label>Fecha reservación</mat-label>
-              <input matInput readonly value="19/08/2022">
+              <input matInput readonly [value]="requestRoom.request.startDate|date:'dd-MM-y'">
             </mat-form-field>
 
             <mat-form-field class="flex-auto">
               <mat-label>Hora inicio</mat-label>
-              <input matInput readonly value="08:00 AM">
+              <input matInput readonly [value]="requestRoom.request.startDate|date:'h:mm a'">
             </mat-form-field>
 
             <mat-form-field class="flex-auto">
               <mat-label>Hora fin</mat-label>
-              <input matInput readonly value="09:00 AM">
+              <input matInput readonly [value]="requestRoom.request.endDate|date:'h:mm a'">
             </mat-form-field>
           </div>
 
           <div class="flex flex-col sm:flex-row sm:gap-4">
             <mat-form-field class="flex-auto">
               <mat-label>N° de personas a ingresar</mat-label>
-              <input matInput readonly value="10">
+              <input matInput readonly [value]="requestRoom.request.people.toString()">
             </mat-form-field>
 
             <mat-form-field class="flex-auto">
               <mat-label>N° de personas externas</mat-label>
-              <input matInput readonly value="2">
+              <input matInput readonly [value]="requestRoom.externalPeople.toString()">
             </mat-form-field>
           </div>
 
           <mat-form-field class="flex-auto">
             <mat-label>Comentarios</mat-label>
-            <textarea matInput readonly>Viene el jefazo, por favor, que todo esté en orden.</textarea>
+            <textarea matInput readonly [value]="requestRoom.request.comment"></textarea>
           </mat-form-field>
         </div>
       </div>

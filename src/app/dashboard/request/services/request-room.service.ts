@@ -7,6 +7,7 @@ import { PaginationResponse } from "../../../core/interfaces/pagination-response
 import { RequestRoomViewModel } from "../../history/models/request-room-view.model";
 import { getPaginateParams } from "../../../shared/utils/http-functions";
 import { map } from "rxjs/operators";
+import { RequestRoomModel } from "../models/request-room.model";
 
 @Injectable({
   providedIn: 'root'
@@ -35,5 +36,10 @@ export class RequestRoomService {
 
   store(data: RequestModel): Observable<void> {
     return this.http.post<void>(this.url, data);
+  }
+
+  findByRequestId(id: number): Observable<RequestRoomModel> {
+    const url = `${this.url}/${id}`;
+    return this.http.get<RequestRoomModel>(url);
   }
 }

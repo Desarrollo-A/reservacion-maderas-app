@@ -17,6 +17,7 @@ export class UserModel {
   officeId: number;
   office: OfficeModel;
   isRecepcionist?: boolean;
+  role: Lookup;
 
   constructor(user) {
     this.id = user.id;
@@ -33,5 +34,20 @@ export class UserModel {
     this.roleId = user.roleId;
     this.officeId = user.officeId;
     this.office = user.office;
+    this.role = user.role;
+  }
+
+  get statusName(): string {
+    return this.status.name;
+  }
+
+  get labelStatus(): { text: string, textClass: string, bgClass: string } {
+    if (this.statusName === 'Activo') {
+      return { text: this.statusName, textClass: 'text-green', bgClass: 'bg-green-light' };
+    } else if (this.statusName === 'Inactivo') {
+      return { text: this.statusName, textClass: 'text-red', bgClass: 'bg-red-light' };
+    } else if (this.statusName === 'Bloqueado'){
+      return { text: this.statusName, textClass: 'text-gray', bgClass: 'bg-gray-light' };
+    }
   }
 }

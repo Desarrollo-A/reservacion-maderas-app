@@ -13,6 +13,7 @@ import { UpdateStockComponent } from './components/update-stock/update-stock.com
 import { ImageModule } from "../../shared/pipes/image/image.module";
 import { UpdateImageComponent } from './components/update-image/update-image.component';
 import { PageNotFoundModule } from "../../shared/components/page-not-found/page-not-found.module";
+import { BreadcrumbsModule } from 'src/app/shared/components/breadcrumbs/breadcrumbs.module';
 
 
 @NgModule({
@@ -32,7 +33,8 @@ import { PageNotFoundModule } from "../../shared/components/page-not-found/page-
     PaginatorModule,
     DeleteConfirmModule,
     ImageModule,
-    PageNotFoundModule
+    PageNotFoundModule,
+    BreadcrumbsModule
   ]
 })
 export class InventoryModule { }

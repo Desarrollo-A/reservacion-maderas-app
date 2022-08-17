@@ -15,8 +15,11 @@
         <span class="flex-1"></span>
 
         <div class="flex items-center">
-          <button class="rounded -mt-6 px-3 py-2 text-sm flex-none text-primary bg-primary/10">
-            Nueva
+          <button [ngClass]="[requestRoom.request.labelStatus.textClass, requestRoom.request.labelStatus.bgClass]"
+                  class="rounded -mt-6 px-3 py-2 text-sm flex-none text-primary bg-primary/10"
+                  [matMenuTriggerFor]="statusMenu"
+                  [disabled]="statusChange.length === 0">
+            {{ requestRoom.request.statusName }}
           </button>
         </div>
       </div>
@@ -84,6 +87,18 @@
           </mat-form-field>
         </div>
       </div>
+
+      <app-snack-detail [snacks]="requestRoom.request.inventories"></app-snack-detail>
     </div>
   </vex-page-layout-content>
 </vex-page-layout>
+
+<mat-menu #statusMenu="matMenu" xPosition="before" yPosition="below">
+  <ng-template matMenuContent>
+    <ng-container *ngFor="let status of statusChange">
+      <button mat-menu-item>
+        <span>{{ status.name }}</span>
+      </button>
+    </ng-container>
+  </ng-template>
+</mat-menu>

@@ -12,6 +12,9 @@ import { PaginatorModule } from "../../shared/components/paginator/paginator.mod
 import { RoomDetailComponent } from './pages/room-detail/room-detail.component';
 import { BreadcrumbsModule } from "../../shared/components/breadcrumbs/breadcrumbs.module";
 import { PageNotFoundModule } from "../../shared/components/page-not-found/page-not-found.module";
+import { SnackDetailComponent } from './components/snack-detail/snack-detail.component';
+import { SnackAssignComponent } from './components/snack-assign/snack-assign.component';
+import { SimplePaginatorModule } from "../../shared/components/simple-paginator/simple-paginator.module";
 
 
 @NgModule({
@@ -19,7 +22,9 @@ import { PageNotFoundModule } from "../../shared/components/page-not-found/page-
     RoomComponent,
     CarComponent,
     DriverComponent,
-    RoomDetailComponent
+    RoomDetailComponent,
+    SnackDetailComponent,
+    SnackAssignComponent
   ],
   imports: [
     CommonModule,
@@ -29,6 +34,7 @@ import { PageNotFoundModule } from "../../shared/components/page-not-found/page-
     FormsModule,
     ReactiveFormsModule,
     PaginatorModule,
+    SimplePaginatorModule,
     BreadcrumbsModule,
     PageNotFoundModule
   ]

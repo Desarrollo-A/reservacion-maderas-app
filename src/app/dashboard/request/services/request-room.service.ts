@@ -8,6 +8,7 @@ import { RequestRoomViewModel } from "../../history/models/request-room-view.mod
 import { getPaginateParams } from "../../../shared/utils/http-functions";
 import { map } from "rxjs/operators";
 import { RequestRoomModel } from "../models/request-room.model";
+import { Lookup } from "../../../core/interfaces/lookup";
 
 @Injectable({
   providedIn: 'root'
@@ -40,6 +41,14 @@ export class RequestRoomService {
 
   findByRequestId(id: number): Observable<RequestRoomModel> {
     const url = `${this.url}/${id}`;
-    return this.http.get<RequestRoomModel>(url);
+    return this.http.get<RequestRoomModel>(url)
+      .pipe(
+        map(res => new RequestRoomModel(res))
+      );
+  }
+
+  getStatusByStatusCurrent(statusName: string): Observable<Lookup[]> {
+    const url = `${this.url}/status/${statusName}`;
+    return this.http.get<Lookup[]>(url);
   }
 }

@@ -5,6 +5,8 @@ import { fadeInUp400ms } from "../../../../shared/animations/fade-in-up.animatio
 import { ActivatedRoute } from "@angular/router";
 import { RequestRoomService } from "../../../request/services/request-room.service";
 import { RequestRoomModel } from "../../../request/models/request-room.model";
+import { Lookup } from "../../../../core/interfaces/lookup";
+import { switchMap, tap } from "rxjs";
 
 @Component({
   selector: 'app-room-detail',
@@ -17,6 +19,8 @@ import { RequestRoomModel } from "../../../request/models/request-room.model";
 })
 export class RoomDetailComponent {
   requestRoom: RequestRoomModel;
+  statusChange: Lookup[] = [];
+
   breadcrumbs: Breadcrumbs[] = [
     { link: '/dashboard/historial/sala', label: 'Historial' }
   ];
@@ -29,8 +33,9 @@ export class RoomDetailComponent {
   }
 
   findByRequestId(requestId: number): void {
-    this.requestRoomService.findByRequestId(requestId).subscribe(requestRoom => {
-      this.requestRoom = requestRoom;
-    });
+    this.requestRoomService.findByRequestId(requestId).pipe(
+      tap(requestRoom => this.requestRoom = requestRoom),
+      switchMap(requestRoom => this.requestRoomService.getStatusByStatusCurrent(requestRoom.request.status.name))
+    ).subscribe(status => this.statusChange = status);
   }
 }

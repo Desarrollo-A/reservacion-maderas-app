@@ -11,6 +11,7 @@ import { PaginatorModule } from "../../shared/components/paginator/paginator.mod
 import { ChangeStatusRoomComponent } from './components/change-status-room/change-status-room.component';
 import { ChangeStatusCarComponent } from './components/change-status-car/change-status-car.component';
 import { PageNotFoundModule } from "../../shared/components/page-not-found/page-not-found.module";
+import { BreadcrumbsModule } from 'src/app/shared/components/breadcrumbs/breadcrumbs.module';
 
 
 @NgModule({
@@ -28,7 +29,8 @@ import { PageNotFoundModule } from "../../shared/components/page-not-found/page-
     PageLayoutModule,
     FormsModule,
     ReactiveFormsModule,
-    PageNotFoundModule
+    PageNotFoundModule,
+    BreadcrumbsModule
   ]
 })
 export class MaintenanceModule { }

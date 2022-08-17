@@ -10,6 +10,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { LayoutModule } from '@angular/cdk/layout';
 import { SidenavModule } from 'src/app/shared/layout/sidenav/sidenav.module';
 import { ToolbarModule } from 'src/app/shared/layout/toolbar/toolbar.module';
+import { BreadcrumbsModule } from 'src/app/shared/components/breadcrumbs/breadcrumbs.module';
 
 
 @NgModule({
@@ -26,7 +27,8 @@ import { ToolbarModule } from 'src/app/shared/layout/toolbar/toolbar.module';
     ReactiveFormsModule,
     LayoutModule,
     SidenavModule,
-    ToolbarModule
+    ToolbarModule,
+    BreadcrumbsModule
   ]
 })
 export class UserModule { }

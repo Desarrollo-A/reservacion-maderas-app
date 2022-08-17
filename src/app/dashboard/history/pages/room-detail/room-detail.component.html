@@ -88,7 +88,11 @@
         </div>
       </div>
 
-      <app-snack-detail [snacks]="requestRoom.request.inventories"></app-snack-detail>
+      <app-snack-detail *ngIf="requestRoom.request.statusName === statusRequest.APPROVED ||
+        requestRoom.request.statusName === statusRequest.FINISHED"
+                        [snacks]="requestRoom.request.inventories"
+                        [snackList]="snackList">
+      </app-snack-detail>
     </div>
   </vex-page-layout-content>
 </vex-page-layout>
@@ -96,7 +100,7 @@
 <mat-menu #statusMenu="matMenu" xPosition="before" yPosition="below">
   <ng-template matMenuContent>
     <ng-container *ngFor="let status of statusChange">
-      <button mat-menu-item>
+      <button mat-menu-item (click)="changeStatus(status)">
         <span>{{ status.name }}</span>
       </button>
     </ng-container>

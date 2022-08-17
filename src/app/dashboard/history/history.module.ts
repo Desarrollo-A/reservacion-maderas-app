@@ -15,6 +15,7 @@ import { PageNotFoundModule } from "../../shared/components/page-not-found/page-
 import { SnackDetailComponent } from './components/snack-detail/snack-detail.component';
 import { SnackAssignComponent } from './components/snack-assign/snack-assign.component';
 import { SimplePaginatorModule } from "../../shared/components/simple-paginator/simple-paginator.module";
+import { ImageModule } from "../../shared/pipes/image/image.module";
 
 
 @NgModule({
@@ -36,7 +37,8 @@ import { SimplePaginatorModule } from "../../shared/components/simple-paginator/
     PaginatorModule,
     SimplePaginatorModule,
     BreadcrumbsModule,
-    PageNotFoundModule
+    PageNotFoundModule,
+    ImageModule
   ]
 })
 export class HistoryModule { }

@@ -25,9 +25,9 @@ export class RoomDetailComponent {
     { link: '/dashboard/historial/sala', label: 'Historial' }
   ];
 
-  constructor(private route: ActivatedRoute,
+  constructor(private activatedRoute: ActivatedRoute,
               private requestRoomService: RequestRoomService) {
-    this.route.params.subscribe(params => {
+    this.activatedRoute.params.subscribe(params => {
       this.findByRequestId(params.id);
     });
   }

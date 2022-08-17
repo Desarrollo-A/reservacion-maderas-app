@@ -6,7 +6,9 @@ import { TableColumn } from "../../../../shared/interfaces/table-column.interfac
 import { InventoryModel } from "../../../inventory/models/inventory.model";
 import { MatSort } from "@angular/material/sort";
 import { FormControl } from "@angular/forms";
+import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
 
+@UntilDestroy()
 @Component({
   selector: 'app-snack-detail',
   templateUrl: './snack-detail.component.html',
@@ -37,6 +39,10 @@ export class SnackDetailComponent implements OnInit, AfterViewInit {
 
   ngOnInit(): void {
     this.dataSource = new MatTableDataSource<InventoryModel>(this.snacks);
+
+    this.searchCtrl.valueChanges.pipe(
+      untilDestroyed(this)
+    ).subscribe(value => this.onFilterChange(value));
   }
 
   get visibleColumns() {
@@ -45,5 +51,14 @@ export class SnackDetailComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit(): void {
     this.dataSource.sort = this.sort;
+  }
+
+  private onFilterChange(value: string) {
+    if (!this.dataSource) {
+      return;
+    }
+    value = value.trim();
+    value = value.toLowerCase();
+    this.dataSource.filter = value;
   }
 }

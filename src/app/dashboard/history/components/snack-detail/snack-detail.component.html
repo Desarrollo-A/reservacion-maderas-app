@@ -1,0 +1,85 @@
+<vex-page-layout-content class="container">
+  <div class="px-6 h-16 border-b sticky left-0 flex items-center">
+    <h2 class="title my-0 ltr:pr-4 rtl:pl-4 ltr:mr-4 rtl:ml-4 ltr:border-r rtl:border-l hidden sm:block flex-none">
+      <span>Snacks</span>
+    </h2>
+
+    <div class="bg-foreground rounded-full border px-4 max-w-[300px] flex-auto flex items-center border border-gray-300">
+      <mat-icon class="icon-sm text-secondary" svgIcon="mat:search"></mat-icon>
+      <input class="px-4 py-2 border-0 outline-none w-full bg-transparent"
+             placeholder="Buscar..."
+             type="search"
+             [formControl]="searchCtrl">
+    </div>
+
+    <span class="flex-1"></span>
+
+    <button class="ml-4 flex-none"
+            color="primary"
+            mat-mini-fab
+            matTooltip="Agregar snack"
+            type="button"
+            (click)="openDialog()">
+      <mat-icon svgIcon="mat:add"></mat-icon>
+    </button>
+  </div>
+
+  <table @stagger [dataSource]="dataSource" class="w-full" mat-table matSort>
+    <ng-container matColumnDef="name">
+      <th *matHeaderCellDef class="uppercase" mat-header-cell mat-sort-header>
+        Nombre
+      </th>
+      <td *matCellDef="let row" mat-cell>
+        {{ row.name }}
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="quantity">
+      <th *matHeaderCellDef class="uppercase" mat-header-cell mat-sort-header>
+        Cantidad
+      </th>
+      <td *matCellDef="let row" mat-cell>
+        {{ (row.inventoryRequest.quantity) ? row.inventoryRequest.quantity : 'No aplica' }}
+      </td>
+    </ng-container>
+
+    <!-- Action Column -->
+    <ng-container matColumnDef="actions">
+      <th *matHeaderCellDef mat-header-cell></th>
+      <td *matCellDef="let row" class="w-10 text-secondary" mat-cell>
+        <button [matMenuTriggerData]="{ inventory: row }"
+                [matMenuTriggerFor]="actionsMenu"
+                mat-icon-button
+                type="button">
+          <mat-icon svgIcon="mat:more_horiz"></mat-icon>
+        </button>
+      </td>
+    </ng-container>
+
+    <tr *matHeaderRowDef="visibleColumns" mat-header-row></tr>
+    <tr *matRowDef="let row; columns: visibleColumns;"
+        @fadeInUp
+        class="hover:bg-hover trans-ease-out cursor-pointer"
+        mat-row></tr>
+  </table>
+
+  <ng-container *ngIf="dataSource">
+    <app-simple-paginator [dataSource]="dataSource"></app-simple-paginator>
+  </ng-container>
+</vex-page-layout-content>
+
+<mat-menu #actionsMenu="matMenu" xPosition="before" yPosition="below">
+  <ng-template let-inventory="inventory" matMenuContent>
+    <button mat-menu-item
+            (click)="openDialog(inventory)"
+            *ngIf="!inventory.meeting">
+      <mat-icon svgIcon="mat:edit"></mat-icon>
+      <span>Modificar</span>
+    </button>
+    <button mat-menu-item
+            (click)="deleteItem(inventory)">
+      <mat-icon svgIcon="mat:delete"></mat-icon>
+      <span>Borrar</span>
+    </button>
+  </ng-template>
+</mat-menu>

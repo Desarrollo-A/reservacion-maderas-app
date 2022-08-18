@@ -32,6 +32,11 @@ export class InventoryService {
       );
   }
 
+  findAllSnacks(): Observable<InventoryModel[]> {
+    const url = `${this.url}/coffee`;
+    return this.http.get<InventoryModel[]>(url);
+  }
+
   findById(id: number): Observable<InventoryModel> {
     const url = `${this.url}/${id}`;
     return this.http.get<InventoryModel>(url);

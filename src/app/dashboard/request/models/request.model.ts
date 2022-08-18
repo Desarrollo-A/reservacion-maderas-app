@@ -19,6 +19,7 @@ export class RequestModel {
   user: UserModel;
   requestRoom?: RequestRoomModel;
   inventories?: InventoryModel[];
+  isAvailable: boolean;
 
   constructor(request) {
     this.id = request.id;
@@ -34,6 +35,7 @@ export class RequestModel {
     this.user = request.user;
     this.requestRoom = request.requestRoom;
     this.inventories = request.inventories;
+    this.isAvailable = request.isAvailable;
   }
 
   get statusName(): string {

@@ -55,7 +55,17 @@ export class RoomDetailComponent {
       switchMap(requestRoom => this.requestRoomService.getStatusByStatusCurrent(requestRoom.request.status.name)),
       tap(status => this.statusChange = status),
       switchMap(() => this.inventoryService.findAllSnacks())
-    ).subscribe(snackList => this.snackList = snackList);
+    ).subscribe(snackList => {
+      this.snackList = snackList;
+      if (this.requestRoom.request.status.name === StatusRequestLookup.NEW) {
+        this.requestRoomService.availableRoom(this.requestRoom.request).subscribe(({isAvailable}) => {
+          if (!isAvailable) {
+            const index = this.statusChange.findIndex(status => status.name === StatusRequestLookup.APPROVED);
+            this.statusChange.splice(index, 1);
+          }
+        });
+      }
+    });
   }
 
   changeStatus(status: Lookup): void {

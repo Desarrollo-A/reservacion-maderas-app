@@ -1,6 +1,6 @@
 <div class="container p-gutter grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
   <vex-widget-assistant class="col-span-1 sm:col-span-2 md:col-span-4" *ngIf="userRole"></vex-widget-assistant>
- 
+
   <vex-widget-quick-value-center [change]="124.4"
                                  icon="mat:group"
                                  iconClass="text-primary bg-primary/10"
@@ -10,7 +10,7 @@
                                  icon="mat:pageview"
                                  iconClass="text-orange bg-orange-light"
                                  label="Aprobadas"
-                                 value="92%"></vex-widget-quick-value-center>
+                                 value="92"></vex-widget-quick-value-center>
   <vex-widget-quick-value-center [change]="-23.2"
                                  icon="mat:cloud_off"
                                  iconClass="text-deep-orange bg-deep-orange-light"
@@ -20,7 +20,7 @@
                                  icon="mat:timer"
                                  iconClass="text-teal bg-teal-light"
                                  label="Total General"
-                                 value="110"></vex-widget-quick-value-center>
+                                 value="171"></vex-widget-quick-value-center>
 
   <vex-widget-large-goal-chart [series]="salesSeries"
                                class="sm:col-span-full"

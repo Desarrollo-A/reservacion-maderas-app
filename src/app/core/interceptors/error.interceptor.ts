@@ -4,16 +4,31 @@ import { Observable, throwError } from 'rxjs';
 import { catchError } from "rxjs/operators";
 import { ToastrService } from "ngx-toastr";
 import { ErrorResponse } from "../interfaces/error-response";
+import { Router } from "@angular/router";
+import { UserSessionService } from "../services/user-session.service";
+import { NavigationService } from "../../shared/services/navigation.service";
 
 @Injectable()
 export class ErrorInterceptor implements HttpInterceptor {
-  constructor(private toastr: ToastrService) {}
+  constructor(private toastr: ToastrService,
+              private router: Router,
+              private userSessionService: UserSessionService,
+              private navigationService: NavigationService) {}
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     return next.handle(req)
       .pipe(
-        catchError((error) => {
+        catchError((error: HttpErrorResponse) => {
           this.errorHandling(error);
+          if (error.status === 401) { // No autorizado
+            this.userSessionService.removeToken();
+            this.userSessionService.clearUser();
+            this.navigationService.clearItems();
+            this.router.navigateByUrl('/auth');
+
+          } else if (error.status === 403) { // No tiene permisos
+            this.router.navigateByUrl('/dashboard');
+          }
           return throwError(() => error.error);
         })
       );

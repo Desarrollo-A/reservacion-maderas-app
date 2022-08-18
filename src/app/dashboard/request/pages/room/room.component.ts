@@ -91,13 +91,13 @@ export class RoomComponent implements OnInit {
     const formValues = this.form.getRawValue();
     const date = formValues.date.toISOString().split('T')[0];
 
-    const requestRoom: RequestRoomModel = {
+    const requestRoom:RequestRoomModel = <RequestRoomModel> {
       roomId: formValues.roomId,
       externalPeople: formValues.externalPeople,
       levelId: formValues.levelId
     };
 
-    const request: RequestModel = {
+    const request: RequestModel = <RequestModel> {
       startDate: `${date} ${formValues.startTime}`,
       endDate: `${date} ${formValues.endTime}`,
       people: formValues.people,

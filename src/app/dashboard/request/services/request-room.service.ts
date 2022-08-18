@@ -7,6 +7,11 @@ import { PaginationResponse } from "../../../core/interfaces/pagination-response
 import { RequestRoomViewModel } from "../../history/models/request-room-view.model";
 import { getPaginateParams } from "../../../shared/utils/http-functions";
 import { map } from "rxjs/operators";
+import { RequestRoomModel } from "../models/request-room.model";
+import { Lookup } from "../../../core/interfaces/lookup";
+import { InventoryRequestModel } from "../../history/models/inventory-request.model";
+import { ajax } from "rxjs/internal/ajax/ajax";
+import { UserSessionService } from "../../../core/services/user-session.service";
 
 @Injectable({
   providedIn: 'root'
@@ -14,7 +19,8 @@ import { map } from "rxjs/operators";
 export class RequestRoomService {
   private _baseUrl = 'request-rooms';
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient,
+              private userSessionService: UserSessionService) {}
 
   get url(): string {
     return environment.baseUrl + environment.api + this._baseUrl;
@@ -35,5 +41,28 @@ export class RequestRoomService {
 
   store(data: RequestModel): Observable<void> {
     return this.http.post<void>(this.url, data);
+  }
+
+  findByRequestId(id: number): Observable<RequestRoomModel> {
+    const url = `${this.url}/${id}`;
+    return this.http.get<RequestRoomModel>(url)
+      .pipe(
+        map(res => new RequestRoomModel(res))
+      );
+  }
+
+  getStatusByStatusCurrent(statusName: string): Observable<Lookup[]> {
+    const url = `${this.url}/status/${statusName}`;
+    return this.http.get<Lookup[]>(url);
+  }
+
+  assignSnacks(requestRoom: {requestId: number, inventoryRequest: InventoryRequestModel[]}): Observable<void> {
+    const url = `${this.url}/assign-snack`;
+    return this.http.post<void>(url, requestRoom);
+  }
+
+  availableRoom(request: RequestModel): Observable<RequestModel> {
+    const url = `${this.url}/available-room`;
+    return this.http.post<RequestModel>(url, request);
   }
 }

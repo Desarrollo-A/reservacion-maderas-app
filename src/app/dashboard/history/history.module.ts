@@ -16,6 +16,7 @@ import { SnackDetailComponent } from './components/snack-detail/snack-detail.com
 import { SnackAssignComponent } from './components/snack-assign/snack-assign.component';
 import { SimplePaginatorModule } from "../../shared/components/simple-paginator/simple-paginator.module";
 import { ImageModule } from "../../shared/pipes/image/image.module";
+import { DeleteConfirmModule } from "../../shared/components/delete-confirm/delete-confirm.module";
 
 
 @NgModule({
@@ -38,7 +39,8 @@ import { ImageModule } from "../../shared/pipes/image/image.module";
     SimplePaginatorModule,
     BreadcrumbsModule,
     PageNotFoundModule,
-    ImageModule
+    ImageModule,
+    DeleteConfirmModule
   ]
 })
 export class HistoryModule { }

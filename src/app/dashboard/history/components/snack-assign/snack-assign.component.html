@@ -12,12 +12,20 @@
 
   <mat-dialog-content class="flex flex-col gap-2 mt-4">
     <mat-chip-list *ngIf="disableInput" class="flex-auto p-2 mx-auto">
-      <mat-chip *ngFor="let snack of snackSelected" (removed)="remove(snack)">
-        {{ snack.name|slice:0:25 }}{{ (snack.name.length > 25) ? '...' : '' }}
-        <button matChipRemove>
-          <mat-icon svgIcon="mat:close"></mat-icon>
-        </button>
-      </mat-chip>
+      <ng-container *ngIf="!data.row">
+        <mat-chip (removed)="remove()">
+          {{ snackSelected.name|slice:0:25 }}{{ (snackSelected.name.length > 25) ? '...' : '' }}
+          <button matChipRemove>
+            <mat-icon svgIcon="mat:close"></mat-icon>
+          </button>
+        </mat-chip>
+      </ng-container>
+
+      <ng-container *ngIf="data.row">
+        <mat-chip>
+          {{ snackSelected.name|slice:0:25 }}{{ (snackSelected.name.length > 25) ? '...' : '' }}
+        </mat-chip>
+      </ng-container>
     </mat-chip-list>
 
     <mat-form-field class="flex-auto" *ngIf="!disableInput">
@@ -35,7 +43,7 @@
       <mat-autocomplete #auto="matAutocomplete"
                         (optionSelected)="selected($event)">
         <mat-option *ngFor="let snack of filteredSnacks | async" [value]="snack">
-          <img aria-hidden class="flex autocomplete-img align-middle mr-2 h-6" [src]="snack.image|image" [alt]="snack.name">
+          <img class="flex autocomplete-img align-middle mr-2 h-6" [src]="snack.image|image" [alt]="snack.name">
           <span>{{ snack.name }}</span> | <small>{{ snack.trademark }}</small>
         </mat-option>
       </mat-autocomplete>

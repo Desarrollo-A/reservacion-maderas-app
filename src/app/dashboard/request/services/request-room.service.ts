@@ -9,6 +9,7 @@ import { getPaginateParams } from "../../../shared/utils/http-functions";
 import { map } from "rxjs/operators";
 import { RequestRoomModel } from "../models/request-room.model";
 import { Lookup } from "../../../core/interfaces/lookup";
+import { InventoryRequestModel } from "../../history/models/inventory-request.model";
 
 @Injectable({
   providedIn: 'root'
@@ -50,5 +51,10 @@ export class RequestRoomService {
   getStatusByStatusCurrent(statusName: string): Observable<Lookup[]> {
     const url = `${this.url}/status/${statusName}`;
     return this.http.get<Lookup[]>(url);
+  }
+
+  assignSnacks(requestRoom: {requestId: number, inventoryRequest: InventoryRequestModel[]}): Observable<void> {
+    const url = `${this.url}/assign-snack`;
+    return this.http.post<void>(url, requestRoom);
   }
 }

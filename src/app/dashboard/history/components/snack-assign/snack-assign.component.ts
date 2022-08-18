@@ -7,6 +7,7 @@ import { Observable } from "rxjs";
 import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
 import { FormErrors } from "../../../../shared/utils/form-error";
 import { MatAutocompleteSelectedEvent } from "@angular/material/autocomplete";
+import { InventoryRequestModel } from "../../models/inventory-request.model";
 
 interface Data {
   snacks: InventoryModel[];
@@ -23,17 +24,24 @@ export class SnackAssignComponent {
   form: FormGroup;
   formErrors: FormErrors;
   filteredSnacks: Observable<InventoryModel[]>;
-  snackSelected: InventoryModel[] = [];
+  snackSelected: InventoryModel;
   disableInput = false;
   enableQuantity = false;
 
   constructor(@Inject(MAT_DIALOG_DATA) public data: Data,
               private dialogRef: MatDialogRef<SnackAssignComponent>,
               private fb: FormBuilder) {
+    this.snackSelected = data.row;
+
     this.form = this.fb.group({
-      snackCtrl: ['', [Validators.required]],
-      quantity: [this.data.row?.inventoryRequest.quantity ?? null]
+      snackCtrl: [this.data.row?.name, [Validators.required]],
+      quantity: [null]
     });
+
+    if (this.snackSelected) {
+      this.addOrRemoveValidatorsQuantity();
+      this.disableInput = true;
+    }
 
     this.formErrors = new FormErrors(this.form);
 
@@ -44,29 +52,39 @@ export class SnackAssignComponent {
     );
   }
 
-  remove(snack: InventoryModel): void {
-    const index = this.snackSelected.indexOf(snack);
-    if (index >= 0) {
-      this.snackSelected.splice(index, 1);
+  remove(): void {
+    if (this.snackSelected) {
+      this.snackSelected = null;
       this.disableInput = false;
       this.enableQuantity = false;
+      this.form.get('snackCtrl').setValue(null);
     }
   }
 
   selected(event: MatAutocompleteSelectedEvent): void {
-    this.snackSelected.push(event.option.value);
-    this.form.get('snackCtrl').setValue(null);
+    this.snackSelected = event.option.value;
+    this.form.get('snackCtrl').setValue(this.snackSelected.name);
     this.disableInput = true;
 
     this.addOrRemoveValidatorsQuantity();
   }
 
   save(): void {
-    console.log(this.form.getRawValue());
+    if (this.form.invalid) {
+      this.form.markAllAsTouched();
+      return;
+    }
+
+    const { quantity } = this.form.getRawValue();
+    this.snackSelected.inventoryRequest = <InventoryRequestModel>{
+      quantity,
+      inventoryId: this.snackSelected.id
+    };
+    this.dialogRef.close(this.snackSelected);
   }
 
   private addOrRemoveValidatorsQuantity(): void {
-    const inventory = this.snackSelected[0];
+    const inventory = this.snackSelected;
     if (inventory.meeting) {
       this.form.get('quantity')?.clearValidators();
       this.form.get('quantity')?.updateValueAndValidity();
@@ -77,7 +95,7 @@ export class SnackAssignComponent {
       this.form.get('quantity')?.addValidators([Validators.required, Validators.min(1),
         Validators.max(inventory.stock)]);
       this.form.get('quantity')?.updateValueAndValidity();
-      this.form.get('quantity')?.setValue(1);
+      this.form.get('quantity')?.setValue(this.data.row?.inventoryRequest?.quantity ?? 1);
     }
   }
 

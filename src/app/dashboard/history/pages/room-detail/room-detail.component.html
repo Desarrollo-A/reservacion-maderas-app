@@ -90,9 +90,19 @@
 
       <app-snack-detail *ngIf="requestRoom.request.statusName === statusRequest.APPROVED ||
         requestRoom.request.statusName === statusRequest.FINISHED"
+                        #snackDetailComponent
                         [snacks]="requestRoom.request.inventories"
                         [snackList]="snackList">
       </app-snack-detail>
+
+      <div class="flex items-center justify-end gap-2">
+        <button color="primary"
+                mat-raised-button
+                type="button"
+                (click)="save()">
+          Guardar
+        </button>
+      </div>
     </div>
   </vex-page-layout-content>
 </vex-page-layout>

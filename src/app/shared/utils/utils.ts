@@ -1,4 +1,6 @@
 import { AbstractControl } from "@angular/forms";
+import { LabelButton } from "../interfaces/label-button";
+import { StatusRequestLookup } from "../../dashboard/history/enums/status-request.lookup";
 
 export const convertCamelCaseToSnakeCase = (str: string): string => {
   return str.replace(/[A-Z]/g, letter => `_${letter.toLowerCase()}`);
@@ -45,5 +47,21 @@ export const weekendsOffCalendar = (d: Date | null): boolean => {
     const day = d.getDay();
 
     return day !== 0 && day !== 6;
+  }
+}
+
+export const getLabelStatusRequest = (statusName: string): LabelButton => {
+  if (statusName === StatusRequestLookup.NEW) {
+    return { text: statusName, textClass: 'text-primary', bgClass: 'bg-primary/10' };
+  } else if (statusName === StatusRequestLookup.APPROVED) {
+    return { text: statusName, textClass: 'text-green', bgClass: 'bg-green-light' };
+  } else if (statusName === StatusRequestLookup.REJECTED || statusName === StatusRequestLookup.CANCELLED) {
+    return { text: statusName, textClass: 'text-red', bgClass: 'bg-red-light' };
+  } else if (statusName === StatusRequestLookup.PROPOSAL) {
+    return { text: statusName, textClass: 'text-orange', bgClass: 'bg-orange-light' };
+  } else if (statusName === StatusRequestLookup.WITHOUT_ATTENDING) {
+    return { text: statusName, textClass: 'text-gray', bgClass: 'bg-gray-light' };
+  } else if (statusName === StatusRequestLookup.FINISHED) {
+    return { text: statusName, textClass: 'text-teal', bgClass: 'bg-teal-light' };
   }
 }

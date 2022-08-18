@@ -1,5 +1,6 @@
 import { Lookup } from "src/app/core/interfaces/lookup";
 import { OfficeModel } from "../../../core/models/office.model";
+import { InventoryRequestModel } from "../../history/models/inventory-request.model";
 
 export class InventoryModel {
   id: number;
@@ -17,6 +18,7 @@ export class InventoryModel {
   type: Lookup;
   unit: Lookup;
   office: OfficeModel;
+  inventoryRequest: InventoryRequestModel;
 
   constructor(inventory) {
     this.id = inventory.id;
@@ -34,6 +36,7 @@ export class InventoryModel {
     this.type = inventory.type;
     this.unit = inventory.unit;
     this.office = inventory.office;
+    this.inventoryRequest = inventory.inventoryRequest;
   }
 
   get typeInventoryName(): string {

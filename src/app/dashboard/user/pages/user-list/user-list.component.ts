@@ -6,7 +6,7 @@ import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { Observable, of } from 'rxjs';
-import { NameRol } from 'src/app/core/enums/name-rol';
+import { NameRole } from 'src/app/core/enums/name-role';
 import { Lookup } from 'src/app/core/interfaces/lookup';
 import { fadeInUp400ms } from 'src/app/shared/animations/fade-in-up.animation';
 import { stagger40ms } from 'src/app/shared/animations/stagger.animation';
@@ -83,11 +83,11 @@ sort: MatSort;
   }
   private getData(): Observable<UserModel[]> {
     return of<UserModel[]>([
-      {  noEmployee: 'FRO0154', fullName: 'Juan Ramon Lopez Montolla', email: 'ramon@ciudadmaderas.com', personalPhone: '4421564869', position: 'Gerente', area: 'Control interno',  status: <Lookup>{name: 'Activo'}, role: <Lookup>{name: NameRol.APPLICANT} },
-      {  noEmployee: 'CIB0164', fullName: 'Norma Urtado Torres', email: 'norma@ciudadmaderas.com', personalPhone: '4426978145', position: 'Recepcionista', area: 'Compras',  status: <Lookup>{name: 'Activo'}, role: <Lookup>{name: NameRol.RECEPCIONIST} },
-      {  noEmployee: 'PHC4165', fullName: 'Edgar Tenorio Solis', email: 'edgar@ciudadmaderas.com', personalPhone: '4420136548', position: 'Administrativo', area: 'Capital humano',  status: <Lookup>{name: 'Inactivo'}, role: <Lookup>{name: NameRol.APPLICANT} },
-      {  noEmployee: 'CIN074', fullName: 'Joaquin Lopez Tarzo', email: 'lopez@ciudadmaderas.com', personalPhone: '4426874159', position: 'Contador', area: 'Cuentas por pagar',  status: <Lookup>{name: 'Bloqueado'}, role: <Lookup>{name: NameRol.APPLICANT} },
-      {  noEmployee: 'FRO467', fullName: 'Sofia Juárez Gómez', email: 'robert@ciudadmaderas.com', personalPhone: '4424710364', position: 'Recepcionista', area: 'Nóminas',  status: <Lookup>{name: 'Activo'}, role: <Lookup>{name: NameRol.RECEPCIONIST} },
+      {  noEmployee: 'FRO0154', fullName: 'Juan Ramon Lopez Montolla', email: 'ramon@ciudadmaderas.com', personalPhone: '4421564869', position: 'Gerente', area: 'Control interno',  status: <Lookup>{name: 'Activo'}, role: <Lookup>{name: NameRole.APPLICANT} },
+      {  noEmployee: 'CIB0164', fullName: 'Norma Urtado Torres', email: 'norma@ciudadmaderas.com', personalPhone: '4426978145', position: 'Recepcionista', area: 'Compras',  status: <Lookup>{name: 'Activo'}, role: <Lookup>{name: NameRole.RECEPCIONIST} },
+      {  noEmployee: 'PHC4165', fullName: 'Edgar Tenorio Solis', email: 'edgar@ciudadmaderas.com', personalPhone: '4420136548', position: 'Administrativo', area: 'Capital humano',  status: <Lookup>{name: 'Inactivo'}, role: <Lookup>{name: NameRole.APPLICANT} },
+      {  noEmployee: 'CIN074', fullName: 'Joaquin Lopez Tarzo', email: 'lopez@ciudadmaderas.com', personalPhone: '4426874159', position: 'Contador', area: 'Cuentas por pagar',  status: <Lookup>{name: 'Bloqueado'}, role: <Lookup>{name: NameRole.APPLICANT} },
+      {  noEmployee: 'FRO467', fullName: 'Sofia Juárez Gómez', email: 'robert@ciudadmaderas.com', personalPhone: '4424710364', position: 'Recepcionista', area: 'Nóminas',  status: <Lookup>{name: 'Activo'}, role: <Lookup>{name: NameRole.RECEPCIONIST} },
     ].map(user => new UserModel(user)));
   }
 

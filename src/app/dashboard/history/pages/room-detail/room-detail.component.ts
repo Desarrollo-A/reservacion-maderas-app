@@ -6,13 +6,15 @@ import { ActivatedRoute, Router } from "@angular/router";
 import { RequestRoomService } from "../../../request/services/request-room.service";
 import { RequestRoomModel } from "../../../request/models/request-room.model";
 import { Lookup } from "../../../../core/interfaces/lookup";
-import { switchMap, tap } from "rxjs";
+import { of, switchMap, tap } from "rxjs";
 import { InventoryService } from "../../../inventory/services/inventory.service";
 import { InventoryModel } from "../../../inventory/models/inventory.model";
 import { StatusRequestLookup } from "../../enums/status-request.lookup";
 import { SnackDetailComponent } from "../../components/snack-detail/snack-detail.component";
 import { InventoryRequestModel } from "../../models/inventory-request.model";
 import { ToastrService } from "ngx-toastr";
+import { UserSessionService } from "../../../../core/services/user-session.service";
+import { NameRole } from "../../../../core/enums/name-role";
 
 @Component({
   selector: 'app-room-detail',
@@ -40,7 +42,8 @@ export class RoomDetailComponent {
               private router: Router,
               private requestRoomService: RequestRoomService,
               private inventoryService: InventoryService,
-              private toastrService: ToastrService) {
+              private toastrService: ToastrService,
+              private userSessionService: UserSessionService) {
     this.activatedRoute.params.subscribe(params => {
       this.findByRequestId(params.id);
     });
@@ -56,13 +59,20 @@ export class RoomDetailComponent {
         this.requestRoom = requestRoom;
         this.previousStatus = {... requestRoom.request.status};
       }),
-      switchMap(requestRoom => this.requestRoomService.getStatusByStatusCurrent(requestRoom.request.status.name)),
-      tap(status => this.statusChange = status),
-      switchMap(() => this.inventoryService.findAllSnacks())
-    ).subscribe(snackList => {
-      this.snackList = snackList;
-      if (this.requestRoom.request.status.name === StatusRequestLookup.NEW) {
-        this.requestRoomService.availableRoom(this.requestRoom.request).subscribe(({isAvailable}) => {
+      switchMap(requestRoom => this.requestRoomService.getStatusByStatusCurrent(requestRoom.request.status.name))
+    ).subscribe(status => {
+      this.statusChange = status
+
+      if (this.userSessionService.user.role.name === NameRole.RECEPCIONIST) {
+        this.inventoryService.findAllSnacks().pipe(
+          tap(snackList => this.snackList = snackList),
+          switchMap(() => {
+            return (this.requestRoom.request.status.name === StatusRequestLookup.NEW)
+              ? this.requestRoomService.availableRoom(this.requestRoom.request)
+              : of({isAvailable: true});
+
+          })
+        ).subscribe(({isAvailable}) => {
           if (!isAvailable) {
             const index = this.statusChange.findIndex(status => status.name === StatusRequestLookup.APPROVED);
             this.statusChange.splice(index, 1);
@@ -77,7 +87,8 @@ export class RoomDetailComponent {
   }
 
   save(): void {
-    if (this.requestRoom.request.statusName === StatusRequestLookup.APPROVED) {
+    if (this.requestRoom.request.statusName === StatusRequestLookup.APPROVED &&
+      this.previousStatus.name === StatusRequestLookup.NEW) {
       if (this.snackDetailComponent?.snacks.length > 0) {
         const snacks = this.snackDetailComponent?.snacks;
         this.requestRoomService.assignSnacks(this.prepareDataToAssignSnack(snacks))

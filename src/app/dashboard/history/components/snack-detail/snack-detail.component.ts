@@ -15,6 +15,8 @@ import { Lookup } from "../../../../core/interfaces/lookup";
 import { InventoryRequestService } from "../../services/inventory-request.service";
 import { StatusRequestLookup } from "../../enums/status-request.lookup";
 import { InventoryRequestModel } from "../../models/inventory-request.model";
+import { UserSessionService } from "../../../../core/services/user-session.service";
+import { NameRole } from "../../../../core/enums/name-role";
 
 @UntilDestroy()
 @Component({
@@ -41,15 +43,21 @@ export class SnackDetailComponent implements OnInit, AfterViewInit {
 
   dataSource: MatTableDataSource<InventoryModel> | null;
   searchCtrl = new FormControl();
-  columns: TableColumn<InventoryModel>[] = [
-    { label: 'Nombre', property: 'name', type: 'text', visible: true },
-    { label: 'Cantidad', property: 'quantity', type: 'text', visible: true },
-    { label: 'Acciones', property: 'actions', type: 'button', visible: true }
-  ];
+  columns: TableColumn<InventoryModel>[] = [];
 
   constructor(private dialog: MatDialog,
               private toastrService: ToastrService,
-              private inventoryRequestService: InventoryRequestService) {}
+              private inventoryRequestService: InventoryRequestService,
+              private userSessionService: UserSessionService) {
+    this.columns = [
+      { label: 'Nombre', property: 'name', type: 'text', visible: true },
+      { label: 'Cantidad', property: 'quantity', type: 'text', visible: true }
+    ];
+
+    if (this.isRecepcionist) {
+      this.columns.push({ label: 'Acciones', property: 'actions', type: 'button', visible: true });
+    }
+  }
 
   ngOnInit(): void {
     this.dataSource = new MatTableDataSource<InventoryModel>(this.snacks);
@@ -61,6 +69,10 @@ export class SnackDetailComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit(): void {
     this.dataSource.sort = this.sort;
+  }
+
+  get isRecepcionist(): boolean {
+    return this.userSessionService.user.role.name === NameRole.RECEPCIONIST;
   }
 
   get visibleColumns() {

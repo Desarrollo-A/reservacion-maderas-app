@@ -19,7 +19,7 @@
             mat-mini-fab
             matTooltip="Agregar snack"
             type="button"
-            (click)="openDialog()">
+            (click)="openDialog()" *ngIf="isRecepcionist">
       <mat-icon svgIcon="mat:add"></mat-icon>
     </button>
   </div>
@@ -44,7 +44,7 @@
     </ng-container>
 
     <!-- Action Column -->
-    <ng-container matColumnDef="actions">
+    <ng-container matColumnDef="actions" *ngIf="isRecepcionist">
       <th *matHeaderCellDef mat-header-cell></th>
       <td *matCellDef="let row" class="w-10 text-secondary" mat-cell>
         <button [matMenuTriggerData]="{ inventory: row }"

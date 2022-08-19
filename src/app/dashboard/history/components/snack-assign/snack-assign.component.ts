@@ -70,16 +70,23 @@ export class SnackAssignComponent {
   }
 
   save(): void {
+    if (!this.snackSelected) {
+      this.form.get('snackCtrl')?.setValue(null);
+    }
+
     if (this.form.invalid) {
       this.form.markAllAsTouched();
       return;
     }
 
     const { quantity } = this.form.getRawValue();
+
     this.snackSelected.inventoryRequest = <InventoryRequestModel>{
       quantity,
-      inventoryId: this.snackSelected.id
+      inventoryId: this.snackSelected.id,
+      requestId: this.data.row?.inventoryRequest?.requestId
     };
+
     this.dialogRef.close(this.snackSelected);
   }
 
@@ -92,8 +99,9 @@ export class SnackAssignComponent {
     } else {
       this.enableQuantity = true;
 
+      const maxQuantity = inventory.stock + (this.data.row?.inventoryRequest?.quantity ?? 0);
       this.form.get('quantity')?.addValidators([Validators.required, Validators.min(1),
-        Validators.max(inventory.stock)]);
+        Validators.max(maxQuantity)]);
       this.form.get('quantity')?.updateValueAndValidity();
       this.form.get('quantity')?.setValue(this.data.row?.inventoryRequest?.quantity ?? 1);
     }

@@ -6,6 +6,6 @@ export class InventoryRequestModel {
   inventory: InventoryModel;
   quantity: number;
   applied: boolean;
-  createdAt: Date;
-  updatedAt: Date;
+  createdAt: Date | string;
+  updatedAt: Date | string;
 }

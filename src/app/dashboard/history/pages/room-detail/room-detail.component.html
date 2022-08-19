@@ -92,7 +92,9 @@
         requestRoom.request.statusName === statusRequest.FINISHED"
                         #snackDetailComponent
                         [snacks]="requestRoom.request.inventories"
-                        [snackList]="snackList">
+                        [snackList]="snackList"
+                        [previousStatus]="previousStatus"
+                        [requestId]="requestRoom.requestId">
       </app-snack-detail>
 
       <div class="flex items-center justify-end gap-2">

@@ -30,6 +30,7 @@ export class RoomDetailComponent {
   requestRoom: RequestRoomModel;
   statusChange: Lookup[] = [];
   snackList: InventoryModel[] = [];
+  previousStatus: Lookup;
 
   breadcrumbs: Breadcrumbs[] = [
     { link: '/dashboard/historial/sala', label: 'Historial' }
@@ -51,7 +52,10 @@ export class RoomDetailComponent {
 
   findByRequestId(requestId: number): void {
     this.requestRoomService.findByRequestId(requestId).pipe(
-      tap(requestRoom => this.requestRoom = requestRoom),
+      tap(requestRoom => {
+        this.requestRoom = requestRoom;
+        this.previousStatus = {... requestRoom.request.status};
+      }),
       switchMap(requestRoom => this.requestRoomService.getStatusByStatusCurrent(requestRoom.request.status.name)),
       tap(status => this.statusChange = status),
       switchMap(() => this.inventoryService.findAllSnacks())
@@ -73,15 +77,17 @@ export class RoomDetailComponent {
   }
 
   save(): void {
-    if (this.requestRoom.request.statusName === StatusRequestLookup.APPROVED &&
-      this.snackDetailComponent?.snacks.length > 0) {
-      const snacks = this.snackDetailComponent?.snacks;
-      this.requestRoomService.assignSnacks(this.prepareDataToAssignSnack(snacks))
-        .subscribe(() => {
-          const message = (snacks.length === 1) ? 'Snack asignado' : 'Snacks asignados';
-          this.toastrService.success(message, 'Proceso exitoso');
-          this.router.navigateByUrl('/dashboard/historial/sala');
-        });
+    if (this.requestRoom.request.statusName === StatusRequestLookup.APPROVED) {
+      if (this.snackDetailComponent?.snacks.length > 0) {
+        const snacks = this.snackDetailComponent?.snacks;
+        this.requestRoomService.assignSnacks(this.prepareDataToAssignSnack(snacks))
+          .subscribe(() => {
+            this.toastrService.success('Solicitud aprobada', 'Proceso exitoso');
+            this.router.navigateByUrl('/dashboard/historial/sala');
+          });
+      } else {
+        this.toastrService.info('No hay ningún snack asignado', 'Información');
+      }
     }
   }
 

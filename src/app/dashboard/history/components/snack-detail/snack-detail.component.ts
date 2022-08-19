@@ -11,6 +11,10 @@ import { MatDialog } from "@angular/material/dialog";
 import { SnackAssignComponent } from "../snack-assign/snack-assign.component";
 import { DeleteConfirmComponent } from "../../../../shared/components/delete-confirm/delete-confirm.component";
 import { ToastrService } from "ngx-toastr";
+import { Lookup } from "../../../../core/interfaces/lookup";
+import { InventoryRequestService } from "../../services/inventory-request.service";
+import { StatusRequestLookup } from "../../enums/status-request.lookup";
+import { InventoryRequestModel } from "../../models/inventory-request.model";
 
 @UntilDestroy()
 @Component({
@@ -27,6 +31,10 @@ export class SnackDetailComponent implements OnInit, AfterViewInit {
   snacks: InventoryModel[] = []; // Listado de snacks asignados
   @Input()
   snackList: InventoryModel[] = []; // Listado de todos los snacks de la BD para asignar
+  @Input()
+  previousStatus: Lookup;
+  @Input()
+  requestId: number;
 
   @ViewChild(MatSort, { static: true })
   sort: MatSort;
@@ -40,7 +48,8 @@ export class SnackDetailComponent implements OnInit, AfterViewInit {
   ];
 
   constructor(private dialog: MatDialog,
-              private toastrService: ToastrService) {}
+              private toastrService: ToastrService,
+              private inventoryRequestService: InventoryRequestService) {}
 
   ngOnInit(): void {
     this.dataSource = new MatTableDataSource<InventoryModel>(this.snacks);
@@ -64,10 +73,9 @@ export class SnackDetailComponent implements OnInit, AfterViewInit {
         data: { snacks: this.filterSnacksWasSelected() },
         autoFocus: false,
         width: '350px'
-      }).afterClosed().subscribe((snack: InventoryModel) => {
-        if (snack) {
-          this.snacks.push(snack);
-          this.dataSource.data = this.snacks;
+      }).afterClosed().subscribe((result: InventoryModel) => {
+        if (result) {
+          this.saveSnack(result);
         }
       });
     } else {
@@ -75,26 +83,69 @@ export class SnackDetailComponent implements OnInit, AfterViewInit {
         data: { snacks: this.filterSnacksWasSelected(), row: snack },
         autoFocus: false,
         width: '350px'
-      }).afterClosed().subscribe((snack: InventoryModel) => {
-        if (snack) {
-          const index = this.findSnackIndex(this.snacks, snack);
-          this.snacks[index].inventoryRequest.quantity = snack.inventoryRequest.quantity;
-          this.dataSource.data = this.snacks;
+      }).afterClosed().subscribe((result: InventoryModel) => {
+        if (result) {
+          this.updateSnack(result);
         }
       });
     }
   }
 
   deleteItem(snack: InventoryModel): void {
-    if (!snack.inventoryRequest.createdAt) {
-      this.dialog.open(DeleteConfirmComponent, { autoFocus: false }).afterClosed()
-        .subscribe(confirm => {
-          if (confirm) {
+    this.dialog.open(DeleteConfirmComponent, { autoFocus: false }).afterClosed()
+      .subscribe(confirm => {
+        if (confirm) {
+          if (!snack.inventoryRequest.createdAt) {
             this.snacks.splice(this.findSnackIndex(this.snacks, snack), 1);
             this.dataSource.data = this.snacks;
             this.toastrService.success('Snack eliminado', 'Proceso exitoso');
+          } else {
+            this.inventoryRequestService.delete(snack.inventoryRequest).subscribe(() => {
+              this.snacks.splice(this.findSnackIndex(this.snacks, snack), 1);
+              this.dataSource.data = this.snacks;
+              this.toastrService.success('Snack eliminado', 'Proceso exitoso');
+            });
           }
-        });
+        }
+      });
+  }
+
+  private saveSnack(snack: InventoryModel): void {
+    if (this.previousStatus.name === StatusRequestLookup.NEW) {
+      this.snacks.push(snack);
+      this.dataSource.data = this.snacks;
+    } else if (this.previousStatus.name === StatusRequestLookup.APPROVED) {
+      const data = <InventoryRequestModel>{
+        requestId: this.requestId,
+        inventoryId: snack.id,
+        quantity: snack.inventoryRequest.quantity
+      };
+      this.inventoryRequestService.store(data).subscribe(inventoryRequest => {
+        this.toastrService.success('Snack asignado', 'Proceso exitoso');
+        snack.inventoryRequest = inventoryRequest;
+        this.snacks.push(snack);
+        this.dataSource.data = this.snacks;
+      });
+    }
+  }
+
+  private updateSnack(snack: InventoryModel): void {
+    if (this.previousStatus.name === StatusRequestLookup.NEW) {
+      const index = this.findSnackIndex(this.snacks, snack);
+      this.snacks[index].inventoryRequest.quantity = snack.inventoryRequest.quantity;
+      this.dataSource.data = this.snacks;
+    } else if (this.previousStatus.name === StatusRequestLookup.APPROVED) {
+      const data = <InventoryRequestModel>{
+        requestId: this.requestId,
+        inventoryId: snack.id,
+        quantity: snack.inventoryRequest.quantity
+      };
+      this.inventoryRequestService.update(data).subscribe(() => {
+        this.toastrService.success('Snack actualizado', 'Proceso exitoso');
+        const index = this.findSnackIndex(this.snacks, snack);
+        this.snacks[index].inventoryRequest.quantity = snack.inventoryRequest.quantity;
+        this.dataSource.data = this.snacks;
+      });
     }
   }
 

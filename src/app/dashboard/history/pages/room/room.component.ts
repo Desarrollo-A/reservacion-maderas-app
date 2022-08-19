@@ -10,7 +10,6 @@ import { Filters, TypesEnum } from "../../../../core/interfaces/filters";
 import { RequestRoomService } from "../../../request/services/request-room.service";
 import { Sort } from "@angular/material/sort";
 import { getSort } from "../../../../shared/utils/http-functions";
-import { Breadcrumbs } from "../../../../shared/components/breadcrumbs/breadcrumbs.model";
 
 @Component({
   selector: 'app-room',
@@ -35,7 +34,7 @@ export class RoomComponent implements OnInit {
     { label: 'Acciones', property: 'actions', type: 'button', visible: true }
   ];
   pageSizeOptions: number[] = [5, 10, 20, 50];
-  orderBy: string = '';
+  orderBy: string = '-id';
   searchCtrl = new FormControl('');
   filters: Filters = { filters: [] };
 
@@ -51,7 +50,8 @@ export class RoomComponent implements OnInit {
   }
 
   sortChange(sortState: Sort): void {
-    this.orderBy = getSort(sortState);
+    const sort = getSort(sortState);
+    this.orderBy = (sort === '') ? '-id' : sort;
     this.prepareFilters();
   }
 

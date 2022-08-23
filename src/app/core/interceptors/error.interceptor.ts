@@ -38,12 +38,16 @@ export class ErrorInterceptor implements HttpInterceptor {
     const errors = error.error as ErrorResponse;
 
     if (typeof errors.error === 'string') {
-      this.toastr.error(errors.error, 'Error');
+      if (error.status !== 500) {
+        this.toastr.warning(errors.error, 'Atención');
+      } else {
+        this.toastr.error(errors.error, 'Error');
+      }
     } else {
       Object.entries(errors.error!).forEach(([, msgs]) => {
         const messages = msgs as string[];
         messages.forEach(msg => {
-          this.toastr.error(msg, 'Validación');
+          this.toastr.warning(msg, 'Validación');
         });
       });
     }

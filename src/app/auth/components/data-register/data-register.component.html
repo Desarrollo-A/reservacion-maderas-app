@@ -3,13 +3,13 @@
     <div class="flex flex-col sm:flex-row gap-4 md:justify-center md:items-center md:h-screen">
       <div @fadeInUp class="card flex-auto">
         <div class="px-6 py-4 border-b flex items-center">
-          <h2 class="title m-0">Información del empleado</h2>
+          <h2 class="title m-0">Información del colaborador</h2>
         </div>
 
         <div class="px-6 py-4 flex flex-col">
           <div class="flex flex-col md:flex-row sm:gap-4">
             <mat-form-field class="flex-auto">
-              <mat-label># Empleado</mat-label>
+              <mat-label># Colaborador</mat-label>
               <input matInput readonly [value]="data.noEmployee">
             </mat-form-field>
 
@@ -83,13 +83,13 @@
               </button>
 
               <mat-error *ngIf="formErrors.customError('password', 'required')">
-                Campo obligatorio
+                Campo obligatorio.
               </mat-error>
               <mat-error *ngIf="formErrors.customError('password', 'minlength')">
-                La contraseña debe tener más de {{formErrors.minLengthNumber('password')}} caracteres
+                La contraseña debe tener más de {{formErrors.minLengthNumber('password')}} caracteres.
               </mat-error>
               <mat-error *ngIf="formErrors.customError('password', 'maxlength')">
-                La contraseña no debe tener más de {{formErrors.maxLengthNumber('password')}} caracteres
+                La contraseña debe tener menos de {{formErrors.maxLengthNumber('password')}} caracteres.
               </mat-error>
             </mat-form-field>
 
@@ -106,7 +106,7 @@
               </button>
 
               <mat-error *ngIf="formErrors.customError('confirmPassword', 'differentPassword')">
-                Las contraseñas deben ser iguales
+                Las contraseñas deben ser iguales.
               </mat-error>
             </mat-form-field>
           </div>

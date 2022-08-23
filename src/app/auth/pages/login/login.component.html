@@ -25,13 +25,13 @@
                  formControlName="noEmployee"
                  (input)="noEmployee.value = noEmployee.value.toUpperCase()">
           <mat-error *ngIf="formErrors.customError('noEmployee','required')">
-            Campo obligatorio
+            Campo obligatorio.
           </mat-error>
           <mat-error *ngIf="formErrors.customError('noEmployee','minlength')">
-            El usuario debe tener más de {{ formErrors.minLengthNumber('noEmployee') }} caracteres
+            El usuario debe tener más de {{ formErrors.minLengthNumber('noEmployee') }} caracteres.
           </mat-error>
           <mat-error *ngIf="formErrors.customError('noEmployee','maxlength')">
-            El usuario debe tener menos de {{ formErrors.maxLengthNumber('noEmployee') }} caracteres
+            El usuario debe tener menos de {{ formErrors.maxLengthNumber('noEmployee') }} caracteres.
           </mat-error>
         </mat-form-field>
 
@@ -49,13 +49,13 @@
             <mat-icon *ngIf="!visible" svgIcon="mat:visibility_off"></mat-icon>
           </button>
           <mat-error *ngIf="formErrors.customError('password','required')">
-            Campo obligatorio
+            Campo obligatorio.
           </mat-error>
           <mat-error *ngIf="formErrors.customError('password','minlength')">
-            La contraseña debe tener más de {{ formErrors.minLengthNumber('password') }} caracteres
+            La contraseña debe tener más de {{ formErrors.minLengthNumber('password') }} caracteres.
           </mat-error>
           <mat-error *ngIf="formErrors.customError('password','maxlength')">
-            La contraseña no debe tener más de {{ formErrors.maxLengthNumber('password') }} caracteres
+            La contraseña debe tener menos de {{ formErrors.maxLengthNumber('password') }} caracteres.
           </mat-error>
         </mat-form-field>
       </div>

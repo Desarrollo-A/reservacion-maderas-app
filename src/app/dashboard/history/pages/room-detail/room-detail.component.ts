@@ -1,4 +1,4 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Breadcrumbs } from "../../../../shared/components/breadcrumbs/breadcrumbs.model";
 import { stagger60ms } from "../../../../shared/animations/stagger.animation";
 import { fadeInUp400ms } from "../../../../shared/animations/fade-in-up.animation";
@@ -15,6 +15,9 @@ import { InventoryRequestModel } from "../../models/inventory-request.model";
 import { ToastrService } from "ngx-toastr";
 import { UserSessionService } from "../../../../core/services/user-session.service";
 import { NameRole } from "../../../../core/enums/name-role";
+import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+import { FormErrors } from "../../../../shared/utils/form-error";
+import { RequestModel } from "../../../request/models/request.model";
 
 @Component({
   selector: 'app-room-detail',
@@ -25,7 +28,7 @@ import { NameRole } from "../../../../core/enums/name-role";
     fadeInUp400ms
   ]
 })
-export class RoomDetailComponent {
+export class RoomDetailComponent implements OnInit {
   @ViewChild('snackDetailComponent')
   snackDetailComponent: SnackDetailComponent;
 
@@ -33,6 +36,9 @@ export class RoomDetailComponent {
   statusChange: Lookup[] = [];
   snackList: InventoryModel[] = [];
   previousStatus: Lookup;
+
+  cancelForm: FormGroup;
+  cancelFormErrors: FormErrors;
 
   breadcrumbs: Breadcrumbs[] = [
     { link: '/dashboard/historial/sala', label: 'Historial' }
@@ -43,10 +49,18 @@ export class RoomDetailComponent {
               private requestRoomService: RequestRoomService,
               private inventoryService: InventoryService,
               private toastrService: ToastrService,
-              private userSessionService: UserSessionService) {
+              private userSessionService: UserSessionService,
+              private fb: FormBuilder) {
     this.activatedRoute.params.subscribe(params => {
       this.findByRequestId(params.id);
     });
+  }
+
+  ngOnInit(): void {
+    this.cancelForm = this.fb.group({
+      cancelComment: [null, [Validators.required, Validators.minLength(3), Validators.maxLength(500)]]
+    });
+    this.cancelFormErrors = new FormErrors(this.cancelForm);
   }
 
   get statusRequest(): typeof StatusRequestLookup {
@@ -58,6 +72,10 @@ export class RoomDetailComponent {
       tap(requestRoom => {
         this.requestRoom = requestRoom;
         this.previousStatus = {... requestRoom.request.status};
+        if (this.previousStatus.name === StatusRequestLookup.CANCELLED) {
+          this.cancelForm.get('cancelComment').setValue(requestRoom.request.cancelComment);
+          this.cancelForm.get('cancelComment').clearValidators();
+        }
       }),
       switchMap(requestRoom => this.requestRoomService.getStatusByStatusCurrent(requestRoom.request.status.name))
     ).subscribe(status => {
@@ -89,16 +107,14 @@ export class RoomDetailComponent {
   save(): void {
     if (this.requestRoom.request.statusName === StatusRequestLookup.APPROVED &&
       this.previousStatus.name === StatusRequestLookup.NEW) {
-      if (this.snackDetailComponent?.snacks.length > 0) {
-        const snacks = this.snackDetailComponent?.snacks;
-        this.requestRoomService.assignSnacks(this.prepareDataToAssignSnack(snacks))
-          .subscribe(() => {
-            this.toastrService.success('Solicitud aprobada', 'Proceso exitoso');
-            this.router.navigateByUrl('/dashboard/historial/sala');
-          });
-      } else {
-        this.toastrService.info('No hay ningún snack asignado', 'Información');
-      }
+      this.approveRequest();
+      return;
+    }
+
+    if (this.requestRoom.request.statusName === StatusRequestLookup.CANCELLED &&
+      this.previousStatus.name === StatusRequestLookup.APPROVED) {
+      this.cancelRequest();
+      return;
     }
   }
 
@@ -108,5 +124,31 @@ export class RoomDetailComponent {
       snacks.push(inventory.inventoryRequest);
     });
     return { requestId: this.requestRoom.requestId, inventoryRequest: snacks };
+  }
+
+  private approveRequest(): void {
+    if (this.snackDetailComponent?.snacks.length > 0) {
+      const snacks = this.snackDetailComponent?.snacks;
+      this.requestRoomService.assignSnacks(this.prepareDataToAssignSnack(snacks))
+        .subscribe(() => {
+          this.toastrService.success('Solicitud aprobada', 'Proceso exitoso');
+          this.router.navigateByUrl('/dashboard/historial/sala');
+        });
+    } else {
+      this.toastrService.info('No hay ningún snack asignado', 'Información');
+    }
+  }
+
+  private cancelRequest(): void {
+    if (this.cancelForm.invalid) {
+      this.cancelForm.markAllAsTouched();
+      return;
+    }
+
+    const data: RequestModel = this.cancelForm.getRawValue();
+    this.requestRoomService.cancelRequest(this.requestRoom.requestId, data).subscribe(() => {
+      this.toastrService.success('Solicitud cancelada', 'Proceso exitoso');
+      this.router.navigateByUrl('/dashboard/historial/sala');
+    });
   }
 }

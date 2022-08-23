@@ -11,6 +11,7 @@ export class RequestModel {
   endDate: Date | string;
   duration: number;
   comment: string;
+  cancelComment?: string;
   addGoogleCalendar: boolean;
   people: number;
   userId: number;
@@ -27,6 +28,7 @@ export class RequestModel {
     this.endDate = request.endDate;
     this.duration = request.duration;
     this.comment = request.comment;
+    this.cancelComment = request.cancelComment;
     this.addGoogleCalendar = request.addGoogleCalendar;
     this.people = request.people;
     this.userId = request.userId;

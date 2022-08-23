@@ -10,8 +10,6 @@ import { map } from "rxjs/operators";
 import { RequestRoomModel } from "../models/request-room.model";
 import { Lookup } from "../../../core/interfaces/lookup";
 import { InventoryRequestModel } from "../../history/models/inventory-request.model";
-import { ajax } from "rxjs/internal/ajax/ajax";
-import { UserSessionService } from "../../../core/services/user-session.service";
 
 @Injectable({
   providedIn: 'root'
@@ -19,8 +17,7 @@ import { UserSessionService } from "../../../core/services/user-session.service"
 export class RequestRoomService {
   private _baseUrl = 'request-rooms';
 
-  constructor(private http: HttpClient,
-              private userSessionService: UserSessionService) {}
+  constructor(private http: HttpClient) {}
 
   get url(): string {
     return environment.baseUrl + environment.api + this._baseUrl;
@@ -64,5 +61,10 @@ export class RequestRoomService {
   availableRoom(request: RequestModel): Observable<RequestModel> {
     const url = `${this.url}/available-room`;
     return this.http.post<RequestModel>(url, request);
+  }
+
+  cancelRequest(id: number, request: RequestModel): Observable<void> {
+    const url = `${this.url}/cancel/${id}`;
+    return this.http.patch<void>(url, request);
   }
 }

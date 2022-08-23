@@ -85,6 +85,26 @@
             <mat-label>Comentarios</mat-label>
             <textarea matInput readonly [value]="requestRoom.request.comment"></textarea>
           </mat-form-field>
+
+          <ng-container [formGroup]="cancelForm"
+                        *ngIf="requestRoom.request.statusName === statusRequest.CANCELLED">
+            <mat-form-field class="flex-auto">
+              <mat-label>Motivo de cancelación</mat-label>
+              <textarea matInput
+                        [readonly]="previousStatus.name === statusRequest.CANCELLED"
+                        formControlName="cancelComment"></textarea>
+
+              <mat-error *ngIf="cancelFormErrors.customError('cancelComment', 'required')">
+                Campo obligatorio.
+              </mat-error>
+              <mat-error *ngIf="cancelFormErrors.customError('cancelComment', 'minlength')">
+                El comentario debe tener más de {{cancelFormErrors.minLengthNumber('cancelComment')}} caracteres.
+              </mat-error>
+              <mat-error *ngIf="cancelFormErrors.customError('cancelComment', 'maxlength')">
+                El comentario debe tener menos de {{cancelFormErrors.maxLengthNumber('cancelComment')}} caracteres.
+              </mat-error>
+            </mat-form-field>
+          </ng-container>
         </div>
       </div>
 
@@ -101,7 +121,8 @@
         <button color="primary"
                 mat-raised-button
                 type="button"
-                (click)="save()">
+                (click)="save()"
+                [disabled]="statusChange.length === 0">
           Guardar
         </button>
       </div>

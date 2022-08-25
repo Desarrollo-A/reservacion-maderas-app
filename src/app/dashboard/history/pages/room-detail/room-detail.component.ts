@@ -18,6 +18,7 @@ import { NameRole } from "../../../../core/enums/name-role";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { FormErrors } from "../../../../shared/utils/form-error";
 import { RequestModel } from "../../../request/models/request.model";
+import { ProposalRequestComponent } from "../../components/proposal-request/proposal-request.component";
 
 @Component({
   selector: 'app-room-detail',
@@ -31,6 +32,8 @@ import { RequestModel } from "../../../request/models/request.model";
 export class RoomDetailComponent implements OnInit {
   @ViewChild('snackDetailComponent')
   snackDetailComponent: SnackDetailComponent;
+  @ViewChild('proposalRequestComponent')
+  proposalRequestComponent: ProposalRequestComponent;
 
   requestRoom: RequestRoomModel;
   statusChange: Lookup[] = [];
@@ -116,6 +119,12 @@ export class RoomDetailComponent implements OnInit {
       this.cancelRequest();
       return;
     }
+
+    if (this.requestRoom.request.statusName === StatusRequestLookup.PROPOSAL &&
+      this.previousStatus.name === StatusRequestLookup.NEW) {
+      this.proposalRequest();
+      return;
+    }
   }
 
   prepareDataToAssignSnack(inventories: InventoryModel[]): { requestId: number, inventoryRequest: InventoryRequestModel[] } {
@@ -148,6 +157,26 @@ export class RoomDetailComponent implements OnInit {
     const data: RequestModel = this.cancelForm.getRawValue();
     this.requestRoomService.cancelRequest(this.requestRoom.requestId, data).subscribe(() => {
       this.toastrService.success('Solicitud cancelada', 'Proceso exitoso');
+      this.router.navigateByUrl('/dashboard/historial/sala');
+    });
+  }
+
+  private proposalRequest(): void {
+    if (this.proposalRequestComponent.form.invalid) {
+      this.proposalRequestComponent.form.markAllAsTouched();
+      return;
+    }
+
+    const { date, schedule } = this.proposalRequestComponent.form.getRawValue();
+    const { startTime, endTime } = this.proposalRequestComponent.availableSchedule[schedule];
+    const dateRequest = date.toISOString().split('T')[0];
+    const data = <RequestModel>{
+      startDate: `${dateRequest} ${startTime}`,
+      endDate: `${dateRequest} ${endTime}`,
+    };
+
+    this.requestRoomService.proposalRequest(this.requestRoom.requestId, data).subscribe(() => {
+      this.toastrService.success('Propuesta realizada', 'Proceso exitoso');
       this.router.navigateByUrl('/dashboard/historial/sala');
     });
   }

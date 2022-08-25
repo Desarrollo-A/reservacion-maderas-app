@@ -10,6 +10,7 @@ import { map } from "rxjs/operators";
 import { RequestRoomModel } from "../models/request-room.model";
 import { Lookup } from "../../../core/interfaces/lookup";
 import { InventoryRequestModel } from "../../history/models/inventory-request.model";
+import { AvailableScheduleModel } from "../../history/models/available-schedule.model";
 
 @Injectable({
   providedIn: 'root'
@@ -66,5 +67,20 @@ export class RequestRoomService {
   cancelRequest(id: number, request: RequestModel): Observable<void> {
     const url = `${this.url}/cancel/${id}`;
     return this.http.patch<void>(url, request);
+  }
+
+  getAvailableSchedule(id: number, date: string): Observable<AvailableScheduleModel[]> {
+    const url = `${this.url}/schedule/${id}/${date}`;
+    return this.http.get<AvailableScheduleModel[]>(url).pipe(
+      map(res => {
+        res = res.map(available => new AvailableScheduleModel(available));
+        return res;
+      })
+    );
+  }
+
+  proposalRequest(id: number, data: RequestModel): Observable<void> {
+    const url = `${this.url}/proposal/${id}`;
+    return this.http.patch<void>(url, data);
   }
 }

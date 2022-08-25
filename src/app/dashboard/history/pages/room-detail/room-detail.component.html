@@ -117,6 +117,12 @@
                         [requestId]="requestRoom.requestId">
       </app-snack-detail>
 
+      <app-proposal-request #proposalRequestComponent
+                            *ngIf="requestRoom.request.statusName === statusRequest.PROPOSAL &&
+                            this.previousStatus.name !== statusRequest.PROPOSAL"
+                            [requestId]="requestRoom.requestId">
+      </app-proposal-request>
+
       <div class="flex items-center justify-end gap-2">
         <button color="primary"
                 mat-raised-button

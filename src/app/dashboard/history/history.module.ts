@@ -17,6 +17,7 @@ import { SnackAssignComponent } from './components/snack-assign/snack-assign.com
 import { SimplePaginatorModule } from "../../shared/components/simple-paginator/simple-paginator.module";
 import { ImageModule } from "../../shared/pipes/image/image.module";
 import { DeleteConfirmModule } from "../../shared/components/delete-confirm/delete-confirm.module";
+import { ProposalRequestComponent } from './components/proposal-request/proposal-request.component';
 
 
 @NgModule({
@@ -26,7 +27,8 @@ import { DeleteConfirmModule } from "../../shared/components/delete-confirm/dele
     DriverComponent,
     RoomDetailComponent,
     SnackDetailComponent,
-    SnackAssignComponent
+    SnackAssignComponent,
+    ProposalRequestComponent
   ],
   imports: [
     CommonModule,

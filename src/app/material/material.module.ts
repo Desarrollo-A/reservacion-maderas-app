@@ -25,6 +25,7 @@ import { MatDatepickerModule } from "@angular/material/datepicker";
 import { MatSelectModule } from "@angular/material/select";
 import { MatAutocompleteModule } from "@angular/material/autocomplete";
 import { MatChipsModule } from "@angular/material/chips";
+import { MatCardModule } from "@angular/material/card";
 
 
 @NgModule({
@@ -36,6 +37,7 @@ import { MatChipsModule } from "@angular/material/chips";
     MatAutocompleteModule,
     MatBottomSheetModule,
     MatButtonModule,
+    MatCardModule,
     MatCheckboxModule,
     MatChipsModule,
     MatDatepickerModule,

@@ -69,7 +69,7 @@
 
         <!-- Tipo reunión Column -->
         <ng-container matColumnDef="levelMeeting">
-          <th *matHeaderCellDef class="uppercase" mat-header-cell mat-sort-header>Tipo de reunión</th>
+          <th *matHeaderCellDef class="uppercase" mat-header-cell>Tipo de reunión</th>
           <td *matCellDef="let row" mat-cell>
             <div (click)="$event.stopPropagation()" class="flex items-center gap-1">
               <div class="rounded px-2 py-1 font-medium text-xs flex-none text-purple bg-deep-purple-light">
@@ -81,7 +81,7 @@
 
         <!-- Label Column -->
         <ng-container matColumnDef="status">
-          <th *matHeaderCellDef class="uppercase" mat-header-cell mat-sort-header>Estatus</th>
+          <th *matHeaderCellDef class="uppercase" mat-header-cell>Estatus</th>
           <td *matCellDef="let row" mat-cell>
             <div (click)="$event.stopPropagation()" class="flex items-center gap-1">
               <div [ngClass]="[row.labelStatus.textClass, row.labelStatus.bgClass]"

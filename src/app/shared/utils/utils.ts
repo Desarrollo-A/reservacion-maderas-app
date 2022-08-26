@@ -53,7 +53,7 @@ export const weekendsOffCalendar = (d: Date | null): boolean => {
 export const getLabelStatusRequest = (statusName: string): LabelButton => {
   if (statusName === StatusRequestLookup.NEW) {
     return { text: statusName, textClass: 'text-primary', bgClass: 'bg-primary/10' };
-  } else if (statusName === StatusRequestLookup.APPROVED) {
+  } else if (statusName === StatusRequestLookup.APPROVED || statusName === StatusRequestLookup.RESPONSE) {
     return { text: statusName, textClass: 'text-green', bgClass: 'bg-green-light' };
   } else if (statusName === StatusRequestLookup.REJECTED || statusName === StatusRequestLookup.CANCELLED) {
     return { text: statusName, textClass: 'text-red', bgClass: 'bg-red-light' };

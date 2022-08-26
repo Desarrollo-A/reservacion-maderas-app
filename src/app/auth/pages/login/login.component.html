@@ -23,7 +23,8 @@
                  type="text"
                  #noEmployee
                  formControlName="noEmployee"
-                 (input)="noEmployee.value = noEmployee.value.toUpperCase()">
+                 (input)="noEmployee.value = noEmployee.value.toUpperCase()"
+                 (keyup.enter)="send()">
           <mat-error *ngIf="formErrors.customError('noEmployee','required')">
             Campo obligatorio.
           </mat-error>
@@ -39,7 +40,8 @@
           <mat-label>Contraseña</mat-label>
           <input [type]="inputType"
                  formControlName="password"
-                 matInput>
+                 matInput
+                 (keyup.enter)="send()">
           <button (click)="toggleVisibility()"
                   mat-icon-button
                   matSuffix

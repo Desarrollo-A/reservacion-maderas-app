@@ -6,7 +6,7 @@ import { ActivatedRoute, Router } from "@angular/router";
 import { RequestRoomService } from "../../../request/services/request-room.service";
 import { RequestRoomModel } from "../../../request/models/request-room.model";
 import { Lookup } from "../../../../core/interfaces/lookup";
-import { of, switchMap, tap } from "rxjs";
+import { delay, of, switchMap, tap } from "rxjs";
 import { InventoryService } from "../../../inventory/services/inventory.service";
 import { InventoryModel } from "../../../inventory/models/inventory.model";
 import { StatusRequestLookup } from "../../enums/status-request.lookup";
@@ -19,6 +19,7 @@ import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { FormErrors } from "../../../../shared/utils/form-error";
 import { RequestModel } from "../../../request/models/request.model";
 import { ProposalRequestComponent } from "../../components/proposal-request/proposal-request.component";
+import { RequestService } from "../../services/request.service";
 
 @Component({
   selector: 'app-room-detail',
@@ -53,7 +54,8 @@ export class RoomDetailComponent implements OnInit {
               private inventoryService: InventoryService,
               private toastrService: ToastrService,
               private userSessionService: UserSessionService,
-              private fb: FormBuilder) {
+              private fb: FormBuilder,
+              private requestService: RequestService) {
     this.activatedRoute.params.subscribe(params => {
       this.findByRequestId(params.id);
     });
@@ -82,34 +84,37 @@ export class RoomDetailComponent implements OnInit {
       }),
       switchMap(requestRoom => this.requestRoomService.getStatusByStatusCurrent(requestRoom.request.status.name))
     ).subscribe(status => {
-      this.statusChange = status
-
       if (this.userSessionService.user.role.name === NameRole.RECEPCIONIST) {
         this.inventoryService.findAllSnacks().pipe(
+          delay(0),
           tap(snackList => this.snackList = snackList),
           switchMap(() => {
             return (this.requestRoom.request.status.name === StatusRequestLookup.NEW)
               ? this.requestRoomService.availableRoom(this.requestRoom.request)
               : of({isAvailable: true});
-
+          }),
+          tap(({isAvailable}) => {
+            if (!isAvailable) {
+              const index = status.findIndex(status => status.name === StatusRequestLookup.APPROVED);
+              status.splice(index, 1);
+            }
+            this.statusChange = status
           })
-        ).subscribe(({isAvailable}) => {
-          if (!isAvailable) {
-            const index = this.statusChange.findIndex(status => status.name === StatusRequestLookup.APPROVED);
-            this.statusChange.splice(index, 1);
-          }
-        });
+        ).subscribe();
+      } else {
+        this.statusChange = status
       }
     });
   }
 
   changeStatus(status: Lookup): void {
+    this.requestRoom.request.statusId = status.id;
     this.requestRoom.request.status = status;
   }
 
   save(): void {
     if (this.requestRoom.request.statusName === StatusRequestLookup.APPROVED &&
-      this.previousStatus.name === StatusRequestLookup.NEW) {
+      (this.previousStatus.name === StatusRequestLookup.NEW || this.previousStatus.name === StatusRequestLookup.RESPONSE)) {
       this.approveRequest();
       return;
     }
@@ -123,6 +128,11 @@ export class RoomDetailComponent implements OnInit {
     if (this.requestRoom.request.statusName === StatusRequestLookup.PROPOSAL &&
       this.previousStatus.name === StatusRequestLookup.NEW) {
       this.proposalRequest();
+      return;
+    }
+
+    if (this.previousStatus.name === StatusRequestLookup.PROPOSAL) {
+      this.responseRejectRequest();
       return;
     }
   }
@@ -179,5 +189,18 @@ export class RoomDetailComponent implements OnInit {
       this.toastrService.success('Propuesta realizada', 'Proceso exitoso');
       this.router.navigateByUrl('/dashboard/historial/sala');
     });
+  }
+
+  private responseRejectRequest(): void {
+    this.requestService.responseRejectRequest(this.requestRoom.requestId, this.requestRoom.request.statusId)
+      .subscribe(() => {
+        if (this.requestRoom.request.statusName === StatusRequestLookup.RESPONSE) {
+          this.toastrService.success('Propuesta aceptada', 'Proceso exitoso');
+          this.router.navigateByUrl('/dashboard/historial/sala');
+        } else if (this.requestRoom.request.statusName === StatusRequestLookup.REJECTED) {
+          this.toastrService.success('Solicitud rechazada', 'Proceso exitoso');
+          this.router.navigateByUrl('/dashboard/historial/sala');
+        }
+      });
   }
 }

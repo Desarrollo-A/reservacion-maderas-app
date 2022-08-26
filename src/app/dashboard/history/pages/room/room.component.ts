@@ -30,7 +30,7 @@ export class RoomComponent implements OnInit {
     { label: 'Hora Fin', property: 'endTime', type: 'date', visible: true },
     { label: 'Sala', property: 'roomName', type: 'text', visible: true },
     { label: 'Tipo Reunión', property: 'levelMeeting', type: 'button', visible: true },
-    { label: 'Estatus', property: 'status', type: 'button', visible: true },
+    { label: 'Estatus', property: 'statusName', type: 'button', visible: true },
     { label: 'Acciones', property: 'actions', type: 'button', visible: true }
   ];
   pageSizeOptions: number[] = [5, 10, 20, 50];

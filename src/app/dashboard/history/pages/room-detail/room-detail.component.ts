@@ -135,6 +135,12 @@ export class RoomDetailComponent implements OnInit {
       this.responseRejectRequest();
       return;
     }
+
+    if (this.requestRoom.request.statusName === StatusRequestLookup.WITHOUT_ATTENDING &&
+      this.previousStatus.name === StatusRequestLookup.APPROVED) {
+      this.withoutAttendingRequest();
+      return;
+    }
   }
 
   prepareDataToAssignSnack(inventories: InventoryModel[]): { requestId: number, inventoryRequest: InventoryRequestModel[] } {
@@ -202,5 +208,12 @@ export class RoomDetailComponent implements OnInit {
           this.router.navigateByUrl('/dashboard/historial/sala');
         }
       });
+  }
+
+  private withoutAttendingRequest(): void {
+    this.requestRoomService.withoutAttendingRequest(this.requestRoom.requestId).subscribe(() => {
+      this.toastrService.success('Reunión sin asistir', 'Proceso exitoso');
+      this.router.navigateByUrl('/dashboard/historial/sala');
+    });
   }
 }

@@ -83,4 +83,9 @@ export class RequestRoomService {
     const url = `${this.url}/proposal/${id}`;
     return this.http.patch<void>(url, data);
   }
+
+  withoutAttendingRequest(id: number): Observable<void> {
+    const url = `${this.url}/without-attending/${id}`;
+    return this.http.patch<void>(url, null);
+  }
 }

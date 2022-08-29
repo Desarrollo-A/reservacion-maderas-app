@@ -46,7 +46,7 @@
 
         <!-- Label Column -->
         <ng-container matColumnDef="statusNameLabel">
-          <th *matHeaderCellDef class="uppercase" mat-header-cell mat-sort-header>Estatus</th>
+          <th *matHeaderCellDef class="uppercase" mat-header-cell>Estatus</th>
           <td *matCellDef="let row" mat-cell>
             <div (click)="$event.stopPropagation()" class="flex items-center gap-1">
               <div [ngClass]="[row.labelStatus.textClass, row.labelStatus.bgClass]"

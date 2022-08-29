@@ -90,6 +90,7 @@ export class RoomComponent implements OnInit {
 
     this.generateFilter('code', TypesEnum.String, filter);
     this.generateFilter('name', TypesEnum.String, filter);
+    this.generateFilter('lookup', TypesEnum.String, filter);
     if (!isNaN(Number(filter))) {
       this.generateFilter('no_people', TypesEnum.Int, Number(filter));
     }

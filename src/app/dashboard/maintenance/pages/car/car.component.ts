@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { MAT_FORM_FIELD_DEFAULT_OPTIONS, MatFormFieldDefaultOptions } from '@angular/material/form-field';
 import { Sort } from '@angular/material/sort';
 import { fadeInUp400ms } from 'src/app/shared/animations/fade-in-up.animation';
 import { stagger40ms } from 'src/app/shared/animations/stagger.animation';
@@ -104,6 +103,7 @@ export class CarComponent implements OnInit {
     this.generateFilter('license_plate', TypesEnum.String, filter);
     this.generateFilter('serie', TypesEnum.String, filter);
     this.generateFilter('circulation_card', TypesEnum.String, filter);
+    this.generateFilter('lookup', TypesEnum.String, filter);
     if (!isNaN(Number(filter))) {
       this.generateFilter('people', TypesEnum.Int, Number(filter));
     }

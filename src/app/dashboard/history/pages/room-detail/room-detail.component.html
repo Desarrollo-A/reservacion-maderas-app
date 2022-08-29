@@ -2,7 +2,7 @@
 
   <vex-page-layout-header class="flex flex-col items-start justify-center">
     <div class="container">
-      <h2 class="title m-0">Detalle de la solicitud</h2>
+      <h2 class="title m-0">Detalle de la solicitud <strong>{{ requestRoom.request.code }}</strong></h2>
       <vex-breadcrumbs [crumbs]="breadcrumbs"></vex-breadcrumbs>
     </div>
   </vex-page-layout-header>
@@ -10,7 +10,7 @@
   <vex-page-layout-content class="container" *ngIf="requestRoom">
     <div class="card p-6">
       <div class="flex">
-        <h2 class="m-0 title mb-6">Sala <b>{{requestRoom.room.name}}</b></h2>
+        <h2 class="m-0 title mb-6">Sala <strong>{{requestRoom.room.name}}</strong></h2>
 
         <span class="flex-1"></span>
 

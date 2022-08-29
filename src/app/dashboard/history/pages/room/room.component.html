@@ -125,7 +125,7 @@
 
 <mat-menu #actionsMenu="matMenu" xPosition="before" yPosition="below">
   <ng-template let-room="room" matMenuContent>
-    <a mat-menu-item [routerLink]="['/dashboard/historial/sala', room.id]">
+    <a mat-menu-item [routerLink]="['./', room.id]">
       <mat-icon svgIcon="mat:visibility"></mat-icon>
       <span>Detalle</span>
     </a>

@@ -11,7 +11,7 @@ export class HomeComponent {
   constructor(private userService: UserSessionService) { }
 
   get userRole(): boolean {
-   return this.userService.user.role.name == NameRole.RECEPCIONIST;
+   return this.userService.user.role?.name == NameRole.RECEPCIONIST;
   }
 
   salesSeries: ApexAxisChartSeries = [{

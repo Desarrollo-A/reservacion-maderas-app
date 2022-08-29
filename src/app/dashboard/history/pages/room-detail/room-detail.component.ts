@@ -44,9 +44,7 @@ export class RoomDetailComponent implements OnInit {
   cancelForm: FormGroup;
   cancelFormErrors: FormErrors;
 
-  breadcrumbs: Breadcrumbs[] = [
-    { link: '/dashboard/historial/sala', label: 'Historial' }
-  ];
+  breadcrumbs: Breadcrumbs[] = [];
 
   constructor(private activatedRoute: ActivatedRoute,
               private router: Router,
@@ -56,6 +54,12 @@ export class RoomDetailComponent implements OnInit {
               private userSessionService: UserSessionService,
               private fb: FormBuilder,
               private requestService: RequestService) {
+    const [,,part] = this.router.url.split('/', 3);
+    this.breadcrumbs.push({
+      link: `/dashboard/${part}/sala`,
+      label: 'Historial'
+    });
+
     this.activatedRoute.params.subscribe(params => {
       this.findByRequestId(params.id);
     });
@@ -85,22 +89,7 @@ export class RoomDetailComponent implements OnInit {
       switchMap(requestRoom => this.requestRoomService.getStatusByStatusCurrent(requestRoom.request.status.name))
     ).subscribe(status => {
       if (this.userSessionService.user.role.name === NameRole.RECEPCIONIST) {
-        this.inventoryService.findAllSnacks().pipe(
-          delay(0),
-          tap(snackList => this.snackList = snackList),
-          switchMap(() => {
-            return (this.requestRoom.request.status.name === StatusRequestLookup.NEW)
-              ? this.requestRoomService.availableRoom(this.requestRoom.request)
-              : of({isAvailable: true});
-          }),
-          tap(({isAvailable}) => {
-            if (!isAvailable) {
-              const index = status.findIndex(status => status.name === StatusRequestLookup.APPROVED);
-              status.splice(index, 1);
-            }
-            this.statusChange = status
-          })
-        ).subscribe();
+        this.dataRecepcionist(status);
       } else {
         this.statusChange = status
       }
@@ -215,5 +204,31 @@ export class RoomDetailComponent implements OnInit {
       this.toastrService.success('Reunión sin asistir', 'Proceso exitoso');
       this.router.navigateByUrl('/dashboard/historial/sala');
     });
+  }
+
+  private dataRecepcionist(status: Lookup[]): void {
+    this.inventoryService.findAllSnacks().pipe(
+      delay(0),
+      tap(snackList => this.snackList = snackList),
+      switchMap(() => {
+        return (this.requestRoom.request.status.name === StatusRequestLookup.NEW)
+          ? this.requestRoomService.availableRoom(this.requestRoom.request)
+          : of({isAvailable: true});
+      }),
+      tap(({isAvailable}) => {
+        if (!isAvailable) {
+          const index = status.findIndex(status => status.name === StatusRequestLookup.APPROVED);
+          status.splice(index, 1);
+        } else {
+          const now = new Date();
+          const dateRequest = new Date(this.requestRoom.request.startDate);
+          if (now.getTime() > dateRequest.getTime()) {
+            const index = status.findIndex(status => status.name === StatusRequestLookup.APPROVED);
+            status.splice(index, 1);
+          }
+        }
+        this.statusChange = status;
+      })
+    ).subscribe();
   }
 }

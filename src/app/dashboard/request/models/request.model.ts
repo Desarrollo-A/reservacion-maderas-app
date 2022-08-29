@@ -7,6 +7,7 @@ import { InventoryModel } from "../../inventory/models/inventory.model";
 
 export class RequestModel {
   id: number;
+  code: string;
   startDate: Date | string;
   endDate: Date | string;
   duration: number;
@@ -24,6 +25,7 @@ export class RequestModel {
 
   constructor(request) {
     this.id = request.id;
+    this.code = request.code;
     this.startDate = request.startDate;
     this.endDate = request.endDate;
     this.duration = request.duration;

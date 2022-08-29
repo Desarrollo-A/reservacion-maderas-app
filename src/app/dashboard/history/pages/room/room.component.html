@@ -27,6 +27,14 @@
 
       <table @stagger [dataSource]="dataSource" class="w-full" mat-table matSort
              (matSortChange)="sortChange($event)">
+        <!-- Clave column -->
+        <ng-container matColumnDef="code">
+          <th *matHeaderCellDef class="uppercase" mat-header-cell mat-sort-header>Clave</th>
+          <td *matCellDef="let row" class="text-secondary" mat-cell>
+            {{ row.code }}
+          </td>
+        </ng-container>
+
         <!-- Solicitante column -->
         <ng-container matColumnDef="fullName">
           <th *matHeaderCellDef class="uppercase" mat-header-cell mat-sort-header>Solicitante</th>

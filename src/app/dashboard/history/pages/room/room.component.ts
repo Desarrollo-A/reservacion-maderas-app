@@ -24,6 +24,7 @@ export class RoomComponent implements OnInit {
   requestRoomResponse: PaginationResponse<RequestRoomViewModel>;
   dataSource: MatTableDataSource<RequestRoomViewModel> | null;
   columns: TableColumn<RequestRoomViewModel>[] = [
+    { label: 'Clave', property: 'code', type: 'text', visible: true },
     { label: 'Solicitante', property: 'fullName', type: 'text', visible: true },
     { label: 'Fecha', property: 'startDate', type: 'date', visible: true },
     { label: 'Hora Inicio', property: 'startTime', type: 'date', visible: true },
@@ -72,6 +73,7 @@ export class RoomComponent implements OnInit {
       return this.getData();
     }
 
+    this.generateFilter('code', TypesEnum.String, filter);
     this.generateFilter('username', TypesEnum.String, filter);
     this.generateFilter('room_name', TypesEnum.String, filter);
     this.generateFilter('level_meeting', TypesEnum.String, filter);

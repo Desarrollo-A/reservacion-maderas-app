@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from "@angular/common/http";
 import { environment } from "../../../../environments/environment";
 import { Observable } from "rxjs";
+import { map } from "rxjs/operators";
 
 @Injectable({
   providedIn: 'root'
@@ -13,6 +14,13 @@ export class RequestService {
 
   get url(): string {
     return environment.baseUrl + environment.api + this._baseUrl;
+  }
+
+  deleteRequestRoom(id: number): Observable<boolean> {
+    const url = `${this.url}/room/${id}`;
+    return this.http.delete<boolean>(url).pipe(
+      map(() => true)
+    );
   }
 
   responseRejectRequest(id: number, statusId: number): Observable<void> {

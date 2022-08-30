@@ -74,6 +74,10 @@ module.exports = {
           light: 'rgba(233, 30, 99, 0.1)',
           DEFAULT: 'rgb(233, 30, 99)',
         },
+        blue: {
+          light: 'rgba(99, 102, 241, 0.1)',
+          DEFAULT: 'rgba(99, 102, 241)'
+        },
         primary: withOpacityValue('--color-primary'),
         accent: withOpacityValue('--color-accent'),
         warn: withOpacityValue('--color-warn')

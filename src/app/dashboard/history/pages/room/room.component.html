@@ -137,5 +137,11 @@
       <mat-icon svgIcon="mat:visibility"></mat-icon>
       <span>Detalle</span>
     </a>
+    <ng-container *ngIf="canDeleteRequest(room)">
+      <button mat-menu-item (click)="deleteRequest(room.id)">
+        <mat-icon svgIcon="mat:delete"></mat-icon>
+        <span>Eliminar</span>
+      </button>
+    </ng-container>
   </ng-template>
 </mat-menu>

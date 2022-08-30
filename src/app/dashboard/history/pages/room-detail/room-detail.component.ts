@@ -45,6 +45,7 @@ export class RoomDetailComponent implements OnInit {
   cancelFormErrors: FormErrors;
 
   breadcrumbs: Breadcrumbs[] = [];
+  urlRedirectBack = '';
 
   constructor(private activatedRoute: ActivatedRoute,
               private router: Router,
@@ -55,8 +56,9 @@ export class RoomDetailComponent implements OnInit {
               private fb: FormBuilder,
               private requestService: RequestService) {
     const [,,part] = this.router.url.split('/', 3);
+    this.urlRedirectBack = `/dashboard/${part}/sala`;
     this.breadcrumbs.push({
-      link: `/dashboard/${part}/sala`,
+      link: this.urlRedirectBack,
       label: 'Historial'
     });
 
@@ -140,72 +142,6 @@ export class RoomDetailComponent implements OnInit {
     return { requestId: this.requestRoom.requestId, inventoryRequest: snacks };
   }
 
-  private approveRequest(): void {
-    if (this.snackDetailComponent?.snacks.length > 0) {
-      const snacks = this.snackDetailComponent?.snacks;
-      this.requestRoomService.assignSnacks(this.prepareDataToAssignSnack(snacks))
-        .subscribe(() => {
-          this.toastrService.success('Solicitud aprobada', 'Proceso exitoso');
-          this.router.navigateByUrl('/dashboard/historial/sala');
-        });
-    } else {
-      this.toastrService.info('No hay ningún snack asignado', 'Información');
-    }
-  }
-
-  private cancelRequest(): void {
-    if (this.cancelForm.invalid) {
-      this.cancelForm.markAllAsTouched();
-      return;
-    }
-
-    const data: RequestModel = this.cancelForm.getRawValue();
-    this.requestRoomService.cancelRequest(this.requestRoom.requestId, data).subscribe(() => {
-      this.toastrService.success('Solicitud cancelada', 'Proceso exitoso');
-      this.router.navigateByUrl('/dashboard/historial/sala');
-    });
-  }
-
-  private proposalRequest(): void {
-    if (this.proposalRequestComponent.form.invalid) {
-      this.proposalRequestComponent.form.markAllAsTouched();
-      return;
-    }
-
-    const { date, schedule } = this.proposalRequestComponent.form.getRawValue();
-    const { startTime, endTime } = this.proposalRequestComponent.availableSchedule[schedule];
-    const dateRequest = date.toISOString().split('T')[0];
-    const data = <RequestModel>{
-      startDate: `${dateRequest} ${startTime}`,
-      endDate: `${dateRequest} ${endTime}`,
-    };
-
-    this.requestRoomService.proposalRequest(this.requestRoom.requestId, data).subscribe(() => {
-      this.toastrService.success('Propuesta realizada', 'Proceso exitoso');
-      this.router.navigateByUrl('/dashboard/historial/sala');
-    });
-  }
-
-  private responseRejectRequest(): void {
-    this.requestService.responseRejectRequest(this.requestRoom.requestId, this.requestRoom.request.statusId)
-      .subscribe(() => {
-        if (this.requestRoom.request.statusName === StatusRequestLookup.RESPONSE) {
-          this.toastrService.success('Propuesta aceptada', 'Proceso exitoso');
-          this.router.navigateByUrl('/dashboard/historial/sala');
-        } else if (this.requestRoom.request.statusName === StatusRequestLookup.REJECTED) {
-          this.toastrService.success('Solicitud rechazada', 'Proceso exitoso');
-          this.router.navigateByUrl('/dashboard/historial/sala');
-        }
-      });
-  }
-
-  private withoutAttendingRequest(): void {
-    this.requestRoomService.withoutAttendingRequest(this.requestRoom.requestId).subscribe(() => {
-      this.toastrService.success('Reunión sin asistir', 'Proceso exitoso');
-      this.router.navigateByUrl('/dashboard/historial/sala');
-    });
-  }
-
   private dataRecepcionist(status: Lookup[]): void {
     this.inventoryService.findAllSnacks().pipe(
       delay(0),
@@ -230,5 +166,71 @@ export class RoomDetailComponent implements OnInit {
         this.statusChange = status;
       })
     ).subscribe();
+  }
+
+  private approveRequest(): void {
+    if (this.snackDetailComponent?.snacks.length > 0) {
+      const snacks = this.snackDetailComponent?.snacks;
+      this.requestRoomService.assignSnacks(this.prepareDataToAssignSnack(snacks))
+        .subscribe(() => {
+          this.toastrService.success('Solicitud aprobada', 'Proceso exitoso');
+          this.router.navigateByUrl(this.urlRedirectBack);
+        });
+    } else {
+      this.toastrService.info('No hay ningún snack asignado', 'Información');
+    }
+  }
+
+  private cancelRequest(): void {
+    if (this.cancelForm.invalid) {
+      this.cancelForm.markAllAsTouched();
+      return;
+    }
+
+    const data: RequestModel = this.cancelForm.getRawValue();
+    this.requestRoomService.cancelRequest(this.requestRoom.requestId, data).subscribe(() => {
+      this.toastrService.success('Solicitud cancelada', 'Proceso exitoso');
+      this.router.navigateByUrl(this.urlRedirectBack);
+    });
+  }
+
+  private proposalRequest(): void {
+    if (this.proposalRequestComponent.form.invalid) {
+      this.proposalRequestComponent.form.markAllAsTouched();
+      return;
+    }
+
+    const { date, schedule } = this.proposalRequestComponent.form.getRawValue();
+    const { startTime, endTime } = this.proposalRequestComponent.availableSchedule[schedule];
+    const dateRequest = date.toISOString().split('T')[0];
+    const data = <RequestModel>{
+      startDate: `${dateRequest} ${startTime}`,
+      endDate: `${dateRequest} ${endTime}`,
+    };
+
+    this.requestRoomService.proposalRequest(this.requestRoom.requestId, data).subscribe(() => {
+      this.toastrService.success('Propuesta realizada', 'Proceso exitoso');
+      this.router.navigateByUrl(this.urlRedirectBack);
+    });
+  }
+
+  private responseRejectRequest(): void {
+    this.requestService.responseRejectRequest(this.requestRoom.requestId, this.requestRoom.request.statusId)
+      .subscribe(() => {
+        if (this.requestRoom.request.statusName === StatusRequestLookup.RESPONSE) {
+          this.toastrService.success('Propuesta aceptada', 'Proceso exitoso');
+          this.router.navigateByUrl(this.urlRedirectBack);
+        } else if (this.requestRoom.request.statusName === StatusRequestLookup.REJECTED) {
+          this.toastrService.success('Solicitud rechazada', 'Proceso exitoso');
+          this.router.navigateByUrl(this.urlRedirectBack);
+        }
+      });
+  }
+
+  private withoutAttendingRequest(): void {
+    this.requestRoomService.withoutAttendingRequest(this.requestRoom.requestId).subscribe(() => {
+      this.toastrService.success('Reunión sin asistir', 'Proceso exitoso');
+      this.router.navigateByUrl(this.urlRedirectBack);
+    });
   }
 }

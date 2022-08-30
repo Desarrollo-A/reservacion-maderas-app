@@ -10,6 +10,14 @@ import { Filters, TypesEnum } from "../../../../core/interfaces/filters";
 import { RequestRoomService } from "../../../request/services/request-room.service";
 import { Sort } from "@angular/material/sort";
 import { getSort } from "../../../../shared/utils/http-functions";
+import { StatusRequestLookup } from "../../enums/status-request.lookup";
+import { UserSessionService } from "../../../../core/services/user-session.service";
+import { NameRole } from "../../../../core/enums/name-role";
+import { DeleteConfirmComponent } from "../../../../shared/components/delete-confirm/delete-confirm.component";
+import { of, switchMap } from "rxjs";
+import { MatDialog } from "@angular/material/dialog";
+import { RequestService } from "../../services/request.service";
+import { ToastrService } from "ngx-toastr";
 
 @Component({
   selector: 'app-room',
@@ -39,7 +47,11 @@ export class RoomComponent implements OnInit {
   searchCtrl = new FormControl('');
   filters: Filters = { filters: [] };
 
-  constructor(private requestRoomService: RequestRoomService) {}
+  constructor(private requestRoomService: RequestRoomService,
+              private userSessionService: UserSessionService,
+              private dialog: MatDialog,
+              private requestService: RequestService,
+              private toastrService: ToastrService) {}
 
   ngOnInit(): void {
     this.dataSource = new MatTableDataSource<RequestRoomViewModel>();
@@ -48,6 +60,10 @@ export class RoomComponent implements OnInit {
 
   get visibleColumns() {
     return this.columns.filter(column => column.visible).map(column => column.property);
+  }
+
+  canDeleteRequest(request: RequestRoomViewModel): boolean {
+    return (request.statusName === StatusRequestLookup.NEW && this.userSessionService.user.role.name === NameRole.APPLICANT);
   }
 
   sortChange(sortState: Sort): void {
@@ -63,6 +79,17 @@ export class RoomComponent implements OnInit {
 
   search(): void {
     this.prepareFilters();
+  }
+
+  deleteRequest(id: number): void {
+    this.dialog.open(DeleteConfirmComponent, { autoFocus: false }).afterClosed().pipe(
+      switchMap(confirm => (confirm) ? this.requestService.deleteRequestRoom(id) : of(false))
+    ).subscribe(confirm => {
+      if (confirm) {
+        this.toastrService.success('Solicitud eliminada', 'Proceso exitoso');
+        this.prepareFilters();
+      }
+    });
   }
 
   private prepareFilters(): void {

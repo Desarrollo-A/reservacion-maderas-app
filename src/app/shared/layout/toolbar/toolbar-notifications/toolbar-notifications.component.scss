@@ -5,6 +5,6 @@
   }
 
   .mat-icon {
-    color: var(--toolbar-icon-color);
+    @apply text-primary;
   }
 }

@@ -15,7 +15,7 @@ export class ToolbarNotificationsDropdownComponent implements OnInit {
       id: '1',
       label: 'Sala Carranza',
       icon: 'mat:meeting_room',
-      colorClass: 'text-primary',
+      colorClass: 'text-blue',
       datetime: DateTime.local().minus({ hour: 1 })
     },
     {
@@ -43,7 +43,7 @@ export class ToolbarNotificationsDropdownComponent implements OnInit {
       id: '4',
       label: 'Sala Carranza',
       icon: 'mat:meeting_room',
-      colorClass: 'text-primary',
+      colorClass: 'text-blue',
       datetime: DateTime.local().minus({ hour: 9 }),
       read: true
     },

@@ -17,6 +17,7 @@ import { StatusRequestLookup } from "../../enums/status-request.lookup";
 import { InventoryRequestModel } from "../../models/inventory-request.model";
 import { UserSessionService } from "../../../../core/services/user-session.service";
 import { NameRole } from "../../../../core/enums/name-role";
+import { trackById } from "../../../../shared/utils/track-by";
 
 @UntilDestroy()
 @Component({
@@ -44,6 +45,8 @@ export class SnackDetailComponent implements OnInit, AfterViewInit {
   dataSource: MatTableDataSource<InventoryModel> | null;
   searchCtrl = new FormControl();
   columns: TableColumn<InventoryModel>[] = [];
+
+  trackById = trackById;
 
   constructor(private dialog: MatDialog,
               private toastrService: ToastrService,

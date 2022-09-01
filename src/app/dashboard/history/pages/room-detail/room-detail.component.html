@@ -16,7 +16,7 @@
 
         <div class="flex items-center">
           <button [ngClass]="[requestRoom.request.labelStatus.textClass, requestRoom.request.labelStatus.bgClass]"
-                  class="rounded -mt-6 px-3 py-2 text-sm flex-none text-primary bg-primary/10"
+                  class="rounded -mt-6 px-3 py-2 text-sm flex-none"
                   [matMenuTriggerFor]="statusMenu"
                   [disabled]="statusChange.length === 0">
             {{ requestRoom.request.statusName }}

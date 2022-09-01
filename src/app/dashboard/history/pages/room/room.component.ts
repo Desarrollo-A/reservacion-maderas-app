@@ -18,6 +18,7 @@ import { of, switchMap } from "rxjs";
 import { MatDialog } from "@angular/material/dialog";
 import { RequestService } from "../../services/request.service";
 import { ToastrService } from "ngx-toastr";
+import { trackById } from "../../../../shared/utils/track-by";
 
 @Component({
   selector: 'app-room',
@@ -46,6 +47,7 @@ export class RoomComponent implements OnInit {
   orderBy: string = '-id';
   searchCtrl = new FormControl('');
   filters: Filters = { filters: [] };
+  trackById = trackById;
 
   constructor(private requestRoomService: RequestRoomService,
               private userSessionService: UserSessionService,

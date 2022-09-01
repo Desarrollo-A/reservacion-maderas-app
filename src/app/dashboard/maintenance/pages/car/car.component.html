@@ -35,8 +35,8 @@
 
       </div>
 
-      <table @stagger [dataSource]="dataSource" class="w-full" mat-table matSort
-      (matSortChange)="sortChange($event)">
+      <table @stagger [dataSource]="dataSource" class="w-full" mat-table matSort [trackBy]="trackById"
+             (matSortChange)="sortChange($event)">
         <ng-container *ngFor="let column of columns; trackBy: trackByProperty">
           <ng-container *ngIf="column.type === 'text'" [matColumnDef]="column.property">
             <th *matHeaderCellDef class="uppercase" mat-header-cell mat-sort-header> {{ column.label }}</th>

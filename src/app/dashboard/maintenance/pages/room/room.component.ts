@@ -12,6 +12,7 @@ import { Sort } from "@angular/material/sort";
 import { getSort } from "../../../../shared/utils/http-functions";
 import { MatDialog } from "@angular/material/dialog";
 import { ChangeStatusRoomComponent } from "../../components/change-status-room/change-status-room.component";
+import { trackById } from "../../../../shared/utils/track-by";
 
 @Component({
   selector: 'app-room',
@@ -36,6 +37,7 @@ export class RoomComponent implements OnInit {
   orderBy: string = '-code';
   searchCtrl = new FormControl('');
   filters: Filters = { filters: [] };
+  trackById = trackById;
 
   constructor(private roomService: RoomService,
               private dialog: MatDialog) {}

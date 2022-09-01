@@ -13,6 +13,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { CarService } from '../../services/car.service';
 import { getSort } from 'src/app/shared/utils/http-functions';
 import { ChangeStatusCarComponent } from '../../components/change-status-car/change-status-car.component';
+import { trackById } from "../../../../shared/utils/track-by";
 
 @UntilDestroy()
 @Component({
@@ -44,6 +45,7 @@ export class CarComponent implements OnInit {
   orderBy: string = '';
   searchCtrl = new FormControl('');
   filters: Filters = { filters: [] };
+  trackById = trackById;
 
   constructor(private carService: CarService,
     private dialog: MatDialog) { }

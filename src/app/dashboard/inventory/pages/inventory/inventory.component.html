@@ -42,7 +42,7 @@
         </button>
       </div>
 
-      <table @stagger [dataSource]="dataSource" class="w-full" mat-table matSort
+      <table @stagger [dataSource]="dataSource" class="w-full" mat-table matSort [trackBy]="trackById"
              (matSortChange)="sortChange($event)">
         <!-- Image Column -->
         <ng-container matColumnDef="image">

@@ -24,7 +24,7 @@
     </button>
   </div>
 
-  <table @stagger [dataSource]="dataSource" class="w-full" mat-table matSort>
+  <table @stagger [dataSource]="dataSource" class="w-full" mat-table matSort [trackBy]="trackById">
     <ng-container matColumnDef="name">
       <th *matHeaderCellDef class="uppercase" mat-header-cell mat-sort-header>
         Nombre

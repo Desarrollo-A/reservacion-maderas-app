@@ -18,6 +18,7 @@ import { of, switchMap } from "rxjs";
 import { ToastrService } from "ngx-toastr";
 import { UpdateStockComponent } from "../../components/update-stock/update-stock.component";
 import { UpdateImageComponent } from "../../components/update-image/update-image.component";
+import { trackById } from "../../../../shared/utils/track-by";
 
 @UntilDestroy()
 @Component({
@@ -48,6 +49,7 @@ export class InventoryComponent implements OnInit {
   orderBy: string = '';
   searchCtrl = new FormControl('');
   filters: Filters = {filters: []};
+  trackById = trackById;
 
   constructor(private dialog: MatDialog,
               private inventoryService: InventoryService,

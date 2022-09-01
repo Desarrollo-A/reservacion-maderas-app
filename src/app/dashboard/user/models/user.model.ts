@@ -1,5 +1,6 @@
 import { Lookup } from "../../../core/interfaces/lookup";
 import { OfficeModel } from "../../../core/models/office.model";
+import { StatusUserLookup } from "../enums/status-user.lookup";
 
 export class UserModel {
   id: number;
@@ -28,7 +29,7 @@ export class UserModel {
     this.personalPhone = user.personalPhone ?? user.tel_personal;
     this.officePhone = user.officePhone ?? user.tel_oficina;
     this.position = user.position ?? user.puesto;
-    this.area = user.area ?? user.area;
+    this.area = user.area;
     this.statusId = user.statusId;
     this.status = user.status;
     this.roleId = user.roleId;
@@ -42,11 +43,11 @@ export class UserModel {
   }
 
   get labelStatus(): { text: string, textClass: string, bgClass: string } {
-    if (this.statusName === 'Activo') {
+    if (this.statusName === StatusUserLookup.ACTIVE) {
       return { text: this.statusName, textClass: 'text-green', bgClass: 'bg-green-light' };
-    } else if (this.statusName === 'Inactivo') {
+    } else if (this.statusName === StatusUserLookup.INACTIVE) {
       return { text: this.statusName, textClass: 'text-red', bgClass: 'bg-red-light' };
-    } else if (this.statusName === 'Bloqueado'){
+    } else if (this.statusName === StatusUserLookup.BLOCKED){
       return { text: this.statusName, textClass: 'text-gray', bgClass: 'bg-gray-light' };
     }
   }

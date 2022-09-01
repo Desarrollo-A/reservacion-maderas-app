@@ -1,77 +1,119 @@
 <vex-page-layout>
-    <vex-page-layout-header class="pb-16 flex flex-col items-start justify-center">
-      <div class="container w-full flex flex-col sm:flex-row justify-between">
-        <div>
-          <h1 class="title mt-0 mb-1">Usuarios</h1>
-          <vex-breadcrumbs></vex-breadcrumbs>
-        </div>
+  <vex-page-layout-header class="pb-16 flex flex-col items-start justify-center">
+    <div class="container w-full flex flex-col sm:flex-row justify-between">
+      <div>
+        <h1 class="title mt-0 mb-1">Listado de Usuarios</h1>
+        <vex-breadcrumbs></vex-breadcrumbs>
       </div>
-    </vex-page-layout-header>
-
-    <vex-page-layout-content class="container -mt-6">
-        <div class="card overflow-auto -mt-16">
-          <div class="bg-app-bar px-6 h-16 border-b sticky left-0 flex items-center">
-                <h2 class="title my-0 ltr:pr-4 rtl:pl-4 ltr:mr-4 rtl:ml-4 ltr:border-r rtl:border-l hidden sm:block flex-none">
-                <span>Usuarios</span>
-                </h2>
-
-                <div class="bg-foreground rounded-full border px-4 max-w-[300px] flex-auto flex items-center border border-gray-300">
-                    <mat-icon class="icon-sm text-secondary" svgIcon="mat:search"></mat-icon>
-                    <input class="px-4 py-2 border-0 outline-none w-full bg-transparent"
-                           placeholder="Buscar..."
-                           type="search">
-                  </div>
-                  <span class="flex-1"></span>
-
-                  <button [matMenuTriggerFor]="columnFilterMenu"
-                    class="ml-4 flex-none"
-                    mat-icon-button
-                    matTooltip="Filtrar columnas"
-                    type="button">
-                    <mat-icon svgIcon="mat:filter_list"></mat-icon>
-                  </button>
     </div>
+  </vex-page-layout-header>
 
-    <table @stagger [dataSource]="dataSource" class="w-full" mat-table matSort>
-      <ng-container *ngFor="let column of columns; trackBy: trackByProperty">
-        <ng-container *ngIf="column.type === 'text'" [matColumnDef]="column.property">
-          <th *matHeaderCellDef class="uppercase" mat-header-cell mat-sort-header> {{ column.label }}</th>
-          <td *matCellDef="let row" [ngClass]="column.cssClasses" mat-cell>{{ row[column.property] }}</td>
-        </ng-container>
-      </ng-container>
+  <vex-page-layout-content class="container -mt-6">
+    <div class="card overflow-auto -mt-16">
+      <div class="bg-app-bar px-6 h-16 border-b sticky left-0 flex items-center">
+        <h2 class="title my-0 ltr:pr-4 rtl:pl-4 ltr:mr-4 rtl:ml-4 ltr:border-r rtl:border-l hidden sm:block flex-none">
+          <span>Usuarios</span>
+        </h2>
 
-      <!-- Label Column -->
-      <ng-container matColumnDef="status">
-        <th *matHeaderCellDef class="uppercase" mat-header-cell mat-sort-header>Estatus</th>
-        <td *matCellDef="let row" mat-cell>
-          <div  class="flex items-center gap-1">
-            <div [ngClass]="[row.labelStatus.textClass, row.labelStatus.bgClass]"
-                 class="rounded px-2 py-1 font-medium text-xs flex-none">
-              {{ row.labelStatus.text }}
-            </div>
-          </div>
-        </td>
-      </ng-container>
-      <ng-container matColumnDef="role">
-        <th *matHeaderCellDef class="uppercase" mat-header-cell>Rol</th>
-        <td *matCellDef="let row" mat-cell>
-          <div (click)="$event.stopPropagation()" class="flex items-center gap-1">
-            <div class="rounded px-2 py-1 font-medium text-xs flex-none text-orange bg-orange-light">
-              {{ row.role.name }}
-            </div>
-          </div>
-        </td>
-      </ng-container>
-      <!-- Action Column -->
-      <tr *matHeaderRowDef="visibleColumns" mat-header-row></tr>
-      <tr *matRowDef="let row; columns: visibleColumns;"
-          @fadeInUp
-          class="hover:bg-hover trans-ease-out cursor-pointer"
-          mat-row></tr>
-    </table>
+        <div
+          class="bg-foreground rounded-full border px-4 max-w-[300px] flex-auto flex items-center border border-gray-300">
+          <mat-icon class="icon-sm text-secondary" svgIcon="mat:search"></mat-icon>
+          <input [formControl]="searchCtrl"
+                 class="px-4 py-2 border-0 outline-none w-full bg-transparent"
+                 placeholder="Buscar..."
+                 type="search"
+                 (keyup.enter)="search()">
         </div>
-    </vex-page-layout-content>
+        <span class="flex-1"></span>
+
+        <button [matMenuTriggerFor]="columnFilterMenu"
+                class="ml-4 flex-none"
+                mat-icon-button
+                matTooltip="Filtrar columnas"
+                type="button">
+          <mat-icon svgIcon="mat:filter_list"></mat-icon>
+        </button>
+      </div>
+
+      <table @stagger [dataSource]="dataSource" class="w-full" mat-table matSort [trackBy]="trackById"
+             (matSortChange)="sortChange($event)">
+        <!-- # colaborador columna -->
+        <ng-container matColumnDef="noEmployee">
+          <th *matHeaderCellDef class="uppercase" mat-header-cell mat-sort-header>N° colaborador</th>
+          <td *matCellDef="let row" mat-cell>{{ row.noEmployee }}</td>
+        </ng-container>
+
+        <!-- Nombre completo columna -->
+        <ng-container matColumnDef="fullName">
+          <th *matHeaderCellDef class="uppercase" mat-header-cell mat-sort-header>Nombre completo</th>
+          <td *matCellDef="let row" mat-cell>{{ row.fullName }}</td>
+        </ng-container>
+
+        <!-- Correo columna -->
+        <ng-container matColumnDef="email">
+          <th *matHeaderCellDef class="uppercase" mat-header-cell mat-sort-header>Correo electrónico</th>
+          <td *matCellDef="let row" mat-cell>{{ row.email }}</td>
+        </ng-container>
+
+        <!-- Teléfono personal columna -->
+        <ng-container matColumnDef="personalPhone">
+          <th *matHeaderCellDef class="uppercase" mat-header-cell mat-sort-header>Teléfono personal</th>
+          <td *matCellDef="let row" mat-cell>{{ row.personalPhone }}</td>
+        </ng-container>
+
+        <!-- Puesto columna -->
+        <ng-container matColumnDef="position">
+          <th *matHeaderCellDef class="uppercase" mat-header-cell mat-sort-header>Puesto</th>
+          <td *matCellDef="let row" mat-cell>{{ row.position }}</td>
+        </ng-container>
+
+        <!-- Área columna -->
+        <ng-container matColumnDef="area">
+          <th *matHeaderCellDef class="uppercase" mat-header-cell mat-sort-header>Área</th>
+          <td *matCellDef="let row" mat-cell>{{ row.area }}</td>
+        </ng-container>
+
+        <!-- Label Column -->
+        <ng-container matColumnDef="status">
+          <th *matHeaderCellDef class="uppercase" mat-header-cell>Estatus</th>
+          <td *matCellDef="let row" mat-cell>
+            <div class="flex items-center gap-1">
+              <div [ngClass]="[row.labelStatus.textClass, row.labelStatus.bgClass]"
+                   class="rounded px-2 py-1 font-medium text-xs flex-none">
+                {{ row.labelStatus.text }}
+              </div>
+            </div>
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="role">
+          <th *matHeaderCellDef class="uppercase" mat-header-cell>Rol</th>
+          <td *matCellDef="let row" mat-cell>
+            <div class="flex items-center gap-1">
+              <div class="rounded px-2 py-1 font-medium text-xs flex-none text-orange bg-orange-light">
+                {{ row.role.name }}
+              </div>
+            </div>
+          </td>
+        </ng-container>
+
+        <tr *matHeaderRowDef="visibleColumns" mat-header-row></tr>
+        <tr *matRowDef="let row; columns: visibleColumns;"
+            @fadeInUp
+            class="hover:bg-hover trans-ease-out cursor-pointer"
+            mat-row></tr>
+      </table>
+
+      <ng-container *ngIf="userResponse">
+        <app-paginator [pageSizeOptions]="pageSizeOptions"
+                       [meta]="userResponse.meta"
+                       (onChanges)="paginatorChanges($event)">
+        </app-paginator>
+      </ng-container>
+    </div>
+  </vex-page-layout-content>
 </vex-page-layout>
+
 <mat-menu #columnFilterMenu="matMenu" xPosition="before" yPosition="below">
   <button (click)="toggleColumnVisibility(column, $event)" *ngFor="let column of columns"
           class="checkbox-item mat-menu-item">

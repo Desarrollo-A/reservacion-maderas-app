@@ -1,17 +1,18 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { UntypedFormControl } from '@angular/forms';
-import { MAT_FORM_FIELD_DEFAULT_OPTIONS, MatFormFieldDefaultOptions } from '@angular/material/form-field';
-import { MatPaginator } from '@angular/material/paginator';
-import { MatSort } from '@angular/material/sort';
+import { Component, OnInit } from '@angular/core';
+import { FormControl } from '@angular/forms';
+import { Sort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
-import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
-import { Observable, of } from 'rxjs';
-import { NameRole } from 'src/app/core/enums/name-role';
-import { Lookup } from 'src/app/core/interfaces/lookup';
+import { UntilDestroy } from '@ngneat/until-destroy';
 import { fadeInUp400ms } from 'src/app/shared/animations/fade-in-up.animation';
 import { stagger40ms } from 'src/app/shared/animations/stagger.animation';
 import { TableColumn } from 'src/app/shared/interfaces/table-column.interface';
 import { UserModel } from '../../models/user.model';
+import { Meta, PaginationResponse } from "../../../../core/interfaces/pagination-response";
+import { Filters, TypesEnum } from "../../../../core/interfaces/filters";
+import { MatDialog } from "@angular/material/dialog";
+import { UserService } from "../../services/user.service";
+import { getSort } from "../../../../shared/utils/http-functions";
+import { trackById } from "../../../../shared/utils/track-by";
 
 @UntilDestroy()
 @Component({
@@ -21,87 +22,107 @@ import { UserModel } from '../../models/user.model';
   animations: [
     fadeInUp400ms,
     stagger40ms
-  ],
-  providers: [
-    {
-      provide: MAT_FORM_FIELD_DEFAULT_OPTIONS,
-      useValue:{
-        appearance: 'standard'
-      } as MatFormFieldDefaultOptions
-    }
-  ],
+  ]
 })
 export class UserListComponent implements OnInit {
-  @ViewChild(MatPaginator,{ static:true })
-paginator:MatPaginator;
-@ViewChild(MatSort, {static:true})
-sort: MatSort;
-
-  users: UserModel[];
-  columns: TableColumn<UserModel>[] = [
-    {label: 'N° de empleado', property:  'noEmployee', type: 'text', visible: true,},
-    {label: 'Nombre completo', property:  'fullName', type: 'text', visible: true,},
-    {label: 'Correo', property:  'email', type: 'text', visible: true,},
-    {label: 'Teléfono', property:  'personalPhone', type: 'text', visible: true,},
-    {label: 'Puesto', property:  'position', type: 'text', visible: true,},
-    {label: 'Área', property:  'area', type: 'text', visible: true,},
-    {label: 'Estatus', property: 'status', type: 'button', visible: true },
-    {label: 'Rol', property:  'role', type: 'button', visible: true,}
-    ];
-
-  pageSize = 10;
-  pageSizeOptions: number[] = [5, 10, 20, 50];
+  userResponse: PaginationResponse<UserModel>;
   dataSource: MatTableDataSource<UserModel> | null;
-  searchCtrl = new UntypedFormControl();
+  columns: TableColumn<UserModel>[] = [
+    {label: 'N° de empleado', property: 'noEmployee', type: 'text', visible: true},
+    {label: 'Nombre completo', property: 'fullName', type: 'text', visible: true},
+    {label: 'Correo', property: 'email', type: 'text', visible: true},
+    {label: 'Teléfono', property: 'personalPhone', type: 'text', visible: true},
+    {label: 'Puesto', property: 'position', type: 'text', visible: false},
+    {label: 'Área', property: 'area', type: 'text', visible: false},
+    {label: 'Estatus', property: 'status', type: 'button', visible: true},
+    {label: 'Rol', property: 'role', type: 'button', visible: true}
+  ];
+  pageSizeOptions: number[] = [5, 10, 20, 50];
+  orderBy: string = '-id';
+  searchCtrl = new FormControl('');
+  filters: Filters = {filters: []};
+  trackById = trackById;
 
-  constructor() { }
-
+  constructor(private dialog: MatDialog,
+              private userService: UserService) {
+  }
 
   ngOnInit(): void {
-    this.dataSource = new MatTableDataSource();
-
-    this.getData().subscribe(users => {
-      this.users = users;
-      this.dataSource.data = users;
-    });
-
-    this.searchCtrl.valueChanges.pipe(
-      untilDestroyed(this)
-    ).subscribe(value => this.onFilterChange(value));
+    this.dataSource = new MatTableDataSource<UserModel>();
+    this.prepareFilters();
   }
 
-
-  ngAfterViewInit(): void {
-    this.dataSource.paginator = this.paginator;
-    this.dataSource.sort = this.sort;
-  }
-  trackByProperty<T>(index: number, column: TableColumn<T>) {
-    return column.property;
-  }
   get visibleColumns() {
     return this.columns.filter(column => column.visible).map(column => column.property);
   }
-  private getData(): Observable<UserModel[]> {
-    return of<UserModel[]>([
-      {  noEmployee: 'FRO0154', fullName: 'Juan Ramon Lopez Montolla', email: 'ramon@ciudadmaderas.com', personalPhone: '4421564869', position: 'Gerente', area: 'Control interno',  status: <Lookup>{name: 'Activo'}, role: <Lookup>{name: NameRole.APPLICANT} },
-      {  noEmployee: 'CIB0164', fullName: 'Norma Urtado Torres', email: 'norma@ciudadmaderas.com', personalPhone: '4426978145', position: 'Recepcionista', area: 'Compras',  status: <Lookup>{name: 'Activo'}, role: <Lookup>{name: NameRole.RECEPCIONIST} },
-      {  noEmployee: 'PHC4165', fullName: 'Edgar Tenorio Solis', email: 'edgar@ciudadmaderas.com', personalPhone: '4420136548', position: 'Administrativo', area: 'Capital humano',  status: <Lookup>{name: 'Inactivo'}, role: <Lookup>{name: NameRole.APPLICANT} },
-      {  noEmployee: 'CIN074', fullName: 'Joaquin Lopez Tarzo', email: 'lopez@ciudadmaderas.com', personalPhone: '4426874159', position: 'Contador', area: 'Cuentas por pagar',  status: <Lookup>{name: 'Bloqueado'}, role: <Lookup>{name: NameRole.APPLICANT} },
-      {  noEmployee: 'FRO467', fullName: 'Sofia Juárez Gómez', email: 'robert@ciudadmaderas.com', personalPhone: '4424710364', position: 'Recepcionista', area: 'Nóminas',  status: <Lookup>{name: 'Activo'}, role: <Lookup>{name: NameRole.RECEPCIONIST} },
-    ].map(user => new UserModel(user)));
+
+  sortChange(sortState: Sort): void {
+    const sort = getSort(sortState);
+    this.orderBy = (sort) ? sort : '-id';
+    this.prepareFilters();
   }
 
-  toggleColumnVisibility(column, event){
+  paginatorChanges(meta: Meta): void {
+    this.userResponse.meta = meta;
+    this.prepareFilters();
+  }
+
+  search(): void {
+    this.prepareFilters();
+  }
+
+  toggleColumnVisibility(column, event) {
     event.stopPropagation();
     event.stopImmediatePropagation();
     column.visible = !column.visible;
   }
-  onFilterChange(value: string) {
-    if (!this.dataSource) {
-      return;
+
+  private prepareFilters(): void {
+    this.clearFilters();
+    const filter = this.searchCtrl.value;
+
+    if (filter === '') {
+      return this.getData();
     }
-    value = value.trim();
-    value = value.toLowerCase();
-    this.dataSource.filter = value;
+
+    this.generateFilter('no_employee', TypesEnum.String, filter);
+    this.generateFilter('full_name', TypesEnum.String, filter);
+    this.generateFilter('email', TypesEnum.String, filter);
+    this.generateFilter('personal_phone', TypesEnum.String, filter);
+    this.generateFilter('position', TypesEnum.String, filter);
+    this.generateFilter('area', TypesEnum.String, filter);
+    this.generateFilter('lookup', TypesEnum.String, filter);
+    this.generateFilter('role', TypesEnum.String, filter);
+
+    if (this.userResponse?.meta) {
+      this.userResponse.meta.currentPage = 1;
+    }
+
+    this.getData();
+  }
+
+  private getData(): void {
+    const searchQuery = (this.filters.filters.length === 0) ? '' : JSON.stringify(this.filters);
+    let currentPageInit = 1;
+    let perPageInit = 5;
+    if (this.userResponse?.meta) {
+      const {currentPage, perPage} = this.userResponse.meta;
+      currentPageInit = currentPage;
+      perPageInit = perPage;
+    }
+
+    this.userService.findAllPaginated(this.orderBy, perPageInit, currentPageInit, searchQuery)
+      .subscribe(userResponse => {
+        this.userResponse = userResponse;
+        this.dataSource.data = userResponse.data;
+      });
+  }
+
+  private clearFilters(): void {
+    this.filters = {filters: []};
+  }
+
+  private generateFilter(field: string, type: TypesEnum, value: any): void {
+    this.filters.filters.push({field, type, value});
   }
 }

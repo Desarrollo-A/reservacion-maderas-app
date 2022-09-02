@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { Notification } from '../interfaces/notification.interface';
-import { DateTime } from 'luxon';
 import { trackById } from '../../../../utils/track-by';
+import { NotificationService } from "../services/notification.service";
+import { NotificationModel } from "../models/notification.model";
+import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
 
+@UntilDestroy()
 @Component({
   selector: 'vex-toolbar-notifications-dropdown',
   templateUrl: './toolbar-notifications-dropdown.component.html',
@@ -10,66 +12,26 @@ import { trackById } from '../../../../utils/track-by';
 })
 export class ToolbarNotificationsDropdownComponent implements OnInit {
 
-  notifications: Notification[] = [
-    {
-      id: '1',
-      label: 'Sala Carranza',
-      icon: 'mat:meeting_room',
-      colorClass: 'text-blue',
-      datetime: DateTime.local().minus({ hour: 1 })
-    },
-    {
-      id: '2',
-      label: 'Automóvil - Nissan Sentra',
-      icon: 'mat:directions_car',
-      colorClass: 'text-gray',
-      datetime: DateTime.local().minus({ hour: 2 })
-    },
-    {
-      id: '3',
-      label: 'Chofer - Juanito Pérez',
-      icon: 'mat:face',
-      colorClass: 'text-orange',
-      datetime: DateTime.local().minus({ hour: 5 })
-    },
-    {
-      id: '10',
-      label: 'Inventario bajo - Coca regular 235 ml',
-      icon: 'mat:inventory_2',
-      colorClass: 'text-purple',
-      datetime: DateTime.local().minus({ hour: 5 })
-    },
-    {
-      id: '4',
-      label: 'Sala Carranza',
-      icon: 'mat:meeting_room',
-      colorClass: 'text-blue',
-      datetime: DateTime.local().minus({ hour: 9 }),
-      read: true
-    },
-    {
-      id: '5',
-      label: 'Automóvil - Nissan Frontier',
-      icon: 'mat:directions_car',
-      colorClass: 'text-gray',
-      datetime: DateTime.local().minus({ hour: 30 }),
-      read: true
-    },
-    {
-      id: '6',
-      label: 'Chofer - Margarita Mendoza',
-      icon: 'mat:face',
-      colorClass: 'text-orange',
-      datetime: DateTime.local().minus({ hour: 40 }),
-      read: true
-    }
-  ];
-
   trackById = trackById;
+  notifications: NotificationModel[];
+  notificationMapping: { [k: string]: string } = {
+    '=0': 'notificaciones',
+    '=1': 'notificación',
+    'other': 'notificaciones'
+  };
 
-  constructor() { }
+  constructor(private notificationService: NotificationService) {}
 
   ngOnInit() {
+    this.notificationService.notifications$.asObservable()
+      .pipe(
+        untilDestroyed(this)
+      )
+      .subscribe(notifications => this.notifications = notifications);
   }
 
+  get unreadNotifications(): number {
+    const unread = this.notifications.filter(notification => notification.isRead === false);
+    return unread.length;
+  }
 }

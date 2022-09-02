@@ -4,6 +4,7 @@ import { ToolbarNotificationsDropdownComponent } from './toolbar-notifications-d
 import { NotificationService } from "./services/notification.service";
 import { NotificationModel } from "./models/notification.model";
 import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
+import { PopoverRef } from "../../../components/popover/popover-ref";
 
 @UntilDestroy()
 @Component({
@@ -17,6 +18,7 @@ export class ToolbarNotificationsComponent implements OnInit {
 
   dropdownOpen: boolean;
   notifications: NotificationModel[];
+  popoverRef: PopoverRef;
 
   constructor(private popover: PopoverService,
               private cd: ChangeDetectorRef,
@@ -31,6 +33,10 @@ export class ToolbarNotificationsComponent implements OnInit {
       )
       .subscribe(notifications => {
         this.notifications = notifications;
+        if (this.popoverRef && this.dropdownOpen) {
+          this.dropdownOpen = false;
+          this.popoverRef.close();
+        }
         this.cd.markForCheck();
       });
   }
@@ -44,7 +50,7 @@ export class ToolbarNotificationsComponent implements OnInit {
     this.dropdownOpen = true;
     this.cd.markForCheck();
 
-    const popoverRef = this.popover.open({
+    this.popoverRef = this.popover.open({
       content: ToolbarNotificationsDropdownComponent,
       origin: this.originRef,
       offsetY: 12,
@@ -64,7 +70,7 @@ export class ToolbarNotificationsComponent implements OnInit {
       ]
     });
 
-    popoverRef.afterClosed$.subscribe(() => {
+    this.popoverRef.afterClosed$.subscribe(() => {
       this.dropdownOpen = false;
       this.cd.markForCheck();
     });

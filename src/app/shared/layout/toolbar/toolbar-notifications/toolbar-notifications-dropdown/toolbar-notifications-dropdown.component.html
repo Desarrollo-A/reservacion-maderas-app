@@ -13,8 +13,9 @@
   <div class="dropdown-content">
     <a *ngFor="let notification of notifications; trackBy: trackById"
        [class.read]="notification.isRead"
-       class="notification flex items-center"
-       matRipple>
+       class="notification flex items-center cursor-pointer"
+       matRipple
+       (click)="openNotification(notification)">
       <mat-icon [ngClass]="notification.colorClass"
                 [svgIcon]="notification.icon"
                 class="notification-icon flex-none"></mat-icon>

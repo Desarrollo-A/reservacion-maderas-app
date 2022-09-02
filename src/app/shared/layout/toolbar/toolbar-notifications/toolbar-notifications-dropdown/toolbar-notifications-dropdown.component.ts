@@ -3,6 +3,10 @@ import { trackById } from '../../../../utils/track-by';
 import { NotificationService } from "../services/notification.service";
 import { NotificationModel } from "../models/notification.model";
 import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
+import { Router } from "@angular/router";
+import { UserSessionService } from "../../../../../core/services/user-session.service";
+import { NameRole } from "../../../../../core/enums/name-role";
+import { TypeNotificationLookup } from "../enums/type-notification.lookup";
 
 @UntilDestroy()
 @Component({
@@ -20,7 +24,9 @@ export class ToolbarNotificationsDropdownComponent implements OnInit {
     'other': 'notificaciones'
   };
 
-  constructor(private notificationService: NotificationService) {}
+  constructor(private notificationService: NotificationService,
+              private router: Router,
+              private userSessionService: UserSessionService) {}
 
   ngOnInit() {
     this.notificationService.notifications$.asObservable()
@@ -33,5 +39,29 @@ export class ToolbarNotificationsDropdownComponent implements OnInit {
   get unreadNotifications(): number {
     const unread = this.notifications.filter(notification => notification.isRead === false);
     return unread.length;
+  }
+
+  openNotification(notification: NotificationModel): void {
+    if (!notification.isRead) {
+      this.notificationService.readNotification(notification.id).subscribe(() => {
+        if (notification.typeName === TypeNotificationLookup.ROOM) {
+          this.redirectDetailRoom(notification);
+        }
+      });
+
+      return;
+    }
+
+    if (notification.typeName === TypeNotificationLookup.ROOM) {
+      this.redirectDetailRoom(notification);
+    }
+  }
+
+  private redirectDetailRoom(notification: NotificationModel): void {
+    if (this.userSessionService.user.role.name === NameRole.RECEPCIONIST) {
+      this.router.navigateByUrl(`/dashboard/solicitudes/sala/${notification.requestId}`);
+    } else if (this.userSessionService.user.role.name === NameRole.APPLICANT) {
+      this.router.navigateByUrl(`/dashboard/historial/sala/${notification.requestId}`);
+    }
   }
 }

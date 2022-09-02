@@ -41,6 +41,12 @@ export class ToolbarNotificationsDropdownComponent implements OnInit {
     return unread.length;
   }
 
+  readAll(): void {
+    if (this.unreadNotifications > 0) {
+      this.notificationService.readAllNotifications().subscribe();
+    }
+  }
+
   openNotification(notification: NotificationModel): void {
     if (!notification.isRead) {
       this.notificationService.readNotification(notification.id).subscribe(() => {

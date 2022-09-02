@@ -34,10 +34,23 @@ export class NotificationService {
     );
   }
 
+  readAllNotifications(): Observable<void> {
+    const url = `${this.url}/read-all`;
+    return this.http.patch<void>(url, null).pipe(
+      tap(() => this.readAllNotificationsLocal())
+    );
+  }
+
   private readNotificationLocal(id: number): void {
     let notifications = [... this.notifications$.value];
     const index = notifications.findIndex(notification => notification.id === id);
     notifications[index].isRead = true;
+    this.notifications$.next(notifications);
+  }
+
+  private readAllNotificationsLocal(): void {
+    let notifications = [... this.notifications$.value];
+    notifications.map(notification => notification.isRead = true);
     this.notifications$.next(notifications);
   }
 }

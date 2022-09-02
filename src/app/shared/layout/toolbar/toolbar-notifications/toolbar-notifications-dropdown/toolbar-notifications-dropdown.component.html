@@ -2,7 +2,9 @@
   <div class="dropdown-header flex items-center justify-between">
     <div>
       <div class="dropdown-heading">Notificaciones</div>
-      <div class="dropdown-subheading">Tienes {{ notifications.length }} nuevas notificaciones.</div>
+      <div class="dropdown-subheading">
+        Tienes {{ unreadNotifications }} {{ unreadNotifications | i18nPlural: notificationMapping }} sin leer.
+      </div>
     </div>
 
     <mat-icon class="notifications-header-icon" svgIcon="mat:settings"></mat-icon>
@@ -10,16 +12,15 @@
 
   <div class="dropdown-content">
     <a *ngFor="let notification of notifications; trackBy: trackById"
-       [class.read]="notification.read"
-       [routerLink]="[]"
+       [class.read]="notification.isRead"
        class="notification flex items-center"
        matRipple>
       <mat-icon [ngClass]="notification.colorClass"
                 [svgIcon]="notification.icon"
                 class="notification-icon flex-none"></mat-icon>
       <div class="flex-auto">
-        <div class="notification-label">{{ notification.label }}</div>
-        <div class="notification-description">{{ notification.datetime | relativeDateTime }}</div>
+        <div class="notification-label">{{ notification.message }}</div>
+        <div class="notification-description">{{ notification.createdAt | relativeDateTime }}</div>
       </div>
       <mat-icon class="notification-chevron flex-none" svgIcon="mat:chevron_right"></mat-icon>
     </a>

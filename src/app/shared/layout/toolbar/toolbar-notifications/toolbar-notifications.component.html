@@ -1,3 +1,5 @@
 <button #originRef (click)="showPopover()" [class.active]="dropdownOpen" class="button" mat-icon-button type="button">
-  <mat-icon svgIcon="mat:notifications_active"></mat-icon>
+  <mat-icon [matBadge]="unreadNotifications"
+            [matBadgeHidden]="unreadNotifications === 0"
+            svgIcon="mat:notifications_active"></mat-icon>
 </button>

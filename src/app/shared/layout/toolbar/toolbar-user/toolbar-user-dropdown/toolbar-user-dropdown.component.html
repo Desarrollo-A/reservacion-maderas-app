@@ -13,8 +13,9 @@
   </div>
 
   <div class="dropdown-content">
-    <a class="notification flex items-center"
-       matRipple>
+    <a class="notification flex items-center cursor-pointer"
+       matRipple
+       (click)="showProfile()">
       <mat-icon svgIcon ="mat:account_circle"
                 class="notification-icon flex-none text-teal"></mat-icon>
       <div class="flex-auto">
@@ -26,7 +27,7 @@
 
 
     <a (click)="openDialogChangePassword()"
-       class="notification flex items-center"
+       class="notification flex items-center cursor-pointer"
        matRipple>
       <mat-icon svgIcon ="mat:key"
                 class="notification-icon flex-none text-cyan"></mat-icon>
@@ -38,7 +39,7 @@
     </a>
 
 
-    <a class="notification flex items-center"
+    <a class="notification flex items-center cursor-pointer"
        matRipple>
       <mat-icon svgIcon="mat:info"
                  class="notification-icon flex-none text-blue"></mat-icon>

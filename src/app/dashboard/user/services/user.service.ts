@@ -35,4 +35,9 @@ export class UserService {
   store(data: UserModel): Observable<UserSession> {
     return this.http.post<UserSession>(this.url, data);
   }
+
+  getDataProfile(): Observable<UserModel> {
+    const url = `${this.url}/profile`;
+    return this.http.get<UserModel>(url);
+  }
 }

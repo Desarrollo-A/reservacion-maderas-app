@@ -7,13 +7,15 @@ import { RouterModule } from '@angular/router';
 import { MaterialModule } from "../../../../material/material.module";
 import { ChangePasswordComponent } from './components/change-password/change-password.component';
 import { ReactiveFormsModule } from '@angular/forms';
+import { ProfileComponent } from './components/profile/profile.component';
 
 
 @NgModule({
   declarations: [
     ToolbarUserComponent,
     ToolbarUserDropdownComponent,
-    ChangePasswordComponent
+    ChangePasswordComponent,
+    ProfileComponent
   ],
   imports: [
     CommonModule,

@@ -25,9 +25,9 @@ export class RegisterComponent implements OnInit {
   checkUser(noEmployee: string): void {
     this.authService.checkEmployee(noEmployee).subscribe(({resultado, data}) => {
       if (resultado === Result.NOT_EXIST) {
-        this.toastrService.error('No existe el registro', 'Error');
+        this.toastrService.warning('No existe el registro', 'Atención');
       } else if (resultado === Result.USER_LOW) {
-        this.toastrService.error('Empleado dado de baja.', 'Error');
+        this.toastrService.warning('Empleado dado de baja.', 'Atención');
       } else if (resultado === Result.ACTIVE_WITHOUT_EMAIL) {
         this.toastrService.warning('No tiene correo corporativo. Favor de acercarse a Capital Humano',
           'Empleado sin correo');

@@ -49,8 +49,8 @@ export class RequestRoomService {
       );
   }
 
-  getStatusByStatusCurrent(statusName: string): Observable<Lookup[]> {
-    const url = `${this.url}/status/${statusName}`;
+  getStatusByStatusCurrent(code: string): Observable<Lookup[]> {
+    const url = `${this.url}/status/${code}`;
     return this.http.get<Lookup[]>(url);
   }
 

@@ -27,29 +27,29 @@ export class NotificationModel {
   }
 
   get colorClass(): string {
-    if (this.typeName === TypeNotificationLookup.ROOM) {
+    if (this.type.code === TypeNotificationLookup[TypeNotificationLookup.ROOM]) {
       return 'text-blue';
-    } else if (this.typeName === TypeNotificationLookup.CAR) {
+    } else if (this.type.code === TypeNotificationLookup[TypeNotificationLookup.CAR]) {
       return 'text-teal';
-    } else if (this.typeName === TypeNotificationLookup.DRIVER) {
+    } else if (this.type.code === TypeNotificationLookup[TypeNotificationLookup.DRIVER]) {
       return 'text-orange';
-    } else if (this.typeName === TypeNotificationLookup.INVENTORY) {
+    } else if (this.type.code === TypeNotificationLookup[TypeNotificationLookup.INVENTORY]) {
       return 'text-purple';
-    } else if (this.typeName === TypeNotificationLookup.GENERAL) {
+    } else if (this.type.code === TypeNotificationLookup[TypeNotificationLookup.GENERAL]) {
       return 'text-gray';
     }
   }
 
   get icon(): string {
-    if (this.typeName === TypeNotificationLookup.ROOM) {
+    if (this.type.code === TypeNotificationLookup[TypeNotificationLookup.ROOM]) {
       return 'mat:meeting_room';
-    } else if (this.typeName === TypeNotificationLookup.CAR) {
+    } else if (this.type.code === TypeNotificationLookup[TypeNotificationLookup.CAR]) {
       return 'mat:directions_car';
-    } else if (this.typeName === TypeNotificationLookup.DRIVER) {
+    } else if (this.type.code === TypeNotificationLookup[TypeNotificationLookup.DRIVER]) {
       return 'mat:face';
-    } else if (this.typeName === TypeNotificationLookup.INVENTORY) {
+    } else if (this.type.code === TypeNotificationLookup[TypeNotificationLookup.INVENTORY]) {
       return 'mat:inventory_2';
-    } else if (this.typeName === TypeNotificationLookup.GENERAL) {
+    } else if (this.type.code === TypeNotificationLookup[TypeNotificationLookup.GENERAL]) {
       return 'mat:notifications';
     }
   }

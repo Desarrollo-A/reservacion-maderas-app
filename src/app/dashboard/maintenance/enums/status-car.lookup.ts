@@ -1,5 +1,5 @@
 export enum StatusCarLookup {
-    ACTIVE = 'Activo',
-    DOWN = 'Baja',
-    MAINTENANCE = 'Mantenimiento'
+    ACTIVE,
+    DOWN,
+    MAINTENANCE
   }

@@ -87,11 +87,11 @@
           </mat-form-field>
 
           <ng-container [formGroup]="cancelForm"
-                        *ngIf="requestRoom.request.statusName === statusRequest.CANCELLED">
+                        *ngIf="requestRoom.request.status.code === statusRequest[statusRequest.CANCELLED]">
             <mat-form-field class="flex-auto">
               <mat-label>Motivo de cancelación</mat-label>
               <textarea matInput
-                        [readonly]="previousStatus.name === statusRequest.CANCELLED"
+                        [readonly]="previousStatus.code === statusRequest[statusRequest.CANCELLED]"
                         formControlName="cancelComment"></textarea>
 
               <mat-error *ngIf="cancelFormErrors.customError('cancelComment', 'required')">
@@ -108,8 +108,8 @@
         </div>
       </div>
 
-      <app-snack-detail *ngIf="requestRoom.request.statusName === statusRequest.APPROVED ||
-        requestRoom.request.statusName === statusRequest.FINISHED"
+      <app-snack-detail *ngIf="requestRoom.request.status.code === statusRequest[statusRequest.APPROVED] ||
+        requestRoom.request.status.code === statusRequest[statusRequest.FINISHED]"
                         #snackDetailComponent
                         [snacks]="requestRoom.request.inventories"
                         [snackList]="snackList"
@@ -118,8 +118,8 @@
       </app-snack-detail>
 
       <app-proposal-request #proposalRequestComponent
-                            *ngIf="requestRoom.request.statusName === statusRequest.PROPOSAL &&
-                            this.previousStatus.name !== statusRequest.PROPOSAL"
+                            *ngIf="requestRoom.request.status.code === statusRequest[statusRequest.PROPOSAL] &&
+                            this.previousStatus.code !== statusRequest[statusRequest.PROPOSAL]"
                             [requestId]="requestRoom.requestId">
       </app-proposal-request>
 

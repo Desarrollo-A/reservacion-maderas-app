@@ -50,18 +50,25 @@ export const weekendsOffCalendar = (d: Date | null): boolean => {
   }
 }
 
-export const getLabelStatusRequest = (statusName: string): LabelButton => {
-  if (statusName === StatusRequestLookup.NEW) {
+export const getLabelStatusRequest = (statusName: string, code: string): LabelButton => {
+  if (code === StatusRequestLookup[StatusRequestLookup.NEW]) {
     return { text: statusName, textClass: 'text-blue', bgClass: 'bg-blue-light' };
-  } else if (statusName === StatusRequestLookup.APPROVED || statusName === StatusRequestLookup.RESPONSE) {
+
+  } else if (code === StatusRequestLookup[StatusRequestLookup.APPROVED] ||
+    code === StatusRequestLookup[StatusRequestLookup.RESPONSE]) {
     return { text: statusName, textClass: 'text-green', bgClass: 'bg-green-light' };
-  } else if (statusName === StatusRequestLookup.REJECTED || statusName === StatusRequestLookup.CANCELLED) {
+
+  } else if (code === StatusRequestLookup[StatusRequestLookup.REJECTED] ||
+    code === StatusRequestLookup[StatusRequestLookup.CANCELLED]) {
     return { text: statusName, textClass: 'text-red', bgClass: 'bg-red-light' };
-  } else if (statusName === StatusRequestLookup.PROPOSAL) {
+
+  } else if (code === StatusRequestLookup[StatusRequestLookup.PROPOSAL]) {
     return { text: statusName, textClass: 'text-orange', bgClass: 'bg-orange-light' };
-  } else if (statusName === StatusRequestLookup.WITHOUT_ATTENDING) {
+
+  } else if (code === StatusRequestLookup[StatusRequestLookup.WITHOUT_ATTENDING]) {
     return { text: statusName, textClass: 'text-gray', bgClass: 'bg-gray-light' };
-  } else if (statusName === StatusRequestLookup.FINISHED) {
+
+  } else if (code === StatusRequestLookup[StatusRequestLookup.FINISHED]) {
     return { text: statusName, textClass: 'text-teal', bgClass: 'bg-teal-light' };
   }
 }

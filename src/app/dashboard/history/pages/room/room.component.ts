@@ -65,7 +65,8 @@ export class RoomComponent implements OnInit {
   }
 
   canDeleteRequest(request: RequestRoomViewModel): boolean {
-    return (request.statusName === StatusRequestLookup.NEW && this.userSessionService.user.role.name === NameRole.APPLICANT);
+    return (request.statusCode === StatusRequestLookup[StatusRequestLookup.NEW] &&
+      this.userSessionService.user.role.name === NameRole.APPLICANT);
   }
 
   sortChange(sortState: Sort): void {

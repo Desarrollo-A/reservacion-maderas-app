@@ -43,11 +43,11 @@ export class UserModel {
   }
 
   get labelStatus(): { text: string, textClass: string, bgClass: string } {
-    if (this.statusName === StatusUserLookup.ACTIVE) {
+    if (this.status.code === StatusUserLookup[StatusUserLookup.ACTIVE]) {
       return { text: this.statusName, textClass: 'text-green', bgClass: 'bg-green-light' };
-    } else if (this.statusName === StatusUserLookup.INACTIVE) {
+    } else if (this.status.code === StatusUserLookup[StatusUserLookup.INACTIVE]) {
       return { text: this.statusName, textClass: 'text-red', bgClass: 'bg-red-light' };
-    } else if (this.statusName === StatusUserLookup.BLOCKED){
+    } else if (this.status.code === StatusUserLookup[StatusUserLookup.BLOCKED]){
       return { text: this.statusName, textClass: 'text-gray', bgClass: 'bg-gray-light' };
     }
   }

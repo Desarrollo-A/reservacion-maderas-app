@@ -10,6 +10,7 @@ export class RequestRoomViewModel {
   officeId: number;
   userId: number;
   statusName: string;
+  statusCode: string;
   roomName: string;
   levelMeeting: string;
 
@@ -22,11 +23,12 @@ export class RequestRoomViewModel {
     this.officeId = requestRoom.officeId;
     this.userId = requestRoom.userId;
     this.statusName = requestRoom.statusName;
+    this.statusCode = requestRoom.statusCode;
     this.roomName = requestRoom.roomName;
     this.levelMeeting = requestRoom.levelMeeting;
   }
 
   get labelStatus(): LabelButton {
-    return getLabelStatusRequest(this.statusName);
+    return getLabelStatusRequest(this.statusName, this.statusCode);
   }
 }

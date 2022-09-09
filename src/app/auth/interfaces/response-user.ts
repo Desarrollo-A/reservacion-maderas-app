@@ -16,8 +16,8 @@ interface DataUser {
 }
 
 export enum Result {
-  NOT_EXIST = 0,
-  USER_LOW = 1,
-  ACTIVE_WITHOUT_EMAIL = 2,
-  ACTIVE_WITH_EMAIL = 3
+  NOT_EXIST,
+  USER_LOW,
+  ACTIVE_WITHOUT_EMAIL,
+  ACTIVE_WITH_EMAIL
 }

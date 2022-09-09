@@ -81,11 +81,12 @@ export class ItemCreateUpdateComponent implements OnInit {
   }
 
   loadTypeAndUnitInventories(): void {
-    forkJoin([this.lookupService.findAllByType(TypeLookup.INVENTORY_TYPE), this.lookupService.findAllByType(TypeLookup.UNIT_TYPE)])
+    forkJoin([this.lookupService.findAllByType(TypeLookup.INVENTORY_TYPE), this.lookupService
+      .findAllByType(TypeLookup.UNIT_TYPE)])
       .subscribe(([typeInventories, unitInventories]) => {
         this.typeInventories = typeInventories;
         this.unitInventories = unitInventories;
-        this.typeCafeteria = this.typeInventories.find(lookup => lookup.name === InventoryTypeLookup.COFFEE);
+        this.typeCafeteria = this.typeInventories.find(lookup => lookup.code === InventoryTypeLookup[InventoryTypeLookup.COFFEE]);
       });
   }
 }

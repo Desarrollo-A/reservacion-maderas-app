@@ -38,11 +38,11 @@ export class CarModel {
   }
 
   get labelStatus(): { text: string, textClass: string, bgClass: string } {
-    if (this.statusName === StatusCarLookup.ACTIVE) {
+    if (this.status.code === StatusCarLookup[StatusCarLookup.ACTIVE]) {
       return { text: this.statusName, textClass: 'text-green', bgClass: 'bg-green-light' };
-    } else if (this.statusName === StatusCarLookup.DOWN) {
+    } else if (this.status.code === StatusCarLookup[StatusCarLookup.DOWN]) {
       return { text: this.statusName, textClass: 'text-red', bgClass: 'bg-red-light' };
-    } else if (this.statusName === StatusCarLookup.MAINTENANCE){
+    } else if (this.status.code === StatusCarLookup[StatusCarLookup.MAINTENANCE]){
       return { text: this.statusName, textClass: 'text-gray', bgClass: 'bg-gray-light' };
     }
   }

@@ -50,7 +50,7 @@ export class ToolbarNotificationsDropdownComponent implements OnInit {
   openNotification(notification: NotificationModel): void {
     if (!notification.isRead) {
       this.notificationService.readNotification(notification.id).subscribe(() => {
-        if (notification.typeName === TypeNotificationLookup.ROOM) {
+        if (notification.type.code === TypeNotificationLookup[TypeNotificationLookup.ROOM]) {
           this.redirectDetailRoom(notification);
         }
       });
@@ -58,8 +58,9 @@ export class ToolbarNotificationsDropdownComponent implements OnInit {
       return;
     }
 
-    if (notification.typeName === TypeNotificationLookup.ROOM) {
+    if (notification.type.code === TypeNotificationLookup[TypeNotificationLookup.ROOM]) {
       this.redirectDetailRoom(notification);
+      return;
     }
   }
 

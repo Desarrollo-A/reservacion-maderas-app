@@ -31,11 +31,11 @@ export class RoomModel {
   }
 
   get labelStatus(): LabelButton {
-    if (this.statusName === StatusRoomLookup.ACTIVE) {
+    if (this.status.code === StatusRoomLookup[StatusRoomLookup.ACTIVE]) {
       return { text: this.statusName, textClass: 'text-green', bgClass: 'bg-green-light' };
-    } else if (this.statusName === StatusRoomLookup.DOWN) {
+    } else if (this.status.code === StatusRoomLookup[StatusRoomLookup.DOWN]) {
       return { text: this.statusName, textClass: 'text-red', bgClass: 'bg-red-light' };
-    } else if (this.statusName === StatusRoomLookup.MAINTENANCE) {
+    } else if (this.status.code === StatusRoomLookup[StatusRoomLookup.MAINTENANCE]) {
       return { text: this.statusName, textClass: 'text-gray', bgClass: 'bg-gray-light' };
     }
   }

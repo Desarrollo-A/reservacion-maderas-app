@@ -47,6 +47,6 @@ export class RequestModel {
   }
 
   get labelStatus(): LabelButton {
-    return getLabelStatusRequest(this.statusName);
+    return getLabelStatusRequest(this.statusName, this.status.code);
   }
 }

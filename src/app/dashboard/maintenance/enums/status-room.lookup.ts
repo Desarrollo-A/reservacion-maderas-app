@@ -1,5 +1,5 @@
 export enum StatusRoomLookup {
-  ACTIVE = 'Activa',
-  DOWN = 'Baja',
-  MAINTENANCE = 'Mantenimiento'
+  ACTIVE,
+  DOWN,
+  MAINTENANCE
 }

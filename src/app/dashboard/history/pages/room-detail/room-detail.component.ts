@@ -83,12 +83,12 @@ export class RoomDetailComponent implements OnInit {
       tap(requestRoom => {
         this.requestRoom = requestRoom;
         this.previousStatus = {... requestRoom.request.status};
-        if (this.previousStatus.name === StatusRequestLookup.CANCELLED) {
+        if (this.previousStatus.code === StatusRequestLookup[StatusRequestLookup.CANCELLED]) {
           this.cancelForm.get('cancelComment').setValue(requestRoom.request.cancelComment);
           this.cancelForm.get('cancelComment').clearValidators();
         }
       }),
-      switchMap(requestRoom => this.requestRoomService.getStatusByStatusCurrent(requestRoom.request.status.name))
+      switchMap(requestRoom => this.requestRoomService.getStatusByStatusCurrent(requestRoom.request.status.code))
     ).subscribe(status => {
       if (this.userSessionService.user.role.name === NameRole.RECEPCIONIST) {
         this.dataRecepcionist(status);
@@ -104,31 +104,32 @@ export class RoomDetailComponent implements OnInit {
   }
 
   save(): void {
-    if (this.requestRoom.request.statusName === StatusRequestLookup.APPROVED &&
-      (this.previousStatus.name === StatusRequestLookup.NEW || this.previousStatus.name === StatusRequestLookup.RESPONSE)) {
+    if (this.requestRoom.request.status.code === StatusRequestLookup[StatusRequestLookup.APPROVED] &&
+      (this.previousStatus.code === StatusRequestLookup[StatusRequestLookup.NEW] ||
+        this.previousStatus.code === StatusRequestLookup[StatusRequestLookup.RESPONSE])) {
       this.approveRequest();
       return;
     }
 
-    if (this.requestRoom.request.statusName === StatusRequestLookup.CANCELLED &&
-      this.previousStatus.name === StatusRequestLookup.APPROVED) {
+    if (this.requestRoom.request.status.code === StatusRequestLookup[StatusRequestLookup.CANCELLED] &&
+      this.previousStatus.code === StatusRequestLookup[StatusRequestLookup.APPROVED]) {
       this.cancelRequest();
       return;
     }
 
-    if (this.requestRoom.request.statusName === StatusRequestLookup.PROPOSAL &&
-      this.previousStatus.name === StatusRequestLookup.NEW) {
+    if (this.requestRoom.request.status.code === StatusRequestLookup[StatusRequestLookup.PROPOSAL] &&
+      this.previousStatus.code === StatusRequestLookup[StatusRequestLookup.NEW]) {
       this.proposalRequest();
       return;
     }
 
-    if (this.previousStatus.name === StatusRequestLookup.PROPOSAL) {
+    if (this.previousStatus.code === StatusRequestLookup[StatusRequestLookup.PROPOSAL]) {
       this.responseRejectRequest();
       return;
     }
 
-    if (this.requestRoom.request.statusName === StatusRequestLookup.WITHOUT_ATTENDING &&
-      this.previousStatus.name === StatusRequestLookup.APPROVED) {
+    if (this.requestRoom.request.status.code === StatusRequestLookup[StatusRequestLookup.WITHOUT_ATTENDING] &&
+      this.previousStatus.code === StatusRequestLookup[StatusRequestLookup.APPROVED]) {
       this.withoutAttendingRequest();
       return;
     }
@@ -147,19 +148,19 @@ export class RoomDetailComponent implements OnInit {
       delay(0),
       tap(snackList => this.snackList = snackList),
       switchMap(() => {
-        return (this.requestRoom.request.status.name === StatusRequestLookup.NEW)
+        return (this.requestRoom.request.status.code === StatusRequestLookup[StatusRequestLookup.NEW])
           ? this.requestRoomService.availableRoom(this.requestRoom.request)
           : of({isAvailable: true});
       }),
       tap(({isAvailable}) => {
         if (!isAvailable) {
-          const index = status.findIndex(status => status.name === StatusRequestLookup.APPROVED);
+          const index = status.findIndex(status => status.code === StatusRequestLookup[StatusRequestLookup.APPROVED]);
           status.splice(index, 1);
         } else {
           const now = new Date();
           const dateRequest = new Date(this.requestRoom.request.startDate);
           if (now.getTime() > dateRequest.getTime()) {
-            const index = status.findIndex(status => status.name === StatusRequestLookup.APPROVED);
+            const index = status.findIndex(status => status.code === StatusRequestLookup[StatusRequestLookup.APPROVED]);
             status.splice(index, 1);
           }
         }
@@ -217,10 +218,10 @@ export class RoomDetailComponent implements OnInit {
   private responseRejectRequest(): void {
     this.requestService.responseRejectRequest(this.requestRoom.requestId, this.requestRoom.request.statusId)
       .subscribe(() => {
-        if (this.requestRoom.request.statusName === StatusRequestLookup.RESPONSE) {
+        if (this.requestRoom.request.status.code === StatusRequestLookup[StatusRequestLookup.RESPONSE]) {
           this.toastrService.success('Propuesta aceptada', 'Proceso exitoso');
           this.router.navigateByUrl(this.urlRedirectBack);
-        } else if (this.requestRoom.request.statusName === StatusRequestLookup.REJECTED) {
+        } else if (this.requestRoom.request.status.code === StatusRequestLookup[StatusRequestLookup.REJECTED]) {
           this.toastrService.success('Solicitud rechazada', 'Proceso exitoso');
           this.router.navigateByUrl(this.urlRedirectBack);
         }

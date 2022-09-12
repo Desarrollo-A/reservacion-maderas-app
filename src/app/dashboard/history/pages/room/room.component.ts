@@ -19,6 +19,7 @@ import { MatDialog } from "@angular/material/dialog";
 import { RequestService } from "../../services/request.service";
 import { ToastrService } from "ngx-toastr";
 import { trackById } from "../../../../shared/utils/track-by";
+import { Router } from "@angular/router";
 
 @Component({
   selector: 'app-room',
@@ -53,7 +54,8 @@ export class RoomComponent implements OnInit {
               private userSessionService: UserSessionService,
               private dialog: MatDialog,
               private requestService: RequestService,
-              private toastrService: ToastrService) {}
+              private toastrService: ToastrService,
+              private router: Router) {}
 
   ngOnInit(): void {
     this.dataSource = new MatTableDataSource<RequestRoomViewModel>();
@@ -93,6 +95,11 @@ export class RoomComponent implements OnInit {
         this.prepareFilters();
       }
     });
+  }
+
+  viewDetail(id: number): void {
+    const url = `${this.router.url}/${id}`;
+    this.router.navigateByUrl(url);
   }
 
   private prepareFilters(): void {

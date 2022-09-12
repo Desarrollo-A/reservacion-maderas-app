@@ -48,7 +48,7 @@
         <ng-container matColumnDef="statusNameLabel">
           <th *matHeaderCellDef class="uppercase" mat-header-cell>Estatus</th>
           <td *matCellDef="let row" mat-cell>
-            <div (click)="$event.stopPropagation()" class="flex items-center gap-1">
+            <div class="flex items-center gap-1">
               <div [ngClass]="[row.labelStatus.textClass, row.labelStatus.bgClass]"
                    class="rounded px-2 py-1 font-medium text-xs flex-none">
                 {{ row.labelStatus.text }}
@@ -73,6 +73,7 @@
 
         <tr *matHeaderRowDef="visibleColumns" mat-header-row></tr>
         <tr *matRowDef="let row; columns: visibleColumns;"
+            (click)="showChangeStatus(row.id)"
             @fadeInUp
             class="hover:bg-hover trans-ease-out cursor-pointer"
             mat-row></tr>

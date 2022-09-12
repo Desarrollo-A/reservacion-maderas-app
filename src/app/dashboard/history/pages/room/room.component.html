@@ -79,7 +79,7 @@
         <ng-container matColumnDef="levelMeeting">
           <th *matHeaderCellDef class="uppercase" mat-header-cell mat-sort-header>Tipo de reunión</th>
           <td *matCellDef="let row" mat-cell>
-            <div (click)="$event.stopPropagation()" class="flex items-center gap-1">
+            <div class="flex items-center gap-1">
               <div class="rounded px-2 py-1 font-medium text-xs flex-none text-purple bg-deep-purple-light">
                 {{ row.levelMeeting }}
               </div>
@@ -91,7 +91,7 @@
         <ng-container matColumnDef="statusName">
           <th *matHeaderCellDef class="uppercase" mat-header-cell mat-sort-header>Estatus</th>
           <td *matCellDef="let row" mat-cell>
-            <div (click)="$event.stopPropagation()" class="flex items-center gap-1">
+            <div class="flex items-center gap-1">
               <div [ngClass]="[row.labelStatus.textClass, row.labelStatus.bgClass]"
                    class="rounded px-2 py-1 font-medium text-xs flex-none">
                 {{ row.labelStatus.text }}
@@ -116,6 +116,7 @@
 
         <tr *matHeaderRowDef="visibleColumns" mat-header-row></tr>
         <tr *matRowDef="let row; columns: visibleColumns;"
+            (click)="viewDetail(row.id)"
             @fadeInUp
             class="hover:bg-hover trans-ease-out cursor-pointer"
             mat-row></tr>

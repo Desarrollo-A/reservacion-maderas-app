@@ -19,7 +19,13 @@ export class ErrorInterceptor implements HttpInterceptor {
     return next.handle(req)
       .pipe(
         catchError((error: HttpErrorResponse) => {
+          if (error.status === 0) {
+            this.toastr.error('Favor de comunicarse con el administrador', 'Error');
+            return throwError(() => error.error);
+          }
+
           this.errorHandling(error);
+
           if (error.status === 401) { // No autorizado
             this.userSessionService.removeToken();
             this.userSessionService.clearUser();
@@ -29,6 +35,7 @@ export class ErrorInterceptor implements HttpInterceptor {
           } else if (error.status === 403) { // No tiene permisos
             this.router.navigateByUrl('/dashboard');
           }
+
           return throwError(() => error.error);
         })
       );

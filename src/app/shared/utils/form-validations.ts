@@ -58,4 +58,14 @@ export const workingHours = (control: FormControl): ValidationErrors | null => {
   return null;
 }
 
+export const greaterThanCero = (control: FormControl): ValidationErrors | null => {
+  if (control.value != null) {
+    if (control.value <= 0) {
+      return { greaterThanCero: true };
+    }
+  }
+
+  return null;
+}
+
 

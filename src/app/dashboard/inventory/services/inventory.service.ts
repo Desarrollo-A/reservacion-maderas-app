@@ -42,9 +42,9 @@ export class InventoryService {
     return this.http.get<InventoryModel>(url);
   }
 
-  updateStock(id: number, stock: number): Observable<void> {
+  updateStock(id: number, stock: number, cost: number): Observable<void> {
     const url = `${this.url}/stock/${id}`;
-    return this.http.patch<void>(url, { stock });
+    return this.http.patch<void>(url, { stock, cost });
   }
 
   updateImage(id: number, image: File): Observable<void> {

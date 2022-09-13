@@ -14,6 +14,7 @@ import { ImageModule } from "../../shared/pipes/image/image.module";
 import { UpdateImageComponent } from './components/update-image/update-image.component';
 import { PageNotFoundModule } from "../../shared/components/page-not-found/page-not-found.module";
 import { BreadcrumbsModule } from 'src/app/shared/components/breadcrumbs/breadcrumbs.module';
+import { DecimalModule } from "../../shared/directives/decimal/decimal.module";
 
 
 @NgModule({
@@ -34,7 +35,8 @@ import { BreadcrumbsModule } from 'src/app/shared/components/breadcrumbs/breadcr
     DeleteConfirmModule,
     ImageModule,
     PageNotFoundModule,
-    BreadcrumbsModule
+    BreadcrumbsModule,
+    DecimalModule
   ]
 })
 export class InventoryModule { }

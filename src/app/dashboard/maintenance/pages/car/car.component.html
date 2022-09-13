@@ -73,7 +73,6 @@
 
         <tr *matHeaderRowDef="visibleColumns" mat-header-row></tr>
         <tr *matRowDef="let row; columns: visibleColumns;"
-            (click)="showChangeStatus(row.id)"
             @fadeInUp
             class="hover:bg-hover trans-ease-out cursor-pointer"
             mat-row></tr>

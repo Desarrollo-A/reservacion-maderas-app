@@ -46,7 +46,7 @@ export class InventoryComponent implements OnInit {
     {label: 'Acciones', property: 'actions', visible: true}
   ];
   pageSizeOptions: number[] = [5, 10, 20, 50];
-  orderBy: string = '';
+  orderBy: string = '-id';
   searchCtrl = new FormControl('');
   filters: Filters = {filters: []};
   trackById = trackById;
@@ -122,7 +122,8 @@ export class InventoryComponent implements OnInit {
   }
 
   sortChange(sortState: Sort): void {
-    this.orderBy = getSort(sortState);
+    const sort = getSort(sortState);
+    this.orderBy = (sort === '') ? '-id' : sort;
     this.prepareFilters();
   }
 

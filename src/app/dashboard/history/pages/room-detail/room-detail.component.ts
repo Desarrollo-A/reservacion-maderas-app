@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Breadcrumbs } from "../../../../shared/components/breadcrumbs/breadcrumbs.model";
 import { stagger60ms } from "../../../../shared/animations/stagger.animation";
 import { fadeInUp400ms } from "../../../../shared/animations/fade-in-up.animation";
@@ -35,6 +35,8 @@ export class RoomDetailComponent implements OnInit {
   snackDetailComponent: SnackDetailComponent;
   @ViewChild('proposalRequestComponent')
   proposalRequestComponent: ProposalRequestComponent;
+  @ViewChild('scroll')
+  myScrollContainer: ElementRef;
 
   requestRoom: RequestRoomModel;
   statusChange: Lookup[] = [];
@@ -101,6 +103,11 @@ export class RoomDetailComponent implements OnInit {
   changeStatus(status: Lookup): void {
     this.requestRoom.request.statusId = status.id;
     this.requestRoom.request.status = status;
+    if (status.code === StatusRequestLookup[StatusRequestLookup.APPROVED]) {
+      this.toastrService.info('Puedes asignar snacks a la solicitud', 'Información');
+    } else if (status.code === StatusRequestLookup[StatusRequestLookup.CANCELLED]) {
+      this.toastrService.info('', 'Información');
+    }
   }
 
   save(): void {

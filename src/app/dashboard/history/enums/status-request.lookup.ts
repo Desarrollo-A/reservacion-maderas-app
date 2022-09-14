@@ -3,8 +3,9 @@ export enum StatusRequestLookup {
   APPROVED,
   REJECTED,
   PROPOSAL,
-  RESPONSE,
+  ACCEPT,
   CANCELLED,
   WITHOUT_ATTENDING,
   FINISHED,
+  IN_REVIEW
 }

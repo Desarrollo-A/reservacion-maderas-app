@@ -55,14 +55,15 @@ export const getLabelStatusRequest = (statusName: string, code: string): LabelBu
     return { text: statusName, textClass: 'text-blue', bgClass: 'bg-blue-light' };
 
   } else if (code === StatusRequestLookup[StatusRequestLookup.APPROVED] ||
-    code === StatusRequestLookup[StatusRequestLookup.RESPONSE]) {
+      code === StatusRequestLookup[StatusRequestLookup.ACCEPT]) {
     return { text: statusName, textClass: 'text-green', bgClass: 'bg-green-light' };
 
   } else if (code === StatusRequestLookup[StatusRequestLookup.REJECTED] ||
-    code === StatusRequestLookup[StatusRequestLookup.CANCELLED]) {
+      code === StatusRequestLookup[StatusRequestLookup.CANCELLED]) {
     return { text: statusName, textClass: 'text-red', bgClass: 'bg-red-light' };
 
-  } else if (code === StatusRequestLookup[StatusRequestLookup.PROPOSAL]) {
+  } else if (code === StatusRequestLookup[StatusRequestLookup.PROPOSAL] ||
+      code === StatusRequestLookup[StatusRequestLookup.IN_REVIEW]) {
     return { text: statusName, textClass: 'text-orange', bgClass: 'bg-orange-light' };
 
   } else if (code === StatusRequestLookup[StatusRequestLookup.WITHOUT_ATTENDING]) {

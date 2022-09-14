@@ -106,7 +106,7 @@ export class RoomDetailComponent implements OnInit {
   save(): void {
     if (this.requestRoom.request.status.code === StatusRequestLookup[StatusRequestLookup.APPROVED] &&
       (this.previousStatus.code === StatusRequestLookup[StatusRequestLookup.NEW] ||
-        this.previousStatus.code === StatusRequestLookup[StatusRequestLookup.RESPONSE])) {
+        this.previousStatus.code === StatusRequestLookup[StatusRequestLookup.IN_REVIEW])) {
       this.approveRequest();
       return;
     }
@@ -216,9 +216,9 @@ export class RoomDetailComponent implements OnInit {
   }
 
   private responseRejectRequest(): void {
-    this.requestService.responseRejectRequest(this.requestRoom.requestId, this.requestRoom.request.statusId)
+    this.requestService.responseRejectRequest(this.requestRoom.requestId, this.requestRoom.request.status)
       .subscribe(() => {
-        if (this.requestRoom.request.status.code === StatusRequestLookup[StatusRequestLookup.RESPONSE]) {
+        if (this.requestRoom.request.status.code === StatusRequestLookup[StatusRequestLookup.ACCEPT]) {
           this.toastrService.success('Propuesta aceptada', 'Proceso exitoso');
           this.router.navigateByUrl(this.urlRedirectBack);
         } else if (this.requestRoom.request.status.code === StatusRequestLookup[StatusRequestLookup.REJECTED]) {

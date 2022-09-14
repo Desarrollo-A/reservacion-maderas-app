@@ -127,7 +127,7 @@ export class SnackDetailComponent implements OnInit, AfterViewInit {
 
   private saveSnack(snack: InventoryModel): void {
     if (this.previousStatus.code === StatusRequestLookup[StatusRequestLookup.NEW] ||
-        this.previousStatus.code === StatusRequestLookup[StatusRequestLookup.RESPONSE]) {
+        this.previousStatus.code === StatusRequestLookup[StatusRequestLookup.IN_REVIEW]) {
       this.snacks.push(snack);
       this.dataSource.data = this.snacks;
     } else if (this.previousStatus.code === StatusRequestLookup[StatusRequestLookup.APPROVED]) {
@@ -147,7 +147,7 @@ export class SnackDetailComponent implements OnInit, AfterViewInit {
 
   private updateSnack(snack: InventoryModel): void {
     if (this.previousStatus.code === StatusRequestLookup[StatusRequestLookup.NEW] ||
-        this.previousStatus.code === StatusRequestLookup[StatusRequestLookup.RESPONSE]) {
+        this.previousStatus.code === StatusRequestLookup[StatusRequestLookup.IN_REVIEW]) {
       const index = this.findSnackIndex(this.snacks, snack);
       this.snacks[index].inventoryRequest.quantity = snack.inventoryRequest.quantity;
       this.dataSource.data = this.snacks;

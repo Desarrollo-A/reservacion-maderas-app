@@ -43,7 +43,7 @@
 
     <div class="flex flex-col sm:flex-row sm:gap-3">
       <mat-form-field class="flex-auto" *ngIf="!data">
-        <mat-label>Stock Inicial</mat-label>
+        <mat-label>Stock inicial</mat-label>
         <input matInput
                type="number"
                formControlName="stock">
@@ -68,7 +68,7 @@
       </mat-form-field>
 
       <mat-form-field class="flex-auto">
-        <mat-label>Stock Mínimo</mat-label>
+        <mat-label>Stock mínimo</mat-label>
         <input matInput type="number" formControlName="minimumStock">
 
         <mat-error *ngIf="formErrors.customError('minimumStock', 'required')">
@@ -104,7 +104,7 @@
       </mat-form-field>
 
       <mat-form-field class="flex-auto">
-        <mat-label>Unidad de Medidad</mat-label>
+        <mat-label>Unidad de medida</mat-label>
         <mat-select formControlName="unitId">
           <mat-option *ngFor="let lookup of unitInventories"
                       [value]="lookup.id">
@@ -118,8 +118,9 @@
       </mat-form-field>
 
       <mat-form-field class="flex-auto" *ngIf="typeCafeteria && typeCafeteria.id === type.value">
-        <mat-label>N° de Juntas a Descontar</mat-label>
+        <mat-label>N° de juntas a descontar</mat-label>
         <input matInput type="number" formControlName="meeting">
+        <mat-hint>Nota: Solo para artículos NO CONTABLES (ej. café, azúcar, crema, etc.)</mat-hint>
 
         <mat-error *ngIf="formErrors.customError('meeting', 'min')">
           El número debe ser igual o mayor a {{ formErrors.minNumber('meeting') }}.

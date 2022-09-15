@@ -94,7 +94,7 @@ export class InventoryComponent implements OnInit {
       switchMap(confirm => (confirm) ? this.inventoryService.delete(id) : of(false))
     ).subscribe(confirm => {
       if (confirm) {
-        this.toastrService.success('Item de inventario eliminado', 'Proceso exitoso');
+        this.toastrService.success('Ítem de inventario eliminado', 'Proceso exitoso');
         this.prepareFilters();
       }
     });

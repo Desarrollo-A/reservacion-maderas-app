@@ -98,6 +98,7 @@ export class RoomComponent implements OnInit {
     };
 
     const request: RequestModel = <RequestModel> {
+      title: formValues.title,
       startDate: `${date} ${formValues.startTime}`,
       endDate: `${date} ${formValues.endTime}`,
       people: formValues.people,
@@ -116,6 +117,7 @@ export class RoomComponent implements OnInit {
 
   private initForm(): FormGroup {
     return this.fb.group({
+      title: [null, [Validators.required, Validators.minLength(3), Validators.maxLength(100)]],
       state: [null, Validators.required],
       roomId: [null, Validators.required],
       date: [null, [Validators.required, dateBeforeNow]],

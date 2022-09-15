@@ -24,7 +24,8 @@
                  #noEmployee
                  formControlName="noEmployee"
                  (input)="noEmployee.value = noEmployee.value.toUpperCase()"
-                 (keyup.enter)="send()">
+                 (keyup.enter)="send()"
+                 autocomplete="off">
           <mat-error *ngIf="formErrors.customError('noEmployee','required')">
             Campo obligatorio.
           </mat-error>

@@ -4,6 +4,7 @@ import { getLabelStatusRequest } from "../../../shared/utils/utils";
 export class RequestRoomViewModel {
   id: number;
   code: string;
+  title: string;
   startDate: Date;
   endDate: Date;
   fullName: string;
@@ -17,6 +18,7 @@ export class RequestRoomViewModel {
   constructor(requestRoom) {
     this.id = requestRoom.id;
     this.code = requestRoom.code;
+    this.title = requestRoom.title;
     this.startDate = requestRoom.startDate;
     this.endDate = requestRoom.endDate;
     this.fullName = requestRoom.fullName;

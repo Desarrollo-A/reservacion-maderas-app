@@ -19,7 +19,6 @@ import { MatDialog } from "@angular/material/dialog";
 import { RequestService } from "../../services/request.service";
 import { ToastrService } from "ngx-toastr";
 import { trackById } from "../../../../shared/utils/track-by";
-import { Router } from "@angular/router";
 
 @Component({
   selector: 'app-room',
@@ -35,7 +34,7 @@ export class RoomComponent implements OnInit {
   dataSource: MatTableDataSource<RequestRoomViewModel> | null;
   columns: TableColumn<RequestRoomViewModel>[] = [
     { label: 'Clave', property: 'code', type: 'text', visible: true },
-    { label: 'Solicitante', property: 'fullName', type: 'text', visible: true },
+    { label: 'Título', property: 'title', type: 'text', visible: true },
     { label: 'Fecha', property: 'startDate', type: 'date', visible: true },
     { label: 'Hora Inicio', property: 'startTime', type: 'date', visible: true },
     { label: 'Hora Fin', property: 'endTime', type: 'date', visible: true },
@@ -54,8 +53,7 @@ export class RoomComponent implements OnInit {
               private userSessionService: UserSessionService,
               private dialog: MatDialog,
               private requestService: RequestService,
-              private toastrService: ToastrService,
-              private router: Router) {}
+              private toastrService: ToastrService) {}
 
   ngOnInit(): void {
     this.dataSource = new MatTableDataSource<RequestRoomViewModel>();
@@ -97,11 +95,6 @@ export class RoomComponent implements OnInit {
     });
   }
 
-  viewDetail(id: number): void {
-    const url = `${this.router.url}/${id}`;
-    this.router.navigateByUrl(url);
-  }
-
   private prepareFilters(): void {
     this.clearFilters();
     const filter = this.searchCtrl.value;
@@ -111,6 +104,7 @@ export class RoomComponent implements OnInit {
     }
 
     this.generateFilter('code', TypesEnum.String, filter);
+    this.generateFilter('title', TypesEnum.String, filter);
     this.generateFilter('username', TypesEnum.String, filter);
     this.generateFilter('room_name', TypesEnum.String, filter);
     this.generateFilter('level_meeting', TypesEnum.String, filter);

@@ -72,4 +72,9 @@ export class InventoryService {
         map(() => true)
       );
   }
+
+  deleteImage(id: number): Observable<void> {
+    const url = `${this.url}/image/${id}`;
+    return this.http.delete<void>(url);
+  }
 }

@@ -1,6 +1,8 @@
 <form [formGroup]="form" (ngSubmit)="save()">
   <div class="flex items-center" mat-dialog-title>
-    <h2 class="headline m-0 flex-auto">{{ (data) ? 'Actualizar' : 'Nuevo' }} Item</h2>
+    <h2 class="headline m-0 flex-auto block">
+      {{ (data) ? 'Actualizar' : 'Nuevo' }} Ítem <p class="text-secondary" *ngIf="!data">Ingrese los datos necesarios para dar de alta un nuevo producto no existente en el sistema</p>
+    </h2>
 
     <button class="text-secondary" mat-dialog-close mat-icon-button type="button">
       <mat-icon svgIcon="mat:close"></mat-icon>
@@ -10,6 +12,7 @@
   <mat-divider class="-mx-6 text-border"></mat-divider>
 
   <mat-dialog-content class="flex flex-col gap-2 mt-4">
+
     <div class="flex flex-col sm:flex-row sm:gap-3">
       <mat-form-field class="flex-auto">
         <mat-label>Nombre</mat-label>

@@ -103,10 +103,13 @@ export class RoomDetailComponent implements OnInit {
   changeStatus(status: Lookup): void {
     this.requestRoom.request.statusId = status.id;
     this.requestRoom.request.status = status;
+
     if (status.code === StatusRequestLookup[StatusRequestLookup.APPROVED]) {
       this.toastrService.info('Puedes asignar snacks a la solicitud', 'Información');
     } else if (status.code === StatusRequestLookup[StatusRequestLookup.CANCELLED]) {
-      this.toastrService.info('', 'Información');
+      this.toastrService.info('Agrega un comentario para cancelar la solicitud', 'Información');
+    } else if (status.code === StatusRequestLookup[StatusRequestLookup.PROPOSAL]) {
+      this.toastrService.info('Agrega las fechas y horarios de la propuesta', 'Información');
     }
   }
 

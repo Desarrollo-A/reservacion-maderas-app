@@ -17,6 +17,8 @@ export class UpdateImageComponent implements OnInit {
   formErrors: FormErrors;
   imgTemp: ArrayBuffer|string;
 
+  defaultImage = 'no-image-inventory.png';
+
   constructor(private dialogRef: MatDialogRef<UpdateImageComponent>,
               @Inject(MAT_DIALOG_DATA) public data: InventoryModel,
               private fb: FormBuilder,
@@ -29,6 +31,10 @@ export class UpdateImageComponent implements OnInit {
       imageSrc: [null, [sizeImage]]
     });
     this.formErrors = new FormErrors(this.form);
+  }
+
+  get canDeleteImage(): boolean {
+    return !this.data.image.includes(this.defaultImage);
   }
 
   changeImage(file: File): void {
@@ -57,6 +63,13 @@ export class UpdateImageComponent implements OnInit {
     const {imageSrc} = this.form.getRawValue();
     this.inventoryService.updateImage(this.data.id, imageSrc).subscribe(() => {
       this.toastrService.success('Imagen actualizada', 'Proceso exitoso');
+      this.dialogRef.close(true);
+    });
+  }
+
+  deleteImage(): void {
+    this.inventoryService.deleteImage(this.data.id).subscribe(() => {
+      this.toastrService.success('Imagen eliminada', 'Proceso exitoso');
       this.dialogRef.close(true);
     });
   }

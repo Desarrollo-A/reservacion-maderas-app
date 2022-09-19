@@ -166,14 +166,8 @@ export class RoomDetailComponent implements OnInit {
         if (!isAvailable) {
           const index = status.findIndex(status => status.code === StatusRequestLookup[StatusRequestLookup.APPROVED]);
           status.splice(index, 1);
-        } else {
-          const now = new Date();
-          const dateRequest = new Date(this.requestRoom.request.startDate);
-          if (now.getTime() > dateRequest.getTime()) {
-            const index = status.findIndex(status => status.code === StatusRequestLookup[StatusRequestLookup.APPROVED]);
-            status.splice(index, 1);
-          }
         }
+
         this.statusChange = status;
       })
     ).subscribe();

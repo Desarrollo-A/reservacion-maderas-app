@@ -66,7 +66,8 @@ export const getLabelStatusRequest = (statusName: string, code: string): LabelBu
       code === StatusRequestLookup[StatusRequestLookup.IN_REVIEW]) {
     return { text: statusName, textClass: 'text-orange', bgClass: 'bg-orange-light' };
 
-  } else if (code === StatusRequestLookup[StatusRequestLookup.WITHOUT_ATTENDING]) {
+  } else if (code === StatusRequestLookup[StatusRequestLookup.WITHOUT_ATTENDING] ||
+      code === StatusRequestLookup[StatusRequestLookup.EXPIRED]) {
     return { text: statusName, textClass: 'text-gray', bgClass: 'bg-gray-light' };
 
   } else if (code === StatusRequestLookup[StatusRequestLookup.FINISHED]) {

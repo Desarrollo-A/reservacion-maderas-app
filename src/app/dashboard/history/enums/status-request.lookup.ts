@@ -7,5 +7,6 @@ export enum StatusRequestLookup {
   CANCELLED,
   WITHOUT_ATTENDING,
   FINISHED,
-  IN_REVIEW
+  IN_REVIEW,
+  EXPIRED
 }

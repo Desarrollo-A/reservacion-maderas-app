@@ -1,0 +1,57 @@
+<form [formGroup]="form" (ngSubmit)="save()">
+  <div class="flex items-center" mat-dialog-title>
+    <h2 class="headline m-0 flex-auto block">
+      {{ (data) ? 'Actualizar' : 'Nueva' }} Sala de juntas
+    </h2>
+
+    <button class="text-secondary" mat-dialog-close mat-icon-button type="button">
+      <mat-icon svgIcon="mat:close"></mat-icon>
+    </button>
+  </div>
+
+  <mat-divider class="-mx-6 text-border"></mat-divider>
+
+  <mat-dialog-content class="flex flex-col gap-3 mt-4">
+    <mat-form-field class="flex-auto">
+      <mat-label>Nombre</mat-label>
+      <input cdkFocusInitial
+             matInput
+             type="text"
+             formControlName="name"
+             autocomplete="off">
+
+      <mat-error *ngIf="formErrors.customError('name', 'required')">
+        Campo obligatorio.
+      </mat-error>
+      <mat-error *ngIf="formErrors.customError('name', 'minlength')">
+        El nombre debe tener más de {{ formErrors.minLengthNumber('name') }} caracteres.
+      </mat-error>
+      <mat-error *ngIf="formErrors.customError('name', 'maxlength')">
+        El nombre debe tener menos de {{ formErrors.maxLengthNumber('name') }} caracteres.
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field class="flex-auto">
+      <mat-label>No. de personas</mat-label>
+      <input matInput
+             type="number"
+             formControlName="noPeople"
+             autocomplete="off">
+
+      <mat-error *ngIf="formErrors.customError('noPeople', 'required')">
+        Campo obligatorio.
+      </mat-error>
+      <mat-error *ngIf="formErrors.customError('noPeople', 'min')">
+        El No. de personas debe ser igual o mayor a {{ formErrors.minNumber('noPeople') }}.
+      </mat-error>
+      <mat-error *ngIf="formErrors.customError('noPeople', 'max')">
+        El No. de personas debe ser igual o menor a {{ formErrors.maxNumber('noPeople') }}.
+      </mat-error>
+    </mat-form-field>
+  </mat-dialog-content>
+
+  <mat-dialog-actions align="end">
+    <button mat-button mat-dialog-close type="button">Cancelar</button>
+    <button color="primary" mat-flat-button type="submit">Guardar</button>
+  </mat-dialog-actions>
+</form>

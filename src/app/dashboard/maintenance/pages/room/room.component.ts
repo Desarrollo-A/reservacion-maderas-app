@@ -13,6 +13,10 @@ import { getSort } from "../../../../shared/utils/http-functions";
 import { MatDialog } from "@angular/material/dialog";
 import { ChangeStatusRoomComponent } from "../../components/change-status-room/change-status-room.component";
 import { trackById } from "../../../../shared/utils/track-by";
+import { RoomCreateUpdateComponent } from "../../components/room-create-update/room-create-update.component";
+import { DeleteConfirmComponent } from "../../../../shared/components/delete-confirm/delete-confirm.component";
+import { of, switchMap } from "rxjs";
+import { ToastrService } from "ngx-toastr";
 
 @Component({
   selector: 'app-room',
@@ -40,7 +44,8 @@ export class RoomComponent implements OnInit {
   trackById = trackById;
 
   constructor(private roomService: RoomService,
-              private dialog: MatDialog) {}
+              private dialog: MatDialog,
+              private toastrService: ToastrService) {}
 
   ngOnInit(): void {
     this.dataSource = new MatTableDataSource<RoomModel>();
@@ -53,6 +58,39 @@ export class RoomComponent implements OnInit {
 
   trackByProperty<T>(index: number, column: TableColumn<T>) {
     return column.property;
+  }
+
+  openDialog(id?: number): void {
+    if (!id) {
+      this.dialog.open(RoomCreateUpdateComponent, {
+        data: null
+      }).afterClosed().subscribe(created => {
+        if (created) {
+          this.prepareFilters();
+        }
+      });
+    } else {
+      this.roomService.findById(id).subscribe(room => {
+        this.dialog.open(RoomCreateUpdateComponent, {
+          data: room
+        }).afterClosed().subscribe(created => {
+          if (created) {
+            this.prepareFilters();
+          }
+        });
+      })
+    }
+  }
+
+  delete(id: number): void {
+    this.dialog.open(DeleteConfirmComponent, { autoFocus: false }).afterClosed().pipe(
+      switchMap(confirm => (confirm) ? this.roomService.delete(id) : of(false))
+    ).subscribe(confirm => {
+      if (confirm) {
+        this.toastrService.success('Sala de juntas eliminada', 'Proceso exitoso');
+        this.prepareFilters();
+      }
+    });
   }
 
   showChangeStatus(id: number): void {

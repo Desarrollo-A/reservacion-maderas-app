@@ -46,4 +46,21 @@ export class RoomService {
     const url = `${this.url}/change-status/${id}`;
     return this.http.patch<void>(url, { statusId });
   }
+
+  store(room: RoomModel): Observable<RoomModel> {
+    return this.http.post<RoomModel>(this.url, room);
+  }
+
+  update(id: number, room: RoomModel): Observable<RoomModel> {
+    const url = `${this.url}/${id}`;
+    return this.http.put<RoomModel>(url, room);
+  }
+
+  delete(id: number): Observable<boolean> {
+    const url = `${this.url}/${id}`;
+    return this.http.delete<void>(url)
+      .pipe(
+        map(() => true)
+      );
+  }
 }

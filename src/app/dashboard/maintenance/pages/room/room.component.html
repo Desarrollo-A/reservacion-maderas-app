@@ -23,6 +23,17 @@
                  [formControl]="searchCtrl"
                  (keyup.enter)="search()">
         </div>
+
+        <span class="flex-1"></span>
+
+        <button class="ml-4 flex-none"
+                color="primary"
+                mat-mini-fab
+                matTooltip="Nueva sala"
+                type="button"
+                (click)="openDialog()">
+          <mat-icon svgIcon="mat:add"></mat-icon>
+        </button>
       </div>
 
       <table @stagger [dataSource]="dataSource" class="w-full" mat-table matSort [trackBy]="trackById"
@@ -79,6 +90,14 @@
 
 <mat-menu #actionsMenu="matMenu" xPosition="before" yPosition="below">
   <ng-template let-room="room" matMenuContent>
+    <button mat-menu-item (click)="openDialog(room.id)">
+      <mat-icon svgIcon="mat:edit"></mat-icon>
+      <span>Modificar</span>
+    </button>
+    <button mat-menu-item (click)="delete(room.id)">
+      <mat-icon svgIcon="mat:delete"></mat-icon>
+      <span>Eliminar</span>
+    </button>
     <button (click)="showChangeStatus(room.id)"
             mat-menu-item>
       <mat-icon svgIcon="mat:sync"></mat-icon>

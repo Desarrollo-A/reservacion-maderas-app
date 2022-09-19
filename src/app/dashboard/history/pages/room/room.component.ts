@@ -35,6 +35,7 @@ export class RoomComponent implements OnInit {
   columns: TableColumn<RequestRoomViewModel>[] = [
     { label: 'Clave', property: 'code', type: 'text', visible: true },
     { label: 'Título', property: 'title', type: 'text', visible: true },
+    { label: 'Solicitante', property: 'fullName', type: 'text', visible: false },
     { label: 'Fecha', property: 'startDate', type: 'date', visible: true },
     { label: 'Hora Inicio', property: 'startTime', type: 'date', visible: true },
     { label: 'Hora Fin', property: 'endTime', type: 'date', visible: true },
@@ -93,6 +94,12 @@ export class RoomComponent implements OnInit {
         this.prepareFilters();
       }
     });
+  }
+
+  toggleColumnVisibility(column, event) {
+    event.stopPropagation();
+    event.stopImmediatePropagation();
+    column.visible = !column.visible;
   }
 
   private prepareFilters(): void {

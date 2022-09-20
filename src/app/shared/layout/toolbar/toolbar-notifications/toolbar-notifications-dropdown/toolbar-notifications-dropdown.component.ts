@@ -7,6 +7,7 @@ import { Router } from "@angular/router";
 import { UserSessionService } from "../../../../../core/services/user-session.service";
 import { NameRole } from "../../../../../core/enums/name-role";
 import { TypeNotificationLookup } from "../enums/type-notification.lookup";
+import { I18nPlural } from "../../../../../core/interfaces/i18n-plural";
 
 @UntilDestroy()
 @Component({
@@ -18,7 +19,7 @@ export class ToolbarNotificationsDropdownComponent implements OnInit {
 
   trackById = trackById;
   notifications: NotificationModel[];
-  notificationMapping: { [k: string]: string } = {
+  notificationMapping: I18nPlural = {
     '=0': 'notificaciones',
     '=1': 'notificación',
     'other': 'notificaciones'

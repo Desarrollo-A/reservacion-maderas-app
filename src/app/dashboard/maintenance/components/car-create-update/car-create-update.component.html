@@ -1,0 +1,171 @@
+<form [formGroup]="form" (ngSubmit)="save()">
+  <div class="flex items-center" mat-dialog-title>
+    <h2 class="headline m-0 flex-auto block">
+      {{(data) ? 'Actualizar' : 'Nuevo'}} Automóvil
+    </h2>
+
+    <button class="text-secondary" mat-dialog-close mat-icon-button type="button">
+      <mat-icon svgIcon="mat:close"></mat-icon>
+    </button>
+  </div>
+
+  <mat-divider class="-mx-6 text-border"></mat-divider>
+
+  <mat-dialog-content class="flex flex-col gap-2 mt-4">
+    <div class="flex flex-col sm:flex-row sm:gap-3">
+      <mat-form-field class="flex-auto">
+        <mat-label>Razón social</mat-label>
+        <input cdkFocusInitial
+               matInput
+               type="text"
+               formControlName="businessName"
+               autocomplete="off">
+
+        <mat-error *ngIf="formErrors.customError('businessName', 'required')">
+          Campo obligatorio.
+        </mat-error>
+        <mat-error *ngIf="formErrors.customError('businessName', 'minlength')">
+          La razón social debe tener más de {{ formErrors.minLengthNumber('businessName') }} caracteres.
+        </mat-error>
+        <mat-error *ngIf="formErrors.customError('businessName', 'maxlength')">
+          La razón social debe tener menos de {{ formErrors.maxLengthNumber('businessName') }} caracteres.
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field class="flex-auto">
+        <mat-label>Marca</mat-label>
+        <input matInput
+               type="text"
+               formControlName="trademark"
+               autocomplete="off">
+
+        <mat-error *ngIf="formErrors.customError('trademark', 'required')">
+          Campo obligatorio.
+        </mat-error>
+        <mat-error *ngIf="formErrors.customError('trademark', 'minlength')">
+          La marca debe tener más de {{ formErrors.minLengthNumber('trademark') }} caracteres.
+        </mat-error>
+        <mat-error *ngIf="formErrors.customError('trademark', 'maxlength')">
+          La marca debe tener menos de {{ formErrors.maxLengthNumber('trademark') }} caracteres.
+        </mat-error>
+      </mat-form-field>
+    </div>
+
+    <div class="flex flex-col md:flex-row md:gap-3">
+      <mat-form-field class="flex-auto">
+        <mat-label>Modelo</mat-label>
+        <input matInput
+               type="text"
+               formControlName="model"
+               autocomplete="off">
+
+        <mat-error *ngIf="formErrors.customError('model', 'required')">
+          Campo obligatorio.
+        </mat-error>
+        <mat-error *ngIf="formErrors.customError('model', 'minlength')">
+          El modelo debe tener más de {{ formErrors.minLengthNumber('model') }} caracteres.
+        </mat-error>
+        <mat-error *ngIf="formErrors.customError('model', 'maxlength')">
+          El modelo debe tener menos de {{ formErrors.maxLengthNumber('model') }} caracteres.
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field class="flex-auto">
+        <mat-label>Color</mat-label>
+        <input matInput
+               type="text"
+               formControlName="color"
+               autocomplete="off">
+
+        <mat-error *ngIf="formErrors.customError('color', 'required')">
+          Campo obligatorio.
+        </mat-error>
+        <mat-error *ngIf="formErrors.customError('color', 'minlength')">
+          El color debe tener más de {{ formErrors.minLengthNumber('color') }} caracteres.
+        </mat-error>
+        <mat-error *ngIf="formErrors.customError('color', 'maxlength')">
+          El color debe tener menos de {{ formErrors.maxLengthNumber('color') }} caracteres.
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field class="flex-auto">
+        <mat-label>Licencia</mat-label>
+        <input matInput
+               type="text"
+               formControlName="licensePlate"
+               autocomplete="off">
+
+        <mat-error *ngIf="formErrors.customError('licensePlate', 'required')">
+          Campo obligatorio.
+        </mat-error>
+        <mat-error *ngIf="formErrors.customError('licensePlate', 'minlength')">
+          La licencia debe tener más de {{ formErrors.minLengthNumber('licensePlate') }} caracteres.
+        </mat-error>
+        <mat-error *ngIf="formErrors.customError('licensePlate', 'maxlength')">
+          La licencia debe tener menos de {{ formErrors.maxLengthNumber('licensePlate') }} caracteres.
+        </mat-error>
+      </mat-form-field>
+    </div>
+
+    <div class="flex flex-col md:flex-row md:gap-3">
+      <mat-form-field class="flex-auto">
+        <mat-label>Serie</mat-label>
+        <input matInput
+               type="text"
+               formControlName="serie"
+               autocomplete="off">
+
+        <mat-error *ngIf="formErrors.customError('serie', 'required')">
+          Campo obligatorio.
+        </mat-error>
+        <mat-error *ngIf="formErrors.customError('serie', 'minlength')">
+          La serie debe tener más de {{ formErrors.minLengthNumber('serie') }} caracteres.
+        </mat-error>
+        <mat-error *ngIf="formErrors.customError('serie', 'maxlength')">
+          La serie debe tener menos de {{ formErrors.maxLengthNumber('serie') }} caracteres.
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field class="flex-auto">
+        <mat-label>Tarjeta de circulación</mat-label>
+        <input matInput
+               type="text"
+               formControlName="circulationCard"
+               autocomplete="off">
+
+        <mat-error *ngIf="formErrors.customError('circulationCard', 'required')">
+          Campo obligatorio.
+        </mat-error>
+        <mat-error *ngIf="formErrors.customError('circulationCard', 'minlength')">
+          La tarjeta de circulación debe tener más de {{ formErrors.minLengthNumber('circulationCard') }} caracteres.
+        </mat-error>
+        <mat-error *ngIf="formErrors.customError('circulationCard', 'maxlength')">
+          La tarjeta de circulación debe tener menos de {{ formErrors.maxLengthNumber('circulationCard') }} caracteres.
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field class="flex-auto">
+        <mat-label>No. de personas</mat-label>
+        <input matInput
+               type="number"
+               formControlName="people"
+               autocomplete="off">
+
+        <mat-error *ngIf="formErrors.customError('people', 'required')">
+          Campo obligatorio.
+        </mat-error>
+        <mat-error *ngIf="formErrors.customError('people', 'min')">
+          El no. de personas debe ser igual o mayor a {{ formErrors.minNumber('people') }}.
+        </mat-error>
+        <mat-error *ngIf="formErrors.customError('people', 'max')">
+          El no. de personas debe ser igual o menor a {{ formErrors.maxNumber('people') }}.
+        </mat-error>
+      </mat-form-field>
+    </div>
+  </mat-dialog-content>
+
+  <mat-dialog-actions align="end">
+    <button mat-button mat-dialog-close type="button">Cancelar</button>
+    <button color="primary" mat-flat-button type="submit">Guardar</button>
+  </mat-dialog-actions>
+</form>

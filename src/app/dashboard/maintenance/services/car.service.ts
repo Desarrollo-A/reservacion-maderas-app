@@ -40,4 +40,21 @@ export class CarService {
     const url = `${this.url}/change-status/${id}`;
     return this.http.patch<void>(url, { statusId });
   }
+
+  store(car: CarModel): Observable<CarModel> {
+    return this.http.post<CarModel>(this.url, car);
+  }
+
+  update(id: number, car: CarModel): Observable<CarModel> {
+    const url = `${this.url}/${id}`;
+    return this.http.put<CarModel>(url, car);
+  }
+
+  delete(id: number): Observable<boolean> {
+    const url = `${this.url}/${id}`;
+    return this.http.delete<void>(url)
+      .pipe(
+        map(() => true)
+      );
+  }
 }

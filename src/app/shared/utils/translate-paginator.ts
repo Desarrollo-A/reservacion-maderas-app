@@ -17,6 +17,14 @@ export class TranslatePaginator implements MatPaginatorIntl {
       return `Página 1 de 1. Total de 0 registros`;
     }
     const amountPages = Math.ceil(length / pageSize);
-    return `Página ${page + 1} de ${amountPages}. Total de ${length.toLocaleString('en-US')} registros`;
+    let totalLength: string;
+
+    if (length === 1) {
+      totalLength = 'Total de 1 registro';
+    } else {
+      totalLength = `Total de ${length.toLocaleString('en-US')} registros`;
+    }
+
+    return `Página ${page + 1} de ${amountPages}. ${totalLength}`;
   }
 }

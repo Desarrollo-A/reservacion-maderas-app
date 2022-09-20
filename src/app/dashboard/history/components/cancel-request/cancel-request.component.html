@@ -1,0 +1,35 @@
+<vex-page-layout-content class="container">
+  <div class="px-6 h-16 border-b sticky left-0 flex items-center">
+    <h2 class="title my-0 ltr:pr-4 rtl:pl-4 ltr:mr-4 rtl:ml-4 ltr:border-r rtl:border-l hidden sm:block flex-none">
+      <span>{{ title }}</span>
+    </h2>
+  </div>
+
+  <form [formGroup]="form" @fadeInUp class="flex-auto" *ngIf="previousStatus.code !== statusRequest[statusRequest.CANCELLED]">
+    <div class="px-6 py-4 flex flex-col">
+      <mat-form-field class="flex-auto">
+        <mat-label>Motivo de cancelación</mat-label>
+        <textarea matInput formControlName="cancelComment"></textarea>
+
+        <mat-error *ngIf="formErrors.customError('cancelComment', 'required')">
+          Campo obligatorio.
+        </mat-error>
+        <mat-error *ngIf="formErrors.customError('cancelComment', 'minlength')">
+          El comentario debe tener más de {{formErrors.minLengthNumber('cancelComment')}} caracteres.
+        </mat-error>
+        <mat-error *ngIf="formErrors.customError('cancelComment', 'maxlength')">
+          El comentario debe tener menos de {{formErrors.maxLengthNumber('cancelComment')}} caracteres.
+        </mat-error>
+      </mat-form-field>
+    </div>
+  </form>
+
+  <div @fadeInUp class="flex-auto" *ngIf="previousStatus.code === statusRequest[statusRequest.CANCELLED]">
+    <div class="px-6 py-4 flex flex-col">
+      <mat-form-field appearance="outline" class="flex-auto vex-flex-form-field">
+        <mat-label>Motivo de cancelación</mat-label>
+        <textarea matInput readonly [value]="cancelRequest.cancelComment"></textarea>
+      </mat-form-field>
+    </div>
+  </div>
+</vex-page-layout-content>

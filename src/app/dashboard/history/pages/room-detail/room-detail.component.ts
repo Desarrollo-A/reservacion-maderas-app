@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { Breadcrumbs } from "../../../../shared/components/breadcrumbs/breadcrumbs.model";
 import { stagger60ms } from "../../../../shared/animations/stagger.animation";
 import { fadeInUp400ms } from "../../../../shared/animations/fade-in-up.animation";
@@ -15,11 +15,11 @@ import { InventoryRequestModel } from "../../models/inventory-request.model";
 import { ToastrService } from "ngx-toastr";
 import { UserSessionService } from "../../../../core/services/user-session.service";
 import { NameRole } from "../../../../core/enums/name-role";
-import { FormBuilder, FormGroup, Validators } from "@angular/forms";
-import { FormErrors } from "../../../../shared/utils/form-error";
+import { FormBuilder } from "@angular/forms";
 import { RequestModel } from "../../../request/models/request.model";
 import { ProposalRequestComponent } from "../../components/proposal-request/proposal-request.component";
 import { RequestService } from "../../services/request.service";
+import { CancelRequestComponent } from "../../components/cancel-request/cancel-request.component";
 
 @Component({
   selector: 'app-room-detail',
@@ -30,21 +30,18 @@ import { RequestService } from "../../services/request.service";
     fadeInUp400ms
   ]
 })
-export class RoomDetailComponent implements OnInit {
+export class RoomDetailComponent {
   @ViewChild('snackDetailComponent')
   snackDetailComponent: SnackDetailComponent;
   @ViewChild('proposalRequestComponent')
   proposalRequestComponent: ProposalRequestComponent;
-  @ViewChild('scroll')
-  myScrollContainer: ElementRef;
+  @ViewChild('cancelRequestComponent')
+  cancelRequestComponent: CancelRequestComponent;
 
   requestRoom: RequestRoomModel;
   statusChange: Lookup[] = [];
   snackList: InventoryModel[] = [];
   previousStatus: Lookup;
-
-  cancelForm: FormGroup;
-  cancelFormErrors: FormErrors;
 
   breadcrumbs: Breadcrumbs[] = [];
   urlRedirectBack = '';
@@ -69,13 +66,6 @@ export class RoomDetailComponent implements OnInit {
     });
   }
 
-  ngOnInit(): void {
-    this.cancelForm = this.fb.group({
-      cancelComment: [null, [Validators.required, Validators.minLength(3), Validators.maxLength(500)]]
-    });
-    this.cancelFormErrors = new FormErrors(this.cancelForm);
-  }
-
   get statusRequest(): typeof StatusRequestLookup {
     return StatusRequestLookup;
   }
@@ -86,8 +76,7 @@ export class RoomDetailComponent implements OnInit {
         this.requestRoom = requestRoom;
         this.previousStatus = {... requestRoom.request.status};
         if (this.previousStatus.code === StatusRequestLookup[StatusRequestLookup.CANCELLED]) {
-          this.cancelForm.get('cancelComment').setValue(requestRoom.request.cancelComment);
-          this.cancelForm.get('cancelComment').clearValidators();
+          // TODO: pendiente
         }
       }),
       switchMap(requestRoom => this.requestRoomService.getStatusByStatusCurrent(requestRoom.request.status.code))
@@ -187,12 +176,12 @@ export class RoomDetailComponent implements OnInit {
   }
 
   private cancelRequest(): void {
-    if (this.cancelForm.invalid) {
-      this.cancelForm.markAllAsTouched();
+    if (this.cancelRequestComponent.form.invalid) {
+      this.cancelRequestComponent.form.markAllAsTouched();
       return;
     }
 
-    const data: RequestModel = this.cancelForm.getRawValue();
+    const data: RequestModel = this.cancelRequestComponent.form.getRawValue();
     this.requestRoomService.cancelRequest(this.requestRoom.requestId, data).subscribe(() => {
       this.toastrService.success('Solicitud cancelada', 'Proceso exitoso');
       this.router.navigateByUrl(this.urlRedirectBack);

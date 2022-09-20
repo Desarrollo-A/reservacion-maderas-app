@@ -18,6 +18,7 @@ import { SimplePaginatorModule } from "../../shared/components/simple-paginator/
 import { ImageModule } from "../../shared/pipes/image/image.module";
 import { DeleteConfirmModule } from "../../shared/components/delete-confirm/delete-confirm.module";
 import { ProposalRequestComponent } from './components/proposal-request/proposal-request.component';
+import { CancelRequestComponent } from './components/cancel-request/cancel-request.component';
 
 
 @NgModule({
@@ -28,7 +29,8 @@ import { ProposalRequestComponent } from './components/proposal-request/proposal
     RoomDetailComponent,
     SnackDetailComponent,
     SnackAssignComponent,
-    ProposalRequestComponent
+    ProposalRequestComponent,
+    CancelRequestComponent
   ],
   imports: [
     CommonModule,

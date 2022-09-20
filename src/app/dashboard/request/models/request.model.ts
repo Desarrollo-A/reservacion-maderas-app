@@ -4,6 +4,7 @@ import { UserModel } from "../../user/models/user.model";
 import { LabelButton } from "../../../shared/interfaces/label-button";
 import { getLabelStatusRequest } from "../../../shared/utils/utils";
 import { InventoryModel } from "../../inventory/models/inventory.model";
+import { CancelRequestModel } from "./cancel-request.model";
 
 export class RequestModel {
   id: number;
@@ -13,7 +14,6 @@ export class RequestModel {
   endDate: Date | string;
   duration: number;
   comment: string;
-  cancelComment?: string;
   addGoogleCalendar: boolean;
   people: number;
   userId: number;
@@ -23,6 +23,7 @@ export class RequestModel {
   requestRoom?: RequestRoomModel;
   inventories?: InventoryModel[];
   isAvailable: boolean;
+  cancelRequest: CancelRequestModel;
 
   constructor(request) {
     this.id = request.id;
@@ -32,7 +33,6 @@ export class RequestModel {
     this.endDate = request.endDate;
     this.duration = request.duration;
     this.comment = request.comment;
-    this.cancelComment = request.cancelComment;
     this.addGoogleCalendar = request.addGoogleCalendar;
     this.people = request.people;
     this.userId = request.userId;
@@ -42,6 +42,7 @@ export class RequestModel {
     this.requestRoom = request.requestRoom;
     this.inventories = request.inventories;
     this.isAvailable = request.isAvailable;
+    this.cancelRequest = request.cancelRequest;
   }
 
   get statusName(): string {

@@ -11,10 +11,10 @@ export class CarModel {
   licensePlate: string;
   serie: string;
   circulationCard: string;
-  people:number;
-  officeId:number;
-  office:OfficeModel;
-  statusId:number;
+  people: number;
+  officeId: number;
+  office: OfficeModel;
+  statusId: number;
   status: Lookup;
 
   constructor(car) {

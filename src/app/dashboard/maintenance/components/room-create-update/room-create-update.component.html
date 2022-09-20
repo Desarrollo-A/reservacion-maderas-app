@@ -42,10 +42,10 @@
         Campo obligatorio.
       </mat-error>
       <mat-error *ngIf="formErrors.customError('noPeople', 'min')">
-        El No. de personas debe ser igual o mayor a {{ formErrors.minNumber('noPeople') }}.
+        El no. de personas debe ser igual o mayor a {{ formErrors.minNumber('noPeople') }}.
       </mat-error>
       <mat-error *ngIf="formErrors.customError('noPeople', 'max')">
-        El No. de personas debe ser igual o menor a {{ formErrors.maxNumber('noPeople') }}.
+        El no. de personas debe ser igual o menor a {{ formErrors.maxNumber('noPeople') }}.
       </mat-error>
     </mat-form-field>
   </mat-dialog-content>

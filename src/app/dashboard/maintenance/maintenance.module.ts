@@ -13,6 +13,7 @@ import { ChangeStatusCarComponent } from './components/change-status-car/change-
 import { PageNotFoundModule } from "../../shared/components/page-not-found/page-not-found.module";
 import { BreadcrumbsModule } from 'src/app/shared/components/breadcrumbs/breadcrumbs.module';
 import { RoomCreateUpdateComponent } from './components/room-create-update/room-create-update.component';
+import { CarCreateUpdateComponent } from './components/car-create-update/car-create-update.component';
 
 
 @NgModule({
@@ -21,7 +22,8 @@ import { RoomCreateUpdateComponent } from './components/room-create-update/room-
     CarComponent,
     ChangeStatusRoomComponent,
     ChangeStatusCarComponent,
-    RoomCreateUpdateComponent
+    RoomCreateUpdateComponent,
+    CarCreateUpdateComponent
   ],
   imports: [
     CommonModule,

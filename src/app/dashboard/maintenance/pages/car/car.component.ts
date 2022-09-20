@@ -14,6 +14,10 @@ import { CarService } from '../../services/car.service';
 import { getSort } from 'src/app/shared/utils/http-functions';
 import { ChangeStatusCarComponent } from '../../components/change-status-car/change-status-car.component';
 import { trackById } from "../../../../shared/utils/track-by";
+import { CarCreateUpdateComponent } from "../../components/car-create-update/car-create-update.component";
+import { DeleteConfirmComponent } from "../../../../shared/components/delete-confirm/delete-confirm.component";
+import { of, switchMap } from "rxjs";
+import { ToastrService } from "ngx-toastr";
 
 @UntilDestroy()
 @Component({
@@ -30,15 +34,16 @@ export class CarComponent implements OnInit {
   dataSource: MatTableDataSource<CarModel> | null;
 
   columns: TableColumn<CarModel>[] = [
-    {label: 'Razón social', property:  'businessName', type: 'text', visible: true,},
-    {label: 'Marca', property:  'trademark', type: 'text', visible: true,},
-    {label: 'Modelo', property:  'model', type: 'text', visible: true,},
-    {label: 'Color', property:  'color', type: 'text', visible: true,},
-    {label: 'Licencia', property:  'licensePlate', type: 'text', visible: true,},
-    {label: 'Serie', property:  'serie', type: 'text', visible: true,},
-    {label: 'T. circulación', property:  'circulationCard', type: 'text', visible: true,},
-    {label: 'Estatus', property: 'statusNameLabel', type: 'button', visible: true },
-    { label: 'Acciones', property: 'actions', type: 'button', visible: true }
+    {label: 'Razón social', property:  'businessName', type: 'text', visible: true},
+    {label: 'Marca', property:  'trademark', type: 'text', visible: true},
+    {label: 'Modelo', property:  'model', type: 'text', visible: true},
+    {label: 'Color', property:  'color', type: 'text', visible: true},
+    {label: 'Licencia', property:  'licensePlate', type: 'text', visible: true},
+    {label: 'Serie', property:  'serie', type: 'text', visible: true},
+    {label: 'T. circulación', property:  'circulationCard', type: 'text', visible: true},
+    {label: 'No. personas', property:  'people', type: 'text', visible: false},
+    {label: 'Estatus', property: 'statusNameLabel', type: 'button', visible: true},
+    {label: 'Acciones', property: 'actions', type: 'button', visible: true}
   ];
 
   pageSizeOptions: number[] = [5, 10, 20, 50];
@@ -48,7 +53,8 @@ export class CarComponent implements OnInit {
   trackById = trackById;
 
   constructor(private carService: CarService,
-    private dialog: MatDialog) { }
+              private dialog: MatDialog,
+              private toastrService: ToastrService) { }
 
   ngOnInit(): void {
     this.dataSource = new MatTableDataSource<CarModel>();
@@ -77,7 +83,7 @@ export class CarComponent implements OnInit {
 
   sortChange(sortState: Sort): void {
     const sort = getSort(sortState);
-    this.orderBy = (sort.length === 0) ? '' : sort;
+    this.orderBy = (sort.length === 0) ? '-id' : sort;
     this.prepareFilters();
   }
 
@@ -88,6 +94,37 @@ export class CarComponent implements OnInit {
 
   search(): void {
     this.prepareFilters();
+  }
+
+  openDialog(id?: number): void {
+    if (!id) {
+      this.dialog.open(CarCreateUpdateComponent, { data: null, width: '100%' })
+        .afterClosed().subscribe((created) => {
+        if (created) {
+          this.prepareFilters();
+        }
+      });
+    } else {
+      this.carService.findById(id).subscribe(car => {
+        this.dialog.open(CarCreateUpdateComponent, { data: car, width: '100%' })
+          .afterClosed().subscribe((created) => {
+          if (created) {
+            this.prepareFilters();
+          }
+        });
+      });
+    }
+  }
+
+  delete(id: number): void {
+    this.dialog.open(DeleteConfirmComponent, { autoFocus: false }).afterClosed().pipe(
+      switchMap(confirm => (confirm) ? this.carService.delete(id) : of(false))
+    ).subscribe(confirm => {
+      if (confirm) {
+        this.toastrService.success('Automóvil eliminado', 'Proceso exitoso');
+        this.prepareFilters();
+      }
+    });
   }
 
   private prepareFilters(): void {

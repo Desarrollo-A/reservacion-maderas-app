@@ -79,7 +79,8 @@ export class RequestRoomService {
     );
   }
 
-  proposalRequest(id: number, data: RequestModel): Observable<void> {
+  proposalRequest(id: number, data: {startDate1: string, endDate1: string, startDate2: string, endDate2: string})
+    : Observable<void> {
     const url = `${this.url}/proposal/${id}`;
     return this.http.patch<void>(url, data);
   }

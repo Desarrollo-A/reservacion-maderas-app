@@ -5,6 +5,7 @@ import { LabelButton } from "../../../shared/interfaces/label-button";
 import { getLabelStatusRequest } from "../../../shared/utils/utils";
 import { InventoryModel } from "../../inventory/models/inventory.model";
 import { CancelRequestModel } from "./cancel-request.model";
+import { ProposalRequestModel } from "./proposal-request.model";
 
 export class RequestModel {
   id: number;
@@ -24,6 +25,7 @@ export class RequestModel {
   inventories?: InventoryModel[];
   isAvailable: boolean;
   cancelRequest: CancelRequestModel;
+  proposalRequest: ProposalRequestModel[];
 
   constructor(request) {
     this.id = request.id;
@@ -43,6 +45,7 @@ export class RequestModel {
     this.inventories = request.inventories;
     this.isAvailable = request.isAvailable;
     this.cancelRequest = request.cancelRequest;
+    this.proposalRequest = request.proposalRequest.map(data => new ProposalRequestModel(data));
   }
 
   get statusName(): string {

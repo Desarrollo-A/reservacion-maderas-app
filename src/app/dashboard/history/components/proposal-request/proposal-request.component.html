@@ -1,46 +1,131 @@
 <vex-page-layout-content class="container">
   <div class="px-6 h-16 border-b sticky left-0 flex items-center">
     <h2 class="title my-0 ltr:pr-4 rtl:pl-4 ltr:mr-4 rtl:ml-4 ltr:border-r rtl:border-l hidden sm:block flex-none">
-      <span>Propuesta</span>
+      <span *ngIf="proposalData.length === 0">Propuesta</span>
+      <span *ngIf="proposalData.length > 0">Propuestas</span>
     </h2>
   </div>
 
   <form [formGroup]="form"
         @fadeInUp
-        class="flex-auto">
+        class="flex-auto"
+        *ngIf="proposalData.length === 0">
     <div class="px-6 py-4 flex flex-col">
       <div class="flex flex-col md:flex-row md:gap-4">
         <mat-form-field class="flex-auto">
-          <mat-label>Fecha de propuesta</mat-label>
-          <input [matDatepicker]="datepickerRef"
+          <mat-label>Fecha de propuesta 1</mat-label>
+          <input [matDatepicker]="datepickerRef1"
                  [matDatepickerFilter]="weekendsOff"
-                 formControlName="date"
+                 formControlName="date1"
                  matInput readonly>
-          <mat-datepicker-toggle [for]="datepickerRef" matSuffix></mat-datepicker-toggle>
-          <mat-datepicker #datepickerRef></mat-datepicker>
+          <mat-datepicker-toggle [for]="datepickerRef1" matSuffix></mat-datepicker-toggle>
+          <mat-datepicker #datepickerRef1></mat-datepicker>
 
-          <mat-error *ngIf="formErrors.customError('date','required')">
+          <mat-error *ngIf="formErrors.customError('date1','required')">
             Campo obligatorio.
           </mat-error>
-          <mat-error *ngIf="formErrors.customError('date','dateBeforeNow')">
+          <mat-error *ngIf="formErrors.customError('date1','dateBeforeNow')">
             La fecha debe ser igual o mayor a la actual.
           </mat-error>
         </mat-form-field>
 
         <mat-form-field class="flex-auto">
           <mat-label>Horario</mat-label>
-          <mat-select formControlName="schedule">
-            <mat-option *ngFor="let schedule of availableSchedule; let i = index"
+          <mat-select formControlName="schedule1">
+            <mat-option *ngFor="let schedule of availableScheduleDate1; let i = index"
                         [value]="i">
               {{ schedule.startDate | date:'h:mm a' }} - {{ schedule.endDate | date:'h:mm a' }}
             </mat-option>
           </mat-select>
 
-          <mat-error *ngIf="formErrors.customError('schedule','required')">
+          <mat-error *ngIf="formErrors.customError('schedule1','required')">
+            Campo obligatorio.
+          </mat-error>
+        </mat-form-field>
+      </div>
+
+      <div class="flex flex-col md:flex-row md:gap-4">
+        <mat-form-field class="flex-auto">
+          <mat-label>Fecha de propuesta 2</mat-label>
+          <input [matDatepicker]="datepickerRef2"
+                 [matDatepickerFilter]="weekendsOff"
+                 formControlName="date2"
+                 matInput
+                 readonly>
+          <mat-datepicker-toggle [for]="datepickerRef2" matSuffix>
+          </mat-datepicker-toggle>
+          <mat-datepicker #datepickerRef2></mat-datepicker>
+
+          <mat-error *ngIf="formErrors.customError('date2','required')">
+            Campo obligatorio.
+          </mat-error>
+          <mat-error *ngIf="formErrors.customError('date2','dateBeforeNow')">
+            La fecha debe ser igual o mayor a la actual.
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field class="flex-auto">
+          <mat-label>Horario</mat-label>
+          <mat-select formControlName="schedule2">
+            <mat-option *ngFor="let schedule of availableScheduleDate2; let i = index"
+                        [value]="i">
+              {{ schedule.startDate | date:'h:mm a' }} - {{ schedule.endDate | date:'h:mm a' }}
+            </mat-option>
+          </mat-select>
+
+          <mat-error *ngIf="formErrors.customError('schedule2','required')">
             Campo obligatorio.
           </mat-error>
         </mat-form-field>
       </div>
     </div>
   </form>
+
+  <table @stagger [dataSource]="dataSource" class="w-full" mat-table
+         *ngIf="proposalData.length > 0">
+    <ng-container matColumnDef="number">
+      <th *matHeaderCellDef class="uppercase" mat-header-cell>#</th>
+      <td *matCellDef="let row; let i = index" mat-cell>{{ i+1 }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="date">
+      <th *matHeaderCellDef class="uppercase" mat-header-cell>Fecha</th>
+      <td *matCellDef="let row" mat-cell>{{ row.startDate | date:'dd-MM-y' }}</td>
+    </ng-container>
+
+    <!-- Hora inicio Column -->
+    <ng-container matColumnDef="startTime">
+      <th *matHeaderCellDef class="uppercase" mat-header-cell>Hora Inicio</th>
+      <td *matCellDef="let row" mat-cell>
+        {{ row.startDate | date:'h:mm a' }}
+      </td>
+    </ng-container>
+
+    <!-- Hora fin Column -->
+    <ng-container matColumnDef="endTime">
+      <th *matHeaderCellDef class="uppercase" mat-header-cell>Hora Fin</th>
+      <td *matCellDef="let row" mat-cell>
+        {{ row.endDate | date:'h:mm a' }}
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="action">
+      <th *matHeaderCellDef class="uppercase" mat-header-cell>Acciones</th>
+      <td *matCellDef="let row; let i = index" mat-cell>
+        <div class="flex">
+          <button (click)="confirmationProposal(i+1)"
+             class="w-8 h-8 leading-none flex items-center justify-center hover:bg-hover text-primary bg-primary/10"
+             mat-icon-button>
+            <mat-icon class="icon-sm" svgIcon="mat:done"></mat-icon>
+          </button>
+        </div>
+      </td>
+    </ng-container>
+
+    <tr *matHeaderRowDef="visibleColumns" mat-header-row></tr>
+    <tr *matRowDef="let row; columns: visibleColumns;"
+        @fadeInUp
+        class="hover:bg-hover trans-ease-out"
+        mat-row></tr>
+  </table>
 </vex-page-layout-content>

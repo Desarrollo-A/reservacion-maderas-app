@@ -19,6 +19,7 @@ import { ImageModule } from "../../shared/pipes/image/image.module";
 import { DeleteConfirmModule } from "../../shared/components/delete-confirm/delete-confirm.module";
 import { ProposalRequestComponent } from './components/proposal-request/proposal-request.component';
 import { CancelRequestComponent } from './components/cancel-request/cancel-request.component';
+import { ConfirmProposalComponent } from './components/confirm-proposal/confirm-proposal.component';
 
 
 @NgModule({
@@ -30,7 +31,8 @@ import { CancelRequestComponent } from './components/cancel-request/cancel-reque
     SnackDetailComponent,
     SnackAssignComponent,
     ProposalRequestComponent,
-    CancelRequestComponent
+    CancelRequestComponent,
+    ConfirmProposalComponent
   ],
   imports: [
     CommonModule,

@@ -11,7 +11,13 @@ import { RoomService } from "../../../maintenance/services/room.service";
 import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
 import { ToastrService } from "ngx-toastr";
 import { dateBeforeNow, workingHours } from "../../../../shared/utils/form-validations";
-import { compareTimes, removeError, roundedTime, weekendsOffCalendar } from "../../../../shared/utils/utils";
+import {
+  compareTimes,
+  getDateFormat,
+  removeError,
+  roundedTime,
+  weekendsOffCalendar
+} from "../../../../shared/utils/utils";
 import { LookupService } from "../../../../core/services/lookup.service";
 import { Lookup } from "../../../../core/interfaces/lookup";
 import { TypeLookup } from "../../../../core/enums/type-lookup";
@@ -89,7 +95,6 @@ export class RoomComponent implements OnInit {
     }
 
     const formValues = this.form.getRawValue();
-    const date = formValues.date.toISOString().split('T')[0];
 
     const requestRoom:RequestRoomModel = <RequestRoomModel> {
       roomId: formValues.roomId,
@@ -99,8 +104,8 @@ export class RoomComponent implements OnInit {
 
     const request: RequestModel = <RequestModel> {
       title: formValues.title,
-      startDate: `${date} ${formValues.startTime}`,
-      endDate: `${date} ${formValues.endTime}`,
+      startDate: `${getDateFormat(formValues.date)} ${formValues.startTime}`,
+      endDate: `${getDateFormat(formValues.date)} ${formValues.endTime}`,
       people: formValues.people,
       addGoogleCalendar: formValues.addGoogleCalendar,
       comment: formValues.comment,

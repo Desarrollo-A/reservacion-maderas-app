@@ -1,0 +1,27 @@
+<div class="flex flex-row flex-wrap">
+  <div class="w-full">
+    <h2 mat-dialog-title>Confirmación</h2>
+
+    <mat-divider></mat-divider>
+
+    <mat-dialog-content class="mat-typography">
+      <div class="mt-4">
+        <p>¿Está seguro de elegir la propuesta #{{chooseNumber}}?</p>
+      </div>
+    </mat-dialog-content>
+
+    <mat-dialog-actions align="end">
+      <button mat-button
+              [mat-dialog-close]="false"
+              type="button">
+        No
+      </button>
+      <button color="primary"
+              mat-flat-button
+              [mat-dialog-close]="true"
+              type="button">
+        Sí
+      </button>
+    </mat-dialog-actions>
+  </div>
+</div>

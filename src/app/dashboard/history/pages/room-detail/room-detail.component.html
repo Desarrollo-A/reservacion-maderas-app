@@ -98,9 +98,10 @@
       </app-snack-detail>
 
       <app-proposal-request #proposalRequestComponent
-                            *ngIf="requestRoom.request.status.code === statusRequest[statusRequest.PROPOSAL] &&
-                            this.previousStatus.code !== statusRequest[statusRequest.PROPOSAL]"
-                            [requestId]="requestRoom.requestId">
+                            *ngIf="requestRoom.request.status.code === statusRequest[statusRequest.PROPOSAL]"
+                            [requestId]="requestRoom.requestId"
+                            [proposalData]="requestRoom.request.proposalRequest"
+                            (chosenProposal)="responseRejectRequest($event)">
       </app-proposal-request>
 
       <app-cancel-request #cancelRequestComponent
@@ -109,7 +110,7 @@
                           [cancelRequest]="requestRoom?.request?.cancelRequest">
       </app-cancel-request>
 
-      <div class="flex items-center justify-end gap-2">
+      <div class="flex items-center justify-end mt-3">
         <button color="primary"
                 mat-raised-button
                 type="button"

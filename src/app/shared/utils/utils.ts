@@ -54,8 +54,7 @@ export const getLabelStatusRequest = (statusName: string, code: string): LabelBu
   if (code === StatusRequestLookup[StatusRequestLookup.NEW]) {
     return { text: statusName, textClass: 'text-blue', bgClass: 'bg-blue-light' };
 
-  } else if (code === StatusRequestLookup[StatusRequestLookup.APPROVED] ||
-      code === StatusRequestLookup[StatusRequestLookup.ACCEPT]) {
+  } else if (code === StatusRequestLookup[StatusRequestLookup.APPROVED]) {
     return { text: statusName, textClass: 'text-green', bgClass: 'bg-green-light' };
 
   } else if (code === StatusRequestLookup[StatusRequestLookup.REJECTED] ||
@@ -73,4 +72,10 @@ export const getLabelStatusRequest = (statusName: string, code: string): LabelBu
   } else if (code === StatusRequestLookup[StatusRequestLookup.FINISHED]) {
     return { text: statusName, textClass: 'text-teal', bgClass: 'bg-teal-light' };
   }
+}
+
+export const getDateFormat = (date: Date): string => date.toISOString().split('T')[0];
+
+export const getTimeFormat = (date: Date): string => {
+  return (date.getHours() < 10) ? `0${date.toLocaleTimeString()}` : date.toLocaleTimeString();
 }

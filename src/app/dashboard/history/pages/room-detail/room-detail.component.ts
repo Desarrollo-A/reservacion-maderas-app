@@ -20,6 +20,8 @@ import { RequestModel } from "../../../request/models/request.model";
 import { ProposalRequestComponent } from "../../components/proposal-request/proposal-request.component";
 import { RequestService } from "../../services/request.service";
 import { CancelRequestComponent } from "../../components/cancel-request/cancel-request.component";
+import { ProposalRequestModel } from "../../../request/models/proposal-request.model";
+import { getDateFormat, getTimeFormat } from "../../../../shared/utils/utils";
 
 @Component({
   selector: 'app-room-detail',
@@ -75,9 +77,6 @@ export class RoomDetailComponent {
       tap(requestRoom => {
         this.requestRoom = requestRoom;
         this.previousStatus = {... requestRoom.request.status};
-        if (this.previousStatus.code === StatusRequestLookup[StatusRequestLookup.CANCELLED]) {
-          // TODO: pendiente
-        }
       }),
       switchMap(requestRoom => this.requestRoomService.getStatusByStatusCurrent(requestRoom.request.status.code))
     ).subscribe(status => {
@@ -122,7 +121,8 @@ export class RoomDetailComponent {
       return;
     }
 
-    if (this.previousStatus.code === StatusRequestLookup[StatusRequestLookup.PROPOSAL]) {
+    if (this.previousStatus.code === StatusRequestLookup[StatusRequestLookup.PROPOSAL] &&
+      this.requestRoom.request.status.code === StatusRequestLookup[StatusRequestLookup.REJECTED]) {
       this.responseRejectRequest();
       return;
     }
@@ -194,28 +194,46 @@ export class RoomDetailComponent {
       return;
     }
 
-    const { date, schedule } = this.proposalRequestComponent.form.getRawValue();
-    const { startTime, endTime } = this.proposalRequestComponent.availableSchedule[schedule];
-    const dateRequest = date.toISOString().split('T')[0];
-    const data = <RequestModel>{
-      startDate: `${dateRequest} ${startTime}`,
-      endDate: `${dateRequest} ${endTime}`,
+    const { date1, schedule1, date2, schedule2 } = this.proposalRequestComponent.form.getRawValue();
+    const dates1 = this.proposalRequestComponent.availableScheduleDate1[schedule1];
+    const dates2 = this.proposalRequestComponent.availableScheduleDate2[schedule2];
+    const data = {
+      startDate1: `${getDateFormat(date1)} ${dates1['startTime']}`,
+      endDate1: `${getDateFormat(date1)} ${dates1['endTime']}`,
+      startDate2: `${getDateFormat(date2)} ${dates2['startTime']}`,
+      endDate2: `${getDateFormat(date2)} ${dates2['endTime']}`,
     };
 
     this.requestRoomService.proposalRequest(this.requestRoom.requestId, data).subscribe(() => {
-      this.toastrService.success('Propuesta realizada', 'Proceso exitoso');
+      this.toastrService.success('Propuesta enviada', 'Proceso exitoso');
       this.router.navigateByUrl(this.urlRedirectBack);
     });
   }
 
-  private responseRejectRequest(): void {
-    this.requestService.responseRejectRequest(this.requestRoom.requestId, this.requestRoom.request.status)
+  public responseRejectRequest(proposalRequest?: ProposalRequestModel): void {
+    const status = <Lookup> {
+      code: (proposalRequest)
+        ? StatusRequestLookup[StatusRequestLookup.IN_REVIEW]
+        : this.requestRoom.request.status.code
+    };
+    let data = <RequestModel> { status };
+
+    if (proposalRequest) {
+      if (typeof proposalRequest.startDate !== "string") {
+        data.startDate = `${getDateFormat(proposalRequest.startDate)} ${getTimeFormat(proposalRequest.startDate)}`;
+      }
+      if (typeof proposalRequest.endDate !== "string") {
+        data.endDate = `${getDateFormat(proposalRequest.endDate)} ${getTimeFormat(proposalRequest.endDate)}`;
+      }
+    }
+
+    this.requestService.responseRejectRequest(this.requestRoom.requestId, data)
       .subscribe(() => {
-        if (this.requestRoom.request.status.code === StatusRequestLookup[StatusRequestLookup.ACCEPT]) {
-          this.toastrService.success('Propuesta aceptada', 'Proceso exitoso');
-          this.router.navigateByUrl(this.urlRedirectBack);
-        } else if (this.requestRoom.request.status.code === StatusRequestLookup[StatusRequestLookup.REJECTED]) {
+        if (this.requestRoom.request.status.code === StatusRequestLookup[StatusRequestLookup.REJECTED]) {
           this.toastrService.success('Solicitud rechazada', 'Proceso exitoso');
+          this.router.navigateByUrl(this.urlRedirectBack);
+        } else {
+          this.toastrService.success('Propuesta aceptada', 'Proceso exitoso');
           this.router.navigateByUrl(this.urlRedirectBack);
         }
       });

@@ -3,7 +3,7 @@ import { HttpClient } from "@angular/common/http";
 import { environment } from "../../../../environments/environment";
 import { Observable } from "rxjs";
 import { map } from "rxjs/operators";
-import { Lookup } from "../../../core/interfaces/lookup";
+import { RequestModel } from "../../request/models/request.model";
 
 @Injectable({
   providedIn: 'root'
@@ -24,8 +24,8 @@ export class RequestService {
     );
   }
 
-  responseRejectRequest(id: number, status: Lookup): Observable<void> {
+  responseRejectRequest(id: number, data: RequestModel): Observable<void> {
     const url = `${this.url}/response-reject/${id}`;
-    return this.http.patch<void>(url, { statusId: status.id, status });
+    return this.http.patch<void>(url, data);
   }
 }

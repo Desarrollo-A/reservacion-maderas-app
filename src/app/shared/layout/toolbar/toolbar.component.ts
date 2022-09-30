@@ -6,6 +6,8 @@ import { NavigationService } from '../../services/navigation.service';
 import { PopoverService } from '../../components/popover/popover.service';
 import { Observable, of } from 'rxjs';
 import { Router } from "@angular/router";
+import { UserSessionService } from "../../../core/services/user-session.service";
+import { NameRole } from "../../../core/enums/name-role";
 
 @Component({
   selector: 'vex-toolbar',
@@ -33,7 +35,12 @@ export class ToolbarComponent {
               private configService: ConfigService,
               private navigationService: NavigationService,
               private popoverService: PopoverService,
-              private router: Router) { }
+              private router: Router,
+              private userSessionService: UserSessionService) { }
+
+  get isAdmin(): boolean {
+    return this.userSessionService.user.role?.name === NameRole.ADMIN;
+  }
 
   openQuickpanel(): void {
     this.layoutService.openQuickpanel();

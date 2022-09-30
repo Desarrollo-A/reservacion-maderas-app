@@ -33,13 +33,13 @@
     <div class="flex flex-col sm:flex-row sm:gap-3">
       <mat-form-field class="flex-auto">
         <mat-label>Teléfono personal</mat-label>
-        <input matInput readonly [value]="user.personalPhone">
+        <input matInput readonly [value]="user.personalPhone || 'No aplica'">
         <mat-icon class="mr-3" matPrefix svgIcon="mat:call"></mat-icon>
       </mat-form-field>
 
       <mat-form-field class="flex-auto">
         <mat-label>Teléfono oficina</mat-label>
-        <input matInput readonly [value]="user.officePhone">
+        <input matInput readonly [value]="user.officePhone || 'No aplica'">
         <mat-icon class="mr-3" matPrefix svgIcon="mat:call"></mat-icon>
       </mat-form-field>
     </div>
@@ -58,7 +58,7 @@
 
     <mat-form-field class="flex-auto">
       <mat-label>Oficina</mat-label>
-      <input matInput readonly [value]="user.office.name">
+      <input matInput readonly [value]="user.office?.name || 'No aplica'">
       <mat-icon class="mr-3" matPrefix svgIcon="mat:apartment"></mat-icon>
     </mat-form-field>
   </mat-dialog-content>

@@ -124,6 +124,10 @@ export class RoomComponent implements OnInit {
     this.clearFilters();
     const filter = this.searchCtrl.value;
 
+    if (this.roomResponse?.meta && this.roomResponse.meta.currentPage != 1) {
+      this.roomResponse.meta.currentPage = 1;
+    }
+
     if (filter === '') {
       return this.getData();
     }
@@ -133,10 +137,6 @@ export class RoomComponent implements OnInit {
     this.generateFilter('lookup', TypesEnum.String, filter);
     if (!isNaN(Number(filter))) {
       this.generateFilter('no_people', TypesEnum.Int, Number(filter));
-    }
-
-    if (this.roomResponse?.meta) {
-      this.roomResponse.meta.currentPage = 1;
     }
 
     this.getData();

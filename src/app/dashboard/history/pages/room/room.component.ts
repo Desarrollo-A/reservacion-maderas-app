@@ -106,6 +106,10 @@ export class RoomComponent implements OnInit {
     this.clearFilters();
     const filter = this.searchCtrl.value;
 
+    if (this.requestRoomResponse?.meta && this.requestRoomResponse.meta.currentPage != 1) {
+      this.requestRoomResponse.meta.currentPage = 1;
+    }
+
     if (filter === '') {
       return this.getData();
     }
@@ -116,10 +120,6 @@ export class RoomComponent implements OnInit {
     this.generateFilter('room_name', TypesEnum.String, filter);
     this.generateFilter('level_meeting', TypesEnum.String, filter);
     this.generateFilter('status_name', TypesEnum.String, filter);
-
-    if (this.requestRoomResponse?.meta) {
-      this.requestRoomResponse.meta.currentPage = 1;
-    }
 
     this.getData();
   }

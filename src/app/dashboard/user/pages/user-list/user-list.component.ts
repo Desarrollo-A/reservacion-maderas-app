@@ -81,6 +81,10 @@ export class UserListComponent implements OnInit {
     this.clearFilters();
     const filter = this.searchCtrl.value;
 
+    if (this.userResponse?.meta && this.userResponse.meta.currentPage != 1) {
+      this.userResponse.meta.currentPage = 1;
+    }
+
     if (filter === '') {
       return this.getData();
     }
@@ -93,10 +97,6 @@ export class UserListComponent implements OnInit {
     this.generateFilter('area', TypesEnum.String, filter);
     this.generateFilter('lookup', TypesEnum.String, filter);
     this.generateFilter('role', TypesEnum.String, filter);
-
-    if (this.userResponse?.meta) {
-      this.userResponse.meta.currentPage = 1;
-    }
 
     this.getData();
   }

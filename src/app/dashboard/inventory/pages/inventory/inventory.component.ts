@@ -146,6 +146,10 @@ export class InventoryComponent implements OnInit {
     this.clearFilters();
     const filter = this.searchCtrl.value;
 
+    if (this.inventoryResponse?.meta && this.inventoryResponse.meta.currentPage != 1) {
+      this.inventoryResponse.meta.currentPage = 1;
+    }
+
     if (filter === '') {
       return this.getData();
     }
@@ -156,10 +160,6 @@ export class InventoryComponent implements OnInit {
     this.generateFilter('lookup', TypesEnum.String, filter);
     if (!isNaN(Number(filter))) {
       this.generateFilter('stock', TypesEnum.Int, Number(filter));
-    }
-
-    if (this.inventoryResponse?.meta) {
-      this.inventoryResponse.meta.currentPage = 1;
     }
 
     this.getData();

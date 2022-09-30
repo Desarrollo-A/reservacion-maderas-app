@@ -16,7 +16,7 @@
        class="notification flex items-center cursor-pointer"
        matRipple
        (click)="openNotification(notification)">
-      <mat-icon [ngClass]="notification.colorClass"
+      <mat-icon [ngStyle]="{'color': notification.colorHex}"
                 [svgIcon]="notification.icon"
                 class="notification-icon flex-none"></mat-icon>
       <div class="flex-auto">

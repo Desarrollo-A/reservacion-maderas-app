@@ -131,6 +131,10 @@ export class CarComponent implements OnInit {
     this.clearFilters();
     const filter = this.searchCtrl.value;
 
+    if (this.carResponse?.meta && this.carResponse.meta.currentPage != 1) {
+      this.carResponse.meta.currentPage = 1;
+    }
+
     if (filter === '') {
       return this.getData();
     }
@@ -145,10 +149,6 @@ export class CarComponent implements OnInit {
     this.generateFilter('lookup', TypesEnum.String, filter);
     if (!isNaN(Number(filter))) {
       this.generateFilter('people', TypesEnum.Int, Number(filter));
-    }
-
-    if (this.carResponse?.meta) {
-      this.carResponse.meta.currentPage = 1;
     }
 
     this.getData();

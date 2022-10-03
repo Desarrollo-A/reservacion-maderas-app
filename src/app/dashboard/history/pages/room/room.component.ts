@@ -106,10 +106,6 @@ export class RoomComponent implements OnInit {
     this.clearFilters();
     const filter = this.searchCtrl.value;
 
-    if (this.requestRoomResponse?.meta && this.requestRoomResponse.meta.currentPage != 1) {
-      this.requestRoomResponse.meta.currentPage = 1;
-    }
-
     if (filter === '') {
       return this.getData();
     }

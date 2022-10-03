@@ -131,10 +131,6 @@ export class CarComponent implements OnInit {
     this.clearFilters();
     const filter = this.searchCtrl.value;
 
-    if (this.carResponse?.meta && this.carResponse.meta.currentPage != 1) {
-      this.carResponse.meta.currentPage = 1;
-    }
-
     if (filter === '') {
       return this.getData();
     }

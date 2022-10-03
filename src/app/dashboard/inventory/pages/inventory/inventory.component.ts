@@ -146,10 +146,6 @@ export class InventoryComponent implements OnInit {
     this.clearFilters();
     const filter = this.searchCtrl.value;
 
-    if (this.inventoryResponse?.meta && this.inventoryResponse.meta.currentPage != 1) {
-      this.inventoryResponse.meta.currentPage = 1;
-    }
-
     if (filter === '') {
       return this.getData();
     }

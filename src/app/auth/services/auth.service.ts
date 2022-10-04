@@ -12,6 +12,8 @@ import { NavigationService } from "../../shared/services/navigation.service";
 import { ResponseUser } from "../interfaces/response-user";
 import { UserService } from "../../dashboard/user/services/user.service";
 import { UserModel } from "../../dashboard/user/models/user.model";
+import { ConfigService } from "../../shared/config/config.service";
+import { VexConfigName } from "../../shared/config/config-name.model";
 
 @Injectable({
   providedIn: 'root'
@@ -22,7 +24,8 @@ export class AuthService {
   constructor(private http: HttpClient,
               private userSessionService: UserSessionService,
               private navigationService: NavigationService,
-              private userService: UserService) {}
+              private userService: UserService,
+              private configService: ConfigService) {}
 
   get url(): string {
     return environment.baseUrl + environment.api + this._baseUrl;
@@ -77,6 +80,8 @@ export class AuthService {
       tap( () => {
         // Se eliminan los datos de localStorage
         this.userSessionService.removeToken();
+        this.configService.removeTemplateConfig();
+        this.configService.setConfig(VexConfigName.poseidon);
         this.userSessionService.clearUser();
         this.navigationService.clearItems();
       })

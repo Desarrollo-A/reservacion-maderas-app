@@ -7,13 +7,16 @@ import { ErrorResponse } from "../interfaces/error-response";
 import { Router } from "@angular/router";
 import { UserSessionService } from "../services/user-session.service";
 import { NavigationService } from "../../shared/services/navigation.service";
+import { ConfigService } from "../../shared/config/config.service";
+import { VexConfigName } from "../../shared/config/config-name.model";
 
 @Injectable()
 export class ErrorInterceptor implements HttpInterceptor {
   constructor(private toastr: ToastrService,
               private router: Router,
               private userSessionService: UserSessionService,
-              private navigationService: NavigationService) {}
+              private navigationService: NavigationService,
+              private configService: ConfigService) {}
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     return next.handle(req)
@@ -30,6 +33,8 @@ export class ErrorInterceptor implements HttpInterceptor {
             this.userSessionService.removeToken();
             this.userSessionService.clearUser();
             this.navigationService.clearItems();
+            this.configService.removeTemplateConfig();
+            this.configService.setConfig(VexConfigName.poseidon);
             this.router.navigateByUrl('/auth');
 
           } else if (error.status === 403) { // No tiene permisos

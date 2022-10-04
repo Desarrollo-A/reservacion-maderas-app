@@ -15,16 +15,23 @@ import { map } from 'rxjs/operators';
   providedIn: 'root'
 })
 export class ConfigService {
+  private _templateConfig = 'template-config';
 
   defaultConfig: VexConfigName = VexConfigName.poseidon;
   configs: VexConfig[] = configs;
 
-  private _configSubject = new BehaviorSubject(this.configs.find(c => c.id === this.defaultConfig));
+  private _configSubject = new BehaviorSubject(
+    JSON.parse(localStorage.getItem(this._templateConfig)) ?? this.configs.find(c => c.id === this.defaultConfig)
+  );
   config$ = this._configSubject.asObservable();
 
   constructor(@Inject(DOCUMENT) private document: Document,
               private layoutService: LayoutService) {
     this.config$.subscribe(config => this._updateConfig(config));
+  }
+
+  get templateConfig(): VexConfig {
+    return JSON.parse(localStorage.getItem(this._templateConfig)) ?? null;
   }
 
   select<R>(selector: (config: VexConfig) => R): Observable<R> {
@@ -35,11 +42,22 @@ export class ConfigService {
 
   setConfig(config: VexConfigName) {
     const settings = this.configs.find(c => c.id === config);
+    this.setTemplateConfig(settings);
     this._configSubject.next(settings);
   }
 
   updateConfig(config: DeepPartial<VexConfig>) {
-    this._configSubject.next(mergeDeep({ ...this._configSubject.getValue() }, config));
+    const settings = mergeDeep({ ...this._configSubject.getValue() }, config);
+    this.setTemplateConfig(settings);
+    this._configSubject.next(settings);
+  }
+
+  removeTemplateConfig(): void {
+    localStorage.removeItem(this._templateConfig);
+  }
+
+  private setTemplateConfig(settings: DeepPartial<VexConfig>): void {
+    localStorage.setItem(this._templateConfig, JSON.stringify(settings));
   }
 
   private _updateConfig(config: VexConfig): void {

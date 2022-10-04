@@ -8,8 +8,6 @@ import { DOCUMENT } from '@angular/common';
 import { ColorSchemeName } from '../../config/colorSchemeName';
 import { Observable } from 'rxjs';
 import { VexConfig } from '../../config/vex-config.interface';
-import { CSSValue } from '../../interfaces/css-value.type';
-import { defaultRoundedButtonBorderRadius } from '../../config/constants';
 
 @Component({
   selector: 'vex-config-panel',
@@ -23,58 +21,14 @@ export class ConfigPanelComponent {
 
   config$: Observable<VexConfig> = this.configService.config$;
 
-  isRTL$: Observable<boolean> = this.config$.pipe(
-    map(config => config.direction === 'rtl')
-  );
-
   isDark$: Observable<boolean> = this.config$.pipe(
     map(config => config.style.colorScheme === ColorSchemeName.dark)
   );
 
-  borderRadius$: Observable<number> = this.config$.pipe(
-    map(config => config.style.borderRadius.value)
-  );
-
-  ConfigName = VexConfigName;
   ColorSchemeName = ColorSchemeName;
-  selectedColor = colorVariables.azul;
-
-  roundedCornerValues: CSSValue[] = [
-    {
-      value: 0,
-      unit: 'rem'
-    },
-    {
-      value: 0.25,
-      unit: 'rem'
-    },
-    {
-      value: 0.5,
-      unit: 'rem'
-    },
-    {
-      value: 0.75,
-      unit: 'rem'
-    },
-    {
-      value: 1,
-      unit: 'rem'
-    },
-    {
-      value: 1.25,
-      unit: 'rem'
-    },
-    {
-      value: 1.5,
-      unit: 'rem'
-    },
-    {
-      value: 1.75,
-      unit: 'rem'
-    }
-  ];
-
-  roundedButtonValue: CSSValue = defaultRoundedButtonBorderRadius;
+  selectedColor = (this.configService.templateConfig)
+    ? this.configService.templateConfig.style.colors.primary
+    : colorVariables.azul;
 
   constructor(private configService: ConfigService,
               private layoutService: LayoutService,
@@ -87,6 +41,7 @@ export class ConfigPanelComponent {
         colorScheme
       }
     });
+    this.selectColor(colorVariables.azul);
   }
 
   selectColor(color: ColorVariable): void {
@@ -104,7 +59,7 @@ export class ConfigPanelComponent {
   }
 
   isSelectedColor(color: ColorVariable): boolean {
-    return color === this.selectedColor;
+    return (this.selectedColor.default === color.default && this.selectedColor.contrast === color.contrast);
   }
 
   enableDarkMode(): void {

@@ -124,7 +124,7 @@ export class ProposalRequestComponent implements OnInit {
   }
 
   confirmationProposal(index: number): void {
-    this.dialog.open(ConfirmProposalComponent, {data: index, autoFocus: false})
+    this.dialog.open(ConfirmProposalComponent, {data: index+1, autoFocus: false})
       .afterClosed()
       .subscribe((confirm: boolean) => {
         if (confirm) {

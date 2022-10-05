@@ -17,7 +17,7 @@
        matRipple
        (click)="openNotification(notification)">
       <mat-icon [ngStyle]="{'color': notification.colorHex}"
-                [svgIcon]="notification.icon"
+                [svgIcon]="notification.matIcon"
                 class="notification-icon flex-none"></mat-icon>
       <div class="flex-auto">
         <div class="notification-label">{{ notification.message }}</div>

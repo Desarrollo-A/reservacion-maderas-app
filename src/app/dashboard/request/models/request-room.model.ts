@@ -7,6 +7,7 @@ export class RequestRoomModel {
   roomId: number;
   externalPeople: number;
   levelId: number;
+  duration: number;
   request?: RequestModel;
   room: RoomModel;
   level: Lookup;
@@ -16,6 +17,7 @@ export class RequestRoomModel {
     this.roomId = requestRoom.roomId;
     this.externalPeople = requestRoom.externalPeople;
     this.levelId = requestRoom.levelId;
+    this.duration = requestRoom.duration;
     this.request = (requestRoom.request) ? new RequestModel(requestRoom.request) : undefined;
     this.room = requestRoom.room;
     this.level = requestRoom.level;

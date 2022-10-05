@@ -1,5 +1,4 @@
 import { Lookup } from "../../../../../core/interfaces/lookup";
-import { TypeNotificationLookup } from "../enums/type-notification.lookup";
 
 export class NotificationModel {
   id: number;
@@ -8,9 +7,11 @@ export class NotificationModel {
   userId: number;
   requestId: number;
   typeId: number;
+  iconId: number;
   createdAt: string;
   type: Lookup;
   color: Lookup;
+  icon: Lookup;
 
   constructor(notification) {
     this.id = notification.id;
@@ -19,9 +20,11 @@ export class NotificationModel {
     this.userId = notification.userId;
     this.requestId = notification.requestId;
     this.typeId = notification.typeId;
+    this.iconId = notification.iconId;
     this.createdAt = notification.createdAt;
     this.type = notification.type;
     this.color = notification.color;
+    this.icon = notification.icon;
   }
 
   get typeName(): string {
@@ -32,17 +35,7 @@ export class NotificationModel {
     return this.color.name;
   }
 
-  get icon(): string {
-    if (this.type.code === TypeNotificationLookup[TypeNotificationLookup.ROOM]) {
-      return 'mat:meeting_room';
-    } else if (this.type.code === TypeNotificationLookup[TypeNotificationLookup.CAR]) {
-      return 'mat:directions_car';
-    } else if (this.type.code === TypeNotificationLookup[TypeNotificationLookup.DRIVER]) {
-      return 'mat:face';
-    } else if (this.type.code === TypeNotificationLookup[TypeNotificationLookup.INVENTORY]) {
-      return 'mat:inventory_2';
-    } else if (this.type.code === TypeNotificationLookup[TypeNotificationLookup.GENERAL]) {
-      return 'mat:notifications';
-    }
+  get matIcon(): string {
+    return this.icon.name;
   }
 }

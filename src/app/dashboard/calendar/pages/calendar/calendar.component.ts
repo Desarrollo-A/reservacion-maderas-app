@@ -1,22 +1,12 @@
-import { Component, TemplateRef, ViewChild, ViewEncapsulation } from '@angular/core';
-import { CalendarEvent, CalendarEventAction, CalendarEventTimesChangedEvent, CalendarView } from "angular-calendar";
-import { addDays, addHours, endOfMonth, isSameDay, isSameMonth, startOfDay, subDays } from 'date-fns';
+import { Component, OnInit, TemplateRef, ViewChild, ViewEncapsulation } from '@angular/core';
+import { CalendarEvent, CalendarView } from "angular-calendar";
+import { isSameDay, isSameMonth } from 'date-fns';
 import { Subject } from "rxjs";
-
-const colors: any = {
-  blue: {
-    primary: '#5c77ff',
-    secondary: '#FFFFFF'
-  },
-  yellow: {
-    primary: '#ffc107',
-    secondary: '#FDF1BA'
-  },
-  red: {
-    primary: '#f44336',
-    secondary: '#FFFFFF'
-  }
-};
+import { CalendarService } from "../../services/calendar.service";
+import { MatDialog } from "@angular/material/dialog";
+import { RequestService } from "../../../history/services/request.service";
+import { RequestModel } from "../../../request/models/request.model";
+import { CalendarDetailComponent } from "../../components/calendar-detail/calendar-detail.component";
 
 @Component({
   selector: 'app-calendar',
@@ -24,7 +14,7 @@ const colors: any = {
   styleUrls: ['./calendar.component.scss'],
   encapsulation: ViewEncapsulation.None,
 })
-export class CalendarComponent {
+export class CalendarComponent implements OnInit {
   @ViewChild('modalContent', { static: true })
   modalContent: TemplateRef<any>;
 
@@ -32,69 +22,16 @@ export class CalendarComponent {
   CalendarView = CalendarView;
   viewDate: Date = new Date();
   refresh: Subject<any> = new Subject();
-  actions: CalendarEventAction[] = [
-    {
-      label: '<i class="fa fa-fw fa-pencil"></i>',
-      onClick: ({ event }: { event: CalendarEvent }): void => {
-        this.handleEvent('Edited', event);
-      }
-    },
-    {
-      label: '<i class="fa fa-fw fa-times"></i>',
-      onClick: ({ event }: { event: CalendarEvent }): void => {
-        this.events = this.events.filter(iEvent => iEvent !== event);
-        this.handleEvent('Deleted', event);
-      }
-    }
-  ];
-  events: CalendarEvent[] = [
-    {
-      start: subDays(startOfDay(new Date()), 1),
-      end: addDays(new Date(), 1),
-      title: 'Sala de Junta Administrativa',
-      color: colors.primary,
-      actions: this.actions,
-      allDay: true,
-      resizable: {
-        beforeStart: true,
-        afterEnd: true
-      }
-    },
-    {
-      start: startOfDay(new Date()),
-      title: 'Automóvil Volkswagen Vento',
-      color: colors.yellow,
-      actions: this.actions
-    },
-    {
-      start: startOfDay(new Date()),
-      end: addHours(startOfDay(new Date()), 1),
-      title: 'Automóvil Volkswagen Vento',
-      color: colors.yellow,
-      actions: this.actions
-    },
-    {
-      start: subDays(endOfMonth(new Date()), 3),
-      end: addDays(endOfMonth(new Date()), 3),
-      title: 'Sala de Junta, Ejecutiva',
-      color: colors.primary,
-      allDay: true
-    },
-    {
-      start: addHours(startOfDay(new Date()), 2),
-      end: new Date(),
-      title: 'Evento cancelado',
-      color: colors.red,
-      actions: this.actions,
-      resizable: {
-        beforeStart: true,
-        afterEnd: true
-      }
-    }
-  ];
-  activeDayIsOpen = true;
+  events: CalendarEvent<RequestModel>[] = [];
+  activeDayIsOpen = false;
 
-  constructor() {}
+  constructor(private calendarService: CalendarService,
+              private dialog: MatDialog,
+              private requestService: RequestService) {}
+
+  ngOnInit(): void {
+    this.calendarService.findAll().subscribe(events => this.events = events);
+  }
 
   dayClicked({ date, events }: { date: Date; events: CalendarEvent[] }): void {
     if (isSameMonth(date, this.viewDate)) {
@@ -103,19 +40,13 @@ export class CalendarComponent {
     }
   }
 
-  eventTimesChanged({ event, newStart, newEnd }: CalendarEventTimesChangedEvent): void {
-    this.events = this.events.map(iEvent => {
-      if (iEvent === event) {
-        return {
-          ...event,
-          start: newStart,
-          end: newEnd
-        };
-      }
-      return iEvent;
+  handleEvent(event: CalendarEvent<RequestModel>): void {
+    this.requestService.findById(event.meta.id).subscribe(request => {
+      this.dialog.open(CalendarDetailComponent, {
+        data: request,
+        autoFocus: false,
+        width: '400px'
+      });
     });
-    this.handleEvent('Dropped or resized', event);
   }
-
-  handleEvent(action: string, event: CalendarEvent): void {}
 }

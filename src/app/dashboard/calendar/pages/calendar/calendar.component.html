@@ -26,27 +26,24 @@
 
   <vex-scrollbar [ngSwitch]="view" class="px-0 shadow flex-auto relative container">
     <mwl-calendar-month-view
-      (dayClicked)="dayClicked($event.day)"
-      (eventClicked)="handleEvent('Clicked', $event.event)"
-      (eventTimesChanged)="eventTimesChanged($event)"
       *ngSwitchCase="'month'"
+      (dayClicked)="dayClicked($event.day)"
+      (eventClicked)="handleEvent($event.event)"
       [activeDayIsOpen]="activeDayIsOpen"
       [events]="events"
       [refresh]="refresh"
       [viewDate]="viewDate">
     </mwl-calendar-month-view>
     <mwl-calendar-week-view
-      (eventClicked)="handleEvent('Clicked', $event.event)"
-      (eventTimesChanged)="eventTimesChanged($event)"
       *ngSwitchCase="'week'"
+      (eventClicked)="handleEvent($event.event)"
       [events]="events"
       [refresh]="refresh"
       [viewDate]="viewDate">
     </mwl-calendar-week-view>
     <mwl-calendar-day-view
-      (eventClicked)="handleEvent('Clicked', $event.event)"
-      (eventTimesChanged)="eventTimesChanged($event)"
       *ngSwitchCase="'day'"
+      (eventClicked)="handleEvent($event.event)"
       [events]="events"
       [refresh]="refresh"
       [viewDate]="viewDate">

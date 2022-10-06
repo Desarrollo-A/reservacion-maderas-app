@@ -41,7 +41,7 @@
             <mat-select formControlName="roomId">
               <mat-option *ngFor="let room of rooms;"
                           [value]="room.id">
-                {{ room.name }} - Oficina {{ room.office.name }}
+                Sala {{ room.name }} - Oficina {{ room.office.name }}
               </mat-option>
             </mat-select>
             <mat-error *ngIf="formErrors.customError('roomId', 'required')">

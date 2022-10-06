@@ -10,7 +10,7 @@
   <vex-page-layout-content class="container" *ngIf="requestRoom">
     <div class="card p-6">
       <div class="flex">
-        <h2 class="m-0 title mb-6">Sala <strong>{{requestRoom.room.name}}</strong></h2>
+        <h2 class="m-0 title mb-6"><strong>{{requestRoom.request.title}}</strong></h2>
 
         <span class="flex-1"></span>
 
@@ -40,10 +40,15 @@
             </mat-form-field>
           </div>
 
-          <div class="flex flex-col sm:flex-row sm:gap-4">
+          <div class="flex flex-col md:flex-row md:gap-4">
             <mat-form-field appearance="outline" class="flex-auto vex-flex-form-field">
               <mat-label>Oficina</mat-label>
               <input matInput readonly [value]="requestRoom.room.office.name">
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" class="flex-auto vex-flex-form-field">
+              <mat-label>Sala</mat-label>
+              <input matInput readonly [value]="requestRoom.room.name">
             </mat-form-field>
 
             <mat-form-field appearance="outline" class="flex-auto vex-flex-form-field">

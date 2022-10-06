@@ -10,11 +10,13 @@ import { ScrollbarModule } from "../../shared/components/scrollbar/scrollbar.mod
 import { ReactiveFormsModule } from "@angular/forms";
 import { PageLayoutModule } from "../../shared/components/page-layout/page-layout.module";
 import { PageNotFoundModule } from "../../shared/components/page-not-found/page-not-found.module";
+import { CalendarDetailComponent } from './components/calendar-detail/calendar-detail.component';
 
 
 @NgModule({
   declarations: [
-    CalendarComponent
+    CalendarComponent,
+    CalendarDetailComponent
   ],
   imports: [
     CommonModule,

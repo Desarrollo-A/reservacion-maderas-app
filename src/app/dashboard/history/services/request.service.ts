@@ -17,6 +17,11 @@ export class RequestService {
     return environment.baseUrl + environment.api + this._baseUrl;
   }
 
+  findById(id: number): Observable<RequestModel> {
+    const url = `${this.url}/${id}`;
+    return this.http.get<RequestModel>(url);
+  }
+
   deleteRequestRoom(id: number): Observable<boolean> {
     const url = `${this.url}/room/${id}`;
     return this.http.delete<boolean>(url).pipe(

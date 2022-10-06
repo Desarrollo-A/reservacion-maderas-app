@@ -1,0 +1,27 @@
+<h3 matDialogTitle>
+  Solicitud: {{ request.code }}
+</h3>
+
+<mat-dialog-content>
+  <div class="flex flex-col">
+    <mat-form-field appearance="outline" class="flex-auto vex-flex-form-field">
+      <mat-label>Título</mat-label>
+      <input matInput readonly [value]="request.title">
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="flex-auto vex-flex-form-field">
+      <mat-label>Fecha inicio</mat-label>
+      <input matInput readonly [value]="request.startDate | date:'dd-MM-y - h:mm a'">
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="flex-auto vex-flex-form-field">
+      <mat-label>Fecha fin</mat-label>
+      <input matInput readonly [value]="request.endDate | date:'dd-MM-y - h:mm a'">
+    </mat-form-field>
+  </div>
+</mat-dialog-content>
+
+<mat-dialog-actions class="flex justify-end">
+  <button mat-button mat-dialog-close>Cerrar</button>
+  <button (click)="redirectRequestDetail()" class="save" color="primary" mat-raised-button>Ver más...</button>
+</mat-dialog-actions>

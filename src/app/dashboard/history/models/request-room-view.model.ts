@@ -19,7 +19,7 @@ export class RequestRoomViewModel {
     this.id = requestRoom.id;
     this.code = requestRoom.code;
     this.title = requestRoom.title;
-    this.startDate = requestRoom.startDate;
+    this.startDate = new Date(requestRoom.startDate);
     this.endDate = requestRoom.endDate;
     this.fullName = requestRoom.fullName;
     this.officeId = requestRoom.officeId;

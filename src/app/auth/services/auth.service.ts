@@ -14,6 +14,7 @@ import { UserService } from "../../dashboard/user/services/user.service";
 import { UserModel } from "../../dashboard/user/models/user.model";
 import { ConfigService } from "../../shared/config/config.service";
 import { VexConfigName } from "../../shared/config/config-name.model";
+import { NotificationService } from "../../shared/layout/toolbar/toolbar-notifications/services/notification.service";
 
 @Injectable({
   providedIn: 'root'
@@ -25,7 +26,8 @@ export class AuthService {
               private userSessionService: UserSessionService,
               private navigationService: NavigationService,
               private userService: UserService,
-              private configService: ConfigService) {}
+              private configService: ConfigService,
+              private notificacionService: NotificationService) {}
 
   get url(): string {
     return environment.baseUrl + environment.api + this._baseUrl;
@@ -84,6 +86,7 @@ export class AuthService {
         this.configService.setConfig(VexConfigName.poseidon);
         this.userSessionService.clearUser();
         this.navigationService.clearItems();
+        this.notificacionService.notifications$.next([]);
       })
     );
   }

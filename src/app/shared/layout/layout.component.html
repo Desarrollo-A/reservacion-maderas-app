@@ -29,7 +29,8 @@
                  [fixedInViewport]="!(isDesktop$ | async)"
                  class="quickpanel"
                  mode="over"
-                 position="end">
+                 position="end"
+                 (closedStart)="closeQuickpanel()">
       <ng-container *ngTemplateOutlet="quickpanelRef"></ng-container>
     </mat-sidenav>
 

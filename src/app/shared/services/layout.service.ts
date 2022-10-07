@@ -3,6 +3,8 @@ import { BehaviorSubject } from 'rxjs';
 import { Router } from '@angular/router';
 import { map } from 'rxjs/operators';
 import { BreakpointObserver } from '@angular/cdk/layout';
+import { CalendarService } from "../../dashboard/calendar/services/calendar.service";
+import { QuickpanelService } from "../layout/quickpanel/services/quickpanel.service";
 
 @Injectable({
   providedIn: 'root'
@@ -51,13 +53,18 @@ export class LayoutService {
   isMobile = () => this.breakpointObserver.isMatched(`(max-width: 599px)`);
 
   constructor(private router: Router,
-              private breakpointObserver: BreakpointObserver) { }
+              private breakpointObserver: BreakpointObserver,
+              private calendarService: CalendarService,
+              private quickpanelService: QuickpanelService) { }
 
   openQuickpanel() {
-    this._quickpanelOpenSubject.next(true);
+    this.calendarService.getSummaryOfDay().subscribe(() => {
+      this._quickpanelOpenSubject.next(true);
+    });
   }
 
   closeQuickpanel() {
+    this.quickpanelService.events$.next([]);
     this._quickpanelOpenSubject.next(false);
   }
 

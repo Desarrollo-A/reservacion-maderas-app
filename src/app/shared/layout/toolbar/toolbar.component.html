@@ -10,24 +10,6 @@
     <h1 [class.hidden]="!mobileQuery" class="title ltr:pl-4 rtl:pr-4 m-0 select-none">VEX</h1>
   </a>
 
-  <mat-menu #documentMenu="matMenu">
-    <button mat-menu-item>
-      <mat-icon svgIcon="mat:description"></mat-icon>
-      <span>Add Quote</span>
-    </button>
-
-    <button mat-menu-item>
-      <mat-icon svgIcon="mat:assignment"></mat-icon>
-      <span>Add Invoice</span>
-    </button>
-
-    <button mat-menu-item>
-      <mat-icon svgIcon="mat:receipt"></mat-icon>
-      <span>Add Receipt</span>
-    </button>
-  </mat-menu>
-
-
   <div *ngIf="(isVerticalLayout$ | async) && isNavbarInToolbar$ | async"
        [class.hidden]="mobileQuery"
        class="px-gutter flex-none flex items-center">

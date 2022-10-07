@@ -1,4 +1,13 @@
-import { AfterViewInit, ChangeDetectorRef, Component, Inject, Input, OnInit, TemplateRef, ViewChild } from '@angular/core';
+import {
+  AfterViewInit,
+  ChangeDetectorRef,
+  Component,
+  Inject,
+  Input,
+  OnInit,
+  TemplateRef,
+  ViewChild
+} from '@angular/core';
 import { BreakpointObserver } from '@angular/cdk/layout';
 import { LayoutService } from '../services/layout.service';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
@@ -85,7 +94,7 @@ export class LayoutComponent implements OnInit, AfterViewInit {
     this.router.events.pipe(
       filter(event => event instanceof NavigationEnd),
       withLatestFrom(this.isDesktop$),
-      filter(([event, matches]) => !matches),
+      filter(([, matches]) => !matches),
       untilDestroyed(this)
     ).subscribe(() => this.sidenav.close());
   }
@@ -131,5 +140,9 @@ export class LayoutComponent implements OnInit, AfterViewInit {
         });
       }
     });
+  }
+
+  closeQuickpanel(): void {
+    this.layoutService.closeQuickpanel();
   }
 }

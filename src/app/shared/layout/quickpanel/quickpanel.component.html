@@ -7,21 +7,13 @@
 <mat-divider></mat-divider>
 
 <mat-nav-list>
-  <h3 matSubheader>Próximos eventos</h3>
-  <a [routerLink]="[]" mat-list-item>
-    <h4 matLine>Sala de juntas - Administrativa</h4>
-    <p matLine>En 16 minutos, Sala Carranza</p>
-  </a>
-  <a [routerLink]="[]" mat-list-item>
-    <h4 matLine>Automóvil - Volkswagen Vento Plata</h4>
-    <p matLine>09:30 PM</p>
-  </a>
-  <a [routerLink]="[]" mat-list-item>
-    <h4 matLine>Sala de juntas - Ejecutiva</h4>
-    <p matLine>12:00 PM</p>
-  </a>
-  <a [routerLink]="[]" mat-list-item>
-    <h4 matLine>Chofer - Armando Paredes</h4>
-    <p matLine>12:00 PM</p>
-  </a>
+  <h3 matSubheader *ngIf="events.length === 0">Sin eventos</h3>
+  <h3 matSubheader *ngIf="events.length > 0">Próximos eventos</h3>
+  <ng-container *ngFor="let event of events; trackBy: trackById">
+    <a mat-list-item
+       (click)="redirectRequestDetail(event.request)">
+      <h4 matLine>{{event.title}}</h4>
+      <p matLine>{{event.subtitle}}</p>
+    </a>
+  </ng-container>
 </mat-nav-list>

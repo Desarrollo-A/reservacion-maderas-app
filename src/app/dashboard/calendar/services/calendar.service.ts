@@ -1,12 +1,14 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from "@angular/common/http";
 import { environment } from "../../../../environments/environment";
-import { Observable } from "rxjs";
+import { Observable, tap } from "rxjs";
 import { CalendarEvent } from "angular-calendar";
 import { CalendarModel } from "../models/calendar-model";
 import { map } from "rxjs/operators";
 import { RequestModel } from "../../request/models/request.model";
 import { EventColor } from "calendar-utils";
+import { SummaryDay } from "../../../shared/layout/quickpanel/interfaces/summary-day";
+import { QuickpanelService } from "../../../shared/layout/quickpanel/services/quickpanel.service";
 
 @Injectable({
   providedIn: 'root'
@@ -18,7 +20,8 @@ export class CalendarService {
     secondary: '#18385F'
   };
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient,
+              private quickpanelService: QuickpanelService) {}
 
   get url(): string {
     return environment.baseUrl + environment.api + this._baseUrl;
@@ -41,6 +44,15 @@ export class CalendarService {
         });
 
         return data;
+      })
+    );
+  }
+
+  getSummaryOfDay(): Observable<SummaryDay[]> {
+    const url = `${this.url}/summary-day`;
+    return this.http.get<SummaryDay[]>(url).pipe(
+      tap(events => {
+        this.quickpanelService.events$.next(events);
       })
     );
   }

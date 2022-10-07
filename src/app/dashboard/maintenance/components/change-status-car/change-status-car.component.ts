@@ -8,6 +8,7 @@ import { LookupService } from 'src/app/core/services/lookup.service';
 import { FormErrors } from 'src/app/shared/utils/form-error';
 import { CarModel } from '../../model/car.model';
 import { CarService } from '../../services/car.service';
+import { trackById } from "../../../../shared/utils/track-by";
 
 @Component({
   selector: 'app-change-status-car',
@@ -18,6 +19,7 @@ export class ChangeStatusCarComponent implements OnInit {
   form: FormGroup;
   formErrors: FormErrors;
   status: Lookup[] = [];
+  trackById = trackById;
 
   constructor(@Inject(MAT_DIALOG_DATA) public car: CarModel,
               private dialogRef: MatDialogRef<ChangeStatusCarComponent>,

@@ -3,8 +3,6 @@ import { CommonModule } from '@angular/common';
 
 import { HistoryRoutingModule } from './history-routing.module';
 import { RoomComponent } from './pages/room/room.component';
-import { CarComponent } from './pages/car/car.component';
-import { DriverComponent } from './pages/driver/driver.component';
 import { MaterialModule } from "../../material/material.module";
 import { PageLayoutModule } from "../../shared/components/page-layout/page-layout.module";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
@@ -25,8 +23,6 @@ import { ConfirmProposalComponent } from './components/confirm-proposal/confirm-
 @NgModule({
   declarations: [
     RoomComponent,
-    CarComponent,
-    DriverComponent,
     RoomDetailComponent,
     SnackDetailComponent,
     SnackAssignComponent,

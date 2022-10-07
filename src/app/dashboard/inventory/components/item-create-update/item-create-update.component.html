@@ -98,7 +98,7 @@
       <mat-form-field class="flex-auto">
         <mat-label>Tipo</mat-label>
         <mat-select formControlName="typeId" #type>
-          <mat-option *ngFor="let lookup of typeInventories"
+          <mat-option *ngFor="let lookup of typeInventories; trackBy: trackById"
                       [value]="lookup.id">
             {{ lookup.name }}
           </mat-option>
@@ -112,7 +112,7 @@
       <mat-form-field class="flex-auto">
         <mat-label>Unidad de medida</mat-label>
         <mat-select formControlName="unitId">
-          <mat-option *ngFor="let lookup of unitInventories"
+          <mat-option *ngFor="let lookup of unitInventories; trackBy: trackById"
                       [value]="lookup.id">
             {{ lookup.name }}
           </mat-option>

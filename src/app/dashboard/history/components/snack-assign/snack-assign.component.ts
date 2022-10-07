@@ -8,6 +8,7 @@ import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
 import { FormErrors } from "../../../../shared/utils/form-error";
 import { MatAutocompleteSelectedEvent } from "@angular/material/autocomplete";
 import { InventoryRequestModel } from "../../models/inventory-request.model";
+import { trackById } from "../../../../shared/utils/track-by";
 
 interface Data {
   snacks: InventoryModel[];
@@ -27,6 +28,7 @@ export class SnackAssignComponent {
   snackSelected: InventoryModel;
   disableInput = false;
   enableQuantity = false;
+  trackById = trackById;
 
   constructor(@Inject(MAT_DIALOG_DATA) public data: Data,
               private dialogRef: MatDialogRef<SnackAssignComponent>,

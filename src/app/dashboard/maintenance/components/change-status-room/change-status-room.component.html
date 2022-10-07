@@ -18,7 +18,7 @@
     <mat-form-field class="flex-auto">
       <mat-label>Estatus</mat-label>
       <mat-select formControlName="statusId" cdkFocusInitial>
-        <mat-option *ngFor="let lookup of status"
+        <mat-option *ngFor="let lookup of status; trackBy: trackById"
                     [value]="lookup.id">
           {{ lookup.name }}
         </mat-option>

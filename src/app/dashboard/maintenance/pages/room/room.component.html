@@ -38,11 +38,19 @@
 
       <table @stagger [dataSource]="dataSource" class="w-full" mat-table matSort [trackBy]="trackById"
              (matSortChange)="sortChange($event)">
-        <ng-container *ngFor="let column of columns; trackBy: trackByProperty">
-          <ng-container *ngIf="column.type === 'text'" [matColumnDef]="column.property">
-            <th *matHeaderCellDef class="uppercase" mat-header-cell mat-sort-header> {{ column.label }}</th>
-            <td *matCellDef="let row" [ngClass]="column.cssClasses" mat-cell>{{ row[column.property] }}</td>
-          </ng-container>
+        <ng-container matColumnDef="code">
+          <th *matHeaderCellDef class="uppercase" mat-header-cell mat-sort-header>Código</th>
+          <td *matCellDef="let row" class="text-secondary font-medium" mat-cell>{{ row.code }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="name">
+          <th *matHeaderCellDef class="uppercase" mat-header-cell mat-sort-header>Nombre</th>
+          <td *matCellDef="let row" mat-cell>{{ row.name }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="noPeople">
+          <th *matHeaderCellDef class="uppercase" mat-header-cell mat-sort-header># Personas</th>
+          <td *matCellDef="let row" mat-cell>{{ row.noPeople }}</td>
         </ng-container>
 
 

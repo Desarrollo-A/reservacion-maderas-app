@@ -8,6 +8,7 @@ import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { FormErrors } from "../../../../shared/utils/form-error";
 import { RoomService } from "../../services/room.service";
 import { ToastrService } from "ngx-toastr";
+import { trackById } from "../../../../shared/utils/track-by";
 
 @Component({
   selector: 'app-change-status-room',
@@ -18,6 +19,7 @@ export class ChangeStatusRoomComponent implements OnInit {
   form: FormGroup;
   formErrors: FormErrors;
   status: Lookup[] = [];
+  trackById = trackById;
 
   constructor(@Inject(MAT_DIALOG_DATA) public room: RoomModel,
               private dialogRef: MatDialogRef<ChangeStatusRoomComponent>,

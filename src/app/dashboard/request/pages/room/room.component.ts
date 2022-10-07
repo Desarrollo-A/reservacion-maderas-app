@@ -24,6 +24,7 @@ import { TypeLookup } from "../../../../core/enums/type-lookup";
 import { RequestRoomModel } from "../../models/request-room.model";
 import { RequestModel } from "../../models/request.model";
 import { RequestRoomService } from "../../services/request-room.service";
+import { trackById } from "../../../../shared/utils/track-by";
 
 @UntilDestroy()
 @Component({
@@ -42,6 +43,7 @@ export class RoomComponent implements OnInit {
   states: StateModel[] = [];
   rooms: RoomModel[] = [];
   meetingTypes: Lookup[] = [];
+  trackById = trackById;
 
   weekendsOff = weekendsOffCalendar;
 

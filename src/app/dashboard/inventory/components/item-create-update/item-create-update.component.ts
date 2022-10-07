@@ -10,6 +10,7 @@ import { Lookup } from "../../../../core/interfaces/lookup";
 import { forkJoin } from "rxjs";
 import { TypeLookup } from "../../../../core/enums/type-lookup";
 import { InventoryTypeLookup } from "../../enums/inventory-type.lookup";
+import { trackById } from "../../../../shared/utils/track-by";
 
 @Component({
   selector: 'app-item-create-update',
@@ -23,6 +24,8 @@ export class ItemCreateUpdateComponent implements OnInit {
   typeInventories: Lookup[] = [];
   unitInventories: Lookup[] = [];
   typeCafeteria: Lookup;
+
+  trackById = trackById;
 
   constructor(private dialogRef: MatDialogRef<ItemCreateUpdateComponent>,
               private lookupService: LookupService,

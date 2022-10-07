@@ -26,7 +26,7 @@
           <mat-form-field class="flex-auto">
             <mat-label>Sede</mat-label>
             <mat-select formControlName="state">
-              <mat-option *ngFor="let state of states"
+              <mat-option *ngFor="let state of states; trackBy: trackById"
                           [value]="state.id">
                 {{ state.name }}
               </mat-option>
@@ -39,7 +39,7 @@
           <mat-form-field class="flex-auto">
             <mat-label>Sala</mat-label>
             <mat-select formControlName="roomId">
-              <mat-option *ngFor="let room of rooms;"
+              <mat-option *ngFor="let room of rooms; trackBy: trackById"
                           [value]="room.id">
                 Sala {{ room.name }} - Oficina {{ room.office.name }}
               </mat-option>
@@ -141,7 +141,7 @@
           <mat-form-field class="flex-auto">
             <mat-label>Tipo de reunión</mat-label>
             <mat-select formControlName="levelId">
-              <mat-option *ngFor="let type of meetingTypes"
+              <mat-option *ngFor="let type of meetingTypes; trackBy: trackById"
                           [value]="type.id">
                 {{ type.name }}
               </mat-option>

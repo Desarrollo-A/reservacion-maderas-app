@@ -22,6 +22,7 @@ import { RequestService } from "../../services/request.service";
 import { CancelRequestComponent } from "../../components/cancel-request/cancel-request.component";
 import { ProposalRequestModel } from "../../../request/models/proposal-request.model";
 import { getDateFormat, getTimeFormat } from "../../../../shared/utils/utils";
+import { trackById } from "../../../../shared/utils/track-by";
 
 @Component({
   selector: 'app-room-detail',
@@ -47,6 +48,8 @@ export class RoomDetailComponent {
 
   breadcrumbs: Breadcrumbs[] = [];
   urlRedirectBack = '';
+
+  trackById = trackById;
 
   constructor(private activatedRoute: ActivatedRoute,
               private router: Router,

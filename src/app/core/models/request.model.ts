@@ -6,6 +6,7 @@ import { getLabelStatusRequest } from "../../shared/utils/utils";
 import { InventoryModel } from "./inventory.model";
 import { CancelRequestModel } from "./cancel-request.model";
 import { ProposalRequestModel } from "./proposal-request.model";
+import { RequestPhoneNumberModel } from "./request-phone-number.model";
 
 export class RequestModel {
   id: number;
@@ -27,6 +28,7 @@ export class RequestModel {
   isAvailable: boolean;
   cancelRequest: CancelRequestModel;
   proposalRequest: ProposalRequestModel[];
+  requestPhoneNumber: RequestPhoneNumberModel[];
 
   constructor(request) {
     this.id = request.id;
@@ -48,6 +50,7 @@ export class RequestModel {
     this.isAvailable = request.isAvailable;
     this.cancelRequest = request.cancelRequest;
     this.proposalRequest = request.proposalRequest.map(data => new ProposalRequestModel(data));
+    this.requestPhoneNumber = request.requestPhoneNumber;
   }
 
   get statusName(): string {

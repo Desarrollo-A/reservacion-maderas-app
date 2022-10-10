@@ -1,7 +1,7 @@
 <div [@stagger]="true" class="p-gutter container">
   <div class="flex flex-col sm:flex-row gap-4">
     <div @fadeInUp class="card flex-auto">
-      <div class="px-6 py-4 border-b flex items-center">
+      <div class="px-6 py-4 border-b flex flex-col">
         <h2 class="title m-0">Solicitar Sala de Juntas</h2>
       </div>
 
@@ -161,9 +161,7 @@
                     matInput formControlName="comment"></textarea>
         </mat-form-field>
 
-        <p class="text-secondary text-justify mb-2">
-          Nota: Si encuentras algún desperfecto en sala de juntas, por favor reportarlo en recepción.
-        </p>
+        <app-phone-request-table #phoneRequestTableComponent></app-phone-request-table>
 
         <div class="flex items-center justify-end gap-2">
           <button color="primary"

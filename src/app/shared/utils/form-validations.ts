@@ -49,8 +49,9 @@ export const workingHours = (control: FormControl): ValidationErrors | null => {
   if (control.value) {
     const timeParts = control.value.split(':');
     const hour = parseInt(timeParts[0]);
+    const minutes = parseInt(timeParts[1]);
 
-    if (hour < START_WORKING_HOUR || hour > FINISH_WORKING_HOUR) {
+    if (hour < START_WORKING_HOUR || (hour >= FINISH_WORKING_HOUR && minutes > 0)) {
       return { outOfTime: true };
     }
   }

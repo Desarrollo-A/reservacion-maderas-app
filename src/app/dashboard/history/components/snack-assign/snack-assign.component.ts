@@ -1,13 +1,13 @@
 import { Component, Inject } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material/dialog";
-import { InventoryModel } from "../../../inventory/models/inventory.model";
+import { InventoryModel } from "../../../../core/models/inventory.model";
 import { map, startWith } from "rxjs/operators";
 import { Observable } from "rxjs";
 import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
 import { FormErrors } from "../../../../shared/utils/form-error";
 import { MatAutocompleteSelectedEvent } from "@angular/material/autocomplete";
-import { InventoryRequestModel } from "../../models/inventory-request.model";
+import { InventoryRequestModel } from "../../../../core/models/inventory-request.model";
 import { trackById } from "../../../../shared/utils/track-by";
 
 interface Data {

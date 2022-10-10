@@ -1,8 +1,8 @@
 import { Component, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material/dialog";
-import { RequestModel } from "../../../request/models/request.model";
+import { RequestModel } from "../../../../core/models/request.model";
 import { Router } from "@angular/router";
-import { TypeRequestLookup } from "../../../request/enums/type-request.lookup";
+import { TypeRequestLookup } from "../../../../core/enums/lookups/type-request.lookup";
 import { UserSessionService } from "../../../../core/services/user-session.service";
 import { NameRole } from "../../../../core/enums/name-role";
 

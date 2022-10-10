@@ -1,5 +1,5 @@
-import { LabelButton } from "../../../shared/interfaces/label-button";
-import { getLabelStatusRequest } from "../../../shared/utils/utils";
+import { LabelButton } from "../../shared/interfaces/label-button";
+import { getLabelStatusRequest } from "../../shared/utils/utils";
 
 export class RequestRoomViewModel {
   id: number;

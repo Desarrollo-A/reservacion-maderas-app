@@ -1,14 +1,14 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from "@angular/common/http";
-import { environment } from "../../../../environments/environment";
+import { environment } from "../../../environments/environment";
 import { Observable, tap } from "rxjs";
 import { CalendarEvent } from "angular-calendar";
-import { CalendarModel } from "../models/calendar-model";
+import { CalendarModel } from "../models/calendar.model";
 import { map } from "rxjs/operators";
-import { RequestModel } from "../../request/models/request.model";
+import { RequestModel } from "../models/request.model";
 import { EventColor } from "calendar-utils";
-import { SummaryDay } from "../../../shared/layout/quickpanel/interfaces/summary-day";
-import { QuickpanelService } from "../../../shared/layout/quickpanel/services/quickpanel.service";
+import { SummaryDay } from "../../shared/layout/quickpanel/interfaces/summary-day";
+import { QuickpanelService } from "../../shared/layout/quickpanel/services/quickpanel.service";
 
 @Injectable({
   providedIn: 'root'

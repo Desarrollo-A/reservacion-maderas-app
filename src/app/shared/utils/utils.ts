@@ -1,6 +1,6 @@
 import { AbstractControl } from "@angular/forms";
 import { LabelButton } from "../interfaces/label-button";
-import { StatusRequestLookup } from "../../dashboard/history/enums/status-request.lookup";
+import { StatusRequestLookup } from "../../core/enums/lookups/status-request.lookup";
 
 export const convertCamelCaseToSnakeCase = (str: string): string => {
   return str.replace(/[A-Z]/g, letter => `_${letter.toLowerCase()}`);

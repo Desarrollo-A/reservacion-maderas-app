@@ -1,4 +1,4 @@
-import { UserModel } from "../../user/models/user.model";
+import { UserModel } from "./user.model";
 
 export class CancelRequestModel {
   requestId: number;

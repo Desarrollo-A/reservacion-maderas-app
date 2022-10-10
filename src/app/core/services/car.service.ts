@@ -4,7 +4,7 @@ import { map, Observable } from 'rxjs';
 import { PaginationResponse } from 'src/app/core/interfaces/pagination-response';
 import { getPaginateParams } from 'src/app/shared/utils/http-functions';
 import { environment } from 'src/environments/environment';
-import { CarModel } from '../model/car.model';
+import { CarModel } from '../models/car.model';
 
 @Injectable({
   providedIn: 'root'

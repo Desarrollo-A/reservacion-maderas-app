@@ -1,4 +1,4 @@
-import { InventoryModel } from "../../inventory/models/inventory.model";
+import { InventoryModel } from "./inventory.model";
 
 export class InventoryRequestModel {
   requestId: number;

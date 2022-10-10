@@ -1,6 +1,6 @@
 import { Lookup } from "src/app/core/interfaces/lookup";
 import { OfficeModel } from "src/app/core/models/office.model";
-import { StatusCarLookup } from "../enums/status-car.lookup";
+import { StatusCarLookup } from "../enums/lookups/status-car.lookup";
 
 export class CarModel {
   id:number;

@@ -6,11 +6,11 @@ import { UntilDestroy } from '@ngneat/until-destroy';
 import { fadeInUp400ms } from 'src/app/shared/animations/fade-in-up.animation';
 import { stagger40ms } from 'src/app/shared/animations/stagger.animation';
 import { TableColumn } from 'src/app/shared/interfaces/table-column.interface';
-import { UserModel } from '../../models/user.model';
+import { UserModel } from '../../../../core/models/user.model';
 import { Meta, PaginationResponse } from "../../../../core/interfaces/pagination-response";
 import { Filters, TypesEnum } from "../../../../core/interfaces/filters";
 import { MatDialog } from "@angular/material/dialog";
-import { UserService } from "../../services/user.service";
+import { UserService } from "../../../../core/services/user.service";
 import { getSort } from "../../../../shared/utils/http-functions";
 import { trackById } from "../../../../shared/utils/track-by";
 

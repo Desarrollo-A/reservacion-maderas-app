@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { AuthService } from "../../services/auth.service";
+import { AuthService } from "../../../core/services/auth.service";
 import { ToastrService } from "ngx-toastr";
-import { Result } from "../../interfaces/response-user";
-import { UserModel } from "../../../dashboard/user/models/user.model";
+import { Result } from "../../../core/interfaces/response-user";
+import { UserModel } from "../../../core/models/user.model";
 import { OfficeModel } from "../../../core/models/office.model";
 import { StateModel } from "../../../core/models/state.model";
 import { Router } from "@angular/router";

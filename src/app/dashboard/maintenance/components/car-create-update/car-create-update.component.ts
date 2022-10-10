@@ -2,9 +2,9 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { FormErrors } from "../../../../shared/utils/form-error";
 import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material/dialog";
-import { CarService } from "../../services/car.service";
+import { CarService } from "../../../../core/services/car.service";
 import { ToastrService } from "ngx-toastr";
-import { CarModel } from "../../model/car.model";
+import { CarModel } from "../../../../core/models/car.model";
 
 @Component({
   selector: 'app-car-create-update',

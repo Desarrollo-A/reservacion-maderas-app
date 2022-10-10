@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { fadeInUp400ms } from "../../../shared/animations/fade-in-up.animation";
-import { UserModel } from "../../../dashboard/user/models/user.model";
+import { UserModel } from "../../../core/models/user.model";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { FormErrors } from "../../../shared/utils/form-error";
 import { comparePassword } from "../../../shared/utils/form-validations";

@@ -3,8 +3,8 @@ import { fadeInUp400ms } from "../../../shared/animations/fade-in-up.animation";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { Router } from "@angular/router";
 import { FormErrors } from "../../../shared/utils/form-error";
-import { User } from "../../interfaces/user";
-import { AuthService } from "../../services/auth.service";
+import { User } from "../../../core/interfaces/user";
+import { AuthService } from "../../../core/services/auth.service";
 
 @Component({
   selector: 'app-login',

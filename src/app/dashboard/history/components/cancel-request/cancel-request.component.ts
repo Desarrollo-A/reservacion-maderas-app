@@ -2,8 +2,8 @@ import { Component, Input, OnInit } from '@angular/core';
 import { Lookup } from "../../../../core/interfaces/lookup";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { FormErrors } from "../../../../shared/utils/form-error";
-import { StatusRequestLookup } from "../../enums/status-request.lookup";
-import { CancelRequestModel } from "../../../request/models/cancel-request.model";
+import { StatusRequestLookup } from "../../../../core/enums/lookups/status-request.lookup";
+import { CancelRequestModel } from "../../../../core/models/cancel-request.model";
 import { fadeInUp400ms } from "../../../../shared/animations/fade-in-up.animation";
 
 @Component({

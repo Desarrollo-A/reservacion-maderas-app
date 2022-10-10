@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from "@angular/common/http";
-import { environment } from "../../../../environments/environment";
+import { environment } from "../../../environments/environment";
 import { Observable } from "rxjs";
-import { PaginationResponse } from "../../../core/interfaces/pagination-response";
+import { PaginationResponse } from "../interfaces/pagination-response";
 import { InventoryModel } from "../models/inventory.model";
-import { getPaginateParams } from "../../../shared/utils/http-functions";
+import { getPaginateParams } from "../../shared/utils/http-functions";
 import { map } from "rxjs/operators";
 
 @Injectable({

@@ -1,7 +1,7 @@
-import { Lookup } from "../../../core/interfaces/lookup";
-import { LabelButton } from "../../../shared/interfaces/label-button";
-import { StatusRoomLookup } from "../enums/status-room.lookup";
-import { OfficeModel } from "../../../core/models/office.model";
+import { Lookup } from "../interfaces/lookup";
+import { LabelButton } from "../../shared/interfaces/label-button";
+import { StatusRoomLookup } from "../enums/lookups/status-room.lookup";
+import { OfficeModel } from "./office.model";
 
 export class RoomModel {
   id: number;

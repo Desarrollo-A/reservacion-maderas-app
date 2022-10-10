@@ -1,6 +1,6 @@
 import { Lookup } from "src/app/core/interfaces/lookup";
-import { OfficeModel } from "../../../core/models/office.model";
-import { InventoryRequestModel } from "../../history/models/inventory-request.model";
+import { OfficeModel } from "./office.model";
+import { InventoryRequestModel } from "./inventory-request.model";
 
 export class InventoryModel {
   id: number;

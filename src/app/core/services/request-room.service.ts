@@ -1,16 +1,16 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from "@angular/common/http";
-import { environment } from "../../../../environments/environment";
+import { environment } from "../../../environments/environment";
 import { Observable } from "rxjs";
 import { RequestModel } from "../models/request.model";
-import { PaginationResponse } from "../../../core/interfaces/pagination-response";
-import { RequestRoomViewModel } from "../../history/models/request-room-view.model";
-import { getPaginateParams } from "../../../shared/utils/http-functions";
+import { PaginationResponse } from "../interfaces/pagination-response";
+import { RequestRoomViewModel } from "../models/request-room-view.model";
+import { getPaginateParams } from "../../shared/utils/http-functions";
 import { map } from "rxjs/operators";
 import { RequestRoomModel } from "../models/request-room.model";
-import { Lookup } from "../../../core/interfaces/lookup";
-import { InventoryRequestModel } from "../../history/models/inventory-request.model";
-import { AvailableScheduleModel } from "../../history/models/available-schedule.model";
+import { Lookup } from "../interfaces/lookup";
+import { InventoryRequestModel } from "../models/inventory-request.model";
+import { AvailableScheduleModel } from "../models/available-schedule.model";
 
 @Injectable({
   providedIn: 'root'

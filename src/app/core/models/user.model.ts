@@ -1,6 +1,6 @@
-import { Lookup } from "../../../core/interfaces/lookup";
-import { OfficeModel } from "../../../core/models/office.model";
-import { StatusUserLookup } from "../enums/status-user.lookup";
+import { Lookup } from "../interfaces/lookup";
+import { OfficeModel } from "./office.model";
+import { StatusUserLookup } from "../enums/lookups/status-user.lookup";
 
 export class UserModel {
   id: number;

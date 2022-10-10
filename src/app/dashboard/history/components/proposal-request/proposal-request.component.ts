@@ -4,11 +4,11 @@ import { getDateFormat, weekendsOffCalendar } from "../../../../shared/utils/uti
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { FormErrors } from "../../../../shared/utils/form-error";
 import { dateBeforeNow } from "../../../../shared/utils/form-validations";
-import { AvailableScheduleModel } from "../../models/available-schedule.model";
-import { RequestRoomService } from "../../../request/services/request-room.service";
+import { AvailableScheduleModel } from "../../../../core/models/available-schedule.model";
+import { RequestRoomService } from "../../../../core/services/request-room.service";
 import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
 import { of, switchMap } from "rxjs";
-import { ProposalRequestModel } from "../../../request/models/proposal-request.model";
+import { ProposalRequestModel } from "../../../../core/models/proposal-request.model";
 import { stagger40ms } from "../../../../shared/animations/stagger.animation";
 import { MatTableDataSource } from "@angular/material/table";
 import { TableColumn } from "../../../../shared/interfaces/table-column.interface";

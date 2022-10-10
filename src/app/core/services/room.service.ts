@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
-import { environment } from "../../../../environments/environment";
+import { environment } from "../../../environments/environment";
 import { HttpClient } from "@angular/common/http";
 import { Observable } from "rxjs";
-import { PaginationResponse } from "../../../core/interfaces/pagination-response";
-import { RoomModel } from "../model/room.model";
-import { getPaginateParams } from "../../../shared/utils/http-functions";
+import { PaginationResponse } from "../interfaces/pagination-response";
+import { RoomModel } from "../models/room.model";
+import { getPaginateParams } from "../../shared/utils/http-functions";
 import { map } from "rxjs/operators";
 
 @Injectable({

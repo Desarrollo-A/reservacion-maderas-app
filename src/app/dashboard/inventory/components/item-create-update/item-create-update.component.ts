@@ -2,14 +2,14 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { FormErrors } from "../../../../shared/utils/form-error";
 import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material/dialog";
-import { InventoryModel } from "../../models/inventory.model";
+import { InventoryModel } from "../../../../core/models/inventory.model";
 import { LookupService } from "../../../../core/services/lookup.service";
-import { InventoryService } from "../../services/inventory.service";
+import { InventoryService } from "../../../../core/services/inventory.service";
 import { ToastrService } from "ngx-toastr";
 import { Lookup } from "../../../../core/interfaces/lookup";
 import { forkJoin } from "rxjs";
 import { TypeLookup } from "../../../../core/enums/type-lookup";
-import { InventoryTypeLookup } from "../../enums/inventory-type.lookup";
+import { InventoryTypeLookup } from "../../../../core/enums/lookups/inventory-type.lookup";
 import { trackById } from "../../../../shared/utils/track-by";
 
 @Component({

@@ -1,6 +1,6 @@
 import { RequestModel } from "./request.model";
-import { RoomModel } from "../../maintenance/model/room.model";
-import { Lookup } from "../../../core/interfaces/lookup";
+import { RoomModel } from "./room.model";
+import { Lookup } from "../interfaces/lookup";
 
 export class RequestRoomModel {
   requestId: number;

@@ -3,8 +3,8 @@ import { fadeInUp400ms } from "../../../shared/animations/fade-in-up.animation";
 import { UntypedFormBuilder, Validators, FormGroup } from "@angular/forms";
 import { FormErrors } from "../../../shared/utils/form-error";
 import { Router } from "@angular/router";
-import { User } from "../../interfaces/user";
-import { AuthService } from "../../services/auth.service";
+import { User } from "../../../core/interfaces/user";
+import { AuthService } from "../../../core/services/auth.service";
 import { ToastrService } from 'ngx-toastr';
 
 @Component({

@@ -1,4 +1,4 @@
-import { RequestModel } from "../../request/models/request.model";
+import { RequestModel } from "./request.model";
 
 export class CalendarModel {
   title: string;

@@ -1,9 +1,9 @@
 import { RequestRoomModel } from "./request-room.model";
-import { Lookup } from "../../../core/interfaces/lookup";
-import { UserModel } from "../../user/models/user.model";
-import { LabelButton } from "../../../shared/interfaces/label-button";
-import { getLabelStatusRequest } from "../../../shared/utils/utils";
-import { InventoryModel } from "../../inventory/models/inventory.model";
+import { Lookup } from "../interfaces/lookup";
+import { UserModel } from "./user.model";
+import { LabelButton } from "../../shared/interfaces/label-button";
+import { getLabelStatusRequest } from "../../shared/utils/utils";
+import { InventoryModel } from "./inventory.model";
 import { CancelRequestModel } from "./cancel-request.model";
 import { ProposalRequestModel } from "./proposal-request.model";
 

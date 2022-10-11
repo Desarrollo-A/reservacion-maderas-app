@@ -27,6 +27,7 @@ import { MatAutocompleteModule } from "@angular/material/autocomplete";
 import { MatChipsModule } from "@angular/material/chips";
 import { MatCardModule } from "@angular/material/card";
 import { MatBadgeModule } from "@angular/material/badge";
+import { MatExpansionModule } from "@angular/material/expansion";
 
 
 @NgModule({
@@ -44,6 +45,7 @@ import { MatBadgeModule } from "@angular/material/badge";
     MatChipsModule,
     MatDatepickerModule,
     MatDialogModule,
+    MatExpansionModule,
     MatIconModule,
     MatInputModule,
     MatListModule,

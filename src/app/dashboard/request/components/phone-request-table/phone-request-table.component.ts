@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, Input, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, Input, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { RequestPhoneNumberModel } from "../../../../core/models/request-phone-number.model";
 import { MatSort } from "@angular/material/sort";
 import { MatTableDataSource } from "@angular/material/table";
@@ -10,12 +10,14 @@ import { stagger40ms } from "../../../../shared/animations/stagger.animation";
 import { fadeInUp400ms } from "../../../../shared/animations/fade-in-up.animation";
 import { PhoneCreateUpdateComponent } from "../phone-create-update/phone-create-update.component";
 import { ToastrService } from "ngx-toastr";
+import { DeleteConfirmComponent } from "../../../../shared/components/delete-confirm/delete-confirm.component";
 
 @UntilDestroy()
 @Component({
   selector: 'app-phone-request-table',
   templateUrl: './phone-request-table.component.html',
   styleUrls: ['./phone-request-table.component.scss'],
+  encapsulation: ViewEncapsulation.None,
   animations: [
     stagger40ms,
     fadeInUp400ms
@@ -66,8 +68,26 @@ export class PhoneRequestTableComponent implements OnInit, AfterViewInit {
         }
       });
     } else {
-      //
+      this.dialog.open(PhoneCreateUpdateComponent, {
+        data: {... requestPhone},
+        width: '350px'
+      }).afterClosed().subscribe((result?: RequestPhoneNumberModel) => {
+        if (result) {
+          const i = this.phoneNumbers.findIndex(phone => phone.phone === requestPhone.phone);
+          this.phoneNumbers.splice(i, 1);
+          this.updatePhone(result, i);
+        }
+      });
     }
+  }
+
+  openDialogDelete(phone: RequestPhoneNumberModel): void {
+    this.dialog.open(DeleteConfirmComponent, { autoFocus: false }).afterClosed()
+      .subscribe(confirm => {
+        if (confirm) {
+          this.deletePhone(phone);
+        }
+      });
   }
 
   clearData(): void {
@@ -80,7 +100,28 @@ export class PhoneRequestTableComponent implements OnInit, AfterViewInit {
     if (!phone.id) {
       this.phoneNumbers.push(phone);
       this.dataSource.data = this.phoneNumbers;
-      this.toastrService.success('Registro agregado', 'Proceso exitoso');
+      this.toastrService.success('Contacto agregado', 'Proceso exitoso');
+    } else {
+      //
+    }
+  }
+
+  private updatePhone(phone: RequestPhoneNumberModel, index: number): void {
+    if (!phone.id) {
+      this.phoneNumbers.splice(index, 0, phone);
+      this.dataSource.data = this.phoneNumbers;
+      this.toastrService.success('Contacto actualizado', 'Proceso exitoso');
+    } else {
+      //
+    }
+  }
+
+  private deletePhone(phone: RequestPhoneNumberModel): void {
+    if (!phone.id) {
+      const i = this.phoneNumbers.findIndex(p => p.phone === phone.phone);
+      this.phoneNumbers.splice(i, 1);
+      this.dataSource.data = this.phoneNumbers;
+      this.toastrService.success('Contacto eliminado', 'Proceso exitoso');
     } else {
       //
     }

@@ -1,8 +1,8 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
-import { FormErrors } from "../../../../shared/utils/form-error";
+import { FormErrors } from "../../../../utils/form-error";
 import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material/dialog";
-import { RequestPhoneNumberModel } from "../../../../core/models/request-phone-number.model";
+import { RequestPhoneNumberModel } from "../../../../../core/models/request-phone-number.model";
 
 @Component({
   selector: 'app-phone-create-update',
@@ -35,6 +35,7 @@ export class PhoneCreateUpdateComponent implements OnInit {
     let phoneRequest: RequestPhoneNumberModel = this.form.getRawValue();
     if (this.data) {
       phoneRequest.id = this.data.id;
+      phoneRequest.requestId = this.data.requestId;
     }
 
     this.dialogRef.close(phoneRequest);

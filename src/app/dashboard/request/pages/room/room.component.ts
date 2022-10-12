@@ -25,7 +25,9 @@ import { RequestRoomModel } from "../../../../core/models/request-room.model";
 import { RequestModel } from "../../../../core/models/request.model";
 import { RequestRoomService } from "../../../../core/services/request-room.service";
 import { trackById } from "../../../../shared/utils/track-by";
-import { PhoneRequestTableComponent } from "../../components/phone-request-table/phone-request-table.component";
+import {
+  PhoneRequestTableComponent
+} from "../../../../shared/components/phone-request/components/phone-request-table/phone-request-table.component";
 
 @UntilDestroy()
 @Component({

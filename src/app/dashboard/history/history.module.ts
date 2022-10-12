@@ -18,6 +18,7 @@ import { DeleteConfirmModule } from "../../shared/components/delete-confirm/dele
 import { ProposalRequestComponent } from './components/proposal-request/proposal-request.component';
 import { CancelRequestComponent } from './components/cancel-request/cancel-request.component';
 import { ConfirmProposalComponent } from './components/confirm-proposal/confirm-proposal.component';
+import { PhoneRequestModule } from "../../shared/components/phone-request/phone-request.module";
 
 
 @NgModule({
@@ -42,7 +43,8 @@ import { ConfirmProposalComponent } from './components/confirm-proposal/confirm-
     BreadcrumbsModule,
     PageNotFoundModule,
     ImageModule,
-    DeleteConfirmModule
+    DeleteConfirmModule,
+    PhoneRequestModule
   ]
 })
 export class HistoryModule { }

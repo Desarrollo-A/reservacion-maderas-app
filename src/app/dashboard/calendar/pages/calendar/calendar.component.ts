@@ -2,10 +2,10 @@ import { Component, OnInit, TemplateRef, ViewChild, ViewEncapsulation } from '@a
 import { CalendarEvent, CalendarView } from "angular-calendar";
 import { isSameDay, isSameMonth } from 'date-fns';
 import { Subject } from "rxjs";
-import { CalendarService } from "../../services/calendar.service";
+import { CalendarService } from "../../../../core/services/calendar.service";
 import { MatDialog } from "@angular/material/dialog";
-import { RequestService } from "../../../history/services/request.service";
-import { RequestModel } from "../../../request/models/request.model";
+import { RequestService } from "../../../../core/services/request.service";
+import { RequestModel } from "../../../../core/models/request.model";
 import { CalendarDetailComponent } from "../../components/calendar-detail/calendar-detail.component";
 
 @Component({

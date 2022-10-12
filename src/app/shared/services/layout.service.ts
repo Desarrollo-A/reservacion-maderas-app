@@ -3,7 +3,7 @@ import { BehaviorSubject } from 'rxjs';
 import { Router } from '@angular/router';
 import { map } from 'rxjs/operators';
 import { BreakpointObserver } from '@angular/cdk/layout';
-import { CalendarService } from "../../dashboard/calendar/services/calendar.service";
+import { CalendarService } from "../../core/services/calendar.service";
 import { QuickpanelService } from "../layout/quickpanel/services/quickpanel.service";
 
 @Injectable({

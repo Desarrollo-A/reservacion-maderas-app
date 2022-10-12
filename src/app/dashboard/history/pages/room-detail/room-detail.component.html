@@ -93,27 +93,36 @@
         </div>
       </div>
 
-      <app-snack-detail *ngIf="requestRoom.request.status.code === statusRequest[statusRequest.APPROVED] ||
-        requestRoom.request.status.code === statusRequest[statusRequest.FINISHED]"
-                        #snackDetailComponent
-                        [snacks]="requestRoom.request.inventories"
-                        [snackList]="snackList"
-                        [previousStatus]="previousStatus"
-                        [requestId]="requestRoom.requestId">
-      </app-snack-detail>
+      <div class="flex-auto">
+        <div class="px-6 flex flex-col gap-2">
+          <app-snack-detail *ngIf="requestRoom.request.status.code === statusRequest[statusRequest.APPROVED] ||
+            requestRoom.request.status.code === statusRequest[statusRequest.FINISHED]"
+                            #snackDetailComponent
+                            [snacks]="requestRoom.request.inventories"
+                            [snackList]="snackList"
+                            [previousStatus]="previousStatus"
+                            [requestId]="requestRoom.requestId">
+          </app-snack-detail>
 
-      <app-proposal-request #proposalRequestComponent
-                            *ngIf="requestRoom.request.status.code === statusRequest[statusRequest.PROPOSAL]"
-                            [requestId]="requestRoom.requestId"
-                            [proposalData]="requestRoom.request.proposalRequest"
-                            (chosenProposal)="responseRejectRequest($event)">
-      </app-proposal-request>
+          <app-proposal-request #proposalRequestComponent
+                                *ngIf="requestRoom.request.status.code === statusRequest[statusRequest.PROPOSAL]"
+                                [requestId]="requestRoom.requestId"
+                                [proposalData]="requestRoom.request.proposalRequest"
+                                (chosenProposal)="responseRejectRequest($event)">
+          </app-proposal-request>
 
-      <app-cancel-request #cancelRequestComponent
-                          *ngIf="requestRoom.request.status.code === statusRequest[statusRequest.CANCELLED]"
-                          [previousStatus]="this.previousStatus"
-                          [cancelRequest]="requestRoom?.request?.cancelRequest">
-      </app-cancel-request>
+          <app-cancel-request #cancelRequestComponent
+                              *ngIf="requestRoom.request.status.code === statusRequest[statusRequest.CANCELLED]"
+                              [previousStatus]="this.previousStatus"
+                              [cancelRequest]="requestRoom?.request?.cancelRequest">
+          </app-cancel-request>
+
+          <app-phone-request-table [previousStatus]="previousStatus"
+                                   [requestId]="requestRoom.requestId"
+                                   [phoneNumbers]="requestRoom.request.requestPhoneNumber">
+          </app-phone-request-table>
+        </div>
+      </div>
 
       <div class="flex items-center justify-end mt-3">
         <button color="primary"

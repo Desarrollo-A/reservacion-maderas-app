@@ -6,6 +6,7 @@ import { RoomComponent } from './pages/room/room.component';
 import { MaterialModule } from "../../material/material.module";
 import { ReactiveFormsModule } from "@angular/forms";
 import { PageNotFoundModule } from "../../shared/components/page-not-found/page-not-found.module";
+import { PhoneRequestModule } from "../../shared/components/phone-request/phone-request.module";
 
 
 @NgModule({
@@ -17,7 +18,8 @@ import { PageNotFoundModule } from "../../shared/components/page-not-found/page-
     RequestRoutingModule,
     MaterialModule,
     ReactiveFormsModule,
-    PageNotFoundModule
+    PageNotFoundModule,
+    PhoneRequestModule
   ]
 })
 export class RequestModule { }

@@ -1,7 +1,7 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material/dialog";
-import { InventoryModel } from "../../models/inventory.model";
-import { InventoryService } from "../../services/inventory.service";
+import { InventoryModel } from "../../../../core/models/inventory.model";
+import { InventoryService } from "../../../../core/services/inventory.service";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { FormErrors } from "../../../../shared/utils/form-error";
 import { ToastrService } from "ngx-toastr";

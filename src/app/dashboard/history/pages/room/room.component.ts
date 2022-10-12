@@ -1,22 +1,22 @@
 import { Component, OnInit } from '@angular/core';
 import { fadeInUp400ms } from "../../../../shared/animations/fade-in-up.animation";
 import { stagger40ms } from "../../../../shared/animations/stagger.animation";
-import { RequestRoomViewModel } from "../../models/request-room-view.model";
+import { RequestRoomViewModel } from "../../../../core/models/request-room-view.model";
 import { TableColumn } from "../../../../shared/interfaces/table-column.interface";
 import { MatTableDataSource } from "@angular/material/table";
 import { Meta, PaginationResponse } from "../../../../core/interfaces/pagination-response";
 import { FormControl } from "@angular/forms";
 import { Filters, TypesEnum } from "../../../../core/interfaces/filters";
-import { RequestRoomService } from "../../../request/services/request-room.service";
+import { RequestRoomService } from "../../../../core/services/request-room.service";
 import { Sort } from "@angular/material/sort";
 import { getSort } from "../../../../shared/utils/http-functions";
-import { StatusRequestLookup } from "../../enums/status-request.lookup";
+import { StatusRequestLookup } from "../../../../core/enums/lookups/status-request.lookup";
 import { UserSessionService } from "../../../../core/services/user-session.service";
 import { NameRole } from "../../../../core/enums/name-role";
 import { DeleteConfirmComponent } from "../../../../shared/components/delete-confirm/delete-confirm.component";
 import { of, switchMap } from "rxjs";
 import { MatDialog } from "@angular/material/dialog";
-import { RequestService } from "../../services/request.service";
+import { RequestService } from "../../../../core/services/request.service";
 import { ToastrService } from "ngx-toastr";
 import { trackById } from "../../../../shared/utils/track-by";
 

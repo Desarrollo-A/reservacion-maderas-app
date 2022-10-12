@@ -2,9 +2,9 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { FormErrors } from "../../../../shared/utils/form-error";
 import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material/dialog";
-import { InventoryService } from "../../services/inventory.service";
+import { InventoryService } from "../../../../core/services/inventory.service";
 import { ToastrService } from "ngx-toastr";
-import { InventoryModel } from "../../models/inventory.model";
+import { InventoryModel } from "../../../../core/models/inventory.model";
 import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
 import { greaterThanCero } from "../../../../shared/utils/form-validations";
 

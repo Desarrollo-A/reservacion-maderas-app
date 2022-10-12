@@ -6,8 +6,8 @@ import { TypeLookup } from 'src/app/core/enums/type-lookup';
 import { Lookup } from 'src/app/core/interfaces/lookup';
 import { LookupService } from 'src/app/core/services/lookup.service';
 import { FormErrors } from 'src/app/shared/utils/form-error';
-import { CarModel } from '../../model/car.model';
-import { CarService } from '../../services/car.service';
+import { CarModel } from '../../../../core/models/car.model';
+import { CarService } from '../../../../core/services/car.service';
 import { trackById } from "../../../../shared/utils/track-by";
 
 @Component({

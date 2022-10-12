@@ -4,10 +4,10 @@ import { SummaryDay } from "./interfaces/summary-day";
 import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
 import { QuickpanelService } from "./services/quickpanel.service";
 import { NameRole } from "../../../core/enums/name-role";
-import { TypeRequestLookup } from "../../../dashboard/request/enums/type-request.lookup";
+import { TypeRequestLookup } from "../../../core/enums/lookups/type-request.lookup";
 import { Router } from "@angular/router";
 import { UserSessionService } from "../../../core/services/user-session.service";
-import { RequestModel } from "../../../dashboard/request/models/request.model";
+import { RequestModel } from "../../../core/models/request.model";
 import { LayoutService } from "../../services/layout.service";
 
 @UntilDestroy()

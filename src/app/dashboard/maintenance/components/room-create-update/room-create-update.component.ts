@@ -3,8 +3,8 @@ import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { FormErrors } from "../../../../shared/utils/form-error";
 import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material/dialog";
 import { ToastrService } from "ngx-toastr";
-import { RoomModel } from "../../model/room.model";
-import { RoomService } from "../../services/room.service";
+import { RoomModel } from "../../../../core/models/room.model";
+import { RoomService } from "../../../../core/services/room.service";
 
 @Component({
   selector: 'app-room-create-update',

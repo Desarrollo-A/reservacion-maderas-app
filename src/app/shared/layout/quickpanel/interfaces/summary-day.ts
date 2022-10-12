@@ -1,4 +1,4 @@
-import { RequestModel } from "../../../../dashboard/request/models/request.model";
+import { RequestModel } from "../../../../core/models/request.model";
 
 export interface SummaryDay {
   title: string;

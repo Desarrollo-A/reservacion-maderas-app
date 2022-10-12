@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { stagger60ms } from "../../../../shared/animations/stagger.animation";
 import { fadeInUp400ms } from "../../../../shared/animations/fade-in-up.animation";
 import { StateModel } from "../../../../core/models/state.model";
@@ -6,8 +6,8 @@ import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { FormErrors } from "../../../../shared/utils/form-error";
 import { StateService } from "../../../../core/services/state.service";
 import { forkJoin, switchMap, tap } from "rxjs";
-import { RoomModel } from "../../../maintenance/model/room.model";
-import { RoomService } from "../../../maintenance/services/room.service";
+import { RoomModel } from "../../../../core/models/room.model";
+import { RoomService } from "../../../../core/services/room.service";
 import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
 import { ToastrService } from "ngx-toastr";
 import { dateBeforeNow, workingHours } from "../../../../shared/utils/form-validations";
@@ -21,10 +21,13 @@ import {
 import { LookupService } from "../../../../core/services/lookup.service";
 import { Lookup } from "../../../../core/interfaces/lookup";
 import { TypeLookup } from "../../../../core/enums/type-lookup";
-import { RequestRoomModel } from "../../models/request-room.model";
-import { RequestModel } from "../../models/request.model";
-import { RequestRoomService } from "../../services/request-room.service";
+import { RequestRoomModel } from "../../../../core/models/request-room.model";
+import { RequestModel } from "../../../../core/models/request.model";
+import { RequestRoomService } from "../../../../core/services/request-room.service";
 import { trackById } from "../../../../shared/utils/track-by";
+import {
+  PhoneRequestTableComponent
+} from "../../../../shared/components/phone-request/components/phone-request-table/phone-request-table.component";
 
 @UntilDestroy()
 @Component({
@@ -37,6 +40,9 @@ import { trackById } from "../../../../shared/utils/track-by";
   ]
 })
 export class RoomComponent implements OnInit {
+  @ViewChild('phoneRequestTableComponent')
+  phoneRequestTableComponent: PhoneRequestTableComponent;
+
   form: FormGroup;
   formErrors: FormErrors;
 
@@ -71,6 +77,9 @@ export class RoomComponent implements OnInit {
         }
         this.rooms = rooms
       });
+
+    this.toastrService.info('Si encuentras algún desperfecto en la sala de juntas, por favor reportarlo en recepción.',
+      'Información', { timeOut: 7500 });
   }
 
   changeTime(field: string, value: string): void {
@@ -111,12 +120,14 @@ export class RoomComponent implements OnInit {
       people: formValues.people,
       addGoogleCalendar: formValues.addGoogleCalendar,
       comment: formValues.comment,
+      requestPhoneNumber: this.phoneRequestTableComponent.phoneNumbers,
       requestRoom
     };
 
     this.requestRoomService.store(request).subscribe(() => {
       this.form.reset(this.initForm(), { emitEvent: false });
       this.rooms = [];
+      this.phoneRequestTableComponent.clearData();
 
       this.toastrService.success('Solicitud creada', 'Proceso existoso');
     });

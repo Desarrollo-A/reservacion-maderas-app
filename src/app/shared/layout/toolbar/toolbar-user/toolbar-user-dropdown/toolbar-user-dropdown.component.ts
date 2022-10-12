@@ -1,11 +1,11 @@
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { PopoverRef } from '../../../../components/popover/popover-ref';
-import { AuthService } from 'src/app/auth/services/auth.service';
+import { AuthService } from 'src/app/core/services/auth.service';
 import { Router } from "@angular/router";
 import { MatDialog } from '@angular/material/dialog';
 import { ChangePasswordComponent } from '../components/change-password/change-password.component';
 import { UserSessionService } from 'src/app/core/services/user-session.service';
-import { UserService } from "../../../../../dashboard/user/services/user.service";
+import { UserService } from "../../../../../core/services/user.service";
 import { ProfileComponent } from "../components/profile/profile.component";
 
 @Component({

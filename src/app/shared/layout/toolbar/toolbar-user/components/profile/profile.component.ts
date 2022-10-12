@@ -1,5 +1,5 @@
 import { Component, Inject } from '@angular/core';
-import { UserModel } from "../../../../../../dashboard/user/models/user.model";
+import { UserModel } from "../../../../../../core/models/user.model";
 import { MAT_DIALOG_DATA } from "@angular/material/dialog";
 
 @Component({

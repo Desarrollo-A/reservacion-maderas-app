@@ -2,8 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
 import { ToastrService } from 'ngx-toastr';
-import { User } from 'src/app/auth/interfaces/user';
-import { AuthService } from 'src/app/auth/services/auth.service';
+import { User } from 'src/app/core/interfaces/user';
+import { AuthService } from 'src/app/core/services/auth.service';
 import { FormErrors } from 'src/app/shared/utils/form-error';
 import { comparePassword } from "../../../../../utils/form-validations";
 

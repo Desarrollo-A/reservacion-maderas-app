@@ -75,7 +75,7 @@ export class SnackDetailComponent implements OnInit, AfterViewInit {
   }
 
   get isRecepcionist(): boolean {
-    return this.userSessionService.user.role.name === NameRole.RECEPCIONIST;
+    return this.userSessionService.user?.role?.name === NameRole.RECEPCIONIST;
   }
 
   get visibleColumns() {

@@ -54,7 +54,7 @@ export class PhoneRequestTableComponent implements OnInit, AfterViewInit {
               private requestPhoneNumberService: RequestPhoneNumberService) {}
 
   ngOnInit(): void {
-    if (!this.isRecepcionist || !this.canDoActions) {
+    if (!this.previousStatus || (!this.isRecepcionist && this.canDoActions)) {
       this.columns.push({ label: 'Acciones', property: 'actions', visible: true });
     }
 

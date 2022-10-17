@@ -27,7 +27,7 @@
                   mat-mini-fab
                   matTooltip="Agregar teléfono"
                   type="button"
-                  (click)="openDialog()" *ngIf="!isRecepcionist || !this.canDoActions">
+                  (click)="openDialog()" *ngIf="!this.previousStatus || (!this.isRecepcionist && this.canDoActions)">
             <mat-icon svgIcon="mat:add"></mat-icon>
           </button>
         </div>
@@ -52,7 +52,7 @@
           </ng-container>
 
           <!-- Action Column -->
-          <ng-container matColumnDef="actions" *ngIf="!isRecepcionist || !this.canDoActions">
+          <ng-container matColumnDef="actions" *ngIf="!this.previousStatus || (!this.isRecepcionist && this.canDoActions)">
             <th *matHeaderCellDef mat-header-cell></th>
             <td *matCellDef="let row" class="w-10 text-secondary" mat-cell>
               <button [matMenuTriggerData]="{ phone: row }"

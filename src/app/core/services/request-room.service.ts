@@ -11,6 +11,7 @@ import { RequestRoomModel } from "../models/request-room.model";
 import { Lookup } from "../interfaces/lookup";
 import { InventoryRequestModel } from "../models/inventory-request.model";
 import { AvailableScheduleModel } from "../models/available-schedule.model";
+import { CancelRequestModel } from "../models/cancel-request.model";
 
 @Injectable({
   providedIn: 'root'
@@ -64,7 +65,7 @@ export class RequestRoomService {
     return this.http.post<RequestModel>(url, request);
   }
 
-  cancelRequest(id: number, request: RequestModel): Observable<void> {
+  cancelRequest(id: number, request: CancelRequestModel): Observable<void> {
     const url = `${this.url}/cancel/${id}`;
     return this.http.patch<void>(url, request);
   }

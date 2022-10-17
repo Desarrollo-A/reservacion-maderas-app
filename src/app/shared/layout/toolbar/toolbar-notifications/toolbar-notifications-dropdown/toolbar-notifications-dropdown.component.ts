@@ -8,6 +8,13 @@ import { UserSessionService } from "../../../../../core/services/user-session.se
 import { NameRole } from "../../../../../core/enums/name-role";
 import { TypeNotificationLookup } from "../enums/type-notification.lookup";
 import { I18nPlural } from "../../../../../core/interfaces/i18n-plural";
+import { MatDialog } from "@angular/material/dialog";
+import { ConfirmRequestComponent } from "../components/confirm-request/confirm-request.component";
+import { ToastrService } from "ngx-toastr";
+import { CancelRequestComponent } from "../components/cancel-request/cancel-request.component";
+import { CancelRequestModel } from "../../../../../core/models/cancel-request.model";
+import { RequestRoomService } from "../../../../../core/services/request-room.service";
+import { switchMap } from "rxjs";
 
 @UntilDestroy()
 @Component({
@@ -16,7 +23,6 @@ import { I18nPlural } from "../../../../../core/interfaces/i18n-plural";
   styleUrls: ['./toolbar-notifications-dropdown.component.scss']
 })
 export class ToolbarNotificationsDropdownComponent implements OnInit {
-
   trackById = trackById;
   notifications: NotificationModel[];
   notificationMapping: I18nPlural = {
@@ -27,7 +33,10 @@ export class ToolbarNotificationsDropdownComponent implements OnInit {
 
   constructor(private notificationService: NotificationService,
               private router: Router,
-              private userSessionService: UserSessionService) {}
+              private userSessionService: UserSessionService,
+              private requestRoomService: RequestRoomService,
+              private dialog: MatDialog,
+              private toastrService: ToastrService) {}
 
   ngOnInit() {
     this.notificationService.notifications$.asObservable()
@@ -51,25 +60,74 @@ export class ToolbarNotificationsDropdownComponent implements OnInit {
   openNotification(notification: NotificationModel): void {
     if (!notification.isRead) {
       this.notificationService.readNotification(notification.id).subscribe(() => {
-        if (notification.type.code === TypeNotificationLookup[TypeNotificationLookup.ROOM]) {
-          this.redirectDetailRoom(notification);
-        }
+        this.actionNotification(notification);
       });
+    } else {
+      this.actionNotification(notification);
+    }
+  }
 
+  private actionNotification(notification: NotificationModel): void {
+    if (!notification.requestNotification) {
+      return;
+    }
+    if (!notification.requestNotification.requestId) {
       return;
     }
 
-    if (notification.type.code === TypeNotificationLookup[TypeNotificationLookup.ROOM]) {
+    if (notification.requestNotification.confirmNotification) {
+      // Se verifica si tiene alguna acción extra la notificación
+      this.confirmNotification(notification);
+    } else if (notification.type.code === TypeNotificationLookup[TypeNotificationLookup.ROOM]) {
+      // Si la notificación es de tipo Sala
       this.redirectDetailRoom(notification);
-      return;
     }
   }
 
   private redirectDetailRoom(notification: NotificationModel): void {
     if (this.userSessionService.user.role.name === NameRole.RECEPCIONIST) {
-      this.router.navigateByUrl(`/dashboard/solicitudes/sala/${notification.requestId}`);
+      this.router.navigateByUrl(`/dashboard/solicitudes/sala/${notification.requestNotification.requestId}`);
     } else if (this.userSessionService.user.role.name === NameRole.APPLICANT) {
-      this.router.navigateByUrl(`/dashboard/historial/sala/${notification.requestId}`);
+      this.router.navigateByUrl(`/dashboard/historial/sala/${notification.requestNotification.requestId}`);
     }
   }
+
+  private confirmNotification(notification: NotificationModel): void {
+    if (!notification.requestNotification.confirmNotification.isAnswered) {
+      // Si no está respondida la confirmación
+      this.notificationService.findById(notification.id).subscribe(result => {
+        this.dialog.open(ConfirmRequestComponent, {
+          data: result,
+          autoFocus: false
+        }).afterClosed().subscribe((confirm: boolean) => {
+          if (confirm === true) {
+            this.notificationService.answeredNotification(notification.id).subscribe(() => {
+              this.toastrService.success('Gracias por confirmar tu solicitud', 'Proceso exitoso');
+            });
+          } else if (confirm === false) {
+            this.cancelRequest(notification);
+          }
+        });
+      });
+    } else {
+      this.redirectDetailRoom(notification);
+    }
+  }
+
+  private cancelRequest(notification: NotificationModel): void {
+    this.dialog.open(CancelRequestComponent, {
+      data: notification.requestNotification.request,
+      autoFocus: false
+    }).afterClosed().subscribe((cancelRequest: CancelRequestModel) => {
+      if (cancelRequest) {
+        this.requestRoomService.cancelRequest(notification.requestNotification.requestId, cancelRequest).pipe(
+          switchMap(() => this.notificationService.answeredNotification(notification.id))
+        ).subscribe(() => {
+          this.toastrService.success('Solicitud cancelada correctamente','Proceso exitoso');
+          this.redirectDetailRoom(notification);
+        });
+      }
+    });
+  }
 }
+

@@ -23,6 +23,7 @@ import { CancelRequestComponent } from "../../components/cancel-request/cancel-r
 import { ProposalRequestModel } from "../../../../core/models/proposal-request.model";
 import { getDateFormat, getTimeFormat } from "../../../../shared/utils/utils";
 import { trackById } from "../../../../shared/utils/track-by";
+import { CancelRequestModel } from "../../../../core/models/cancel-request.model";
 
 @Component({
   selector: 'app-room-detail',
@@ -184,7 +185,7 @@ export class RoomDetailComponent {
       return;
     }
 
-    const data: RequestModel = this.cancelRequestComponent.form.getRawValue();
+    const data: CancelRequestModel = this.cancelRequestComponent.form.getRawValue();
     this.requestRoomService.cancelRequest(this.requestRoom.requestId, data).subscribe(() => {
       this.toastrService.success('Solicitud cancelada', 'Proceso exitoso');
       this.router.navigateByUrl(this.urlRedirectBack);

@@ -1,0 +1,35 @@
+<div class="flex flex-row flex-wrap">
+  <div class="w-full">
+    <div mat-dialog-title class="flex items-center">
+      <h2 class="headline m-o flex-auto">Confirmación de solicitud</h2>
+
+      <button class="text-secondary" mat-dialog-close mat-icon-button type="button">
+        <mat-icon svgIcon="mat:close"></mat-icon>
+      </button>
+    </div>
+
+    <mat-divider></mat-divider>
+
+    <mat-dialog-content class="mat-typography">
+      <div class="mt-4">
+        <p>¿Desea continuar con su reservación de {{title}} para el día {{notification.createdAt | date:'EEEE d, MMMM'}} a
+          las {{notification.requestNotification.request.startDate | date:'h:mm a'}}?</p>
+      </div>
+    </mat-dialog-content>
+
+    <mat-dialog-actions align="end">
+      <button color="warn"
+              mat-button
+              type="button"
+              [mat-dialog-close]="false">
+        No
+      </button>
+      <button color="primary"
+              mat-flat-button
+              type="button"
+              [mat-dialog-close]="true">
+        Sí
+      </button>
+    </mat-dialog-actions>
+  </div>
+</div>

@@ -19,8 +19,13 @@ export class NotificationService {
     return environment.baseUrl + environment.api + this._baseUrl;
   }
 
+  findById(id: number): Observable<NotificationModel> {
+    const url = `${this.url}/${id}`;
+    return this.http.get<NotificationModel>(url);
+  }
+
   findAllUnread(): void {
-    const url = `${this.url}/unread`;
+    const url = `${this.url}/last`;
     this.http.get<NotificationModel[]>(url)
       .pipe(
         map(notifications => notifications.map(notification => new NotificationModel(notification)))
@@ -41,10 +46,24 @@ export class NotificationService {
     );
   }
 
+  answeredNotification(notificationId: number): Observable<void> {
+    const url = `${this.url}/answered-notification/${notificationId}`;
+    return this.http.patch<void>(url, null).pipe(
+      tap(() => this.answeredNotificationLocal(notificationId))
+    );
+  }
+
   private readNotificationLocal(id: number): void {
     let notifications = [... this.notifications$.value];
     const index = notifications.findIndex(notification => notification.id === id);
     notifications[index].isRead = true;
+    this.notifications$.next(notifications);
+  }
+
+  private answeredNotificationLocal(id: number): void {
+    let notifications = [... this.notifications$.value];
+    const index = notifications.findIndex(notification => notification.id === id);
+    notifications[index].requestNotification.confirmNotification.isAnswered = true;
     this.notifications$.next(notifications);
   }
 

@@ -1,26 +1,27 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ToolbarNotificationsComponent } from './toolbar-notifications.component';
-import { MatButtonModule } from '@angular/material/button';
-import { MatIconModule } from '@angular/material/icon';
 import { PopoverModule } from '../../../components/popover/popover.module';
-import { MatTabsModule } from '@angular/material/tabs';
-import { MatMenuModule } from '@angular/material/menu';
 import { RelativeDateTimeModule } from '../../../pipes/relative-date-time/relative-date-time.module';
 import { RouterModule } from '@angular/router';
-import { MatRippleModule } from '@angular/material/core';
-import { ToolbarNotificationsDropdownComponent } from './toolbar-notifications-dropdown/toolbar-notifications-dropdown.component';
+import {
+  ToolbarNotificationsDropdownComponent
+} from './toolbar-notifications-dropdown/toolbar-notifications-dropdown.component';
 import { MaterialModule } from "../../../../material/material.module";
+import { ConfirmRequestComponent } from './components/confirm-request/confirm-request.component';
+import { CancelRequestComponent } from './components/cancel-request/cancel-request.component';
+import { ReactiveFormsModule } from "@angular/forms";
 
 
 @NgModule({
-  declarations: [ToolbarNotificationsComponent, ToolbarNotificationsDropdownComponent],
+  declarations: [ToolbarNotificationsComponent, ToolbarNotificationsDropdownComponent, ConfirmRequestComponent, CancelRequestComponent],
   imports: [
     CommonModule,
     PopoverModule,
     MaterialModule,
     RelativeDateTimeModule,
     RouterModule,
+    ReactiveFormsModule
   ],
   exports: [ToolbarNotificationsComponent]
 })

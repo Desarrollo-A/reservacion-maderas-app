@@ -5,6 +5,7 @@ import { InventoryRequestModel } from "./inventory-request.model";
 export class InventoryModel {
   id: number;
   name: string;
+  code: string;
   description?: string;
   stock: number;
   trademark?: number;
@@ -23,6 +24,7 @@ export class InventoryModel {
   constructor(inventory) {
     this.id = inventory.id;
     this.name = inventory.name;
+    this.code = inventory.code;
     this.description = inventory.description;
     this.stock = inventory.stock;
     this.trademark = inventory.trademark;

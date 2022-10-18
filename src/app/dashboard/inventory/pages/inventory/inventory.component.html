@@ -52,6 +52,12 @@
           </td>
         </ng-container>
 
+        <!-- Código columna -->
+        <ng-container matColumnDef="code">
+          <th *matHeaderCellDef class="uppercase" mat-header-cell mat-sort-header>Clave</th>
+          <td *matCellDef="let row" mat-cell>{{ row.code }}</td>
+        </ng-container>
+
         <!-- Nombre columna -->
         <ng-container matColumnDef="name">
           <th *matHeaderCellDef class="uppercase" mat-header-cell mat-sort-header>Nombre</th>

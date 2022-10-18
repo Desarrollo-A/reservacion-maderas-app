@@ -68,19 +68,14 @@ export class ToolbarNotificationsDropdownComponent implements OnInit {
   }
 
   private actionNotification(notification: NotificationModel): void {
-    if (!notification.requestNotification) {
-      return;
-    }
-    if (!notification.requestNotification.requestId) {
-      return;
-    }
-
-    if (notification.requestNotification.confirmNotification) {
+    if (notification.requestNotification?.confirmNotification) {
       // Se verifica si tiene alguna acción extra la notificación
       this.confirmNotification(notification);
     } else if (notification.type.code === TypeNotificationLookup[TypeNotificationLookup.ROOM]) {
       // Si la notificación es de tipo Sala
       this.redirectDetailRoom(notification);
+    } else if (notification.type.code === TypeNotificationLookup[TypeNotificationLookup.INVENTORY]) {
+      this.redirectInventory();
     }
   }
 
@@ -90,6 +85,10 @@ export class ToolbarNotificationsDropdownComponent implements OnInit {
     } else if (this.userSessionService.user.role.name === NameRole.APPLICANT) {
       this.router.navigateByUrl(`/dashboard/historial/sala/${notification.requestNotification.requestId}`);
     }
+  }
+
+  private redirectInventory(): void {
+    this.router.navigateByUrl('/dashboard/inventario');
   }
 
   private confirmNotification(notification: NotificationModel): void {

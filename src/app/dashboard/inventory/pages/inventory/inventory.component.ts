@@ -36,9 +36,10 @@ export class InventoryComponent implements OnInit {
   dataSource: MatTableDataSource<InventoryModel> | null;
   columns: TableColumn<InventoryModel>[] = [
     {label: 'Imagen', property: 'image', visible: true },
+    {label: 'Clave', property: 'code', visible: true},
     {label: 'Nombre', property: 'name', visible: true},
     {label: 'Marca', property: 'trademark', visible: true},
-    {label: 'Descripción', property: 'description', visible: true},
+    {label: 'Descripción', property: 'description', visible: false},
     {label: 'Stock', property: 'stock', visible: true},
     {label: 'Estatus', property: 'status', visible: true},
     {label: 'Tipo Inventario', property: 'typeInventory', visible: true},
@@ -150,6 +151,7 @@ export class InventoryComponent implements OnInit {
       return this.getData();
     }
 
+    this.generateFilter('code', TypesEnum.String, filter);
     this.generateFilter('name', TypesEnum.String, filter);
     this.generateFilter('trademark', TypesEnum.String, filter);
     this.generateFilter('description', TypesEnum.String, filter);

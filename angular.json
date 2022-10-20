@@ -40,7 +40,9 @@
               "src/app/shared/styles/tailwind.scss",
               "node_modules/ngx-toastr/toastr.css"
             ],
-            "scripts": [],
+            "scripts": [
+              "node_modules/pusher-js/dist/web/pusher.min.js"
+            ],
             "allowedCommonJsDependencies": [
               "simplebar",
               "highlight.js",

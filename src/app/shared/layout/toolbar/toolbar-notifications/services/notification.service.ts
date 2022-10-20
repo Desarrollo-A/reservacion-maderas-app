@@ -4,6 +4,7 @@ import { environment } from "../../../../../../environments/environment";
 import { NotificationModel } from "../models/notification.model";
 import { map, tap } from "rxjs/operators";
 import { BehaviorSubject, Observable } from "rxjs";
+import { playNotificationAudio } from "../../../../utils/utils";
 
 @Injectable({
   providedIn: 'root'
@@ -51,6 +52,12 @@ export class NotificationService {
     return this.http.patch<void>(url, null).pipe(
       tap(() => this.answeredNotificationLocal(notificationId))
     );
+  }
+
+  addNotification(notification: NotificationModel): void {
+    let notifications = [notification].concat([... this.notifications$.value]);
+    this.notifications$.next(notifications);
+    playNotificationAudio();
   }
 
   private readNotificationLocal(id: number): void {

@@ -8,7 +8,7 @@ import { ConfigService } from '../shared/config/config.service';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { SidebarComponent } from '../shared/components/sidebar/sidebar.component';
 import { NavigationService } from "../shared/services/navigation.service";
-
+import { PusherService } from "../core/services/pusher.service";
 
 @UntilDestroy()
 @Component({
@@ -34,7 +34,8 @@ export class DashboardComponent implements OnInit {
               private configService: ConfigService,
               private navigationService: NavigationService,
               private breakpointObserver: BreakpointObserver,
-              private router: Router) {
+              private router: Router,
+              private pusherService: PusherService) {
     this.navigationService.items = [
       {
         type: 'subheading',
@@ -61,5 +62,7 @@ export class DashboardComponent implements OnInit {
     this.layoutService.configpanelOpen$.pipe(
       untilDestroyed(this)
     ).subscribe(open => open ? this.configpanel.open() : this.configpanel.close());
+
+    this.pusherService.initPusher();
   }
 }

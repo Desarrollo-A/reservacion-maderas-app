@@ -15,6 +15,7 @@ import { UserModel } from "../models/user.model";
 import { ConfigService } from "../../shared/config/config.service";
 import { VexConfigName } from "../../shared/config/config-name.model";
 import { NotificationService } from "../../shared/layout/toolbar/toolbar-notifications/services/notification.service";
+import { PusherService } from "./pusher.service";
 
 @Injectable({
   providedIn: 'root'
@@ -27,7 +28,8 @@ export class AuthService {
               private navigationService: NavigationService,
               private userService: UserService,
               private configService: ConfigService,
-              private notificacionService: NotificationService) {}
+              private notificacionService: NotificationService,
+              private pusherService: PusherService) {}
 
   get url(): string {
     return environment.baseUrl + environment.api + this._baseUrl;
@@ -87,6 +89,7 @@ export class AuthService {
         this.userSessionService.clearUser();
         this.navigationService.clearItems();
         this.notificacionService.notifications$.next([]);
+        this.pusherService.disconnectPusher();
       })
     );
   }

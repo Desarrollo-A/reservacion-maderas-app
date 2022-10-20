@@ -79,3 +79,13 @@ export const getDateFormat = (date: Date): string => date.toISOString().split('T
 export const getTimeFormat = (date: Date): string => {
   return (date.getHours() < 10) ? `0${date.toLocaleTimeString()}` : date.toLocaleTimeString();
 }
+
+export const playNotificationAudio = (): void => {
+  let audio = new Audio('../../../assets/audio/notification-song.mp3');
+  audio.load();
+  audio.play();
+}
+
+export const pathEventsRealtime = (className: string): string => {
+  return `App\\Events\\${className}`;
+}

@@ -10,6 +10,7 @@ import { NavigationService } from "../../shared/services/navigation.service";
 import { ConfigService } from "../../shared/config/config.service";
 import { VexConfigName } from "../../shared/config/config-name.model";
 import { NotificationService } from "../../shared/layout/toolbar/toolbar-notifications/services/notification.service";
+import { PusherService } from "../services/pusher.service";
 
 @Injectable()
 export class ErrorInterceptor implements HttpInterceptor {
@@ -18,7 +19,8 @@ export class ErrorInterceptor implements HttpInterceptor {
               private userSessionService: UserSessionService,
               private navigationService: NavigationService,
               private configService: ConfigService,
-              private notificationService: NotificationService) {}
+              private notificationService: NotificationService,
+              private pusherService: PusherService) {}
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     return next.handle(req)
@@ -39,6 +41,7 @@ export class ErrorInterceptor implements HttpInterceptor {
             this.configService.setConfig(VexConfigName.poseidon);
             this.notificationService.notifications$.next([]);
             this.router.navigateByUrl('/auth');
+            this.pusherService.disconnectPusher();
 
           } else if (error.status === 403) { // No tiene permisos
             this.router.navigateByUrl('/dashboard');

@@ -71,7 +71,8 @@ export class ToolbarNotificationsDropdownComponent implements OnInit {
     if (notification.requestNotification?.confirmNotification) {
       // Se verifica si tiene alguna acción extra la notificación
       this.confirmNotification(notification);
-    } else if (notification.type.code === TypeNotificationLookup[TypeNotificationLookup.ROOM]) {
+    } else if (notification.type.code === TypeNotificationLookup[TypeNotificationLookup.ROOM] &&
+        notification.requestNotification?.requestId) {
       // Si la notificación es de tipo Sala
       this.redirectDetailRoom(notification);
     } else if (notification.type.code === TypeNotificationLookup[TypeNotificationLookup.INVENTORY]) {

@@ -6,7 +6,11 @@ export const environment = {
   production: false,
   baseUrl: 'http://127.0.0.1:8000/',
   api: 'api/v1/',
-  baseUrlCapital: 'https://prueba.gphsis.com/RHCV/index.php/WS/'
+  baseUrlCapital: 'https://prueba.gphsis.com/RHCV/index.php/WS/',
+  pusher: {
+    key: '4a68117c59cf332d4053',
+    cluster: 'us2'
+  }
 };
 
 /*

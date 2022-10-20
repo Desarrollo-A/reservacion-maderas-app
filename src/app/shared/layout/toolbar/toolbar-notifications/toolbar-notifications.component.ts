@@ -5,6 +5,11 @@ import { NotificationService } from "./services/notification.service";
 import { NotificationModel } from "./models/notification.model";
 import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
 import { PopoverRef } from "../../../components/popover/popover-ref";
+import { UserSessionService } from "../../../../core/services/user-session.service";
+import { PusherService } from "../../../../core/services/pusher.service";
+import { pathEventsRealtime } from "../../../utils/utils";
+import { PusherChannel } from "../../../../core/enums/pusher-channel";
+import { PusherEvent } from "../../../../core/enums/pusher-event";
 
 @UntilDestroy()
 @Component({
@@ -22,7 +27,9 @@ export class ToolbarNotificationsComponent implements OnInit {
 
   constructor(private popover: PopoverService,
               private cd: ChangeDetectorRef,
-              private notificationService: NotificationService) {}
+              private notificationService: NotificationService,
+              private userSessionService: UserSessionService,
+              private pusherService: PusherService) {}
 
   ngOnInit() {
     this.notificationService.findAllUnread();
@@ -38,6 +45,11 @@ export class ToolbarNotificationsComponent implements OnInit {
           this.popoverRef.close();
         }
         this.cd.markForCheck();
+      });
+
+    this.pusherService.channel(PusherChannel.ALERT_NOTIFICATION + this.userSessionService.user.id)
+      .bind(pathEventsRealtime(PusherEvent[PusherEvent.AlertNotification]), (data) => {
+        this.notificationService.addNotification(new NotificationModel(data.notification));
       });
   }
 
@@ -67,8 +79,7 @@ export class ToolbarNotificationsComponent implements OnInit {
           overlayX: 'end',
           overlayY: 'top',
         },
-      ],
-      data: 'Esto es un ejemplo'
+      ]
     });
 
     this.popoverRef.afterClosed$.subscribe(() => {

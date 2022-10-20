@@ -125,7 +125,10 @@ export class RoomComponent implements OnInit {
     };
 
     this.requestRoomService.store(request).subscribe(() => {
-      this.form.reset(this.initForm(), { emitEvent: false });
+      this.form.reset({
+        externalPeople: 0,
+        addGoogleCalendar: false
+      }, { emitEvent: false });
       this.rooms = [];
       this.phoneRequestTableComponent.clearData();
 

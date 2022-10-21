@@ -12,7 +12,7 @@
 
     <mat-dialog-content class="mat-typography">
       <div class="mt-4">
-        <p>¿Desea continuar con su reservación de {{title}} para el día {{notification.createdAt | date:'EEEE d, MMMM'}} a
+        <p>¿Desea continuar con su reservación de {{title}} para el día {{notification.requestNotification.request.startDate | date:'EEEE d, MMMM'}} a
           las {{notification.requestNotification.request.startDate | date:'h:mm a'}}?</p>
       </div>
     </mat-dialog-content>

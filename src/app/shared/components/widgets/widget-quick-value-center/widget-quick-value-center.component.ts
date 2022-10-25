@@ -12,9 +12,9 @@ import { scaleInOutAnimation } from '../../../animations/scale-in-out.animation'
 export class WidgetQuickValueCenterComponent implements OnInit {
 
   @Input() icon: string;
-  @Input() value: string;
+  @Input() value: number;
   @Input() label: string;
-  @Input() change: number;
+  @Input() change: number = 0;
   @Input() helpText: string;
   @Input() iconClass: string;
 

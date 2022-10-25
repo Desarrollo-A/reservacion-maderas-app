@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { ApexOptions } from '../../chart/chart.component';
 import { defaultChartOptions } from '../../../utils/default-chart-options';
 import { createDateArray } from '../../../utils/create-date-array';
@@ -7,9 +7,10 @@ import { createDateArray } from '../../../utils/create-date-array';
   selector: 'vex-widget-large-goal-chart',
   templateUrl: './widget-large-goal-chart.component.html'
 })
-export class WidgetLargeGoalChartComponent implements OnInit {
+export class WidgetLargeGoalChartComponent {
 
-  @Input() total: string;
+  @Input() total: number = 0;
+  @Input() percentage: number = 0;
   @Input() series: ApexNonAxisChartSeries | ApexAxisChartSeries;
   @Input() options: ApexOptions = defaultChartOptions({
     grid: {
@@ -32,7 +33,7 @@ export class WidgetLargeGoalChartComponent implements OnInit {
     stroke: {
       width: 4
     },
-    labels: createDateArray(12),
+    labels: createDateArray(8),
     xaxis: {
       type: 'datetime',
       labels: {
@@ -46,9 +47,7 @@ export class WidgetLargeGoalChartComponent implements OnInit {
     }
   });
 
-  constructor() { }
+  now = new Date();
 
-  ngOnInit() {
-  }
-
+  constructor() {}
 }

@@ -1,12 +1,13 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { UserSessionService } from 'src/app/core/services/user-session.service';
+import { NameRole } from "../../../../core/enums/name-role";
 
 @Component({
   selector: 'vex-widget-assistant',
   templateUrl: './widget-assistant.component.html',
   styleUrls: ['./widget-assistant.component.scss']
 })
-export class WidgetAssistantComponent implements OnInit {
+export class WidgetAssistantComponent {
 
   constructor(private userService: UserSessionService) { }
 
@@ -14,7 +15,7 @@ export class WidgetAssistantComponent implements OnInit {
    return this.userService.user.fullName ?? '';
   }
 
-  ngOnInit() {
+  get isRecepcionist(): boolean {
+    return this.userService.user.role?.name === NameRole.RECEPCIONIST ?? false;
   }
-
 }

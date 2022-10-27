@@ -1,0 +1,85 @@
+<vex-page-layout>
+  <vex-page-layout-header class="pb-16 flex flex-col items-start justify-center">
+    <div class="container w-full flex flex-col sm:flex-row justify-between">
+      <div>
+        <h1 class="title mt-0 mb-1">Entradas/Salidas del Inventario</h1>
+        <vex-breadcrumbs></vex-breadcrumbs>
+      </div>
+    </div>
+  </vex-page-layout-header>
+
+  <vex-page-layout-content class="container -mt-6">
+    <div class="card overflow-auto -mt-16">
+      <div class="bg-app-bar px-6 h-16 border-b sticky left-0 flex items-center">
+        <h2 class="title my-0 ltr:pr-4 rtl:pl-4 ltr:mr-4 rtl:ml-4 ltr:border-r rtl:border-l hidden sm:block flex-none">
+          <span>Productos</span>
+        </h2>
+
+        <div class="bg-foreground rounded-full border px-4 max-w-[300px] flex-auto flex items-center border border-gray-300">
+          <mat-icon class="icon-sm text-secondary" svgIcon="mat:search"></mat-icon>
+          <input class="px-4 py-2 border-0 outline-none w-full bg-transparent"
+                 placeholder="Buscar..."
+                 type="search"
+                 [formControl]="searchCtrl"
+                 (keyup.enter)="search()">
+        </div>
+
+        <span class="flex-1"></span>
+
+        <button class="ml-4 flex-none"
+                color="primary"
+                mat-mini-fab
+                matTooltip="Generar reporte"
+                type="button">
+          <mat-icon svgIcon="mat:content_paste"></mat-icon>
+        </button>
+      </div>
+
+      <table @stagger [dataSource]="dataSource" class="w-full" mat-table matSort
+             (matSortChange)="sortChange($event)">
+        <ng-container matColumnDef="code">
+          <th *matHeaderCellDef class="uppercase" mat-header-cell mat-sort-header>Clave</th>
+          <td *matCellDef="let row" class="text-secondary font-medium" mat-cell>{{ row.code }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="name">
+          <th *matHeaderCellDef class="uppercase" mat-header-cell mat-sort-header>Nombre</th>
+          <td *matCellDef="let row" mat-cell>{{ row.name }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="quantity">
+          <th *matHeaderCellDef class="uppercase" mat-header-cell>Cantidad</th>
+          <td *matCellDef="let row" mat-cell>{{ row.quantity | number }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="cost">
+          <th *matHeaderCellDef class="uppercase" mat-header-cell>Costo</th>
+          <td *matCellDef="let row" mat-cell>{{ row.cost ? '$'+(row.cost | number) : 'No aplica' }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="type">
+          <th *matHeaderCellDef class="uppercase" mat-header-cell mat-sort-header>Tipo</th>
+          <td *matCellDef="let row" mat-cell>{{ row.type }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="moveDate">
+          <th *matHeaderCellDef class="uppercase" mat-header-cell mat-sort-header>Fecha de movimiento</th>
+          <td *matCellDef="let row" mat-cell>{{ row.moveDate | date:'longDate' }}</td>
+        </ng-container>
+
+        <tr *matHeaderRowDef="visibleColumns" mat-header-row></tr>
+        <tr *matRowDef="let row; columns: visibleColumns;"
+            @fadeInUp
+            class="hover:bg-hover trans-ease-out"
+            mat-row></tr>
+      </table>
+
+      <ng-container *ngIf="dataResponse">
+        <app-paginator [pageSizeOptions]="pageSizeOptions"
+                       [meta]="dataResponse.meta"
+                       (onChanges)="paginatorChanges($event)">
+        </app-paginator>
+      </ng-container>
+    </div>
+  </vex-page-layout-content>
+</vex-page-layout>

@@ -56,10 +56,6 @@ export class RoomComponent implements OnInit {
     return this.columns.filter(column => column.visible).map(column => column.property);
   }
 
-  trackByProperty<T>(index: number, column: TableColumn<T>) {
-    return column.property;
-  }
-
   openDialog(id?: number): void {
     if (!id) {
       this.dialog.open(RoomCreateUpdateComponent, {

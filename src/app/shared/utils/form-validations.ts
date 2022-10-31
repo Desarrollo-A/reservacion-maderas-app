@@ -1,5 +1,6 @@
 import { AbstractControl, FormControl, ValidationErrors } from "@angular/forms";
 import { startOfDay } from "date-fns";
+import { removeError } from "./utils";
 
 const START_WORKING_HOUR = 8;
 const FINISH_WORKING_HOUR = 18;
@@ -16,6 +17,22 @@ export const comparePassword = (password: string, confirmPassword: string) => {
       return error;
     }
     formGroup.get(confirmPassword)?.setErrors(null);
+    return null;
+  }
+}
+
+export const endDateIsAfterToStartDate = (startDate: string, endDate: string) => {
+  return (formGroup: AbstractControl): ValidationErrors | null => {
+    const startDateValue = new Date(formGroup.get(startDate)?.value);
+    const endDateValue = new Date(formGroup.get(endDate)?.value);
+
+    if (startDateValue.getTime() > endDateValue.getTime()) {
+      const error = { dateAfter: true };
+      formGroup.get(endDate)?.setErrors(error);
+      return error;
+    }
+
+    removeError(formGroup.get(endDate), 'dateAfter');
     return null;
   }
 }
@@ -39,6 +56,19 @@ export const dateBeforeNow = (control: FormControl): ValidationErrors | null => 
 
     if (today > value) {
       return { dateBeforeNow: true };
+    }
+  }
+
+  return null;
+}
+
+export const dateAfterNow = (control: FormControl): ValidationErrors | null => {
+  if (control.value) {
+    const today = startOfDay(new Date());
+    const value = control.value;
+
+    if (today < value) {
+      return { dateAfterNow: true };
     }
   }
 

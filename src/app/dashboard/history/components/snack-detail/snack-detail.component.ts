@@ -95,7 +95,7 @@ export class SnackDetailComponent implements OnInit, AfterViewInit {
       });
     } else {
       this.dialog.open(SnackAssignComponent, {
-        data: { snacks: this.filterSnacksWasSelected(), row: snack },
+        data: { snacks: this.filterSnacksWasSelected(), row: {... snack} },
         autoFocus: false,
         width: '350px'
       }).afterClosed().subscribe((result: InventoryModel) => {

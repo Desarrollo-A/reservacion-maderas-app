@@ -65,6 +65,9 @@
             <mat-error *ngIf="formErrors.customError('date','dateBeforeNow')">
               La fecha debe ser igual o mayor a la actual.
             </mat-error>
+            <mat-error *ngIf="formErrors.customError('date','dateAfter30Days')">
+              La fecha no debe pasar 30 días después a la actual.
+            </mat-error>
           </mat-form-field>
 
           <mat-form-field class="flex-auto">

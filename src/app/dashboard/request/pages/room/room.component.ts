@@ -10,7 +10,7 @@ import { RoomModel } from "../../../../core/models/room.model";
 import { RoomService } from "../../../../core/services/room.service";
 import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
 import { ToastrService } from "ngx-toastr";
-import { dateBeforeNow, workingHours } from "../../../../shared/utils/form-validations";
+import { dateAfter30Days, dateBeforeNow, workingHours } from "../../../../shared/utils/form-validations";
 import {
   compareTimes,
   getDateFormat,
@@ -141,7 +141,7 @@ export class RoomComponent implements OnInit {
       title: [null, [Validators.required, Validators.minLength(3), Validators.maxLength(100)]],
       state: [null, Validators.required],
       roomId: [null, Validators.required],
-      date: [null, [Validators.required, dateBeforeNow]],
+      date: [null, [Validators.required, dateBeforeNow, dateAfter30Days]],
       startTime: [null, [Validators.required, workingHours]],
       endTime: [null, [Validators.required, workingHours]],
       people: [null, [Validators.required, Validators.min(1), Validators.max(100)]],

@@ -62,6 +62,20 @@ export const dateBeforeNow = (control: FormControl): ValidationErrors | null => 
   return null;
 }
 
+export const dateAfter30Days = (control: FormControl): ValidationErrors | null => {
+  if (control.value) {
+    let now = startOfDay(new Date());
+    const after30Days = now.setDate(now.getDate() + 30);
+    const value = control.value;
+
+    if (value.getTime() > after30Days) {
+      return { dateAfter30Days: true };
+    }
+  }
+
+  return null;
+}
+
 export const dateAfterNow = (control: FormControl): ValidationErrors | null => {
   if (control.value) {
     const today = startOfDay(new Date());

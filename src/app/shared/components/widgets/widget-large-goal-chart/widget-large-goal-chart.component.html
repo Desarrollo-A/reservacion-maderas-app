@@ -1,43 +1,31 @@
 <div class="card">
   <div class="border-b py-4 px-6 flex items-center">
     <h2 class="m-0 title flex-auto">Resumen Mensual</h2>
-
-    <button mat-icon-button type="button">
-      <mat-icon class="text-secondary" svgIcon="mat:cloud_download"></mat-icon>
-    </button>
-
-    <button mat-icon-button type="button">
-      <mat-icon class="text-secondary" svgIcon="mat:more_horiz"></mat-icon>
-    </button>
   </div>
 
   <div class="py-6 px-6 grid grid-cols-1 md:grid-cols-2 gap-12">
     <div class="pb-6 pt-4 px-6 flex flex-col">
-      <h2 class="display-2 font-bold m-0">{{ total }}</h2>
-      <h3 class="title font-medium mt-2 mb-0">Reuniones Julio 2022</h3>
+      <h2 class="display-2 font-bold m-0">{{ total | number }}</h2>
+      <h3 class="title font-medium mt-2 mb-0">Solicitudes {{now | date:'MMMM Y' | titlecase}}</h3>
 
-      <div class="mt-6 flex items-center gap-4">
+      <div class="mt-6 flex items-center gap-4" *ngIf="percentage > 0">
         <div class="w-8 h-8 rounded text-green bg-green-light flex-none flex items-center justify-center">
-          <mat-icon class="icon-sm" svgIcon="mat:arrow_drop_up"></mat-icon>
+          <mat-icon class="icon-sm" svgIcon="mat:trending_up"></mat-icon>
         </div>
 
         <p class="text-secondary m-0">
-          <span class="font-medium text-green">11% más solicitudes</span> en comparación con el mes pasado.
+          <span class="font-medium text-green">+{{percentage}}% de solicitudes</span> en comparación con el mes pasado.
         </p>
       </div>
 
-      <div class="mt-4 flex items-center gap-4">
+      <div class="mt-4 flex items-center gap-4" *ngIf="percentage < 0">
         <div class="w-8 h-8 rounded text-red bg-red-light flex-none flex items-center justify-center">
-          <mat-icon class="icon-sm" svgIcon="mat:arrow_drop_down"></mat-icon>
+          <mat-icon class="icon-sm" svgIcon="mat:trending_down"></mat-icon>
         </div>
 
         <p class="text-secondary m-0">
-          <span class="font-medium text-red">-2% menos solicitudes</span> en comparación con el mes pasado.
+          <span class="font-medium text-red">-{{percentage}}% de solicitudes</span> en comparación con el mes pasado.
         </p>
-      </div>
-
-      <div class="mt-6 flex-auto flex flex-col justify-end">
-        <button color="primary" mat-flat-button type="button">Ver Historial</button>
       </div>
     </div>
 

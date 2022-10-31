@@ -1,28 +1,25 @@
 <div class="container p-gutter grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
-  <vex-widget-assistant class="col-span-1 sm:col-span-2 md:col-span-4" *ngIf="userRole"></vex-widget-assistant>
+  <vex-widget-assistant class="col-span-1 sm:col-span-2 md:col-span-4"></vex-widget-assistant>
 
-  <vex-widget-quick-value-center [change]="124.4"
-                                 icon="mat:group"
+  <vex-widget-quick-value-center icon="mat:post_add"
                                  iconClass="text-primary bg-primary/10"
                                  label="Nuevas"
-                                 value="67"></vex-widget-quick-value-center>
-  <vex-widget-quick-value-center [change]="12"
-                                 icon="mat:pageview"
-                                 iconClass="text-orange bg-orange-light"
+                                 [value]="newRequests"></vex-widget-quick-value-center>
+  <vex-widget-quick-value-center icon="mat:check_circle"
+                                 iconClass="text-green bg-green-light"
                                  label="Aprobadas"
-                                 value="92"></vex-widget-quick-value-center>
-  <vex-widget-quick-value-center [change]="-23.2"
-                                 icon="mat:cloud_off"
-                                 iconClass="text-deep-orange bg-deep-orange-light"
+                                 [value]="approvedRequests"></vex-widget-quick-value-center>
+  <vex-widget-quick-value-center icon="mat:cancel"
+                                 iconClass="text-red bg-red-light"
                                  label="Canceladas"
-                                 value="12"></vex-widget-quick-value-center>
-  <vex-widget-quick-value-center [change]="34.5"
-                                 icon="mat:timer"
+                                 [value]="cancelledRequests"></vex-widget-quick-value-center>
+  <vex-widget-quick-value-center icon="mat:folder_open"
                                  iconClass="text-teal bg-teal-light"
                                  label="Total General"
-                                 value="171"></vex-widget-quick-value-center>
+                                 [value]="totalRequests"></vex-widget-quick-value-center>
 
-  <vex-widget-large-goal-chart [series]="salesSeries"
+  <vex-widget-large-goal-chart *ngIf="userRole"
+                               [series]="requestSeries"
                                class="sm:col-span-full"
-                               total="4,374"></vex-widget-large-goal-chart>
+                               [total]="totalRequestsOfMonth"></vex-widget-large-goal-chart>
 </div>

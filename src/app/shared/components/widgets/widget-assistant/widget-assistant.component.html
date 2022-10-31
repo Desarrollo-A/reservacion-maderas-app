@@ -1,25 +1,45 @@
 <div class="card bg-primary flex">
   <div class="p-4 ml-4 flex-none self-center hidden sm:block">
     <img src="../../../../../assets/img/illustrations/checklist.svg" style="height: 168px; width: 152px" alt="checklist">
-  </div> 
+  </div>
 
-  <div class="p-6 text-primary-contrast flex-auto">
-    <h2 class="headline m-0">¡Buen trabajo, {{ userFullName }}!</h2>
-    <p class="caption m-0 opacity-50">No tienes ninguna solicitud pendiente de revisar.</p>
+  <div class="p-6 text-primary-contrast flex-auto" *ngIf="isRecepcionist">
+    <h2 class="headline m-0">¡Hola, {{ userFullName | titlecase }}!</h2>
+    <p class="caption m-0 opacity-50">En tu panel podrás realizar las siguientes acciones:</p>
 
     <div class="mt-4 flex items-center">
       <mat-icon class="mr-2" svgIcon="mat:check_circle"></mat-icon>
-      <span class="body-2 cursor-pointer">Todas las solicitudes revisadas</span>
+      <span class="body-2 cursor-pointer">Gestionar las solicitudes de sala de junta</span>
     </div>
 
     <div class="mt-1 flex items-center">
       <mat-icon class="mr-2" svgIcon="mat:check_circle"></mat-icon>
-      <span class="body-2 cursor-pointer">Ningún producto de inventario al mínimo</span>
+      <span class="body-2 cursor-pointer">Gestionar el inventario y stock de cada producto</span>
     </div>
 
     <div class="mt-1 flex items-center">
       <mat-icon class="mr-2" svgIcon="mat:check_circle"></mat-icon>
-      <span class="body-2 cursor-pointer">Tienes todo bajo control</span>
+      <span class="body-2 cursor-pointer">Mantenimiento de salas de junta y automóviles</span>
+    </div>
+  </div>
+
+  <div class="p-6 text-primary-contrast flex-auto" *ngIf="!isRecepcionist">
+    <h2 class="headline m-0">¡Hola, {{ userFullName | titlecase }}!</h2>
+    <p class="caption m-0 opacity-50">En tu panel podrás realizar las siguientes acciones:</p>
+
+    <div class="mt-4 flex items-center">
+      <mat-icon class="mr-2" svgIcon="mat:check_circle"></mat-icon>
+      <span class="body-2 cursor-pointer">Crear solicitudes de sala de junta</span>
+    </div>
+
+    <div class="mt-1 flex items-center">
+      <mat-icon class="mr-2" svgIcon="mat:check_circle"></mat-icon>
+      <span class="body-2 cursor-pointer">Ver el historial de solicitudes</span>
+    </div>
+
+    <div class="mt-1 flex items-center">
+      <mat-icon class="mr-2" svgIcon="mat:check_circle"></mat-icon>
+      <span class="body-2 cursor-pointer">Revisar el calendario las solicitudes aprobadas</span>
     </div>
   </div>
 </div>

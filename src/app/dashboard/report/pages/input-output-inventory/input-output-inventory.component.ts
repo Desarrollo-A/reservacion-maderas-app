@@ -10,6 +10,10 @@ import { Filters, TypesEnum } from "../../../../core/interfaces/filters";
 import { ReportService } from "../../../../core/services/report.service";
 import { Sort } from "@angular/material/sort";
 import { getSort } from "../../../../shared/utils/http-functions";
+import { MatDialog } from "@angular/material/dialog";
+import {
+  InputOutputInventoryConfigComponent
+} from "../../components/input-output-inventory-config/input-output-inventory-config.component";
 
 @Component({
   selector: 'app-input-output-inventory',
@@ -36,7 +40,8 @@ export class InputOutputInventoryComponent implements OnInit {
   searchCtrl = new FormControl('');
   filters: Filters = { filters: [] };
 
-  constructor(private reportService: ReportService) {}
+  constructor(private reportService: ReportService,
+              private dialog: MatDialog) {}
 
   ngOnInit(): void {
     this.dataSource = new MatTableDataSource<InputOutputInventoryModel>();
@@ -45,6 +50,12 @@ export class InputOutputInventoryComponent implements OnInit {
 
   get visibleColumns() {
     return this.columns.filter(column => column.visible).map(column => column.property);
+  }
+
+  configReport(): void {
+    this.dialog.open(InputOutputInventoryConfigComponent, {
+      autoFocus: false
+    });
   }
 
   sortChange(sortState: Sort): void {

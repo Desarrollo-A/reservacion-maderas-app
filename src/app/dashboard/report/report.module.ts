@@ -9,11 +9,13 @@ import { PaginatorModule } from "../../shared/components/paginator/paginator.mod
 import { PageLayoutModule } from "../../shared/components/page-layout/page-layout.module";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { BreadcrumbsModule } from "../../shared/components/breadcrumbs/breadcrumbs.module";
+import { InputOutputInventoryConfigComponent } from './components/input-output-inventory-config/input-output-inventory-config.component';
 
 
 @NgModule({
   declarations: [
-    InputOutputInventoryComponent
+    InputOutputInventoryComponent,
+    InputOutputInventoryConfigComponent
   ],
   imports: [
     CommonModule,

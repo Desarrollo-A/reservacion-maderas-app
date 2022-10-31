@@ -89,3 +89,12 @@ export const playNotificationAudio = (): void => {
 export const pathEventsRealtime = (className: string): string => {
   return `App\\Events\\${className}`;
 }
+
+export const downloadFile = (data: Blob, filename: string): void => {
+  const fileUrl = URL.createObjectURL(data);
+  const a = document.createElement('a');
+  a.href = fileUrl;
+  a.target = '_blank';
+  a.download = filename;
+  a.click();
+}

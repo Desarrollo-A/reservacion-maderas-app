@@ -3,4 +3,5 @@ export interface User {
   password: string;
   rememberMe: boolean;
   email: string;
+  currentPassword?: string;
 }

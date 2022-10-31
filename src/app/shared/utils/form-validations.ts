@@ -16,7 +16,7 @@ export const comparePassword = (password: string, confirmPassword: string) => {
       formGroup.get(confirmPassword)?.setErrors(error);
       return error;
     }
-    formGroup.get(confirmPassword)?.setErrors(null);
+    removeError(formGroup.get(confirmPassword), 'differentPassword');
     return null;
   }
 }

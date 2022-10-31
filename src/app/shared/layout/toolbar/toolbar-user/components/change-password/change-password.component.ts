@@ -16,6 +16,10 @@ export class ChangePasswordComponent implements OnInit {
   form: FormGroup;
   formErrors: FormErrors;
 
+  inputTypeCurrent = 'password';
+  tooltipPasswordCurrent = 'Visualizar contraseña';
+  visibleCurrent = false;
+
   inputTypeNew = 'password';
   tooltipPasswordNew = 'Visualizar contraseña';
   visibleNew = false;
@@ -33,36 +37,47 @@ export class ChangePasswordComponent implements OnInit {
 
   ngOnInit(): void {
     this.form = this.fb.group({
+      currentPassword: ['',[Validators.required, Validators.minLength(5), Validators.maxLength(50)]],
       password: ['',[Validators.required, Validators.minLength(5), Validators.maxLength(50)]],
-      confirmPassword: ['']
+      confirmPassword: ['', [Validators.required, Validators.minLength(5), Validators.maxLength(50)]]
     },{
       validators: [comparePassword('password', 'confirmPassword')]
-    })
+    });
 
     this.formErrors = new FormErrors (this.form);
   }
 
-  toggleVisibilityNew(): void {
-    if (this.visibleNew) {
-      this.inputTypeNew = 'password';
-      this.visibleNew = false;
-      this.tooltipPasswordNew = 'Visualizar Contraseña'
-    } else {
-      this.inputTypeNew = 'text';
-      this.visibleNew = true;
-      this.tooltipPasswordNew = 'Ocultar Contraseña'
-    }
-  }
-
-  toggleVisibilityConfirm(): void {
-    if (this.visibleConfirm) {
-      this.inputTypeConfirm = 'password';
-      this.visibleConfirm = false;
-      this.tooltipPasswordConfirm = 'Visualizar Contraseña'
-    } else {
-      this.inputTypeConfirm = 'text';
-      this.visibleConfirm = true;
-      this.tooltipPasswordConfirm = 'Ocultar Contraseña'
+  toggleVisibility(input: 'current' | 'new' | 'confirm'): void {
+    if (input === 'current') {
+      if (this.visibleCurrent) {
+        this.inputTypeCurrent = 'password';
+        this.visibleCurrent = false;
+        this.tooltipPasswordCurrent = 'Visualizar Contraseña'
+      } else {
+        this.inputTypeCurrent = 'text';
+        this.visibleCurrent = true;
+        this.tooltipPasswordCurrent = 'Ocultar Contraseña'
+      }
+    } else if (input === 'new') {
+      if (this.visibleNew) {
+        this.inputTypeNew = 'password';
+        this.visibleNew = false;
+        this.tooltipPasswordNew = 'Visualizar Contraseña'
+      } else {
+        this.inputTypeNew = 'text';
+        this.visibleNew = true;
+        this.tooltipPasswordNew = 'Ocultar Contraseña'
+      }
+    } else if (input === 'confirm') {
+      if (this.visibleConfirm) {
+        this.inputTypeConfirm = 'password';
+        this.visibleConfirm = false;
+        this.tooltipPasswordConfirm = 'Visualizar Contraseña'
+      } else {
+        this.inputTypeConfirm = 'text';
+        this.visibleConfirm = true;
+        this.tooltipPasswordConfirm = 'Ocultar Contraseña'
+      }
     }
   }
 
@@ -72,7 +87,7 @@ export class ChangePasswordComponent implements OnInit {
       return;
     }
 
-    const user:User = this.form.getRawValue();
+    const user: User = this.form.getRawValue();
     this.authService.changePassword(user).subscribe(() => {
       this.toastService.success('La contraseña se ha modificado correctamente','Proceso exitoso');
       this.dialogRef.close(true);

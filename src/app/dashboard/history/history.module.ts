@@ -19,6 +19,7 @@ import { ProposalRequestComponent } from './components/proposal-request/proposal
 import { CancelRequestComponent } from './components/cancel-request/cancel-request.component';
 import { ConfirmProposalComponent } from './components/confirm-proposal/confirm-proposal.component';
 import { PhoneRequestModule } from "../../shared/components/phone-request/phone-request.module";
+import { EmailRequestModule } from "../../shared/components/email-request/email-request.module";
 
 
 @NgModule({
@@ -44,7 +45,8 @@ import { PhoneRequestModule } from "../../shared/components/phone-request/phone-
     PageNotFoundModule,
     ImageModule,
     DeleteConfirmModule,
-    PhoneRequestModule
+    PhoneRequestModule,
+    EmailRequestModule
   ]
 })
 export class HistoryModule { }

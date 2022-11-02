@@ -22,22 +22,28 @@ export class HomeComponent implements OnInit {
   constructor(private userService: UserSessionService,
               private homeService: HomeService) { }
 
-  get userRole(): boolean {
+  get isRecepcionist(): boolean {
    return this.userService.user.role?.name == NameRole.RECEPCIONIST;
   }
 
+  get isAdmin(): boolean {
+    return this.userService.user?.role?.name === NameRole.ADMIN;
+  }
+
   ngOnInit(): void {
-    this.homeService.getDataHome().subscribe(({ cards, last7DaysRequests, percentage, totalMonth}) => {
-      this.newRequests = cards.news;
-      this.approvedRequests = cards.approved;
-      this.cancelledRequests = cards.cancelled;
-      this.totalRequests = cards.requests;
-      this.percentage = percentage;
-      this.requestSeries = [{
-        name: 'Solicitudes',
-        data: last7DaysRequests
-      }];
-      this.totalRequestsOfMonth = totalMonth;
-    });
+    if (!this.isAdmin) {
+      this.homeService.getDataHome().subscribe(({ cards, last7DaysRequests, percentage, totalMonth}) => {
+        this.newRequests = cards.news;
+        this.approvedRequests = cards.approved;
+        this.cancelledRequests = cards.cancelled;
+        this.totalRequests = cards.requests;
+        this.percentage = percentage;
+        this.requestSeries = [{
+          name: 'Solicitudes',
+          data: last7DaysRequests
+        }];
+        this.totalRequestsOfMonth = totalMonth;
+      });
+    }
   }
 }

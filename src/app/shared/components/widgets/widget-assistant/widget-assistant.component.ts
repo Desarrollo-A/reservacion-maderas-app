@@ -15,7 +15,15 @@ export class WidgetAssistantComponent {
    return this.userService.user.fullName ?? '';
   }
 
+  get isAdmin(): boolean {
+    return this.userService.user.role?.name === NameRole.ADMIN;
+  }
+
   get isRecepcionist(): boolean {
     return this.userService.user.role?.name === NameRole.RECEPCIONIST ?? false;
+  }
+
+  get isApplicant(): boolean {
+    return this.userService.user.role?.name === NameRole.APPLICANT;
   }
 }

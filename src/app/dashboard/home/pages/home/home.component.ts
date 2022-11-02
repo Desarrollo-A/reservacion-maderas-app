@@ -13,6 +13,7 @@ export class HomeComponent implements OnInit {
   cancelledRequests = 0;
   totalRequests = 0;
   totalRequestsOfMonth = 0;
+  percentage = 0;
   requestSeries: ApexAxisChartSeries = [{
     name: 'Solicitudes',
     data: []
@@ -31,6 +32,7 @@ export class HomeComponent implements OnInit {
       this.approvedRequests = cards.approved;
       this.cancelledRequests = cards.cancelled;
       this.totalRequests = cards.requests;
+      this.percentage = percentage;
       this.requestSeries = [{
         name: 'Solicitudes',
         data: last7DaysRequests

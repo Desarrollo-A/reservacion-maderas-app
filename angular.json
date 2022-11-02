@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "vex": {
+    "reservacion-maderas-app": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
@@ -17,7 +17,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/vex",
+            "outputPath": "dist/reservacion-maderas-app",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
@@ -85,24 +85,49 @@
                   "maximumError": "5mb"
                 }
               ]
+            },
+            "staging": {
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.staging.ts"
+                }
+              ],
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "namedChunks": false,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true,
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "3mb",
+                  "maximumError": "5mb"
+                }
+              ]
             }
           }
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "vex:build"
+            "browserTarget": "reservacion-maderas-app:build"
           },
           "configurations": {
             "production": {
-              "browserTarget": "vex:build:production"
+              "browserTarget": "reservacion-maderas-app:build:production"
+            },
+            "staging": {
+              "browserTarget": "reservacion-maderas-app:build:staging"
             }
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "vex:build"
+            "browserTarget": "reservacion-maderas-app:build"
           }
         },
         "test": {
@@ -126,11 +151,11 @@
           "builder": "@angular-devkit/build-angular:protractor",
           "options": {
             "protractorConfig": "e2e/protractor.conf.js",
-            "devServerTarget": "vex:serve"
+            "devServerTarget": "reservacion-maderas-app:serve"
           },
           "configurations": {
             "production": {
-              "devServerTarget": "vex:serve:production"
+              "devServerTarget": "reservacion-maderas-app:serve:production"
             }
           }
         }

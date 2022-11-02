@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { trackById } from '../../../../utils/track-by';
 import { NotificationService } from "../services/notification.service";
 import { NotificationModel } from "../models/notification.model";
@@ -15,6 +15,12 @@ import { CancelRequestComponent } from "../components/cancel-request/cancel-requ
 import { CancelRequestModel } from "../../../../../core/models/cancel-request.model";
 import { RequestRoomService } from "../../../../../core/services/request-room.service";
 import { switchMap } from "rxjs";
+import { MatMenuTrigger } from "@angular/material/menu";
+
+interface Position {
+  x: string;
+  y: string;
+}
 
 @UntilDestroy()
 @Component({
@@ -23,6 +29,9 @@ import { switchMap } from "rxjs";
   styleUrls: ['./toolbar-notifications-dropdown.component.scss']
 })
 export class ToolbarNotificationsDropdownComponent implements OnInit {
+  @ViewChild(MatMenuTrigger, { static: true })
+  matMenuTrigger: MatMenuTrigger;
+
   trackById = trackById;
   notifications: NotificationModel[];
   notificationMapping: I18nPlural = {
@@ -30,6 +39,7 @@ export class ToolbarNotificationsDropdownComponent implements OnInit {
     '=1': 'notificación',
     'other': 'notificaciones'
   };
+  menuTopLeftPosition: Position = { x: '0', y: '0' };
 
   constructor(private notificationService: NotificationService,
               private router: Router,
@@ -51,10 +61,26 @@ export class ToolbarNotificationsDropdownComponent implements OnInit {
     return unread.length;
   }
 
+  onRightClick(event: MouseEvent, notification: NotificationModel) {
+    if (!notification.isRead) {
+      event.preventDefault();
+
+      this.menuTopLeftPosition.x = `${event.screenX}px`;
+      this.menuTopLeftPosition.y = `${event.screenY}px`;
+
+      this.matMenuTrigger.menuData = { notification };
+      this.matMenuTrigger.openMenu();
+    }
+  }
+
   readAll(): void {
     if (this.unreadNotifications > 0) {
       this.notificationService.readAllNotifications().subscribe();
     }
+  }
+
+  readNotification(id: number): void {
+    this.notificationService.readNotification(id).subscribe();
   }
 
   openNotification(notification: NotificationModel): void {

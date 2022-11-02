@@ -15,7 +15,8 @@
        [class.read]="notification.isRead"
        class="notification flex items-center cursor-pointer"
        matRipple
-       (click)="openNotification(notification)">
+       (click)="openNotification(notification)"
+       (contextmenu)="onRightClick($event, notification)">
       <mat-icon [ngStyle]="{'color': notification.colorHex}"
                 [svgIcon]="notification.matIcon"
                 class="notification-icon flex-none"></mat-icon>
@@ -34,3 +35,17 @@
     </button>
   </div>
 </div>
+
+<div class="invisible fixed"
+     [style.top]="menuTopLeftPosition.y"
+     [matMenuTriggerFor]="rightMenu">
+</div>
+
+<mat-menu #rightMenu="matMenu">
+  <ng-template matMenuContent let-notification="notification">
+    <button mat-menu-item (click)="readNotification(notification.id)">
+      <mat-icon svgIcon="mat:visibility"></mat-icon>
+      <span>Marcar como leída</span>
+    </button>
+  </ng-template>
+</mat-menu>

@@ -7,6 +7,7 @@ import { MaterialModule } from "../../material/material.module";
 import { ReactiveFormsModule } from "@angular/forms";
 import { PageNotFoundModule } from "../../shared/components/page-not-found/page-not-found.module";
 import { PhoneRequestModule } from "../../shared/components/phone-request/phone-request.module";
+import { EmailRequestModule } from "../../shared/components/email-request/email-request.module";
 
 
 @NgModule({
@@ -19,7 +20,8 @@ import { PhoneRequestModule } from "../../shared/components/phone-request/phone-
     MaterialModule,
     ReactiveFormsModule,
     PageNotFoundModule,
-    PhoneRequestModule
+    PhoneRequestModule,
+    EmailRequestModule
   ]
 })
 export class RequestModule { }

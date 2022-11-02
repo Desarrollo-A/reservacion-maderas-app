@@ -125,6 +125,11 @@
                                    [requestId]="requestRoom.requestId"
                                    [phoneNumbers]="requestRoom.request.requestPhoneNumber">
           </app-phone-request-table>
+
+          <app-email-request-table [previousStatus]="previousStatus"
+                                   [requestId]="requestRoom.requestId"
+                                   [emails]="requestRoom.request.requestEmail">
+          </app-email-request-table>
         </div>
       </div>
 

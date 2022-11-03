@@ -26,9 +26,6 @@ import { RequestModel } from "../../../../core/models/request.model";
 import { RequestRoomService } from "../../../../core/services/request-room.service";
 import { trackById } from "../../../../shared/utils/track-by";
 import {
-  PhoneRequestTableComponent
-} from "../../../../shared/components/phone-request/components/phone-request-table/phone-request-table.component";
-import {
   EmailRequestTableComponent
 } from "../../../../shared/components/email-request/components/email-request-table/email-request-table.component";
 
@@ -43,8 +40,8 @@ import {
   ]
 })
 export class RoomComponent implements OnInit {
-  @ViewChild('phoneRequestTableComponent')
-  phoneRequestTableComponent: PhoneRequestTableComponent;
+  /*@ViewChild('phoneRequestTableComponent')
+  phoneRequestTableComponent: PhoneRequestTableComponent;*/
   @ViewChild('emailRequestTableComponent')
   emailRequestTableComponent: EmailRequestTableComponent;
 
@@ -125,7 +122,8 @@ export class RoomComponent implements OnInit {
       people: formValues.people,
       addGoogleCalendar: formValues.addGoogleCalendar,
       comment: formValues.comment,
-      requestPhoneNumber: this.phoneRequestTableComponent.phoneNumbers,
+      // requestPhoneNumber: this.phoneRequestTableComponent.phoneNumbers,
+      requestPhoneNumber: [],
       requestEmail: this.emailRequestTableComponent.emails,
       requestRoom
     };
@@ -136,7 +134,7 @@ export class RoomComponent implements OnInit {
         addGoogleCalendar: false
       }, { emitEvent: false });
       this.rooms = [];
-      this.phoneRequestTableComponent.clearData();
+      // this.phoneRequestTableComponent.clearData();
       this.emailRequestTableComponent.clearData();
 
       this.toastrService.success('Solicitud creada', 'Proceso existoso');

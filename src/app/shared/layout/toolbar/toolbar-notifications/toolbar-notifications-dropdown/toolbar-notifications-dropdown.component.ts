@@ -16,6 +16,7 @@ import { CancelRequestModel } from "../../../../../core/models/cancel-request.mo
 import { RequestRoomService } from "../../../../../core/services/request-room.service";
 import { switchMap } from "rxjs";
 import { MatMenuTrigger } from "@angular/material/menu";
+import { ActionRequestNotificationLookup } from "../enums/action-request-notification.lookup";
 
 interface Position {
   x: string;
@@ -94,9 +95,11 @@ export class ToolbarNotificationsDropdownComponent implements OnInit {
   }
 
   private actionNotification(notification: NotificationModel): void {
-    if (notification.requestNotification?.confirmNotification) {
+    if (notification.requestNotification?.actionRequestNotification) {
       // Se verifica si tiene alguna acción extra la notificación
-      this.confirmNotification(notification);
+      if (notification.requestNotification?.actionRequestNotification?.type?.code === ActionRequestNotificationLookup[ActionRequestNotificationLookup.CONFIRM]) {
+        this.confirmNotification(notification);
+      }
     } else if (notification.type.code === TypeNotificationLookup[TypeNotificationLookup.ROOM] &&
         notification.requestNotification?.requestId) {
       // Si la notificación es de tipo Sala
@@ -119,7 +122,7 @@ export class ToolbarNotificationsDropdownComponent implements OnInit {
   }
 
   private confirmNotification(notification: NotificationModel): void {
-    if (!notification.requestNotification.confirmNotification.isAnswered) {
+    if (!notification.requestNotification.actionRequestNotification.isAnswered) {
       // Si no está respondida la confirmación
       this.notificationService.findById(notification.id).subscribe(result => {
         this.dialog.open(ConfirmRequestComponent, {

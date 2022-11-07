@@ -70,7 +70,7 @@ export class NotificationService {
   private answeredNotificationLocal(id: number): void {
     let notifications = [... this.notifications$.value];
     const index = notifications.findIndex(notification => notification.id === id);
-    notifications[index].requestNotification.confirmNotification.isAnswered = true;
+    notifications[index].requestNotification.actionRequestNotification.isAnswered = true;
     this.notifications$.next(notifications);
   }
 

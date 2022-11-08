@@ -2,7 +2,7 @@ export class ScoreModel {
   id: number;
   requestId: number;
   score: number;
-  comment: number;
+  comment: string;
 
   constructor(score) {
     this.id = score.id;

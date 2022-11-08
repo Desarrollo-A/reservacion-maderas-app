@@ -155,7 +155,8 @@ export class ToolbarNotificationsDropdownComponent implements OnInit {
       this.notificationService.findById(notification.id).subscribe(result => {
         this.dialog.open(RatingRequestComponent, {
           data: result,
-          autoFocus: false
+          autoFocus: false,
+          maxWidth: '650px'
         }).afterClosed().subscribe((score: ScoreModel) => {
           if (score) {
             this.requestService.starRatingRequest(score).pipe(

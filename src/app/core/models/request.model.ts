@@ -8,6 +8,7 @@ import { CancelRequestModel } from "./cancel-request.model";
 import { ProposalRequestModel } from "./proposal-request.model";
 import { RequestPhoneNumberModel } from "./request-phone-number.model";
 import { RequestEmailModel } from "./request-email.model";
+import { ScoreModel } from "./score.model";
 
 export class RequestModel {
   id: number;
@@ -31,6 +32,7 @@ export class RequestModel {
   proposalRequest: ProposalRequestModel[];
   requestPhoneNumber: RequestPhoneNumberModel[];
   requestEmail: RequestEmailModel[];
+  score?: ScoreModel;
 
   constructor(request) {
     this.id = request.id;
@@ -54,6 +56,7 @@ export class RequestModel {
     this.proposalRequest = request.proposalRequest.map(data => new ProposalRequestModel(data));
     this.requestPhoneNumber = request.requestPhoneNumber;
     this.requestEmail = request.requestEmail;
+    this.score = request.score;
   }
 
   get statusName(): string {

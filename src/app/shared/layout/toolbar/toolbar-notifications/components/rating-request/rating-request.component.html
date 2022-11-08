@@ -13,10 +13,11 @@
 
   <mat-dialog-content class="flex flex-col gap-6 mt-2">
 
-    <h2 class="subheading-2 text-center max-w-lg text-justify">
-      Califica y escribe un comentario de acuerdo a la experiencia que hayas tenido con nuestro servicio.
-      Esto nos ayudará a seguir mejorando.
+    <h2 class="subheading-2 text-center text-justify">
+      Califica y escribe un comentario de acuerdo a la experiencia que hayas tenido con nuestro servicio de
+      {{service}} en la fecha {{notification.requestNotification.request.startDate | date:'dd/MM/y'}}. Esto nos ayudará a seguir mejorando.
     </h2>
+
 
     <app-star-rating #starRatingComponent
                      class="flex flex-row gap-6 mx-auto">

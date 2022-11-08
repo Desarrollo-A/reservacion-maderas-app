@@ -94,6 +94,10 @@
             <mat-label>Comentarios</mat-label>
             <textarea matInput readonly [value]="requestRoom.request.comment"></textarea>
           </mat-form-field>
+
+          <app-score-request *ngIf="requestRoom.request.score"
+                     [score]="requestRoom.request.score">
+          </app-score-request>
         </div>
       </div>
 

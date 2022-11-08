@@ -6,6 +6,7 @@ import { NotificationModel } from "../../models/notification.model";
 import { fadeInUp400ms } from "../../../../../animations/fade-in-up.animation";
 import { StarRatingComponent } from "../../../../../components/star-rating/star-rating.component";
 import { ScoreModel } from "../../../../../../core/models/score.model";
+import { TypeRequestLookup } from "../../../../../../core/enums/lookups/type-request.lookup";
 
 @Component({
   selector: 'app-rating-request',
@@ -32,6 +33,15 @@ export class RatingRequestComponent implements OnInit {
     });
 
     this.formErrors = new FormErrors(this.form);
+  }
+
+  get service(): string {
+     if (this.notification.requestNotification.request.type.code === TypeRequestLookup[TypeRequestLookup.ROOM]) {
+       const room = this.notification.requestNotification.request.requestRoom.room.name;
+       return `Sala ${room}`;
+     }
+
+     return '';
   }
 
   save(): void {

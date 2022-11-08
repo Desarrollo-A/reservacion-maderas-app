@@ -1,6 +1,6 @@
 <mat-icon class="star-icon"
           svgIcon="mat:grade"
-          [ngClass]="{'text-yellow-300': rating >= starId, 'text-gray-500': rating < starId}"
+          [ngClass]="{'text-yellow-300': rating >= starId, 'text-gray-400': rating < starId}"
           (mouseenter)="onStarEnter()"
           (mouseleave)="onStarLeave()"
           (click)="onStarClicked()">

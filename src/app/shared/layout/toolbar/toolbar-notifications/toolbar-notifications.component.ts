@@ -40,12 +40,18 @@ export class ToolbarNotificationsComponent implements OnInit {
       )
       .subscribe(notifications => {
         this.notifications = notifications;
-        if (this.popoverRef && this.dropdownOpen) {
-          this.dropdownOpen = false;
-          this.popoverRef.close();
-        }
         this.cd.markForCheck();
       });
+
+    this.notificationService.notificationsClicked$.asObservable().pipe(
+      untilDestroyed(this)
+    ).subscribe(() => {
+      if (this.popoverRef && this.dropdownOpen) {
+        this.dropdownOpen = false;
+        this.popoverRef.close();
+      }
+      this.cd.markForCheck();
+    });
 
     this.pusherService.channel(PusherChannel.ALERT_NOTIFICATION + this.userSessionService.user.id)
       .bind(pathEventsRealtime(PusherEvent[PusherEvent.AlertNotification]), (data) => {

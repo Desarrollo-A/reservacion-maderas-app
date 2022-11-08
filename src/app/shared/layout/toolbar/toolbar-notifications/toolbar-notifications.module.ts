@@ -11,17 +11,26 @@ import { MaterialModule } from "../../../../material/material.module";
 import { ConfirmRequestComponent } from './components/confirm-request/confirm-request.component';
 import { CancelRequestComponent } from './components/cancel-request/cancel-request.component';
 import { ReactiveFormsModule } from "@angular/forms";
+import { RatingRequestComponent } from './components/rating-request/rating-request.component';
+import { StarRatingModule } from "../../../components/star-rating/star-rating.module";
 
 
 @NgModule({
-  declarations: [ToolbarNotificationsComponent, ToolbarNotificationsDropdownComponent, ConfirmRequestComponent, CancelRequestComponent],
+  declarations: [
+    ToolbarNotificationsComponent,
+    ToolbarNotificationsDropdownComponent,
+    ConfirmRequestComponent,
+    CancelRequestComponent,
+    RatingRequestComponent
+  ],
   imports: [
     CommonModule,
     PopoverModule,
     MaterialModule,
     RelativeDateTimeModule,
     RouterModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    StarRatingModule
   ],
   exports: [ToolbarNotificationsComponent]
 })

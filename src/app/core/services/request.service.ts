@@ -4,6 +4,7 @@ import { environment } from "../../../environments/environment";
 import { Observable } from "rxjs";
 import { map } from "rxjs/operators";
 import { RequestModel } from "../models/request.model";
+import { ScoreModel } from "../models/score.model";
 
 @Injectable({
   providedIn: 'root'
@@ -32,5 +33,10 @@ export class RequestService {
   responseRejectRequest(id: number, data: RequestModel): Observable<void> {
     const url = `${this.url}/response-reject/${id}`;
     return this.http.patch<void>(url, data);
+  }
+
+  starRatingRequest(data: ScoreModel): Observable<void> {
+    const url = `${this.url}/rating`;
+    return this.http.post<void>(url, data);
   }
 }

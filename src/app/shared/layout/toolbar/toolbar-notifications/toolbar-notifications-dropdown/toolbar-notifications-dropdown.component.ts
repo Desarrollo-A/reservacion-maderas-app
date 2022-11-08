@@ -17,6 +17,9 @@ import { RequestRoomService } from "../../../../../core/services/request-room.se
 import { switchMap } from "rxjs";
 import { MatMenuTrigger } from "@angular/material/menu";
 import { ActionRequestNotificationLookup } from "../enums/action-request-notification.lookup";
+import { RatingRequestComponent } from "../components/rating-request/rating-request.component";
+import { ScoreModel } from "../../../../../core/models/score.model";
+import { RequestService } from "../../../../../core/services/request.service";
 
 interface Position {
   x: string;
@@ -47,7 +50,8 @@ export class ToolbarNotificationsDropdownComponent implements OnInit {
               private userSessionService: UserSessionService,
               private requestRoomService: RequestRoomService,
               private dialog: MatDialog,
-              private toastrService: ToastrService) {}
+              private toastrService: ToastrService,
+              private requestService: RequestService) {}
 
   ngOnInit() {
     this.notificationService.notifications$.asObservable()
@@ -97,8 +101,10 @@ export class ToolbarNotificationsDropdownComponent implements OnInit {
   private actionNotification(notification: NotificationModel): void {
     if (notification.requestNotification?.actionRequestNotification) {
       // Se verifica si tiene alguna acción extra la notificación
-      if (notification.requestNotification?.actionRequestNotification?.type?.code === ActionRequestNotificationLookup[ActionRequestNotificationLookup.CONFIRM]) {
+      if (notification.requestNotification.actionRequestNotification.type.code === ActionRequestNotificationLookup[ActionRequestNotificationLookup.CONFIRM]) {
         this.confirmNotification(notification);
+      } else if (notification.requestNotification.actionRequestNotification.type.code === ActionRequestNotificationLookup[ActionRequestNotificationLookup.SCORE]) {
+        this.starRatingNotification(notification);
       }
     } else if (notification.type.code === TypeNotificationLookup[TypeNotificationLookup.ROOM] &&
         notification.requestNotification?.requestId) {
@@ -131,10 +137,31 @@ export class ToolbarNotificationsDropdownComponent implements OnInit {
         }).afterClosed().subscribe((confirm: boolean) => {
           if (confirm === true) {
             this.notificationService.answeredNotification(notification.id).subscribe(() => {
-              this.toastrService.success('Gracias por confirmar tu solicitud', 'Proceso exitoso');
+              this.toastrService.success('Gracias por confirmar tu solicitud');
             });
           } else if (confirm === false) {
             this.cancelRequest(notification);
+          }
+        });
+      });
+    } else {
+      this.redirectDetailRoom(notification);
+    }
+  }
+
+  private starRatingNotification(notification: NotificationModel): void {
+    if (!notification.requestNotification.actionRequestNotification.isAnswered) {
+      this.notificationService.findById(notification.id).subscribe(result => {
+        this.dialog.open(RatingRequestComponent, {
+          data: result,
+          autoFocus: false
+        }).afterClosed().subscribe((score: ScoreModel) => {
+          if (score) {
+            this.requestService.starRatingRequest(score).pipe(
+              switchMap(() => this.notificationService.answeredNotification(notification.id))
+            ).subscribe(() => {
+              this.toastrService.success('Gracias por calificar el servicio');
+            });
           }
         });
       });

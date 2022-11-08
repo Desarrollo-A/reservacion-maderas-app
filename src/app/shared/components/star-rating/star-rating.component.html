@@ -1,0 +1,8 @@
+<ng-container *ngFor="let star of stars">
+  <app-star [starId]="star"
+            [rating]="hoverState || rating"
+            (starEnter)="onStarEnter($event)"
+            (starLeave)="onStarLeave()"
+            (starClicked)="onStarClicked($event)">
+  </app-star>
+</ng-container>

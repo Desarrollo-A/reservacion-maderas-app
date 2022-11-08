@@ -3,7 +3,7 @@ import { HttpClient } from "@angular/common/http";
 import { environment } from "../../../../../../environments/environment";
 import { NotificationModel } from "../models/notification.model";
 import { map, tap } from "rxjs/operators";
-import { BehaviorSubject, Observable } from "rxjs";
+import { BehaviorSubject, Observable, Subject } from "rxjs";
 import { playNotificationAudio } from "../../../../utils/utils";
 
 @Injectable({
@@ -13,6 +13,7 @@ export class NotificationService {
   private _baseUrl = 'notifications';
 
   public notifications$: BehaviorSubject<NotificationModel[]> = new BehaviorSubject<NotificationModel[]>([]);
+  public notificationsClicked$: Subject<void> = new Subject<void>();
 
   constructor(private http: HttpClient) {}
 
@@ -70,7 +71,7 @@ export class NotificationService {
   private answeredNotificationLocal(id: number): void {
     let notifications = [... this.notifications$.value];
     const index = notifications.findIndex(notification => notification.id === id);
-    notifications[index].requestNotification.confirmNotification.isAnswered = true;
+    notifications[index].requestNotification.actionRequestNotification.isAnswered = true;
     this.notifications$.next(notifications);
   }
 

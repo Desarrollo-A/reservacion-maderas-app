@@ -16,6 +16,10 @@ import { CancelRequestModel } from "../../../../../core/models/cancel-request.mo
 import { RequestRoomService } from "../../../../../core/services/request-room.service";
 import { switchMap } from "rxjs";
 import { MatMenuTrigger } from "@angular/material/menu";
+import { ActionRequestNotificationLookup } from "../enums/action-request-notification.lookup";
+import { RatingRequestComponent } from "../components/rating-request/rating-request.component";
+import { ScoreModel } from "../../../../../core/models/score.model";
+import { RequestService } from "../../../../../core/services/request.service";
 
 interface Position {
   x: string;
@@ -46,7 +50,8 @@ export class ToolbarNotificationsDropdownComponent implements OnInit {
               private userSessionService: UserSessionService,
               private requestRoomService: RequestRoomService,
               private dialog: MatDialog,
-              private toastrService: ToastrService) {}
+              private toastrService: ToastrService,
+              private requestService: RequestService) {}
 
   ngOnInit() {
     this.notificationService.notifications$.asObservable()
@@ -84,6 +89,7 @@ export class ToolbarNotificationsDropdownComponent implements OnInit {
   }
 
   openNotification(notification: NotificationModel): void {
+    this.notificationService.notificationsClicked$.next();
     if (!notification.isRead) {
       this.notificationService.readNotification(notification.id).subscribe(() => {
         this.actionNotification(notification);
@@ -94,9 +100,13 @@ export class ToolbarNotificationsDropdownComponent implements OnInit {
   }
 
   private actionNotification(notification: NotificationModel): void {
-    if (notification.requestNotification?.confirmNotification) {
+    if (notification.requestNotification?.actionRequestNotification) {
       // Se verifica si tiene alguna acción extra la notificación
-      this.confirmNotification(notification);
+      if (notification.requestNotification.actionRequestNotification.type.code === ActionRequestNotificationLookup[ActionRequestNotificationLookup.CONFIRM]) {
+        this.confirmNotification(notification);
+      } else if (notification.requestNotification.actionRequestNotification.type.code === ActionRequestNotificationLookup[ActionRequestNotificationLookup.SCORE]) {
+        this.starRatingNotification(notification);
+      }
     } else if (notification.type.code === TypeNotificationLookup[TypeNotificationLookup.ROOM] &&
         notification.requestNotification?.requestId) {
       // Si la notificación es de tipo Sala
@@ -119,7 +129,7 @@ export class ToolbarNotificationsDropdownComponent implements OnInit {
   }
 
   private confirmNotification(notification: NotificationModel): void {
-    if (!notification.requestNotification.confirmNotification.isAnswered) {
+    if (!notification.requestNotification.actionRequestNotification.isAnswered) {
       // Si no está respondida la confirmación
       this.notificationService.findById(notification.id).subscribe(result => {
         this.dialog.open(ConfirmRequestComponent, {
@@ -128,10 +138,32 @@ export class ToolbarNotificationsDropdownComponent implements OnInit {
         }).afterClosed().subscribe((confirm: boolean) => {
           if (confirm === true) {
             this.notificationService.answeredNotification(notification.id).subscribe(() => {
-              this.toastrService.success('Gracias por confirmar tu solicitud', 'Proceso exitoso');
+              this.toastrService.success('Gracias por confirmar tu solicitud');
             });
           } else if (confirm === false) {
             this.cancelRequest(notification);
+          }
+        });
+      });
+    } else {
+      this.redirectDetailRoom(notification);
+    }
+  }
+
+  private starRatingNotification(notification: NotificationModel): void {
+    if (!notification.requestNotification.actionRequestNotification.isAnswered) {
+      this.notificationService.findById(notification.id).subscribe(result => {
+        this.dialog.open(RatingRequestComponent, {
+          data: result,
+          autoFocus: false,
+          maxWidth: '650px'
+        }).afterClosed().subscribe((score: ScoreModel) => {
+          if (score) {
+            this.requestService.starRatingRequest(score).pipe(
+              switchMap(() => this.notificationService.answeredNotification(notification.id))
+            ).subscribe(() => {
+              this.toastrService.success('Gracias por calificar el servicio');
+            });
           }
         });
       });

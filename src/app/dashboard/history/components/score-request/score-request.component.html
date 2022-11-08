@@ -1,0 +1,18 @@
+<vex-page-layout-content class="container">
+  <div class="px-6 h-16 border-b sticky left-0 flex items-center">
+    <h2 class="title my-0 ltr:pr-4 rtl:pl-4 ltr:mr-4 rtl:ml-4 ltr:border-r rtl:border-l hidden sm:block flex-none">
+      <span>
+        Calificación <ng-container *ngFor="let star of stars"><mat-icon class="text-yellow-300" svgIcon="mat:grade"></mat-icon></ng-container>
+      </span>
+    </h2>
+  </div>
+
+  <div class="flex-auto">
+    <div class="px-6 py-4 flex flex-col">
+      <mat-form-field appearance="outline" class="flex-auto vex-flex-form-field">
+        <mat-label>Comentario</mat-label>
+        <textarea matInput readonly [value]="comment"></textarea>
+      </mat-form-field>
+    </div>
+  </div>
+</vex-page-layout-content>

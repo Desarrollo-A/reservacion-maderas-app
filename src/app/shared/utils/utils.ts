@@ -81,7 +81,7 @@ export const getTimeFormat = (date: Date): string => {
 }
 
 export const playNotificationAudio = (): void => {
-  let audio = new Audio('../../../assets/audio/notification-song.mp3');
+  let audio = new Audio('assets/audio/notification-song.mp3');
   audio.load();
   audio.play();
 }

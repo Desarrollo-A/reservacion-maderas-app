@@ -14,6 +14,7 @@ import { PageNotFoundModule } from "../../shared/components/page-not-found/page-
 import { BreadcrumbsModule } from 'src/app/shared/components/breadcrumbs/breadcrumbs.module';
 import { RoomCreateUpdateComponent } from './components/room-create-update/room-create-update.component';
 import { CarCreateUpdateComponent } from './components/car-create-update/car-create-update.component';
+import { DriverComponent } from './pages/driver/driver.component';
 
 
 @NgModule({
@@ -23,7 +24,8 @@ import { CarCreateUpdateComponent } from './components/car-create-update/car-cre
     ChangeStatusRoomComponent,
     ChangeStatusCarComponent,
     RoomCreateUpdateComponent,
-    CarCreateUpdateComponent
+    CarCreateUpdateComponent,
+    DriverComponent
   ],
   imports: [
     CommonModule,

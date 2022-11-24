@@ -5,7 +5,7 @@ import { InventoryService } from "../../../../core/services/inventory.service";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { FormErrors } from "../../../../shared/utils/form-error";
 import { ToastrService } from "ngx-toastr";
-import { sizeImage } from "../../../../shared/utils/form-validations";
+import { SIZE_IMAGE, sizeFile } from "../../../../shared/utils/form-validations";
 
 @Component({
   selector: 'app-update-image',
@@ -28,7 +28,7 @@ export class UpdateImageComponent implements OnInit {
   ngOnInit(): void {
     this.form = this.fb.group({
       image: [null, [Validators.required]],
-      imageSrc: [null, [sizeImage]]
+      imageSrc: [null, [sizeFile(SIZE_IMAGE)]]
     });
     this.formErrors = new FormErrors(this.form);
   }

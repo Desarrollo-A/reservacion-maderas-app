@@ -1,10 +1,10 @@
-import { AbstractControl, FormControl, ValidationErrors } from "@angular/forms";
+import { AbstractControl, FormControl, ValidationErrors, ValidatorFn } from "@angular/forms";
 import { startOfDay } from "date-fns";
 import { removeError } from "./utils";
 
 const START_WORKING_HOUR = 8;
 const FINISH_WORKING_HOUR = 18;
-const SIZE_IMAGE = 2097152;
+export const SIZE_IMAGE = 2097152;
 
 export const comparePassword = (password: string, confirmPassword: string) => {
   return (formGroup: AbstractControl): ValidationErrors | null => {
@@ -37,16 +37,18 @@ export const endDateIsAfterToStartDate = (startDate: string, endDate: string) =>
   }
 }
 
-export const sizeImage = (control: FormControl): ValidationErrors | null => {
-  if (control.value) {
-    const file: File = control.value;
+export const sizeFile = (size: number): ValidatorFn => {
+  return (control: AbstractControl): ValidationErrors | null => {
+    if (control.value) {
+      const file: File = control.value;
 
-    if (file.size > SIZE_IMAGE) {
-      return { imageSize: true };
+      if (file.size > size) {
+        return { sizeFile: true };
+      }
     }
-  }
 
-  return null;
+    return null;
+  }
 }
 
 export const dateBeforeNow = (control: FormControl): ValidationErrors | null => {

@@ -8,11 +8,14 @@ import { ReactiveFormsModule } from "@angular/forms";
 import { PageNotFoundModule } from "../../shared/components/page-not-found/page-not-found.module";
 import { PhoneRequestModule } from "../../shared/components/phone-request/phone-request.module";
 import { EmailRequestModule } from "../../shared/components/email-request/email-request.module";
+import { PackageComponent } from './pages/package/package.component';
+import { AddressModule } from "../../shared/components/address/address.module";
 
 
 @NgModule({
   declarations: [
-    RoomComponent
+    RoomComponent,
+    PackageComponent
   ],
   imports: [
     CommonModule,
@@ -21,7 +24,8 @@ import { EmailRequestModule } from "../../shared/components/email-request/email-
     ReactiveFormsModule,
     PageNotFoundModule,
     PhoneRequestModule,
-    EmailRequestModule
+    EmailRequestModule,
+    AddressModule,
   ]
 })
 export class RequestModule { }

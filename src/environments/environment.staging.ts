@@ -1,6 +1,6 @@
 export const environment = {
-  production: false,
-  baseUrl: 'https://prueba.gphsis.com/recepcion-cm/',
+  production: true,
+  baseUrl: 'https://prueba.gphsis.com/recepcion-cm-api/public/',
   api: 'api/v1/',
   baseUrlCapital: 'https://prueba.gphsis.com/RHCV/index.php/WS/',
   pusher: {

@@ -36,7 +36,7 @@
     <mat-error *ngIf="formErrors.customError('image', 'required')">
       Campo obligatorio.
     </mat-error>
-    <mat-error *ngIf="formErrors.customErrorFile('imageSrc', 'imageSize')">
+    <mat-error *ngIf="formErrors.customErrorFile('imageSrc', 'sizeFile')">
       El tamaño de la imagen debe ser menor a 2mb.
     </mat-error>
   </form>

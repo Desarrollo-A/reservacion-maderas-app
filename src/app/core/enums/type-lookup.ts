@@ -7,5 +7,6 @@ export enum TypeLookup {
   UNIT_TYPE = 6, // UNIDAD DE MEDIDA (Pieza, Caja, Paquete, Kilo, Galón, Garrafa, Par, Bolsa, Bote),
   STATUS_ROOM = 7, // (ACTIVA, BAJA, MANTENIMIENTO)
   REQUEST_TYPE_NOTIFICATIONS = 8, // (Sala, Automóvil, Conductor, Inventario)
-  STATUS_CAR = 9 // (ACTIVO, BAJA, MANTENIMIENTO)
+  STATUS_CAR = 9, // (ACTIVO, BAJA, MANTENIMIENTO)
+  COUNTRY_ADDRESS = 15 // Países para las direcciones
 }

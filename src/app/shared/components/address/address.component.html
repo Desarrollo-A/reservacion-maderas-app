@@ -1,0 +1,136 @@
+<mat-accordion multi>
+  <mat-expansion-panel>
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        {{ title }}
+      </mat-panel-title>
+      <mat-panel-description class="hidden sm:block">
+        {{ subtitle }}
+      </mat-panel-description>
+    </mat-expansion-panel-header>
+
+    <ng-container>
+      <div class="px-6 py-4 flex flex-col gap-1"
+            [formGroup]="form">
+        <div class="flex flex-col sm:flex-row sm:gap-4">
+          <mat-form-field class="flex-auto">
+            <mat-label>Calle</mat-label>
+            <input matInput
+                   formControlName="street"
+                   autocomplete="off">
+
+            <mat-error *ngIf="formErrors.customError('street', 'required')">
+              Campo obligatorio.
+            </mat-error>
+            <mat-error *ngIf="formErrors.customError('street', 'minlength')">
+              La calle debe tener más de {{ formErrors.minLengthNumber('street') }} caracteres.
+            </mat-error>
+            <mat-error *ngIf="formErrors.customError('street', 'maxlength')">
+              La calle debe tener menos de {{ formErrors.maxLengthNumber('street') }} caracteres.
+            </mat-error>
+          </mat-form-field>
+
+          <mat-form-field class="flex-auto">
+            <mat-label>No. Exterior</mat-label>
+            <input matInput
+                   formControlName="numExt"
+                   autocomplete="off">
+
+            <mat-error *ngIf="formErrors.customError('numExt', 'required')">
+              Campo obligatorio.
+            </mat-error>
+            <mat-error *ngIf="formErrors.customError('numExt', 'minlength')">
+              El número exterior debe tener más de {{ formErrors.minLengthNumber('numExt') }} caracteres.
+            </mat-error>
+            <mat-error *ngIf="formErrors.customError('numExt', 'maxlength')">
+              El número exterior debe tener menos de {{ formErrors.maxLengthNumber('numExt') }} caracteres.
+            </mat-error>
+          </mat-form-field>
+        </div>
+
+        <div class="flex flex-col sm:flex-row sm:gap-4">
+          <mat-form-field class="flex-auto">
+            <mat-label>No. Interior</mat-label>
+            <input matInput
+                   formControlName="numInt"
+                   autocomplete="off">
+
+            <mat-error *ngIf="formErrors.customError('numInt', 'minlength')">
+              El número interior debe tener más de {{ formErrors.minLengthNumber('numInt') }} caracteres.
+            </mat-error>
+            <mat-error *ngIf="formErrors.customError('numInt', 'maxlength')">
+              El número interior debe tener menos de {{ formErrors.maxLengthNumber('numInt') }} caracteres.
+            </mat-error>
+          </mat-form-field>
+
+          <mat-form-field class="flex-auto">
+            <mat-label>Colonia</mat-label>
+            <input matInput
+                   formControlName="suburb"
+                   autocomplete="off">
+
+            <mat-error *ngIf="formErrors.customError('suburb', 'required')">
+              Campo obligatorio.
+            </mat-error>
+            <mat-error *ngIf="formErrors.customError('suburb', 'minlength')">
+              La colonia debe tener más de {{ formErrors.minLengthNumber('suburb') }} caracteres.
+            </mat-error>
+            <mat-error *ngIf="formErrors.customError('suburb', 'maxlength')">
+              La colonia debe tener menos de {{ formErrors.maxLengthNumber('suburb') }} caracteres.
+            </mat-error>
+          </mat-form-field>
+        </div>
+
+        <div class="flex flex-col md:flex-row md:gap-4">
+          <mat-form-field class="flex-auto">
+            <mat-label>Código postal</mat-label>
+            <input matInput
+                   formControlName="postalCode"
+                   autocomplete="off">
+
+            <mat-error *ngIf="formErrors.customError('postalCode', 'required')">
+              Campo obligatorio.
+            </mat-error>
+            <mat-error *ngIf="formErrors.customError('postalCode', 'minlength')">
+              El código postal debe tener más de {{ formErrors.minLengthNumber('postalCode') }} caracteres.
+            </mat-error>
+            <mat-error *ngIf="formErrors.customError('postalCode', 'maxlength')">
+              El código postal debe tener menos de {{ formErrors.maxLengthNumber('postalCode') }} caracteres.
+            </mat-error>
+          </mat-form-field>
+
+          <mat-form-field class="flex-auto">
+            <mat-label>Estado</mat-label>
+            <input matInput
+                   formControlName="state"
+                   autocomplete="off">
+
+            <mat-error *ngIf="formErrors.customError('state', 'required')">
+              Campo obligatorio.
+            </mat-error>
+            <mat-error *ngIf="formErrors.customError('state', 'minlength')">
+              El estado debe tener más de {{ formErrors.minLengthNumber('state') }} caracteres.
+            </mat-error>
+            <mat-error *ngIf="formErrors.customError('state', 'maxlength')">
+              El estado debe tener menos de {{ formErrors.maxLengthNumber('state') }} caracteres.
+            </mat-error>
+          </mat-form-field>
+
+          <mat-form-field class="flex-auto">
+            <mat-label>País</mat-label>
+            <mat-select formControlName="countryId">
+              <mat-option *ngFor="let country of countries"
+                          [value]="country.id">
+                {{ country.name }}
+              </mat-option>
+            </mat-select>
+
+            <mat-error *ngIf="formErrors.customError('countryId', 'required')">
+              Campo obligatorio.
+            </mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+    </ng-container>
+  </mat-expansion-panel>
+</mat-accordion>

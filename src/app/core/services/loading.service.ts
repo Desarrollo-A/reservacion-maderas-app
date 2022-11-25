@@ -5,15 +5,21 @@ import { BehaviorSubject } from "rxjs";
   providedIn: 'root'
 })
 export class LoadingService {
-  public isLoading$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+  isLoading$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+  loadingMap: Map<string, boolean> = new Map<string, boolean>();
 
   constructor() {}
 
-  public show(): void {
-    this.isLoading$.next(true);
-  }
+  setLoading(isLoading: boolean, url: string): void {
+    if (isLoading) {
+      this.loadingMap.set(url, isLoading);
+      this.isLoading$.next(true);
+    } else if (!isLoading && this.loadingMap.has(url)) {
+      this.loadingMap.delete(url);
+    }
 
-  public hide(): void {
-    this.isLoading$.next(false);
+    if (this.loadingMap.size === 0) {
+      this.isLoading$.next(false);
+    }
   }
 }

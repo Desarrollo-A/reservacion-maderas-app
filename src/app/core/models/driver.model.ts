@@ -1,6 +1,7 @@
 import { LabelButton } from "src/app/shared/interfaces/label-button";
 import { StatusDriverLookup } from "../enums/lookups/status-driver.lookup";
 import { Lookup } from "../interfaces/lookup";
+import { CarModel } from "./car.model";
 
 export class DriverModel {
 
@@ -13,6 +14,7 @@ export class DriverModel {
     officeId:       number;
     statusId:       number;
     status:         Lookup;
+    cars:           CarModel[];
 
     constructor(driver) {
         this.id = driver.id;
@@ -24,6 +26,7 @@ export class DriverModel {
         this.officeId = driver.officeId;
         this.statusId = driver.statusId;
         this.status = driver.status;
+        this.cars = driver.cars;
     }
 
     get statusName(): string{

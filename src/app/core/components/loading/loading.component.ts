@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { delay, Observable } from "rxjs";
 import { LoadingService } from "../../services/loading.service";
 
@@ -11,10 +11,12 @@ import { LoadingService } from "../../services/loading.service";
   `,
   styleUrls: ['./loading.component.scss']
 })
-export class LoadingComponent {
+export class LoadingComponent implements OnInit {
   public isLoading$: Observable<boolean>;
 
-  constructor(private loadingService: LoadingService) {
+  constructor(private loadingService: LoadingService) {}
+
+  ngOnInit(): void {
     this.isLoading$ = this.loadingService.isLoading$.asObservable()
       .pipe(
         delay(0)

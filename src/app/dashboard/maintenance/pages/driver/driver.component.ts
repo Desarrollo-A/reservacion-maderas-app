@@ -11,6 +11,8 @@ import { stagger40ms } from 'src/app/shared/animations/stagger.animation';
 import { DriverService } from 'src/app/core/services/driver.service';
 import { Sort } from '@angular/material/sort';
 import { getSort } from 'src/app/shared/utils/http-functions';
+import { RelationCarDriverComponent } from '../../components/relation-car-driver/relation-car-driver.component';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-driver',
@@ -38,7 +40,8 @@ export class DriverComponent implements OnInit {
   filters: Filters = {filters: []};
   trackById = trackById;
 
-  constructor(private driverService: DriverService) { }
+  constructor(private driverService:  DriverService,
+              private dialog:         MatDialog) { }
 
   ngOnInit(): void {
     this.dataSource = new MatTableDataSource<DriverModel>;
@@ -47,6 +50,18 @@ export class DriverComponent implements OnInit {
 
   get visibleColumns(){
     return this.colums.filter(column => column.visible).map(column => column.property);
+  }
+
+  openDialog(id: number): void {
+    this.driverService.findById(id).subscribe( driver => {
+      this.dialog.open(RelationCarDriverComponent, {
+        data: driver
+      }).afterClosed().subscribe(created => {
+        if (created) {
+          this.prepareFilters();
+        }
+      });
+    });
   }
 
   sortChange(sortState: Sort): void{

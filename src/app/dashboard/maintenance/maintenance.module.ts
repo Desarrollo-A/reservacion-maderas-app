@@ -15,6 +15,7 @@ import { BreadcrumbsModule } from 'src/app/shared/components/breadcrumbs/breadcr
 import { RoomCreateUpdateComponent } from './components/room-create-update/room-create-update.component';
 import { CarCreateUpdateComponent } from './components/car-create-update/car-create-update.component';
 import { DriverComponent } from './pages/driver/driver.component';
+import { RelationCarDriverComponent } from './components/relation-car-driver/relation-car-driver.component';
 
 
 @NgModule({
@@ -25,7 +26,8 @@ import { DriverComponent } from './pages/driver/driver.component';
     ChangeStatusCarComponent,
     RoomCreateUpdateComponent,
     CarCreateUpdateComponent,
-    DriverComponent
+    DriverComponent,
+    RelationCarDriverComponent
   ],
   imports: [
     CommonModule,

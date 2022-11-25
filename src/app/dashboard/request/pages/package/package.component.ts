@@ -61,7 +61,8 @@ export class PackageComponent implements OnInit {
       nameReceive: [null, [Validators.required, Validators.minLength(5), Validators.maxLength(150)]],
       emailReceive: [null, [Validators.required, Validators.email, Validators.maxLength(150)]],
       comment: [null, Validators.maxLength(2500)],
-      authorizationFile: [null, [Validators.required, sizeFile(3072)]]
+      authorizationFile: [null, Validators.required],
+      authorizationFileSrc: [null, sizeFile(3000000)]
     });
 
     this.formErrors = new FormErrors(this.form);
@@ -80,7 +81,7 @@ export class PackageComponent implements OnInit {
 
   changeFile(file: File): void {
     this.form.patchValue({
-      authorizationFile: file
+      authorizationFileSrc: file
     });
   }
 
@@ -111,7 +112,7 @@ export class PackageComponent implements OnInit {
     };
 
     this.requestPackageService.store(request).pipe(
-      switchMap(res => this.requestPackageService.uploadFile(res.id, formValues.authorizationFile))
+      switchMap(res => this.requestPackageService.uploadFile(res.id, formValues.authorizationFileSrc))
     )
       .subscribe(() => {
         this.form.reset({}, { emitEvent: false });

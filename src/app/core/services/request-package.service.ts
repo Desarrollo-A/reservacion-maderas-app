@@ -4,6 +4,10 @@ import { environment } from "../../../environments/environment";
 import { Observable } from "rxjs";
 import { PackageModel } from "../models/package.model";
 import { RequestModel } from "../models/request.model";
+import { PaginationResponse } from "../interfaces/pagination-response";
+import { getPaginateParams } from "../../shared/utils/http-functions";
+import { map } from "rxjs/operators";
+import { RequestPackageViewModel } from "../models/request-package-view.model";
 
 @Injectable({
   providedIn: 'root'
@@ -28,5 +32,18 @@ export class RequestPackageService {
 
     const url = `${this.url}/upload-file/${id}`;
     return this.http.post<void>(url, data);
+  }
+
+  findAllPaginated(sort: string, itemsPerPage: number, page: number, search: string | null)
+    : Observable<PaginationResponse<RequestPackageViewModel>> {
+    const params = getPaginateParams(sort, itemsPerPage, page, search);
+
+    return this.http.get<PaginationResponse<RequestPackageViewModel>>(this.url, {params})
+      .pipe(
+        map(res => {
+          res.data = res.data.map(requestPackage => new RequestPackageViewModel(requestPackage));
+          return res;
+        })
+      );
   }
 }

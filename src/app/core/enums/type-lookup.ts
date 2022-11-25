@@ -8,5 +8,6 @@ export enum TypeLookup {
   STATUS_ROOM = 7, // (ACTIVA, BAJA, MANTENIMIENTO)
   REQUEST_TYPE_NOTIFICATIONS = 8, // (Sala, Automóvil, Conductor, Inventario)
   STATUS_CAR = 9, // (ACTIVO, BAJA, MANTENIMIENTO)
+  STATUS_PACKAGE_REQUEST = 14,
   COUNTRY_ADDRESS = 15 // Países para las direcciones
 }

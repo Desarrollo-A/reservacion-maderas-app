@@ -30,6 +30,13 @@ export class RequestService {
     );
   }
 
+  deleteRequestPackage(requestId: number): Observable<boolean> {
+    const url = `${this.url}/package/${requestId}`;
+    return this.http.delete<void>(url).pipe(
+      map(() => true)
+    );
+  }
+
   responseRejectRequest(id: number, data: RequestModel): Observable<void> {
     const url = `${this.url}/response-reject/${id}`;
     return this.http.patch<void>(url, data);

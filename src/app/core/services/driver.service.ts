@@ -29,4 +29,16 @@ export class DriverService {
         })
       );
   }
+
+  findById(id: number): Observable<DriverModel> {
+    const url = `${this.url}/${id}`;
+    return this.http.get<DriverModel>(url);
+  }
+
+  insertDriverCar(carId: number, driverId: number): Observable<void>{
+    const request = {carId, driverId};
+    const url = `${this.url}/car`;
+    return this.http.post<void>(url, request);
+  }
+  
 }

@@ -62,7 +62,15 @@
 
           <ng-container matColumnDef="actions">
             <th *matHeaderCellDef mat-header-cell></th>
-            <td *matCellDef="let row" class="w-10 text-secondary" mat-cell>...</td>
+            <td *matCellDef="let row" class="w-10 text-secondary" mat-cell>
+              <button 
+                    [matMenuTriggerData]="{ driver: row }"
+                    [matMenuTriggerFor]="actionsMenu"
+                    mat-icon-button
+                    type="button">
+              <mat-icon svgIcon="mat:more_horiz"></mat-icon>
+              </button>
+            </td>
           </ng-container>
 
           <tr *matHeaderRowDef="visibleColumns" mat-header-row></tr>
@@ -78,6 +86,16 @@
                          (onChanges)="paginatorChanges($event)">
           </app-paginator>
         </ng-container>
+
       </div>
     </vex-page-layout-content>
   </vex-page-layout>
+
+  <mat-menu #actionsMenu="matMenu" xPosition="before" yPosition="below">
+    <ng-template let-driver="driver" matMenuContent>
+      <button mat-menu-item (click) = "openDialog(driver.id)">
+        <mat-icon svgIcon="mat:directions_car"></mat-icon>
+        <span>Asignar vehículo</span>
+      </button>
+    </ng-template>
+  </mat-menu>

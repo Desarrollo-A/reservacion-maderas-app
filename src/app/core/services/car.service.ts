@@ -57,4 +57,10 @@ export class CarService {
         map(() => true)
       );
   }
+
+  findAllAvailableByDriverId(driverId: number): Observable<CarModel[]>{
+    const url = `${this.url}/available-driver/${driverId}`;
+    return this.http.get<CarModel[]>(url);
+  }
+
 }

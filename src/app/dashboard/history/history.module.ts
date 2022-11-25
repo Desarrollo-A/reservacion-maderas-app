@@ -21,6 +21,7 @@ import { ConfirmProposalComponent } from './components/confirm-proposal/confirm-
 import { PhoneRequestModule } from "../../shared/components/phone-request/phone-request.module";
 import { EmailRequestModule } from "../../shared/components/email-request/email-request.module";
 import { ScoreRequestComponent } from './components/score-request/score-request.component';
+import { PackageComponent } from './pages/package/package.component';
 
 
 @NgModule({
@@ -32,7 +33,8 @@ import { ScoreRequestComponent } from './components/score-request/score-request.
     ProposalRequestComponent,
     CancelRequestComponent,
     ConfirmProposalComponent,
-    ScoreRequestComponent
+    ScoreRequestComponent,
+    PackageComponent
   ],
   imports: [
     CommonModule,

@@ -13,13 +13,11 @@ export class LoadingInterceptor implements HttpInterceptor {
       return next.handle(request);
     }
 
-    this.loadingService.show();
+    this.loadingService.setLoading(true, request.url);
 
     return next.handle(request)
       .pipe(
-        finalize(() => {
-          this.loadingService.hide();
-        })
+        finalize(() => this.loadingService.setLoading(false, request.url))
       );
   }
 }

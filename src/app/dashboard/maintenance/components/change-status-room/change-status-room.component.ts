@@ -30,7 +30,6 @@ export class ChangeStatusRoomComponent implements OnInit {
 
   ngOnInit() {
     this.loadStatus();
-
     this.form = this.fb.group({
       statusId: [this.room.statusId, Validators.required]
     });
@@ -40,7 +39,7 @@ export class ChangeStatusRoomComponent implements OnInit {
 
   loadStatus(): void {
     this.lookupService.findAllByType(TypeLookup.STATUS_ROOM).subscribe(lookups => {
-      this.status = lookups;
+      this.status = lookups;      
     });
   }
 

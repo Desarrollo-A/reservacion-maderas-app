@@ -43,10 +43,9 @@ export class PackageComponent implements OnInit {
     { label: 'Acciones', property: 'actions', type: 'button', visible: true },
   ];
   pageSizeOptions: number[] = [5, 10, 20, 50];
-  orderBy: string = '-id';
+  orderBy: string = '-request_id';
   searchCtrl = new FormControl('');
   filters: Filters = { filters: [] };
-  trackById = trackById;
 
   constructor(private requestPackageService: RequestPackageService,
               private requestService: RequestService,
@@ -70,7 +69,7 @@ export class PackageComponent implements OnInit {
 
   sortChange(sortState: Sort): void {
     const sort = getSort(sortState);
-    this.orderBy = (sort === '') ? '-id' : sort;
+    this.orderBy = (sort === '') ? '-request_id' : sort;
     this.prepareFilters();
   }
 
@@ -98,6 +97,10 @@ export class PackageComponent implements OnInit {
         this.prepareFilters();
       }
     });
+  }
+
+  trackById(index: number, item: RequestPackageViewModel) {
+    return item.requestId;
   }
 
   private prepareFilters(): void {

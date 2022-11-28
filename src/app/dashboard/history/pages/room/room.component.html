@@ -110,9 +110,9 @@
           <th *matHeaderCellDef class="uppercase" mat-header-cell mat-sort-header>Estatus</th>
           <td *matCellDef="let row" mat-cell>
             <div class="flex items-center gap-1">
-              <div [ngClass]="[row.labelStatus.textClass, row.labelStatus.bgClass]"
+              <div [ngClass]="[row.statusLabelRequestRoom.textClass, row.statusLabelRequestRoom.bgClass]"
                    class="rounded px-2 py-1 font-medium text-xs flex-none">
-                {{ row.labelStatus.text }}
+                {{ row.statusLabelRequestRoom.text }}
               </div>
             </div>
           </td>

@@ -1,0 +1,82 @@
+<vex-page-layout mode="card">
+  <vex-page-layout-header class="flex flex-col items-start justify-center">
+    <div class="container">
+      <h2 class="title m-0" *ngIf="requestPackage">
+        Detalle de la solicitud <strong>{{ requestPackage?.request?.code }}</strong>
+      </h2>
+      <vex-breadcrumbs [crumbs]="breadcrumbs"></vex-breadcrumbs>
+    </div>
+  </vex-page-layout-header>
+
+  <vex-page-layout-content class="container" *ngIf="requestPackage">
+    <div class="card p-6">
+      <div class="flex">
+        <h2 class="m-0 title mb-6"><strong>{{requestPackage.request.title}}</strong></h2>
+
+        <span class="flex-1"></span>
+
+        <div class="flex items-center">
+          <button [ngClass]="[requestPackage.request.statusLabelRequestPackage.textClass,
+            requestPackage.request.statusLabelRequestPackage.bgClass]"
+                  class="rounded -mt-6 px-3 py-2 text-sm flex-none">
+            {{ requestPackage.request.statusName }}
+          </button>
+        </div>
+      </div>
+
+      <mat-divider class="-mx-6 text-border"></mat-divider>
+
+      <div @fadeInUp class="flex-auto">
+        <div class="px-6 py-4 flex flex-col">
+          <div class="flex flex-col sm:flex-row sm:gap-4">
+            <mat-form-field appearance="outline" class="flex-auto vex-flex-form-field">
+              <mat-label>Solicitante</mat-label>
+              <input matInput readonly [value]="requestPackage.request.user.fullName">
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" class="flex-auto vex-flex-form-field">
+              <mat-label>Puesto</mat-label>
+              <input matInput readonly [value]="requestPackage.request.user.position">
+            </mat-form-field>
+          </div>
+
+          <mat-form-field appearance="outline" class="flex-auto vex-flex-form-field">
+            <mat-label>Comentarios</mat-label>
+            <textarea matInput readonly [value]="requestPackage.request.comment"></textarea>
+          </mat-form-field>
+
+          <div class="flex flex-col md:flex-row md:gap-4">
+            <mat-form-field appearance="outline" class="flex-auto vex-flex-form-field">
+              <mat-label>Fecha de salida del paquete</mat-label>
+              <input matInput readonly [value]="requestPackage.request.startDate|date:'dd-MM-y'">
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" class="flex-auto vex-flex-form-field">
+              <mat-label>Nombre de la persona que recibe</mat-label>
+              <input matInput readonly [value]="requestPackage.nameReceive">
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" class="flex-auto vex-flex-form-field">
+              <mat-label>Correo de la persona que recibe</mat-label>
+              <input matInput readonly [value]="requestPackage.emailReceive">
+            </mat-form-field>
+          </div>
+
+          <div class="flex flex-col gap-5">
+            <app-address title="Dirección de salida"
+                         subtitle="Información del lugar de salida del paquete"
+                         [data]="requestPackage.pickupAddress"
+                         [enableForm]="false">
+            </app-address>
+
+            <app-address title="Dirección de llegada"
+                         subtitle="Información del lugar de llegada del paquete"
+                         [data]="requestPackage.arrivalAddress"
+                         [enableForm]="false">
+            </app-address>
+          </div>
+        </div>
+      </div>
+    </div>
+  </vex-page-layout-content>
+</vex-page-layout>

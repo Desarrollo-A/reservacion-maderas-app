@@ -46,4 +46,11 @@ export class RequestPackageService {
         })
       );
   }
+
+  findById(requestId: number): Observable<PackageModel> {
+    const url = `${this.url}/${requestId}`;
+    return this.http.get<PackageModel>(url).pipe(
+      map(res => new PackageModel(res))
+    );
+  }
 }

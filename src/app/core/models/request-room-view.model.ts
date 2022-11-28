@@ -30,7 +30,7 @@ export class RequestRoomViewModel {
     this.levelMeeting = requestRoom.levelMeeting;
   }
 
-  get labelStatus(): LabelButton {
+  get statusLabel(): LabelButton {
     return getStatusLabelRequestRoom(this.statusName, this.statusCode);
   }
 }

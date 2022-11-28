@@ -13,7 +13,7 @@ import { DeleteConfirmComponent } from "../../../../shared/components/delete-con
 import { ToastrService } from "ngx-toastr";
 import { Lookup } from "../../../../core/interfaces/lookup";
 import { InventoryRequestService } from "../../../../core/services/inventory-request.service";
-import { StatusRequestLookup } from "../../../../core/enums/lookups/status-request.lookup";
+import { StatusRequestRoomLookup } from "../../../../core/enums/lookups/status-request-room.lookup";
 import { InventoryRequestModel } from "../../../../core/models/inventory-request.model";
 import { UserSessionService } from "../../../../core/services/user-session.service";
 import { NameRole } from "../../../../core/enums/name-role";
@@ -126,11 +126,11 @@ export class SnackDetailComponent implements OnInit, AfterViewInit {
   }
 
   private saveSnack(snack: InventoryModel): void {
-    if (this.previousStatus.code === StatusRequestLookup[StatusRequestLookup.NEW] ||
-        this.previousStatus.code === StatusRequestLookup[StatusRequestLookup.IN_REVIEW]) {
+    if (this.previousStatus.code === StatusRequestRoomLookup[StatusRequestRoomLookup.NEW] ||
+        this.previousStatus.code === StatusRequestRoomLookup[StatusRequestRoomLookup.IN_REVIEW]) {
       this.snacks.push(snack);
       this.dataSource.data = this.snacks;
-    } else if (this.previousStatus.code === StatusRequestLookup[StatusRequestLookup.APPROVED]) {
+    } else if (this.previousStatus.code === StatusRequestRoomLookup[StatusRequestRoomLookup.APPROVED]) {
       const data = <InventoryRequestModel>{
         requestId: this.requestId,
         inventoryId: snack.id,
@@ -146,12 +146,12 @@ export class SnackDetailComponent implements OnInit, AfterViewInit {
   }
 
   private updateSnack(snack: InventoryModel): void {
-    if (this.previousStatus.code === StatusRequestLookup[StatusRequestLookup.NEW] ||
-        this.previousStatus.code === StatusRequestLookup[StatusRequestLookup.IN_REVIEW]) {
+    if (this.previousStatus.code === StatusRequestRoomLookup[StatusRequestRoomLookup.NEW] ||
+        this.previousStatus.code === StatusRequestRoomLookup[StatusRequestRoomLookup.IN_REVIEW]) {
       const index = this.findSnackIndex(this.snacks, snack);
       this.snacks[index].inventoryRequest.quantity = snack.inventoryRequest.quantity;
       this.dataSource.data = this.snacks;
-    } else if (this.previousStatus.code === StatusRequestLookup[StatusRequestLookup.APPROVED]) {
+    } else if (this.previousStatus.code === StatusRequestRoomLookup[StatusRequestRoomLookup.APPROVED]) {
       const data = <InventoryRequestModel>{
         requestId: this.requestId,
         inventoryId: snack.id,

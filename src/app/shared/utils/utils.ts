@@ -1,6 +1,6 @@
 import { AbstractControl } from "@angular/forms";
 import { LabelButton } from "../interfaces/label-button";
-import { StatusRequestLookup } from "../../core/enums/lookups/status-request.lookup";
+import { StatusRequestRoomLookup } from "../../core/enums/lookups/status-request-room.lookup";
 import { StatusPackageRequestLookup } from "../../core/enums/lookups/status-package-request.lookup";
 
 export const convertCamelCaseToSnakeCase = (str: string): string => {
@@ -52,25 +52,25 @@ export const weekendsOffCalendar = (d: Date | null): boolean => {
 }
 
 export const getStatusLabelRequestRoom = (statusName: string, code: string): LabelButton => {
-  if (code === StatusRequestLookup[StatusRequestLookup.NEW]) {
+  if (code === StatusRequestRoomLookup[StatusRequestRoomLookup.NEW]) {
     return { text: statusName, textClass: 'text-blue', bgClass: 'bg-blue-light' };
 
-  } else if (code === StatusRequestLookup[StatusRequestLookup.APPROVED]) {
+  } else if (code === StatusRequestRoomLookup[StatusRequestRoomLookup.APPROVED]) {
     return { text: statusName, textClass: 'text-green', bgClass: 'bg-green-light' };
 
-  } else if (code === StatusRequestLookup[StatusRequestLookup.REJECTED] ||
-      code === StatusRequestLookup[StatusRequestLookup.CANCELLED]) {
+  } else if (code === StatusRequestRoomLookup[StatusRequestRoomLookup.REJECTED] ||
+      code === StatusRequestRoomLookup[StatusRequestRoomLookup.CANCELLED]) {
     return { text: statusName, textClass: 'text-red', bgClass: 'bg-red-light' };
 
-  } else if (code === StatusRequestLookup[StatusRequestLookup.PROPOSAL] ||
-      code === StatusRequestLookup[StatusRequestLookup.IN_REVIEW]) {
+  } else if (code === StatusRequestRoomLookup[StatusRequestRoomLookup.PROPOSAL] ||
+      code === StatusRequestRoomLookup[StatusRequestRoomLookup.IN_REVIEW]) {
     return { text: statusName, textClass: 'text-orange', bgClass: 'bg-orange-light' };
 
-  } else if (code === StatusRequestLookup[StatusRequestLookup.WITHOUT_ATTENDING] ||
-      code === StatusRequestLookup[StatusRequestLookup.EXPIRED]) {
+  } else if (code === StatusRequestRoomLookup[StatusRequestRoomLookup.WITHOUT_ATTENDING] ||
+      code === StatusRequestRoomLookup[StatusRequestRoomLookup.EXPIRED]) {
     return { text: statusName, textClass: 'text-gray', bgClass: 'bg-gray-light' };
 
-  } else if (code === StatusRequestLookup[StatusRequestLookup.FINISHED]) {
+  } else if (code === StatusRequestRoomLookup[StatusRequestRoomLookup.FINISHED]) {
     return { text: statusName, textClass: 'text-teal', bgClass: 'bg-teal-light' };
   }
 }
@@ -83,7 +83,7 @@ export const getStatusLabelRequestPackage = (statusName: string, code: string): 
     return { text: statusName, textClass: 'text-green', bgClass: 'bg-green-light' };
   }
   if (code === StatusPackageRequestLookup[StatusPackageRequestLookup.REJECTED] ||
-    code === StatusRequestLookup[StatusRequestLookup.CANCELLED]) {
+    code === StatusRequestRoomLookup[StatusRequestRoomLookup.CANCELLED]) {
     return { text: statusName, textClass: 'text-red', bgClass: 'bg-red-light' };
   }
   if (code === StatusPackageRequestLookup[StatusPackageRequestLookup.PROPOSAL]) {

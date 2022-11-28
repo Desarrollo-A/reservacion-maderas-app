@@ -2,7 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { Lookup } from "../../../../core/interfaces/lookup";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { FormErrors } from "../../../../shared/utils/form-error";
-import { StatusRequestLookup } from "../../../../core/enums/lookups/status-request.lookup";
+import { StatusRequestRoomLookup } from "../../../../core/enums/lookups/status-request-room.lookup";
 import { CancelRequestModel } from "../../../../core/models/cancel-request.model";
 import { fadeInUp400ms } from "../../../../shared/animations/fade-in-up.animation";
 
@@ -25,14 +25,14 @@ export class CancelRequestComponent implements OnInit {
 
   constructor(private fb: FormBuilder) {}
 
-  get statusRequest(): typeof StatusRequestLookup {
-    return StatusRequestLookup;
+  get statusRequest(): typeof StatusRequestRoomLookup {
+    return StatusRequestRoomLookup;
   }
 
   get title(): string {
-    if (this.previousStatus.code === StatusRequestLookup[StatusRequestLookup.APPROVED]) {
+    if (this.previousStatus.code === StatusRequestRoomLookup[StatusRequestRoomLookup.APPROVED]) {
       return 'Cancelar solicitud';
-    } else if (this.previousStatus.code === StatusRequestLookup[StatusRequestLookup.CANCELLED]) {
+    } else if (this.previousStatus.code === StatusRequestRoomLookup[StatusRequestRoomLookup.CANCELLED]) {
       return `Solicitud cancelada por ${this.cancelRequest.user.fullName}`;
     }
   }

@@ -16,7 +16,7 @@ import { DeleteConfirmComponent } from "../../../delete-confirm/delete-confirm.c
 import { NameRole } from "../../../../../core/enums/name-role";
 import { UserSessionService } from "../../../../../core/services/user-session.service";
 import { Lookup } from "../../../../../core/interfaces/lookup";
-import { StatusRequestLookup } from "../../../../../core/enums/lookups/status-request.lookup";
+import { StatusRequestRoomLookup } from "../../../../../core/enums/lookups/status-request-room.lookup";
 import { RequestPhoneNumberService } from "../../../../../core/services/request-phone-number.service";
 
 @UntilDestroy()
@@ -74,7 +74,7 @@ export class PhoneRequestTableComponent implements OnInit, AfterViewInit {
   }
 
   get canDoActions(): boolean {
-    return (this.previousStatus && this.previousStatus?.code === StatusRequestLookup[StatusRequestLookup.NEW]);
+    return (this.previousStatus && this.previousStatus?.code === StatusRequestRoomLookup[StatusRequestRoomLookup.NEW]);
   }
 
   get visibleColumns() {

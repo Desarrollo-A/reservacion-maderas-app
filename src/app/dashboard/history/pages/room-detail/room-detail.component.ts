@@ -9,7 +9,7 @@ import { Lookup } from "../../../../core/interfaces/lookup";
 import { delay, of, switchMap, tap } from "rxjs";
 import { InventoryService } from "../../../../core/services/inventory.service";
 import { InventoryModel } from "../../../../core/models/inventory.model";
-import { StatusRequestLookup } from "../../../../core/enums/lookups/status-request.lookup";
+import { StatusRequestRoomLookup } from "../../../../core/enums/lookups/status-request-room.lookup";
 import { SnackDetailComponent } from "../../components/snack-detail/snack-detail.component";
 import { InventoryRequestModel } from "../../../../core/models/inventory-request.model";
 import { ToastrService } from "ngx-toastr";
@@ -72,8 +72,8 @@ export class RoomDetailComponent {
     });
   }
 
-  get statusRequest(): typeof StatusRequestLookup {
-    return StatusRequestLookup;
+  get statusRequest(): typeof StatusRequestRoomLookup {
+    return StatusRequestRoomLookup;
   }
 
   findByRequestId(requestId: number): void {
@@ -96,43 +96,43 @@ export class RoomDetailComponent {
     this.requestRoom.request.statusId = status.id;
     this.requestRoom.request.status = status;
 
-    if (status.code === StatusRequestLookup[StatusRequestLookup.APPROVED]) {
+    if (status.code === StatusRequestRoomLookup[StatusRequestRoomLookup.APPROVED]) {
       this.toastrService.info('Puedes asignar snacks a la solicitud', 'Información');
-    } else if (status.code === StatusRequestLookup[StatusRequestLookup.CANCELLED]) {
+    } else if (status.code === StatusRequestRoomLookup[StatusRequestRoomLookup.CANCELLED]) {
       this.toastrService.info('Agrega un comentario para cancelar la solicitud', 'Información');
-    } else if (status.code === StatusRequestLookup[StatusRequestLookup.PROPOSAL]) {
+    } else if (status.code === StatusRequestRoomLookup[StatusRequestRoomLookup.PROPOSAL]) {
       this.toastrService.info('Agrega las fechas y horarios de la propuesta', 'Información');
     }
   }
 
   save(): void {
-    if (this.requestRoom.request.status.code === StatusRequestLookup[StatusRequestLookup.APPROVED] &&
-      (this.previousStatus.code === StatusRequestLookup[StatusRequestLookup.NEW] ||
-        this.previousStatus.code === StatusRequestLookup[StatusRequestLookup.IN_REVIEW])) {
+    if (this.requestRoom.request.status.code === StatusRequestRoomLookup[StatusRequestRoomLookup.APPROVED] &&
+      (this.previousStatus.code === StatusRequestRoomLookup[StatusRequestRoomLookup.NEW] ||
+        this.previousStatus.code === StatusRequestRoomLookup[StatusRequestRoomLookup.IN_REVIEW])) {
       this.approveRequest();
       return;
     }
 
-    if (this.requestRoom.request.status.code === StatusRequestLookup[StatusRequestLookup.CANCELLED] &&
-      this.previousStatus.code === StatusRequestLookup[StatusRequestLookup.APPROVED]) {
+    if (this.requestRoom.request.status.code === StatusRequestRoomLookup[StatusRequestRoomLookup.CANCELLED] &&
+      this.previousStatus.code === StatusRequestRoomLookup[StatusRequestRoomLookup.APPROVED]) {
       this.cancelRequest();
       return;
     }
 
-    if (this.requestRoom.request.status.code === StatusRequestLookup[StatusRequestLookup.PROPOSAL] &&
-      this.previousStatus.code === StatusRequestLookup[StatusRequestLookup.NEW]) {
+    if (this.requestRoom.request.status.code === StatusRequestRoomLookup[StatusRequestRoomLookup.PROPOSAL] &&
+      this.previousStatus.code === StatusRequestRoomLookup[StatusRequestRoomLookup.NEW]) {
       this.proposalRequest();
       return;
     }
 
-    if (this.previousStatus.code === StatusRequestLookup[StatusRequestLookup.PROPOSAL] &&
-      this.requestRoom.request.status.code === StatusRequestLookup[StatusRequestLookup.REJECTED]) {
+    if (this.previousStatus.code === StatusRequestRoomLookup[StatusRequestRoomLookup.PROPOSAL] &&
+      this.requestRoom.request.status.code === StatusRequestRoomLookup[StatusRequestRoomLookup.REJECTED]) {
       this.responseRejectRequest();
       return;
     }
 
-    if (this.requestRoom.request.status.code === StatusRequestLookup[StatusRequestLookup.WITHOUT_ATTENDING] &&
-      this.previousStatus.code === StatusRequestLookup[StatusRequestLookup.APPROVED]) {
+    if (this.requestRoom.request.status.code === StatusRequestRoomLookup[StatusRequestRoomLookup.WITHOUT_ATTENDING] &&
+      this.previousStatus.code === StatusRequestRoomLookup[StatusRequestRoomLookup.APPROVED]) {
       this.withoutAttendingRequest();
       return;
     }
@@ -151,13 +151,13 @@ export class RoomDetailComponent {
       delay(0),
       tap(snackList => this.snackList = snackList),
       switchMap(() => {
-        return (this.requestRoom.request.status.code === StatusRequestLookup[StatusRequestLookup.NEW])
+        return (this.requestRoom.request.status.code === StatusRequestRoomLookup[StatusRequestRoomLookup.NEW])
           ? this.requestRoomService.availableRoom(this.requestRoom.request)
           : of({isAvailable: true});
       }),
       tap(({isAvailable}) => {
         if (!isAvailable) {
-          const index = status.findIndex(status => status.code === StatusRequestLookup[StatusRequestLookup.APPROVED]);
+          const index = status.findIndex(status => status.code === StatusRequestRoomLookup[StatusRequestRoomLookup.APPROVED]);
           status.splice(index, 1);
         }
 
@@ -217,7 +217,7 @@ export class RoomDetailComponent {
   public responseRejectRequest(proposalRequest?: ProposalRequestModel): void {
     const status = <Lookup> {
       code: (proposalRequest)
-        ? StatusRequestLookup[StatusRequestLookup.IN_REVIEW]
+        ? StatusRequestRoomLookup[StatusRequestRoomLookup.IN_REVIEW]
         : this.requestRoom.request.status.code
     };
     let data = <RequestModel> { status };
@@ -233,7 +233,7 @@ export class RoomDetailComponent {
 
     this.requestService.responseRejectRequest(this.requestRoom.requestId, data)
       .subscribe(() => {
-        if (this.requestRoom.request.status.code === StatusRequestLookup[StatusRequestLookup.REJECTED]) {
+        if (this.requestRoom.request.status.code === StatusRequestRoomLookup[StatusRequestRoomLookup.REJECTED]) {
           this.toastrService.success('Solicitud rechazada', 'Proceso exitoso');
           this.router.navigateByUrl(this.urlRedirectBack);
         } else {

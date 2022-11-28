@@ -1,4 +1,4 @@
-export enum StatusRequestLookup {
+export enum StatusRequestRoomLookup {
   NEW,
   APPROVED,
   REJECTED,

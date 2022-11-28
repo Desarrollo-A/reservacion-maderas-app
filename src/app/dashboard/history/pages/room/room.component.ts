@@ -10,7 +10,7 @@ import { Filters, TypesEnum } from "../../../../core/interfaces/filters";
 import { RequestRoomService } from "../../../../core/services/request-room.service";
 import { Sort } from "@angular/material/sort";
 import { getSort } from "../../../../shared/utils/http-functions";
-import { StatusRequestLookup } from "../../../../core/enums/lookups/status-request.lookup";
+import { StatusRequestRoomLookup } from "../../../../core/enums/lookups/status-request-room.lookup";
 import { UserSessionService } from "../../../../core/services/user-session.service";
 import { NameRole } from "../../../../core/enums/name-role";
 import { DeleteConfirmComponent } from "../../../../shared/components/delete-confirm/delete-confirm.component";
@@ -66,7 +66,7 @@ export class RoomComponent implements OnInit {
   }
 
   canDeleteRequest(request: RequestRoomViewModel): boolean {
-    return (request.statusCode === StatusRequestLookup[StatusRequestLookup.NEW] &&
+    return (request.statusCode === StatusRequestRoomLookup[StatusRequestRoomLookup.NEW] &&
       this.userSessionService.user.role.name === NameRole.APPLICANT);
   }
 

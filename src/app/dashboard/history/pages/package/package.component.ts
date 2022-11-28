@@ -14,7 +14,7 @@ import { ToastrService } from "ngx-toastr";
 import { UserSessionService } from "../../../../core/services/user-session.service";
 import { Sort } from "@angular/material/sort";
 import { getSort } from "../../../../shared/utils/http-functions";
-import { StatusRequestLookup } from "../../../../core/enums/lookups/status-request.lookup";
+import { StatusRequestRoomLookup } from "../../../../core/enums/lookups/status-request-room.lookup";
 import { NameRole } from "../../../../core/enums/name-role";
 import { DeleteConfirmComponent } from "../../../../shared/components/delete-confirm/delete-confirm.component";
 import { of, switchMap } from "rxjs";
@@ -63,7 +63,7 @@ export class PackageComponent implements OnInit {
   }
 
   canDeleteRequest(request: RequestPackageViewModel): boolean {
-    return (request.statusCode === StatusRequestLookup[StatusRequestLookup.NEW] &&
+    return (request.statusCode === StatusRequestRoomLookup[StatusRequestRoomLookup.NEW] &&
       this.userSessionService.user.role.name === NameRole.APPLICANT);
   }
 

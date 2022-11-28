@@ -1,6 +1,6 @@
 import { LabelButton } from "../../shared/interfaces/label-button";
 import { StatusPackageRequestLookup } from "../enums/lookups/status-package-request.lookup";
-import { StatusRequestLookup } from "../enums/lookups/status-request.lookup";
+import { StatusRequestRoomLookup } from "../enums/lookups/status-request-room.lookup";
 
 export class RequestPackageViewModel {
   requestId: number;
@@ -39,7 +39,7 @@ export class RequestPackageViewModel {
       return { text: this.statusName, textClass: 'text-green', bgClass: 'bg-green-light' };
     }
     if (this.statusCode === StatusPackageRequestLookup[StatusPackageRequestLookup.REJECTED] ||
-      this.statusCode === StatusRequestLookup[StatusRequestLookup.CANCELLED]) {
+      this.statusCode === StatusRequestRoomLookup[StatusRequestRoomLookup.CANCELLED]) {
       return { text: this.statusName, textClass: 'text-red', bgClass: 'bg-red-light' };
     }
     if (this.statusCode === StatusPackageRequestLookup[StatusPackageRequestLookup.PROPOSAL]) {

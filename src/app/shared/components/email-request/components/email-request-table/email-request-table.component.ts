@@ -12,7 +12,7 @@ import { ToastrService } from "ngx-toastr";
 import { UserSessionService } from "../../../../../core/services/user-session.service";
 import { RequestEmailService } from "../../../../../core/services/request-email.service";
 import { NameRole } from "../../../../../core/enums/name-role";
-import { StatusRequestLookup } from "../../../../../core/enums/lookups/status-request.lookup";
+import { StatusRequestRoomLookup } from "../../../../../core/enums/lookups/status-request-room.lookup";
 import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
 import { EmailCreateUpdateComponent } from "../email-create-update/email-create-update.component";
 import { DeleteConfirmComponent } from "../../../delete-confirm/delete-confirm.component";
@@ -72,7 +72,7 @@ export class EmailRequestTableComponent implements OnInit, AfterViewInit {
   }
 
   get canDoActions(): boolean {
-    return (this.previousStatus && this.previousStatus?.code === StatusRequestLookup[StatusRequestLookup.NEW]);
+    return (this.previousStatus && this.previousStatus?.code === StatusRequestRoomLookup[StatusRequestRoomLookup.NEW]);
   }
 
   get visibleColumns() {

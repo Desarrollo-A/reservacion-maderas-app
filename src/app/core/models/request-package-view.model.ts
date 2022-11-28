@@ -3,7 +3,8 @@ import { StatusPackageRequestLookup } from "../enums/lookups/status-package-requ
 import { StatusRequestLookup } from "../enums/lookups/status-request.lookup";
 
 export class RequestPackageViewModel {
-  id: number;
+  requestId: number;
+  packageId: number;
   code: string;
   title: string;
   startDate: Date;
@@ -16,7 +17,8 @@ export class RequestPackageViewModel {
   userId: number;
 
   constructor(requestPackage) {
-    this.id = requestPackage.id;
+    this.requestId = requestPackage.requestId;
+    this.packageId = requestPackage.packageId;
     this.code = requestPackage.code;
     this.title = requestPackage.title;
     this.startDate = new Date(requestPackage.startDate);

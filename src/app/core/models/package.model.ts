@@ -30,6 +30,6 @@ export class PackageModel {
     this.trackingCode = address.trackingCode;
     this.pickupAddress = address.pickupAddress;
     this.arrivalAddress = address.arrivalAddress;
-    this.request = address.request;
+    this.request = new RequestModel(address.request);
   }
 }

@@ -22,6 +22,8 @@ import { PhoneRequestModule } from "../../shared/components/phone-request/phone-
 import { EmailRequestModule } from "../../shared/components/email-request/email-request.module";
 import { ScoreRequestComponent } from './components/score-request/score-request.component';
 import { PackageComponent } from './pages/package/package.component';
+import { PackageDetailComponent } from './pages/package-detail/package-detail.component';
+import { AddressModule } from "../../shared/components/address/address.module";
 
 
 @NgModule({
@@ -34,7 +36,8 @@ import { PackageComponent } from './pages/package/package.component';
     CancelRequestComponent,
     ConfirmProposalComponent,
     ScoreRequestComponent,
-    PackageComponent
+    PackageComponent,
+    PackageDetailComponent
   ],
   imports: [
     CommonModule,
@@ -50,7 +53,8 @@ import { PackageComponent } from './pages/package/package.component';
     ImageModule,
     DeleteConfirmModule,
     PhoneRequestModule,
-    EmailRequestModule
+    EmailRequestModule,
+    AddressModule
   ]
 })
 export class HistoryModule { }

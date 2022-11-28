@@ -1,5 +1,5 @@
 import { LabelButton } from "../../shared/interfaces/label-button";
-import { getLabelStatusRequest } from "../../shared/utils/utils";
+import { getStatusLabelRequestRoom } from "../../shared/utils/utils";
 
 export class RequestRoomViewModel {
   id: number;
@@ -31,6 +31,6 @@ export class RequestRoomViewModel {
   }
 
   get labelStatus(): LabelButton {
-    return getLabelStatusRequest(this.statusName, this.statusCode);
+    return getStatusLabelRequestRoom(this.statusName, this.statusCode);
   }
 }

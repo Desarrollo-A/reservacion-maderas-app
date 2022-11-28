@@ -2,7 +2,7 @@ import { RequestRoomModel } from "./request-room.model";
 import { Lookup } from "../interfaces/lookup";
 import { UserModel } from "./user.model";
 import { LabelButton } from "../../shared/interfaces/label-button";
-import { getLabelStatusRequest } from "../../shared/utils/utils";
+import { getStatusLabelRequestPackage, getStatusLabelRequestRoom } from "../../shared/utils/utils";
 import { InventoryModel } from "./inventory.model";
 import { CancelRequestModel } from "./cancel-request.model";
 import { ProposalRequestModel } from "./proposal-request.model";
@@ -66,7 +66,11 @@ export class RequestModel {
     return this.status.name;
   }
 
-  get labelStatus(): LabelButton {
-    return getLabelStatusRequest(this.statusName, this.status.code);
+  get statusLabelRequestRoom(): LabelButton {
+    return getStatusLabelRequestRoom(this.statusName, this.status.code);
+  }
+
+  get statusLabelRequestPackage(): LabelButton {
+    return getStatusLabelRequestPackage(this.statusName, this.status.code);
   }
 }

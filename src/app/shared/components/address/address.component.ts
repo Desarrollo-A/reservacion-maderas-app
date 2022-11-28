@@ -5,6 +5,7 @@ import { LookupService } from "../../../core/services/lookup.service";
 import { Lookup } from "../../../core/interfaces/lookup";
 import { TypeLookup } from "../../../core/enums/type-lookup";
 import { MatAccordion } from "@angular/material/expansion";
+import { AddressModel } from "../../../core/models/address.model";
 
 @Component({
   selector: 'app-address',
@@ -16,6 +17,10 @@ export class AddressComponent implements OnInit {
   title = '';
   @Input()
   subtitle = '';
+  @Input()
+  enableForm = true;
+  @Input()
+  data: AddressModel;
 
   @ViewChild(MatAccordion)
   accordion: MatAccordion;
@@ -28,19 +33,21 @@ export class AddressComponent implements OnInit {
               private lookupService: LookupService) {}
 
   ngOnInit(): void {
-    this.form = this.fb.group({
-      street: [null, [Validators.required, Validators.minLength(5), Validators.maxLength(150)]],
-      numExt: [null, [Validators.required, Validators.minLength(1), Validators.maxLength(50)]],
-      numInt: [null, [Validators.minLength(1), Validators.maxLength(50)]],
-      suburb: [null, [Validators.required, Validators.minLength(5), Validators.maxLength(120)]],
-      postalCode: [null, [Validators.required, Validators.minLength(3), Validators.maxLength(25)]],
-      state: [null, [Validators.required, Validators.minLength(5), Validators.maxLength(100)]],
-      countryId: [null, Validators.required]
-    });
+    if (this.enableForm) {
+      this.form = this.fb.group({
+        street: [null, [Validators.required, Validators.minLength(5), Validators.maxLength(150)]],
+        numExt: [null, [Validators.required, Validators.minLength(1), Validators.maxLength(50)]],
+        numInt: [null, [Validators.minLength(1), Validators.maxLength(50)]],
+        suburb: [null, [Validators.required, Validators.minLength(5), Validators.maxLength(120)]],
+        postalCode: [null, [Validators.required, Validators.minLength(3), Validators.maxLength(25)]],
+        state: [null, [Validators.required, Validators.minLength(5), Validators.maxLength(100)]],
+        countryId: [null, Validators.required]
+      });
 
-    this.formErrors = new FormErrors(this.form);
+      this.formErrors = new FormErrors(this.form);
 
-    this.lookupService.findAllByType(TypeLookup.COUNTRY_ADDRESS).subscribe(countries => this.countries = countries);
+      this.lookupService.findAllByType(TypeLookup.COUNTRY_ADDRESS).subscribe(countries => this.countries = countries);
+    }
   }
 
   isInvalidForm(): boolean {

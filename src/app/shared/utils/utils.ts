@@ -1,6 +1,7 @@
 import { AbstractControl } from "@angular/forms";
 import { LabelButton } from "../interfaces/label-button";
 import { StatusRequestLookup } from "../../core/enums/lookups/status-request.lookup";
+import { StatusPackageRequestLookup } from "../../core/enums/lookups/status-package-request.lookup";
 
 export const convertCamelCaseToSnakeCase = (str: string): string => {
   return str.replace(/[A-Z]/g, letter => `_${letter.toLowerCase()}`);
@@ -50,7 +51,7 @@ export const weekendsOffCalendar = (d: Date | null): boolean => {
   }
 }
 
-export const getLabelStatusRequest = (statusName: string, code: string): LabelButton => {
+export const getStatusLabelRequestRoom = (statusName: string, code: string): LabelButton => {
   if (code === StatusRequestLookup[StatusRequestLookup.NEW]) {
     return { text: statusName, textClass: 'text-blue', bgClass: 'bg-blue-light' };
 
@@ -71,6 +72,31 @@ export const getLabelStatusRequest = (statusName: string, code: string): LabelBu
 
   } else if (code === StatusRequestLookup[StatusRequestLookup.FINISHED]) {
     return { text: statusName, textClass: 'text-teal', bgClass: 'bg-teal-light' };
+  }
+}
+
+export const getStatusLabelRequestPackage = (statusName: string, code: string): LabelButton => {
+  if (code === StatusPackageRequestLookup[StatusPackageRequestLookup.NEW]) {
+    return { text: statusName, textClass: 'text-blue', bgClass: 'bg-blue-light' };
+  }
+  if (code === StatusPackageRequestLookup[StatusPackageRequestLookup.APPROVED]) {
+    return { text: statusName, textClass: 'text-green', bgClass: 'bg-green-light' };
+  }
+  if (code === StatusPackageRequestLookup[StatusPackageRequestLookup.REJECTED] ||
+    code === StatusRequestLookup[StatusRequestLookup.CANCELLED]) {
+    return { text: statusName, textClass: 'text-red', bgClass: 'bg-red-light' };
+  }
+  if (code === StatusPackageRequestLookup[StatusPackageRequestLookup.PROPOSAL]) {
+    return { text: statusName, textClass: 'text-orange', bgClass: 'bg-orange-light' };
+  }
+  if (code === StatusPackageRequestLookup[StatusPackageRequestLookup.EXPIRED]) {
+    return { text: statusName, textClass: 'text-gray', bgClass: 'bg-gray-light' };
+  }
+  if (code === StatusPackageRequestLookup[StatusPackageRequestLookup.FINISHED]) {
+    return { text: statusName, textClass: 'text-teal', bgClass: 'bg-teal-light' };
+  }
+  if (code === StatusPackageRequestLookup[StatusPackageRequestLookup.ROAD]) {
+    return { text: statusName, textClass: 'text-purple', bgClass: 'bg-purple-light' };
   }
 }
 

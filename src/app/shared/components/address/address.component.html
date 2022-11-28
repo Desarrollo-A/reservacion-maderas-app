@@ -11,7 +11,8 @@
 
     <ng-container>
       <div class="px-6 py-4 flex flex-col gap-1"
-            [formGroup]="form">
+            [formGroup]="form"
+           *ngIf="enableForm">
         <div class="flex flex-col sm:flex-row sm:gap-4">
           <mat-form-field class="flex-auto">
             <mat-label>Calle</mat-label>
@@ -128,6 +129,64 @@
             <mat-error *ngIf="formErrors.customError('countryId', 'required')">
               Campo obligatorio.
             </mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+
+      <div class="px-6 py-4 flex flex-col gap-1"
+           *ngIf="!enableForm">
+        <div class="flex flex-col sm:flex-row sm:gap-4">
+          <mat-form-field appearance="outline"
+                          class="vex-flex-form-field flex-auto"
+                          color="primary">
+            <mat-label>Calle</mat-label>
+            <input matInput [value]="data.street" readonly>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline"
+                          class="vex-flex-form-field flex-auto"
+                          color="primary">
+            <mat-label>No. Exterior</mat-label>
+            <input matInput [value]="data.numExt" readonly>
+          </mat-form-field>
+        </div>
+
+        <div class="flex flex-col sm:flex-row sm:gap-4">
+          <mat-form-field appearance="outline"
+                          class="vex-flex-form-field flex-auto"
+                          color="primary">
+            <mat-label>No. Interior</mat-label>
+            <input matInput [value]="data.numInt" readonly>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline"
+                          class="vex-flex-form-field flex-auto"
+                          color="primary">
+            <mat-label>Colonia</mat-label>
+            <input matInput [value]="data.suburb" readonly>
+          </mat-form-field>
+        </div>
+
+        <div class="flex flex-col md:flex-row md:gap-4">
+          <mat-form-field appearance="outline"
+                          class="vex-flex-form-field flex-auto"
+                          color="primary">
+            <mat-label>Código Postal</mat-label>
+            <input matInput [value]="data.postalCode" readonly>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline"
+                          class="vex-flex-form-field flex-auto"
+                          color="primary">
+            <mat-label>Estado</mat-label>
+            <input matInput [value]="data.state" readonly>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline"
+                          class="vex-flex-form-field flex-auto"
+                          color="primary">
+            <mat-label>País</mat-label>
+            <input matInput [value]="data.country.name" readonly>
           </mat-form-field>
         </div>
       </div>

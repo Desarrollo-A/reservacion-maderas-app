@@ -140,12 +140,12 @@
 
 <mat-menu #actionsMenu="matMenu" xPosition="before" yPosition="below">
   <ng-template let-package="package" matMenuContent>
-    <a mat-menu-item [routerLink]="['./', package.id]">
+    <a mat-menu-item [routerLink]="['./', package.packageId]">
       <mat-icon svgIcon="mat:visibility"></mat-icon>
       <span>Detalle</span>
     </a>
     <ng-container *ngIf="canDeleteRequest(package)">
-      <button mat-menu-item (click)="deleteRequest(package.id)">
+      <button mat-menu-item (click)="deleteRequest(package.requestId)">
         <mat-icon svgIcon="mat:delete"></mat-icon>
         <span>Eliminar</span>
       </button>

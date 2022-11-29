@@ -1,6 +1,5 @@
 import { LabelButton } from "../../shared/interfaces/label-button";
-import { StatusPackageRequestLookup } from "../enums/lookups/status-package-request.lookup";
-import { StatusRequestRoomLookup } from "../enums/lookups/status-request-room.lookup";
+import { getStatusLabelRequestPackage } from "../../shared/utils/utils";
 
 export class RequestPackageViewModel {
   requestId: number;
@@ -32,27 +31,6 @@ export class RequestPackageViewModel {
   }
 
   get statusLabel(): LabelButton {
-    if (this.statusCode === StatusPackageRequestLookup[StatusPackageRequestLookup.NEW]) {
-      return { text: this.statusName, textClass: 'text-blue', bgClass: 'bg-blue-light' };
-    }
-    if (this.statusCode === StatusPackageRequestLookup[StatusPackageRequestLookup.APPROVED]) {
-      return { text: this.statusName, textClass: 'text-green', bgClass: 'bg-green-light' };
-    }
-    if (this.statusCode === StatusPackageRequestLookup[StatusPackageRequestLookup.REJECTED] ||
-      this.statusCode === StatusRequestRoomLookup[StatusRequestRoomLookup.CANCELLED]) {
-      return { text: this.statusName, textClass: 'text-red', bgClass: 'bg-red-light' };
-    }
-    if (this.statusCode === StatusPackageRequestLookup[StatusPackageRequestLookup.PROPOSAL]) {
-      return { text: this.statusName, textClass: 'text-orange', bgClass: 'bg-orange-light' };
-    }
-    if (this.statusCode === StatusPackageRequestLookup[StatusPackageRequestLookup.EXPIRED]) {
-      return { text: this.statusName, textClass: 'text-gray', bgClass: 'bg-gray-light' };
-    }
-    if (this.statusCode === StatusPackageRequestLookup[StatusPackageRequestLookup.FINISHED]) {
-      return { text: this.statusName, textClass: 'text-teal', bgClass: 'bg-teal-light' };
-    }
-    if (this.statusCode === StatusPackageRequestLookup[StatusPackageRequestLookup.ROAD]) {
-      return { text: this.statusName, textClass: 'text-purple', bgClass: 'bg-purple-light' };
-    }
+    return getStatusLabelRequestPackage(this.statusName, this.statusCode);
   }
 }

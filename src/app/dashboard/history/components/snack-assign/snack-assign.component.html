@@ -43,7 +43,7 @@
       <mat-autocomplete #auto="matAutocomplete"
                         (optionSelected)="selected($event)">
         <mat-option *ngFor="let snack of filteredSnacks | async; trackBy: trackById" [value]="snack">
-          <img class="flex autocomplete-img align-middle mr-2 h-6" [src]="snack.image|image" [alt]="snack.name">
+          <img class="flex autocomplete-img align-middle mr-2 h-6" [src]="snack.image|url" [alt]="snack.name">
           <span>{{ snack.name }}</span> | <small>{{ snack.trademark }}</small>
         </mat-option>
       </mat-autocomplete>

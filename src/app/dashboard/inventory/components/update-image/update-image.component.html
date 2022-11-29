@@ -10,7 +10,7 @@
 
 <mat-dialog-content class="flex flex-col mt-2 justify-center">
   <div class="mx-auto relative">
-    <img *ngIf="!imgTemp" class="h-52 w-52 object-cover rounded block" [src]="data.image|image" [alt]="data.name">
+    <img *ngIf="!imgTemp" class="h-52 w-52 object-cover rounded block" [src]="data.image|url" [alt]="data.name">
     <img *ngIf="imgTemp" class="h-52 w-52 object-cover rounded block" [src]="imgTemp" [alt]="data.name">
 
     <mat-icon *ngIf="canDeleteImage"

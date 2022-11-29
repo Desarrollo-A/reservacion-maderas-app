@@ -8,6 +8,8 @@ import { PaginationResponse } from "../interfaces/pagination-response";
 import { getPaginateParams } from "../../shared/utils/http-functions";
 import { map } from "rxjs/operators";
 import { RequestPackageViewModel } from "../models/request-package-view.model";
+import { Lookup } from "../interfaces/lookup";
+import { CancelRequestModel } from "../models/cancel-request.model";
 
 @Injectable({
   providedIn: 'root'
@@ -52,5 +54,15 @@ export class RequestPackageService {
     return this.http.get<PackageModel>(url).pipe(
       map(res => new PackageModel(res))
     );
+  }
+
+  getStatusByStatusCurrent(code: string): Observable<Lookup[]> {
+    const url = `${this.url}/status/${code}`;
+    return this.http.get<Lookup[]>(url);
+  }
+
+  cancelRequest(id: number, request: CancelRequestModel): Observable<void> {
+    const url = `${this.url}/cancel/${id}`;
+    return this.http.patch<void>(url, request);
   }
 }

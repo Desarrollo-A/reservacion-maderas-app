@@ -5,6 +5,7 @@ import { FormErrors } from "../../../../shared/utils/form-error";
 import { StatusRequestRoomLookup } from "../../../../core/enums/lookups/status-request-room.lookup";
 import { CancelRequestModel } from "../../../../core/models/cancel-request.model";
 import { fadeInUp400ms } from "../../../../shared/animations/fade-in-up.animation";
+import { StatusPackageRequestLookup } from "../../../../core/enums/lookups/status-package-request.lookup";
 
 @Component({
   selector: 'app-cancel-request',
@@ -30,11 +31,12 @@ export class CancelRequestComponent implements OnInit {
   }
 
   get title(): string {
-    if (this.previousStatus.code === StatusRequestRoomLookup[StatusRequestRoomLookup.APPROVED]) {
-      return 'Cancelar solicitud';
-    } else if (this.previousStatus.code === StatusRequestRoomLookup[StatusRequestRoomLookup.CANCELLED]) {
+    if (this.previousStatus.code === StatusRequestRoomLookup[StatusRequestRoomLookup.CANCELLED] ||
+      this.previousStatus.code === StatusPackageRequestLookup[StatusPackageRequestLookup.CANCELLED]) {
       return `Solicitud cancelada por ${this.cancelRequest.user.fullName}`;
     }
+
+    return 'Cancelar solicitud';
   }
 
   ngOnInit(): void {

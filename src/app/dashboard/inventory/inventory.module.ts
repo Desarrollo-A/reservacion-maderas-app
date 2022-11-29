@@ -10,7 +10,7 @@ import { PaginatorModule } from "../../shared/components/paginator/paginator.mod
 import { ItemCreateUpdateComponent } from './components/item-create-update/item-create-update.component';
 import { DeleteConfirmModule } from "../../shared/components/delete-confirm/delete-confirm.module";
 import { UpdateStockComponent } from './components/update-stock/update-stock.component';
-import { ImageModule } from "../../shared/pipes/image/image.module";
+import { UrlModule } from "../../shared/pipes/url/url.module";
 import { UpdateImageComponent } from './components/update-image/update-image.component';
 import { PageNotFoundModule } from "../../shared/components/page-not-found/page-not-found.module";
 import { BreadcrumbsModule } from 'src/app/shared/components/breadcrumbs/breadcrumbs.module';
@@ -33,7 +33,7 @@ import { DecimalModule } from "../../shared/directives/decimal/decimal.module";
     ReactiveFormsModule,
     PaginatorModule,
     DeleteConfirmModule,
-    ImageModule,
+    UrlModule,
     PageNotFoundModule,
     BreadcrumbsModule,
     DecimalModule

@@ -13,7 +13,7 @@ import { PageNotFoundModule } from "../../shared/components/page-not-found/page-
 import { SnackDetailComponent } from './components/snack-detail/snack-detail.component';
 import { SnackAssignComponent } from './components/snack-assign/snack-assign.component';
 import { SimplePaginatorModule } from "../../shared/components/simple-paginator/simple-paginator.module";
-import { ImageModule } from "../../shared/pipes/image/image.module";
+import { UrlModule } from "../../shared/pipes/url/url.module";
 import { DeleteConfirmModule } from "../../shared/components/delete-confirm/delete-confirm.module";
 import { ProposalRequestComponent } from './components/proposal-request/proposal-request.component';
 import { CancelRequestComponent } from './components/cancel-request/cancel-request.component';
@@ -24,6 +24,7 @@ import { ScoreRequestComponent } from './components/score-request/score-request.
 import { PackageComponent } from './pages/package/package.component';
 import { PackageDetailComponent } from './pages/package-detail/package-detail.component';
 import { AddressModule } from "../../shared/components/address/address.module";
+import { DriverPackageAssignComponent } from './components/driver-package-assign/driver-package-assign.component';
 
 
 @NgModule({
@@ -37,7 +38,8 @@ import { AddressModule } from "../../shared/components/address/address.module";
     ConfirmProposalComponent,
     ScoreRequestComponent,
     PackageComponent,
-    PackageDetailComponent
+    PackageDetailComponent,
+    DriverPackageAssignComponent
   ],
   imports: [
     CommonModule,
@@ -50,7 +52,7 @@ import { AddressModule } from "../../shared/components/address/address.module";
     SimplePaginatorModule,
     BreadcrumbsModule,
     PageNotFoundModule,
-    ImageModule,
+    UrlModule,
     DeleteConfirmModule,
     PhoneRequestModule,
     EmailRequestModule,

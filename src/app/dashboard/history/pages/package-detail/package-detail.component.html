@@ -17,8 +17,10 @@
 
         <div class="flex items-center">
           <button [ngClass]="[requestPackage.request.statusLabelRequestPackage.textClass,
-            requestPackage.request.statusLabelRequestPackage.bgClass]"
-                  class="rounded -mt-6 px-3 py-2 text-sm flex-none">
+                  requestPackage.request.statusLabelRequestPackage.bgClass]"
+                  class="rounded -mt-6 px-3 py-2 text-sm flex-none"
+                  [matMenuTriggerFor]="statusMenu"
+                  [disabled]="statusChange.length === 0">
             {{ requestPackage.request.statusName }}
           </button>
         </div>
@@ -45,12 +47,22 @@
             <textarea matInput readonly [value]="requestPackage.request.comment"></textarea>
           </mat-form-field>
 
-          <div class="flex flex-col md:flex-row md:gap-4">
+          <div class="flex flex-col sm:flex-row sm:gap-4">
             <mat-form-field appearance="outline" class="flex-auto vex-flex-form-field">
               <mat-label>Fecha de salida del paquete</mat-label>
               <input matInput readonly [value]="requestPackage.request.startDate|date:'dd-MM-y'">
             </mat-form-field>
 
+            <a class="relative flex items-center cursor-pointer select-none rounded-full px-4 py-2 trans-ease-out"
+               matRipple [href]="requestPackage.authorizationFilename | url" target="_blank">
+              <div class="p-2 bg-blue-light text-blue rounded-full ltr:mr-4 rtl:ml-4">
+                <mat-icon class="block" svgIcon="mat:picture_as_pdf"></mat-icon>
+              </div>
+              <p class="font-medium text-blue">Archivo de autorización</p>
+            </a>
+          </div>
+
+          <div class="flex flex-col sm:flex-row sm:gap-4">
             <mat-form-field appearance="outline" class="flex-auto vex-flex-form-field">
               <mat-label>Nombre de la persona que recibe</mat-label>
               <input matInput readonly [value]="requestPackage.nameReceive">
@@ -77,6 +89,36 @@
           </div>
         </div>
       </div>
+
+      <div class="flex-auto">
+        <div class="px-6 flex flex-col gap-2">
+          <app-cancel-request #cancelRequestComponent
+                              *ngIf="requestPackage.request.status.code === statusRequest[statusRequest.CANCELLED]"
+                              [previousStatus]="this.previousStatus"
+                              [cancelRequest]="requestPackage?.request?.cancelRequest">
+          </app-cancel-request>
+        </div>
+      </div>
+
+      <div class="flex items-center justify-end mt-3">
+        <button color="primary"
+                mat-raised-button
+                type="button"
+                (click)="save()"
+                [disabled]="statusChange.length === 0">
+          Guardar
+        </button>
+      </div>
     </div>
   </vex-page-layout-content>
 </vex-page-layout>
+
+<mat-menu #statusMenu="matMenu" xPosition="before" yPosition="below">
+  <ng-template matMenuContent>
+    <ng-container *ngFor="let status of statusChange; trackBy: trackById">
+      <button mat-menu-item (click)="changeStatus(status)">
+        <span>{{ status.name }}</span>
+      </button>
+    </ng-container>
+  </ng-template>
+</mat-menu>

@@ -6,7 +6,7 @@ import { ActivatedRoute, Router } from "@angular/router";
 import { RequestRoomService } from "../../../../core/services/request-room.service";
 import { RequestRoomModel } from "../../../../core/models/request-room.model";
 import { Lookup } from "../../../../core/interfaces/lookup";
-import { delay, of, switchMap, tap } from "rxjs";
+import { of, switchMap, tap } from "rxjs";
 import { InventoryService } from "../../../../core/services/inventory.service";
 import { InventoryModel } from "../../../../core/models/inventory.model";
 import { StatusRequestRoomLookup } from "../../../../core/enums/lookups/status-request-room.lookup";
@@ -148,7 +148,6 @@ export class RoomDetailComponent {
 
   private dataRecepcionist(status: Lookup[]): void {
     this.inventoryService.findAllSnacks().pipe(
-      delay(0),
       tap(snackList => this.snackList = snackList),
       switchMap(() => {
         return (this.requestRoom.request.status.code === StatusRequestRoomLookup[StatusRequestRoomLookup.NEW])

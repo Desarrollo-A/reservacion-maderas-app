@@ -92,10 +92,11 @@ export const getStatusLabelRequestPackage = (statusName: string, code: string): 
   if (code === StatusPackageRequestLookup[StatusPackageRequestLookup.EXPIRED]) {
     return { text: statusName, textClass: 'text-gray', bgClass: 'bg-gray-light' };
   }
-  if (code === StatusPackageRequestLookup[StatusPackageRequestLookup.FINISHED]) {
+  if (code === StatusPackageRequestLookup[StatusPackageRequestLookup.DELIVERED]) {
     return { text: statusName, textClass: 'text-teal', bgClass: 'bg-teal-light' };
   }
-  if (code === StatusPackageRequestLookup[StatusPackageRequestLookup.ROAD]) {
+  if (code === StatusPackageRequestLookup[StatusPackageRequestLookup.ROAD] ||
+    code === StatusPackageRequestLookup[StatusPackageRequestLookup.TRANSFER]) {
     return { text: statusName, textClass: 'text-purple', bgClass: 'bg-purple-light' };
   }
 }

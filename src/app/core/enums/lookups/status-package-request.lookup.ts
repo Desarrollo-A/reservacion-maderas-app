@@ -3,8 +3,9 @@ export enum StatusPackageRequestLookup {
   APPROVED,
   CANCELLED,
   REJECTED,
-  FINISHED,
+  DELIVERED,
   ROAD,
   EXPIRED,
   PROPOSAL,
+  TRANSFER
 }

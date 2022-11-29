@@ -48,7 +48,7 @@
         <ng-container matColumnDef="image">
           <th *matHeaderCellDef mat-header-cell></th>
           <td *matCellDef="let row" class="w-8 min-w-8 pr-0" mat-cell>
-            <img [alt]="row.name" [src]="row.image|image" class="avatar h-8 w-8 align-middle">
+            <img [alt]="row.name" [src]="row.image|url" class="avatar h-8 w-8 align-middle">
           </td>
         </ng-container>
 

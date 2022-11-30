@@ -97,6 +97,11 @@
                               [previousStatus]="this.previousStatus"
                               [cancelRequest]="requestPackage?.request?.cancelRequest">
           </app-cancel-request>
+
+          <app-transfer-request #transferRequestComponent
+                                *ngIf="requestPackage.request.status.code === statusRequest[statusRequest.TRANSFER]"
+                                [officeId]="requestPackage.officeId">
+          </app-transfer-request>
         </div>
       </div>
 

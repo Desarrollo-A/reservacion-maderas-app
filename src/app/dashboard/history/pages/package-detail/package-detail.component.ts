@@ -10,9 +10,9 @@ import { switchMap, tap } from "rxjs";
 import { trackById } from "../../../../shared/utils/track-by";
 import { StatusPackageRequestLookup } from "../../../../core/enums/lookups/status-package-request.lookup";
 import { CancelRequestComponent } from "../../components/cancel-request/cancel-request.component";
-import { StatusRequestRoomLookup } from "../../../../core/enums/lookups/status-request-room.lookup";
 import { CancelRequestModel } from "../../../../core/models/cancel-request.model";
 import { ToastrService } from "ngx-toastr";
+import { TransferRequestComponent } from "../../components/transfer-request/transfer-request.component";
 
 @Component({
   selector: 'app-package-detail',
@@ -26,6 +26,8 @@ import { ToastrService } from "ngx-toastr";
 export class PackageDetailComponent {
   @ViewChild('cancelRequestComponent')
   cancelRequestComponent: CancelRequestComponent;
+  @ViewChild('transferRequestComponent')
+  transferRequestComponent: TransferRequestComponent;
 
   requestPackage: PackageModel;
   statusChange: Lookup[] = [];
@@ -71,6 +73,12 @@ export class PackageDetailComponent {
   changeStatus(status: Lookup): void {
     this.requestPackage.request.statusId = status.id;
     this.requestPackage.request.status = status;
+
+    if (status.code === StatusPackageRequestLookup[StatusPackageRequestLookup.CANCELLED]) {
+      this.toastrService.info('Agrega un comentario para cancelar la solicitud', 'Información');
+    } else if (status.code === StatusPackageRequestLookup[StatusPackageRequestLookup.TRANSFER]) {
+      this.toastrService.info('Selecciona una oficina para transferir la solicitud', 'Información');
+    }
   }
 
   save(): void {
@@ -78,6 +86,11 @@ export class PackageDetailComponent {
       (this.previousStatus.code === StatusPackageRequestLookup[StatusPackageRequestLookup.APPROVED] ||
         this.previousStatus.code === StatusPackageRequestLookup[StatusPackageRequestLookup.NEW])) {
       this.cancelRequest();
+      return;
+    }
+
+    if (this.requestPackage.request.status.code === StatusPackageRequestLookup[StatusPackageRequestLookup.TRANSFER]) {
+      this.transferRequest();
       return;
     }
   }
@@ -91,6 +104,19 @@ export class PackageDetailComponent {
     const data: CancelRequestModel = this.cancelRequestComponent.form.getRawValue();
     this.requestPackageService.cancelRequest(this.requestPackage.requestId, data).subscribe(() => {
       this.toastrService.success('Solicitud cancelada', 'Proceso exitoso');
+      this.router.navigateByUrl(this.urlRedirectBack);
+    });
+  }
+
+  private transferRequest(): void {
+    if (this.transferRequestComponent.form.invalid) {
+      this.transferRequestComponent.form.markAllAsTouched();
+      return;
+    }
+
+    const data: {officeId: number} = this.transferRequestComponent.form.getRawValue();
+    this.requestPackageService.transferRequest(this.requestPackage.id, data).subscribe(() => {
+      this.toastrService.success('Solicitud redirigida', 'Proceso exitoso');
       this.router.navigateByUrl(this.urlRedirectBack);
     });
   }

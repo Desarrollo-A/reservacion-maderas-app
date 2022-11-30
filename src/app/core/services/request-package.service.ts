@@ -65,4 +65,9 @@ export class RequestPackageService {
     const url = `${this.url}/cancel/${id}`;
     return this.http.patch<void>(url, request);
   }
+
+  transferRequest(packageId: number, data: { officeId: number }): Observable<void> {
+    const url = `${this.url}/transfer/${packageId}`;
+    return this.http.patch<void>(url, data);
+  }
 }

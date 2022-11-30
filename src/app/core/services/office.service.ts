@@ -20,4 +20,9 @@ export class OfficeService {
     const url = `${this.url}/state-driver/${stateId}`;
     return this.http.get<OfficeModel[]>(url);
   }
+
+  getByStateWithDriverWithoutOffice(officeId: number): Observable<OfficeModel[]> {
+    const url = `${this.url}/state-driver-whitout-office/${officeId}`;
+    return this.http.get<OfficeModel[]>(url);
+  }
 }

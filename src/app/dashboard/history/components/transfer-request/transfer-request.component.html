@@ -1,0 +1,25 @@
+<vex-page-layout-content class="container">
+  <div class="px-6 h-16 border-b sticky left-0 flex items-center">
+    <h2 class="title my-0 ltr:pr-4 rtl:pl-4 ltr:mr-4 rtl:ml-4 ltr:border-r rtl:border-l hidden sm:block flex-none">
+      <span>Tansferir solicitud a otra oficina</span>
+    </h2>
+  </div>
+
+  <form [formGroup]="form" @fadeInUp class="flex-auto">
+    <div class="px-6 py-4 flex flex-col">
+      <mat-form-field class="flex-auto">
+        <mat-label>Oficina</mat-label>
+        <mat-select formControlName="officeId">
+          <mat-option *ngFor="let office of offices; trackBy: trackById"
+                      [value]="office.id">
+            Oficina {{ office.name }}
+          </mat-option>
+        </mat-select>
+
+        <mat-error *ngIf="formErrors.customError('officeId','required')">
+          Campo obligatorio.
+        </mat-error>
+      </mat-form-field>
+    </div>
+  </form>
+</vex-page-layout-content>

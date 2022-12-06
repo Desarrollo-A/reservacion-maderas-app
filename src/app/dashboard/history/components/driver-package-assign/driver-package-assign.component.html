@@ -63,7 +63,7 @@
       </div>
 
       <div class="mt-4" *ngIf="isChecked">
-        <div class="flex flex-col sm:flex-row sm:gap-4">
+        <div class="flex flex-col md:flex-row md:gap-4">
           <mat-form-field class="flex-auto">
             <mat-label>Código de rastreo</mat-label>
             <input matInput type="text" formControlName="trackingCode" autocomplete="off">
@@ -87,10 +87,25 @@
               Campo obligatorio.
             </mat-error>
             <mat-error *ngIf="formErrors.customError('urlTracking', 'minlength')">
-              La URL de la página de rastreo debe ser igual o mayor a {{ formErrors.minLengthNumber('urlTracking') }}.
+              La URL de la página de rastreo debe tener más de {{ formErrors.minLengthNumber('urlTracking') }} caracteres.
             </mat-error>
             <mat-error *ngIf="formErrors.customError('urlTracking', 'maxlength')">
-              La URL de la página de rastreo debe ser igual o menor a {{ formErrors.maxLengthNumber('urlTracking') }}.
+              La URL de la página de rastreo debe tener menos de {{ formErrors.maxLengthNumber('urlTracking') }} caracteres.
+            </mat-error>
+          </mat-form-field>
+
+          <mat-form-field class="flex-auto">
+            <mat-label>Fecha de llegada aproximada</mat-label>
+            <input [matDatepicker]="datepickerRef"
+                   formControlName="endDate" matInput readonly>
+            <mat-datepicker-toggle [for]="datepickerRef" matSuffix></mat-datepicker-toggle>
+            <mat-datepicker #datepickerRef></mat-datepicker>
+
+            <mat-error *ngIf="formErrors.customError('endDate','required')">
+              Campo obligatorio.
+            </mat-error>
+            <mat-error *ngIf="formErrors.customError('endDate','dateBeforeNow')">
+              La fecha debe ser igual o mayor a la actual.
             </mat-error>
           </mat-form-field>
         </div>

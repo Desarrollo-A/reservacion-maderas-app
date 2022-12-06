@@ -10,7 +10,7 @@ import { map } from "rxjs/operators";
 import { RequestPackageViewModel } from "../models/request-package-view.model";
 import { Lookup } from "../interfaces/lookup";
 import { CancelRequestModel } from "../models/cancel-request.model";
-import { ApprovedRequest } from "../../dashboard/history/interfaces/approved-request";
+import { ApprovedPackageRequest } from "../../dashboard/history/interfaces/approved-package-request";
 
 @Injectable({
   providedIn: 'root'
@@ -77,7 +77,7 @@ export class RequestPackageService {
     return this.http.get<PackageModel[]>(url);
   }
 
-  approvedPackageRequest(data: ApprovedRequest): Observable<void> {
+  approvedPackageRequest(data: ApprovedPackageRequest): Observable<void> {
     const url = `${this.url}/approved`;
     return this.http.post<void>(url, data);
   }

@@ -52,8 +52,8 @@ export class RequestPackageService {
       );
   }
 
-  findById(requestId: number): Observable<PackageModel> {
-    const url = `${this.url}/${requestId}`;
+  findById(packageId: number): Observable<PackageModel> {
+    const url = `${this.url}/${packageId}`;
     return this.http.get<PackageModel>(url).pipe(
       map(res => new PackageModel(res))
     );

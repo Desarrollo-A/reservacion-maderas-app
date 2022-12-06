@@ -46,4 +46,8 @@ export class CarModel {
       return { text: this.statusName, textClass: 'text-gray', bgClass: 'bg-gray-light' };
     }
   }
+
+  get smallInformation(): string {
+    return `${this.trademark} ${this.model}, ${this.color}`;
+  }
 }

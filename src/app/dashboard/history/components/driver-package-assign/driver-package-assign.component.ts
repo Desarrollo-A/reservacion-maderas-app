@@ -11,6 +11,7 @@ import { CarModel } from "../../../../core/models/car.model";
 import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
 import { forkJoin, switchMap } from "rxjs";
 import { RequestPackageService } from "../../../../core/services/request-package.service";
+import { dateAfterNow, dateBeforeNow } from "../../../../shared/utils/form-validations";
 
 @UntilDestroy()
 @Component({
@@ -43,7 +44,8 @@ export class DriverPackageAssignComponent implements OnInit {
       driverId: [null, Validators.required],
       carId: [null, Validators.required],
       trackingCode: [null],
-      urlTracking: [null]
+      urlTracking: [null],
+      endDate: [null]
     });
 
     this.formErrors = new FormErrors(this.form);
@@ -76,9 +78,11 @@ export class DriverPackageAssignComponent implements OnInit {
         Validators.maxLength(25)]);
       this.form.get('urlTracking')?.addValidators([Validators.required, Validators.minLength(10),
         Validators.maxLength(255)]);
+      this.form.get('endDate')?.addValidators([Validators.required, dateBeforeNow])
     } else {
       this.form.get('trackingCode')?.clearValidators();
       this.form.get('urlTracking')?.clearValidators();
+      this.form.get('endDate')?.clearValidators();
 
       this.form.get('driverId')?.addValidators([Validators.required]);
       this.form.get('carId')?.addValidators([Validators.required]);

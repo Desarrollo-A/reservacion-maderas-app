@@ -13,6 +13,9 @@ import { CancelRequestComponent } from "../../components/cancel-request/cancel-r
 import { CancelRequestModel } from "../../../../core/models/cancel-request.model";
 import { ToastrService } from "ngx-toastr";
 import { TransferRequestComponent } from "../../components/transfer-request/transfer-request.component";
+import { StatusRequestRoomLookup } from "../../../../core/enums/lookups/status-request-room.lookup";
+import { DriverPackageAssignComponent } from "../../components/driver-package-assign/driver-package-assign.component";
+import { ApprovedRequest } from "../../interfaces/approved-request";
 
 @Component({
   selector: 'app-package-detail',
@@ -28,6 +31,8 @@ export class PackageDetailComponent {
   cancelRequestComponent: CancelRequestComponent;
   @ViewChild('transferRequestComponent')
   transferRequestComponent: TransferRequestComponent;
+  @ViewChild('driverPackageAssignComponent')
+  driverPackageAssignComponents: DriverPackageAssignComponent;
 
   requestPackage: PackageModel;
   statusChange: Lookup[] = [];
@@ -78,6 +83,8 @@ export class PackageDetailComponent {
       this.toastrService.info('Agrega un comentario para cancelar la solicitud', 'Información');
     } else if (status.code === StatusPackageRequestLookup[StatusPackageRequestLookup.TRANSFER]) {
       this.toastrService.info('Selecciona una oficina para transferir la solicitud', 'Información');
+    } else if (status.code === StatusPackageRequestLookup[StatusPackageRequestLookup.APPROVED]) {
+      this.toastrService.info('Selecciona el método de envío', 'Información');
     }
   }
 
@@ -91,6 +98,12 @@ export class PackageDetailComponent {
 
     if (this.requestPackage.request.status.code === StatusPackageRequestLookup[StatusPackageRequestLookup.TRANSFER]) {
       this.transferRequest();
+      return;
+    }
+
+    if (this.requestPackage.request.status.code === StatusPackageRequestLookup[StatusRequestRoomLookup.APPROVED]
+      && this.previousStatus.code === StatusPackageRequestLookup[StatusRequestRoomLookup.NEW]) {
+      this.approvedRequest();
       return;
     }
   }
@@ -117,6 +130,25 @@ export class PackageDetailComponent {
     const data: {officeId: number} = this.transferRequestComponent.form.getRawValue();
     this.requestPackageService.transferRequest(this.requestPackage.id, data).subscribe(() => {
       this.toastrService.success('Solicitud redirigida', 'Proceso exitoso');
+      this.router.navigateByUrl(this.urlRedirectBack);
+    });
+  }
+
+  private approvedRequest(): void {
+    if (this.driverPackageAssignComponents.form.invalid) {
+      this.driverPackageAssignComponents.form.markAllAsTouched();
+      return;
+    }
+
+    const formValues = this.driverPackageAssignComponents.form.getRawValue();
+    const data: ApprovedRequest = {
+      ...formValues,
+      requestId: this.requestPackage.requestId,
+      packageId: this.requestPackage.id
+    };
+
+    this.requestPackageService.approvedPackageRequest(data).subscribe(() => {
+      this.toastrService.success('Solicitud aprobada', 'Proceso exitoso');
       this.router.navigateByUrl(this.urlRedirectBack);
     });
   }

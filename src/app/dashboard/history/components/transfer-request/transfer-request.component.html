@@ -12,7 +12,7 @@
         <mat-select formControlName="officeId">
           <mat-option *ngFor="let office of offices; trackBy: trackById"
                       [value]="office.id">
-            Oficina {{ office.name }}
+            {{ office.name }}
           </mat-option>
         </mat-select>
 

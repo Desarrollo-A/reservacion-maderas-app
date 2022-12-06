@@ -1,1 +1,100 @@
-<p>driver-package-assign works!</p>
+<vex-page-layout-content class="container">
+  <div class="px-6 h-16 border-b sticky left-0 flex items-center">
+    <h2 class="title my-0 ltr:pr-4 rtl:pl-4 ltr:mr-4 rtl:ml-4 ltr:border-r rtl:border-l hidden sm:block flex-none">
+      <span>Asignación de envío</span>
+    </h2>
+  </div>
+
+  <form [formGroup]="form" @fadeInUp class="flex-auto mt-4">
+    <div class="px-6 py-4 flex flex-col">
+      <div class="flex-auto">
+        <mat-slide-toggle (change)="changeToggle()">
+          ¿El envío será por paquetería externa?
+        </mat-slide-toggle>
+      </div>
+
+      <div class="mt-4" *ngIf="!isChecked">
+        <div class="flex flex-col sm:flex-row sm:gap-4">
+          <mat-form-field class="flex-auto">
+            <mat-label>Conductor</mat-label>
+            <mat-select formControlName="driverId">
+              <mat-option *ngFor="let driver of drivers; trackBy: trackById"
+                          [value]="driver.id">
+                {{ driver.fullName }}
+              </mat-option>
+            </mat-select>
+
+            <mat-error *ngIf="formErrors.customError('driverId','required')">
+              Campo obligatorio.
+            </mat-error>
+          </mat-form-field>
+
+          <mat-form-field class="flex-auto">
+            <mat-label>Auto</mat-label>
+            <mat-select formControlName="carId">
+              <mat-option *ngFor="let car of cars; trackBy: trackById"
+                          [value]="car.id">
+                {{ car.trademark + ', ' + car.model }}
+              </mat-option>
+            </mat-select>
+
+            <mat-error *ngIf="formErrors.customError('carId','required')">
+              Campo obligatorio.
+            </mat-error>
+          </mat-form-field>
+        </div>
+
+        <div class="flex flex-col" *ngIf="approvedPackagesHistory.length > 0">
+          <mat-list class="list mat-elevation-z1">
+            <h3 mat-subheader>Solicitudes de paquetería anteriormente asignadas</h3>
+            <mat-list-item *ngFor="let packageModel of approvedPackagesHistory">
+              <mat-icon color="primary" mat-list-avatar svgIcon="mat:local_shipping"></mat-icon>
+              <h3 matLine>{{packageModel.request.code}}</h3>
+              <p matLine>
+                <span class="subline">
+                  <strong>{{packageModel.pickupAddress.state}} -> {{packageModel.pickupAddress.country.name}}</strong>
+                  hacia
+                  <strong>{{packageModel.arrivalAddress.state}} -> {{packageModel.arrivalAddress.country.name}}</strong>
+                </span>
+              </p>
+            </mat-list-item>
+          </mat-list>
+        </div>
+      </div>
+
+      <div class="mt-4" *ngIf="isChecked">
+        <div class="flex flex-col sm:flex-row sm:gap-4">
+          <mat-form-field class="flex-auto">
+            <mat-label>Código de rastreo</mat-label>
+            <input matInput type="text" formControlName="trackingCode" autocomplete="off">
+
+            <mat-error *ngIf="formErrors.customError('trackingCode', 'required')">
+              Campo obligatorio.
+            </mat-error>
+            <mat-error *ngIf="formErrors.customError('trackingCode', 'minlength')">
+              El código de rastreo debe ser igual o mayor a {{ formErrors.minLengthNumber('trackingCode') }}.
+            </mat-error>
+            <mat-error *ngIf="formErrors.customError('trackingCode', 'maxlength')">
+              El código de rastreo debe ser igual o menor a {{ formErrors.maxLengthNumber('trackingCode') }}.
+            </mat-error>
+          </mat-form-field>
+
+          <mat-form-field class="flex-auto">
+            <mat-label>URL de consulta de estatus de envío</mat-label>
+            <input matInput type="text" formControlName="urlTracking" autocomplete="off">
+
+            <mat-error *ngIf="formErrors.customError('urlTracking', 'required')">
+              Campo obligatorio.
+            </mat-error>
+            <mat-error *ngIf="formErrors.customError('urlTracking', 'minlength')">
+              La URL de la página de rastreo debe ser igual o mayor a {{ formErrors.minLengthNumber('urlTracking') }}.
+            </mat-error>
+            <mat-error *ngIf="formErrors.customError('urlTracking', 'maxlength')">
+              La URL de la página de rastreo debe ser igual o menor a {{ formErrors.maxLengthNumber('urlTracking') }}.
+            </mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+    </div>
+  </form>
+</vex-page-layout-content>

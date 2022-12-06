@@ -40,5 +40,14 @@ export class DriverService {
     const url = `${this.url}/car`;
     return this.http.post<void>(url, request);
   }
-  
+
+  getAvailablePackageRequest(officeId: number, date: string): Observable<DriverModel[]> {
+    const url = `${this.url}/available-package/${officeId}/${date}`;
+    return this.http.get<DriverModel[]>(url).pipe(
+      map(drivers => {
+        drivers = drivers.map(driver => new DriverModel(driver));
+        return drivers;
+      })
+    );
+  }
 }

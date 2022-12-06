@@ -55,10 +55,10 @@
 
             <a class="relative flex items-center cursor-pointer select-none rounded-full px-4 py-2 trans-ease-out"
                matRipple [href]="requestPackage.authorizationFilename | url" target="_blank">
-              <div class="p-2 bg-blue-light text-blue rounded-full ltr:mr-4 rtl:ml-4">
+              <div class="p-2 bg-primary/10 text-primary rounded-full ltr:mr-4 rtl:ml-4">
                 <mat-icon class="block" svgIcon="mat:picture_as_pdf"></mat-icon>
               </div>
-              <p class="font-medium text-blue">Archivo de autorización</p>
+              <p class="font-medium text-primary">Archivo de autorización</p>
             </a>
           </div>
 
@@ -102,6 +102,12 @@
                                 *ngIf="requestPackage.request.status.code === statusRequest[statusRequest.TRANSFER]"
                                 [officeId]="requestPackage.officeId">
           </app-transfer-request>
+
+          <app-driver-package-assign #driverPackageAssignComponent
+                                     *ngIf="previousStatus.code === statusRequest[statusRequest.NEW] &&
+                                     requestPackage.request.status.code === statusRequest[statusRequest.APPROVED]"
+                                     [requestPackage]="requestPackage">
+          </app-driver-package-assign>
         </div>
       </div>
 

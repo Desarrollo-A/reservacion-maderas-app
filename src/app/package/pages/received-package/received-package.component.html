@@ -1,0 +1,56 @@
+<div class="bg-pattern w-full h-full overflow-auto">
+  <div class="p-gutter container">
+    <div class="flex flex-col sm:flex-row gap-4 md:justify-center md:items-center md:h-screen">
+      <div @fadeInUp class="card">
+        <div class="px-6 py-4 border-b flex items-center">
+          <h2 class="title">Calificación de paquetería de la solicitud {{codePackage.code}}</h2>
+        </div>
+
+        <form [formGroup]="form" (ngSubmit)="save()" class="px-6 py-4 flex flex-col">
+         
+          <div class="flex flex-col md:flex-row sm:gap-4">
+
+            <mat-dialog-content class="flex flex-col gap-6 mx-auto">
+  
+              <h1 class="text-center">
+                Califica y escribe un comentario de acuerdo a la experiencia que hayas tenido con nuestro servicio de paquetería.
+              </h1>
+
+              <app-star-rating #starRatingComponent
+                                class="flex flex-row gap-10 mx-auto">
+              </app-star-rating>
+          
+              <mat-form-field class="flex-auto">
+                <mat-label>Comentarios</mat-label>
+                <textarea matInput formControlName="comment" rows="5"></textarea>
+
+                <mat-error *ngIf="formErrors.customError('comment', 'minlength')">
+                  El comentario debe tener más de {{formErrors.minLengthNumber('comment')}} caracteres.
+                </mat-error>
+  
+                <mat-error *ngIf="formErrors.customError('comment', 'maxlength')">
+                  El comentario debe tener menos de {{formErrors.maxLengthNumber('comment')}} caracteres.
+                </mat-error>
+
+                <mat-error *ngIf="formErrors.customError('comment', 'required')">
+                  Campo obligatorio.
+                </mat-error>
+
+              </mat-form-field>
+
+            </mat-dialog-content>
+
+          </div>
+
+          <div class="flex items-center justify-end gap-2">
+            <button color="primary"
+                    mat-flat-button
+                    type="submit">
+              Enviar
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

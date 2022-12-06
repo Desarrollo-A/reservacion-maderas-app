@@ -15,7 +15,8 @@ import { ToastrService } from "ngx-toastr";
 import { TransferRequestComponent } from "../../components/transfer-request/transfer-request.component";
 import { StatusRequestRoomLookup } from "../../../../core/enums/lookups/status-request-room.lookup";
 import { DriverPackageAssignComponent } from "../../components/driver-package-assign/driver-package-assign.component";
-import { ApprovedRequest } from "../../interfaces/approved-request";
+import { ApprovedPackageRequest } from "../../interfaces/approved-package-request";
+import { getDateFormat } from "../../../../shared/utils/utils";
 
 @Component({
   selector: 'app-package-detail',
@@ -141,7 +142,10 @@ export class PackageDetailComponent {
     }
 
     const formValues = this.driverPackageAssignComponents.form.getRawValue();
-    const data: ApprovedRequest = {
+    if (formValues.endDate) {
+      formValues.endDate = getDateFormat(formValues.endDate);
+    }
+    const data: ApprovedPackageRequest = {
       ...formValues,
       requestId: this.requestPackage.requestId,
       packageId: this.requestPackage.id

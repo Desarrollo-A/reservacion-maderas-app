@@ -53,13 +53,15 @@
               <input matInput readonly [value]="requestPackage.request.startDate|date:'dd-MM-y'">
             </mat-form-field>
 
-            <a class="relative flex items-center cursor-pointer select-none rounded-full px-4 py-2 trans-ease-out"
-               matRipple [href]="requestPackage.authorizationFilename | url" target="_blank">
-              <div class="p-2 bg-primary/10 text-primary rounded-full ltr:mr-4 rtl:ml-4">
-                <mat-icon class="block" svgIcon="mat:picture_as_pdf"></mat-icon>
-              </div>
-              <p class="font-medium text-primary">Archivo de autorización</p>
-            </a>
+            <div class="flex-auto sm:mt-2 mb-4 sm:mb-0">
+              <a class="relative flex items-center cursor-pointer select-none rounded-full px-4 py-1 hover:bg-primary/10 trans-ease-out"
+                   matRipple [href]="requestPackage.authorizationFilename | url" target="_blank">
+                <div class="p-2 bg-primary/10 text-primary rounded-full ltr:mr-4 rtl:ml-4">
+                  <mat-icon class="block" svgIcon="mat:picture_as_pdf"></mat-icon>
+                </div>
+                <p class="font-medium text-primary">Archivo de autorización</p>
+              </a>
+            </div>
           </div>
 
           <div class="flex flex-col sm:flex-row sm:gap-4">
@@ -72,6 +74,49 @@
               <mat-label>Correo de la persona que recibe</mat-label>
               <input matInput readonly [value]="requestPackage.emailReceive">
             </mat-form-field>
+          </div>
+
+          <!-- Información del chofer que entregará la paquetería -->
+          <div class="flex flex-col md:flex-row md:gap-4" *ngIf="requestPackage.driverPackageSchedule">
+            <mat-form-field appearance="outline" class="flex-auto vex-flex-form-field">
+              <mat-label>Nombre del chofer quien entrega</mat-label>
+              <input matInput readonly [value]="requestPackage.driverPackageSchedule.driverSchedule.driver.fullName">
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" class="flex-auto vex-flex-form-field">
+              <mat-label>Automóvil</mat-label>
+              <input matInput readonly [value]="requestPackage.driverPackageSchedule.carSchedule.car.smallInformation">
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" class="flex-auto vex-flex-form-field">
+              <mat-label>Fecha de entrega</mat-label>
+              <input matInput readonly [value]="requestPackage.request.endDate | date:'dd-MM-y'">
+            </mat-form-field>
+          </div>
+
+          <!-- Información de la paquetería externa que entregará el pedido -->
+          <div class="flex flex-col md:flex-row md:gap-4" *ngIf="requestPackage.trackingCode">
+            <mat-form-field appearance="outline" class="flex-auto vex-flex-form-field">
+              <mat-label>Clave de rastreo</mat-label>
+              <input matInput readonly [value]="requestPackage.trackingCode">
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" class="flex-auto vex-flex-form-field">
+              <mat-label>Fecha de entrega aproximada</mat-label>
+              <input matInput readonly [value]="requestPackage.request.endDate | date:'dd-MM-y'">
+            </mat-form-field>
+
+            <div class="flex-auto">
+              <div class="flex-auto md:mt-2 mb-4 md:mb-0">
+                <a class="relative flex items-center cursor-pointer select-none rounded-full px-4 py-1 hover:bg-primary/10 trans-ease-out"
+                   matRipple [href]="requestPackage.urlTracking" target="_blank">
+                  <div class="p-2 bg-primary/10 text-primary rounded-full ltr:mr-4 rtl:ml-4">
+                    <mat-icon class="block" svgIcon="mat:local_shipping"></mat-icon>
+                  </div>
+                  <p class="font-medium text-primary">URL de rastreo</p>
+                </a>
+              </div>
+            </div>
           </div>
 
           <div class="flex flex-col gap-5">

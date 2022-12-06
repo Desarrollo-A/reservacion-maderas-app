@@ -11,6 +11,8 @@ import { RequestPackageViewModel } from "../models/request-package-view.model";
 import { Lookup } from "../interfaces/lookup";
 import { CancelRequestModel } from "../models/cancel-request.model";
 import { ApprovedPackageRequest } from "../../dashboard/history/interfaces/approved-package-request";
+import { AuthCodePackage } from 'src/app/package/interfaces/auth-code-package';
+import { DeliveredPackage } from 'src/app/package/interfaces/delivered-package';
 
 @Injectable({
   providedIn: 'root'
@@ -80,5 +82,32 @@ export class RequestPackageService {
   approvedPackageRequest(data: ApprovedPackageRequest): Observable<void> {
     const url = `${this.url}/approved`;
     return this.http.post<void>(url, data);
+  }
+
+  insertRequestPackageScore(requestId: number, score: number, comment: string): Observable<void>{
+    const request = {requestId, score, comment};
+    const url = `${this.url}/insert-score`;
+    return this.http.post<void>(url, request);
+  }
+
+  isPackageRequestCompleted(requestPackageId: number): Observable<boolean>{
+    const url = `${this.url}/completed/${requestPackageId}`;
+    return this.http.get<DeliveredPackage>(url)
+      .pipe(
+        map(res => res.deliveredPackage)
+      );
+  }
+
+  isAuthCodePackage(requestAuthCodePackage: string): Observable<boolean>{
+    const url = `${this.url}/auth-code/${requestAuthCodePackage}`;
+    return this.http.get<AuthCodePackage>(url)
+      .pipe(
+        map(res=>res.authCodePackage)
+      );
+  }
+
+  showCodePackage(packageId: number): Observable<{code: string}>{
+    const url = `${this.url}/show/${packageId}`;
+    return this.http.get<{code: string}>(url);
   }
 }

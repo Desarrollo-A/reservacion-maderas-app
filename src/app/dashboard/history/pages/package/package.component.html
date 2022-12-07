@@ -140,7 +140,7 @@
 
 <mat-menu #actionsMenu="matMenu" xPosition="before" yPosition="below">
   <ng-template let-package="package" matMenuContent>
-    <a mat-menu-item [routerLink]="['./', package.packageId]">
+    <a mat-menu-item [routerLink]="['./', package.requestId]">
       <mat-icon svgIcon="mat:visibility"></mat-icon>
       <span>Detalle</span>
     </a>

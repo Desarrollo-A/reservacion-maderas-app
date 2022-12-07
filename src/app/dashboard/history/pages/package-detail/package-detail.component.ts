@@ -55,7 +55,7 @@ export class PackageDetailComponent {
     });
 
     this.activatedRoute.params.subscribe(params => {
-      this.findByPackageId(params.id);
+      this.findByRequestId(params.id);
     });
   }
 
@@ -63,8 +63,8 @@ export class PackageDetailComponent {
     return StatusPackageRequestLookup;
   }
 
-  findByPackageId(packageId: number): void {
-    this.requestPackageService.findById(packageId).pipe(
+  findByRequestId(requestId: number): void {
+    this.requestPackageService.findById(requestId).pipe(
       tap(requestPackage => {
         this.requestPackage = requestPackage;
         this.previousStatus = {... requestPackage.request.status};

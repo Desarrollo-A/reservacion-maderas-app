@@ -110,4 +110,9 @@ export class RequestPackageService {
     const url = `${this.url}/show/${packageId}`;
     return this.http.get<{code: string}>(url);
   }
+
+  onRoadPackage(requestId: number): Observable<void> {
+    const url = `${this.url}/road/${requestId}`;
+    return this.http.patch<void>(url, null);
+  }
 }

@@ -8,15 +8,14 @@ import { PackageModel } from "../../../../core/models/package.model";
 import { Lookup } from "../../../../core/interfaces/lookup";
 import { switchMap, tap } from "rxjs";
 import { trackById } from "../../../../shared/utils/track-by";
-import { StatusPackageRequestLookup } from "../../../../core/enums/lookups/status-package-request.lookup";
 import { CancelRequestComponent } from "../../components/cancel-request/cancel-request.component";
 import { CancelRequestModel } from "../../../../core/models/cancel-request.model";
 import { ToastrService } from "ngx-toastr";
 import { TransferRequestComponent } from "../../components/transfer-request/transfer-request.component";
-import { StatusRequestRoomLookup } from "../../../../core/enums/lookups/status-request-room.lookup";
 import { DriverPackageAssignComponent } from "../../components/driver-package-assign/driver-package-assign.component";
 import { ApprovedPackageRequest } from "../../interfaces/approved-package-request";
 import { getDateFormat } from "../../../../shared/utils/utils";
+import { StatusPackageRequestLookup } from "../../../../core/enums/lookups/status-package-request.lookup";
 
 @Component({
   selector: 'app-package-detail',
@@ -102,9 +101,15 @@ export class PackageDetailComponent {
       return;
     }
 
-    if (this.requestPackage.request.status.code === StatusPackageRequestLookup[StatusRequestRoomLookup.APPROVED]
-      && this.previousStatus.code === StatusPackageRequestLookup[StatusRequestRoomLookup.NEW]) {
+    if (this.requestPackage.request.status.code === StatusPackageRequestLookup[StatusPackageRequestLookup.APPROVED]
+      && this.previousStatus.code === StatusPackageRequestLookup[StatusPackageRequestLookup.NEW]) {
       this.approvedRequest();
+      return;
+    }
+
+    if (this.requestPackage.request.status.code === StatusPackageRequestLookup[StatusPackageRequestLookup.ROAD]
+      && this.previousStatus.code === StatusPackageRequestLookup[StatusPackageRequestLookup.APPROVED]) {
+      this.onRoadRequest();
       return;
     }
   }
@@ -153,6 +158,13 @@ export class PackageDetailComponent {
 
     this.requestPackageService.approvedPackageRequest(data).subscribe(() => {
       this.toastrService.success('Solicitud aprobada', 'Proceso exitoso');
+      this.router.navigateByUrl(this.urlRedirectBack);
+    });
+  }
+
+  private onRoadRequest(): void {
+    this.requestPackageService.onRoadPackage(this.requestPackage.requestId).subscribe(() => {
+      this.toastrService.success('El paquete se encuentra en camino al destino', 'Proceso exitoso');
       this.router.navigateByUrl(this.urlRedirectBack);
     });
   }

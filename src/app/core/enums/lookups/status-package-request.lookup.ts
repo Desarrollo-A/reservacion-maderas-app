@@ -7,5 +7,5 @@ export enum StatusPackageRequestLookup {
   ROAD,
   EXPIRED,
   PROPOSAL,
-  TRANSFER
+  TRANSFER,
 }

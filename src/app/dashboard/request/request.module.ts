@@ -10,12 +10,14 @@ import { PhoneRequestModule } from "../../shared/components/phone-request/phone-
 import { EmailRequestModule } from "../../shared/components/email-request/email-request.module";
 import { PackageComponent } from './pages/package/package.component';
 import { AddressModule } from "../../shared/components/address/address.module";
+import { DriverComponent } from './pages/driver/driver.component';
 
 
 @NgModule({
   declarations: [
     RoomComponent,
-    PackageComponent
+    PackageComponent,
+    DriverComponent
   ],
   imports: [
     CommonModule,

@@ -52,7 +52,6 @@ export class InputOutputInventoryConfigComponent implements OnInit {
   generateReport(): void {
     if (this.form.invalid) {
       this.form.markAllAsTouched();
-      console.log(this.form.errors);
       return;
     }
 

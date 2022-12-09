@@ -1,0 +1,184 @@
+<div [@stagger]="true" class="p-gutter container">
+  <div class="flex flex-col sm:flex-row gap-4">
+    <div @fadeInUp class="card flex-auto">
+      <div class="px-6 py-4 border-b flex flex-col">
+        <h2 class="title m-0">Solicitar Chofer</h2>
+      </div>
+
+      <form class="px-6 py-4 flex flex-col gap-2" [formGroup]="form">
+        <div class="flex flex-col sm:flex-row sm:gap-4">
+          <mat-form-field class="flex-auto">
+            <mat-label>Título de la solicitud</mat-label>
+            <input matInput type="text" autocomplete="off" formControlName="title">
+
+            <mat-error *ngIf="formErrors.customError('title', 'required')">
+              Campo obligatorio.
+            </mat-error>
+            <mat-error *ngIf="formErrors.customError('title', 'minlength')">
+              El título debe tener más de {{ formErrors.minLengthNumber('title') }} caracteres.
+            </mat-error>
+            <mat-error *ngIf="formErrors.customError('title', 'maxlength')">
+              El título debe tener menos de {{ formErrors.maxLengthNumber('title') }} caracteres.
+            </mat-error>
+          </mat-form-field>
+
+          <mat-form-field class="flex-auto">
+            <mat-label>N° de personas a trasladarse</mat-label>
+            <input matInput type="number" autocomplete="off" formControlName="people">
+
+            <mat-error *ngIf="formErrors.customError('people', 'required')">
+              Campo obligatorio.
+            </mat-error>
+            <mat-error *ngIf="formErrors.customError('people', 'min')">
+              El N° de personas debe ser mayor a {{formErrors.minNumber('people')}}.
+            </mat-error>
+            <mat-error *ngIf="formErrors.customError('people', 'max')">
+              El N° de personas debe ser menor a {{formErrors.maxNumber('people')}}.
+            </mat-error>
+          </mat-form-field>
+        </div>
+
+        <div class="flex flex-col md:flex-row md:gap-4">
+          <mat-form-field class="flex-auto">
+            <mat-label>Sede</mat-label>
+            <mat-select formControlName="state">
+              <mat-option *ngFor="let state of states; trackBy: trackById"
+                          [value]="state.id">
+                {{ state.name }}
+              </mat-option>
+            </mat-select>
+
+            <mat-error *ngIf="formErrors.customError('state', 'required')">
+              Campo obligatorio.
+            </mat-error>
+          </mat-form-field>
+
+          <mat-form-field class="flex-auto">
+            <mat-label>Oficina</mat-label>
+            <mat-select formControlName="officeId">
+              <mat-option *ngFor="let office of offices; trackBy: trackById"
+                          [value]="office.id">
+                Oficina {{ office.name }}
+              </mat-option>
+            </mat-select>
+
+            <mat-error *ngIf="formErrors.customError('officeId', 'required')">
+              Campo obligatorio.
+            </mat-error>
+          </mat-form-field>
+
+          <div class="flex-auto sm:mt-3 sm:ml-3">
+            <mat-slide-toggle matTooltip="Agendar el evento (en caso de aprobarse) en tu Google Calendar"
+                              formControlName="addGoogleCalendar">
+              Agregar al Google Calendar
+            </mat-slide-toggle>
+          </div>
+        </div>
+
+        <div class="flex flex-col sm:flex-row sm:gap-4">
+          <mat-form-field class="flex-auto">
+            <mat-label>Fecha de salida</mat-label>
+            <input [matDatepicker]="datepickerExitRef" matInput readonly formControlName="startDate">
+            <mat-datepicker-toggle [for]="datepickerExitRef" matSuffix></mat-datepicker-toggle>
+            <mat-datepicker #datepickerExitRef></mat-datepicker>
+
+            <mat-error *ngIf="formErrors.customError('startDate', 'required')">
+              Campo obligatorio.
+            </mat-error>
+            <mat-error *ngIf="formErrors.customError('startDate','dateBeforeNow')">
+              La fecha debe ser igual o mayor a la actual.
+            </mat-error>
+            <mat-error *ngIf="formErrors.customError('startDate','dateAfter30Days')">
+              La fecha no debe pasar 30 días después a la actual.
+            </mat-error>
+          </mat-form-field>
+
+          <mat-form-field class="flex-auto">
+            <mat-label>Hora salida</mat-label>
+            <input #startTime matInput type="time" formControlName="startTime"
+                   (change)="roundedTime('startTime', startTime.value)">
+
+            <mat-error *ngIf="formErrors.customError('startTime', 'required')">
+              Campo obligatorio.
+            </mat-error>
+          </mat-form-field>
+        </div>
+
+        <div class="flex flex-col sm:flex-row sm:gap-4">
+          <mat-form-field class="flex-auto">
+            <mat-label>Fecha de llegada</mat-label>
+            <input [matDatepicker]="datepickerArrivalRef" matInput readonly formControlName="endDate">
+            <mat-datepicker-toggle [for]="datepickerArrivalRef" matSuffix></mat-datepicker-toggle>
+            <mat-datepicker #datepickerArrivalRef></mat-datepicker>
+
+            <mat-error *ngIf="formErrors.customError('endDate', 'required')">
+              Campo obligatorio.
+            </mat-error>
+            <mat-error *ngIf="formErrors.customError('endDate','dateBeforeNow')">
+              La fecha debe ser igual o mayor a la actual.
+            </mat-error>
+            <mat-error *ngIf="formErrors.customError('endDate', 'dateAfter')">
+              La fecha de llegada debe ser mayor a la fecha de inicio.
+            </mat-error>
+          </mat-form-field>
+
+          <mat-form-field class="flex-auto">
+            <mat-label>Hora llegada aproximada</mat-label>
+            <input #endDate matInput type="time" formControlName="endTime"
+                   (change)="roundedTime('endTime', endDate.value)">
+
+            <mat-error *ngIf="formErrors.customError('endTime', 'required')">
+              Campo obligatorio.
+            </mat-error>
+            <mat-error *ngIf="formErrors.customError('endTime', 'endTimeAfter')">
+              La hora de llegada debe ser mayor a la hora de salida.
+            </mat-error>
+          </mat-form-field>
+        </div>
+
+        <div class="flex flex-col gap-5">
+          <app-address #pickupAddress
+                       title="Dirección de salida"
+                       subtitle="Información del lugar de salida">
+          </app-address>
+
+          <app-address #arrivalAddress
+                       title="Dirección de llegada"
+                       subtitle="Información del lugar de llegada">
+          </app-address>
+        </div>
+
+        <div class="flex-auto mb-3 mt-2">
+          <label for="file" class="form-label inline-block mb-2 text-gray-700">
+            Autorización de solicitud de chofer
+          </label>
+          <input class="block w-full sm:w-4/5 px-2 py-1 text-sm font-normal text-gray-700 bg-white bg-clip-padding
+            border border-solid border-gray-300 rounded transition ease-in-out m-0
+            focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
+                 formControlName="authorizationFile"
+                 accept="application/pdf"
+                 id="file"
+                 type="file"
+                 (change)="changeFile($event.target['files'][0])">
+        </div>
+
+        <mat-form-field>
+          <mat-label>Comentarios sobre el viaje</mat-label>
+          <textarea placeholder="Describa aquí la actividad y función a realizar..."
+                    matInput formControlName="comment"></textarea>
+        </mat-form-field>
+
+        <app-email-request-table #emailRequestTableComponent></app-email-request-table>
+
+        <div class="flex items-center justify-end mt-2">
+          <button color="primary"
+                  mat-raised-button
+                  type="button"
+                  (click)="save()">
+            Crear solicitud
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

@@ -25,4 +25,9 @@ export class OfficeService {
     const url = `${this.url}/state-driver-whitout-office/${officeId}`;
     return this.http.get<OfficeModel[]>(url);
   }
+
+  getOfficeByStateWithDriverAndCar(stateId: number, noPeople: number): Observable<OfficeModel[]> {
+    const url = `${this.url}/state-driver-car/${stateId}/${noPeople}`;
+    return this.http.get<OfficeModel[]>(url);
+  }
 }

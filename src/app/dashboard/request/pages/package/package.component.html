@@ -15,10 +15,10 @@
               Campo obligatorio.
             </mat-error>
             <mat-error *ngIf="formErrors.customError('title', 'minlength')">
-              El título debe ser igual o mayor a {{ formErrors.minLengthNumber('title') }}.
+              El título debe tener más de {{ formErrors.minLengthNumber('title') }} caracteres.
             </mat-error>
             <mat-error *ngIf="formErrors.customError('title', 'maxlength')">
-              El titulo debe ser igual o menor a {{ formErrors.maxLengthNumber('title') }}.
+              El título debe tener menos de {{ formErrors.maxLengthNumber('title') }} caracteres.
             </mat-error>
           </mat-form-field>
 

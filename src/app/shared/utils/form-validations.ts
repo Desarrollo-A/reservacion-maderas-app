@@ -37,6 +37,35 @@ export const endDateIsAfterToStartDate = (startDate: string, endDate: string) =>
   }
 }
 
+export const endTimeIsAfterToStarTimeWithDates = (startDate: string, endDate: string, startTime: string, endTime: string) => {
+  return (formGroup: AbstractControl): ValidationErrors | null => {
+    if (!formGroup.get(startDate)?.value || !formGroup.get(endDate)?.value
+      || !formGroup.get(startTime)?.value || !formGroup.get(endTime)?.value) {
+      return null;
+    }
+
+    const startDateValue = new Date(formGroup.get(startDate)?.value);
+    const endDateValue = new Date(formGroup.get(endDate)?.value);
+
+    if (startDateValue.getTime() !== endDateValue.getTime()) {
+      removeError(formGroup.get(endTime), 'endTimeAfter');
+      return null;
+    }
+
+    const startTimeValue = formGroup.get(startTime)?.value;
+    const endTimeValue = formGroup.get(endTime)?.value;
+
+    if (startTimeValue > endTimeValue) {
+      const error = { endTimeAfter: true };
+      formGroup.get(endTime)?.setErrors(error);
+      return error;
+    }
+
+    removeError(formGroup.get(endTime), 'endTimeAfter');
+    return null;
+  }
+}
+
 export const sizeFile = (size: number): ValidatorFn => {
   return (control: AbstractControl): ValidationErrors | null => {
     if (control.value) {

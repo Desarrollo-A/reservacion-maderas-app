@@ -30,4 +30,9 @@ export class OfficeService {
     const url = `${this.url}/state-driver-car/${stateId}/${noPeople}`;
     return this.http.get<OfficeModel[]>(url);
   }
+
+  getOfficeByStateWithCar(stateId: number, noPeople: number): Observable<OfficeModel[]> {
+    const url = `${this.url}/state-car/${stateId}/${noPeople}`;
+    return this.http.get<OfficeModel[]>(url);
+  }
 }

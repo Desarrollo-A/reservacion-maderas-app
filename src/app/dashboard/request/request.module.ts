@@ -11,13 +11,15 @@ import { EmailRequestModule } from "../../shared/components/email-request/email-
 import { PackageComponent } from './pages/package/package.component';
 import { AddressModule } from "../../shared/components/address/address.module";
 import { DriverComponent } from './pages/driver/driver.component';
+import { CarComponent } from './pages/car/car.component';
 
 
 @NgModule({
   declarations: [
     RoomComponent,
     PackageComponent,
-    DriverComponent
+    DriverComponent,
+    CarComponent
   ],
   imports: [
     CommonModule,

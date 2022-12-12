@@ -11,6 +11,7 @@ import { RequestEmailModel } from "./request-email.model";
 import { ScoreModel } from "./score.model";
 import { PackageModel } from "./package.model";
 import { RequestDriverModel } from "./request-driver.model";
+import { RequestCarModel } from "./request-car.model";
 
 export class RequestModel {
   id: number;
@@ -37,6 +38,7 @@ export class RequestModel {
   score?: ScoreModel;
   package?: PackageModel;
   requestDriver?: RequestDriverModel;
+  requestCar?: RequestCarModel;
 
   constructor(request) {
     this.id = request.id;

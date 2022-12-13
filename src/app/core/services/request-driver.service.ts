@@ -4,6 +4,10 @@ import { environment } from "../../../environments/environment";
 import { RequestModel } from "../models/request.model";
 import { Observable } from "rxjs";
 import { RequestDriverModel } from "../models/request-driver.model";
+import { PaginationResponse } from "../interfaces/pagination-response";
+import { getPaginateParams } from "../../shared/utils/http-functions";
+import { map } from "rxjs/operators";
+import { RequestDriverViewModel } from "../models/request-driver-view.model";
 
 @Injectable({
   providedIn: 'root'
@@ -28,5 +32,18 @@ export class RequestDriverService {
 
     const url = `${this.url}/upload-file/${id}`;
     return this.http.post<void>(url, data);
+  }
+
+  findAllPaginated(sort: string, itemsPerPage: number, page: number, search: string | null)
+    : Observable<PaginationResponse<RequestDriverViewModel>> {
+    const params = getPaginateParams(sort, itemsPerPage, page, search);
+
+    return this.http.get<PaginationResponse<RequestDriverViewModel>>(this.url, {params})
+      .pipe(
+        map(res => {
+          res.data = res.data.map(requestDriver => new RequestDriverViewModel(requestDriver));
+          return res;
+        })
+      );
   }
 }

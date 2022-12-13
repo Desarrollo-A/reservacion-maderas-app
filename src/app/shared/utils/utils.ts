@@ -2,6 +2,7 @@ import { AbstractControl } from "@angular/forms";
 import { LabelButton } from "../interfaces/label-button";
 import { StatusRequestRoomLookup } from "../../core/enums/lookups/status-request-room.lookup";
 import { StatusPackageRequestLookup } from "../../core/enums/lookups/status-package-request.lookup";
+import { StatusDriverRequestLookup } from "../../core/enums/lookups/status-driver-request.lookup";
 
 export const convertCamelCaseToSnakeCase = (str: string): string => {
   return str.replace(/[A-Z]/g, letter => `_${letter.toLowerCase()}`);
@@ -97,6 +98,31 @@ export const getStatusLabelRequestPackage = (statusName: string, code: string): 
   }
   if (code === StatusPackageRequestLookup[StatusPackageRequestLookup.ROAD] ||
     code === StatusPackageRequestLookup[StatusPackageRequestLookup.TRANSFER]) {
+    return { text: statusName, textClass: 'text-purple', bgClass: 'bg-purple-light' };
+  }
+}
+
+export const getStatusLabelRequestDriver = (statusName: string, code: string): LabelButton => {
+  if (code === StatusDriverRequestLookup[StatusDriverRequestLookup.NEW]) {
+    return { text: statusName, textClass: 'text-blue', bgClass: 'bg-blue-light' };
+  }
+  if (code === StatusDriverRequestLookup[StatusDriverRequestLookup.APPROVED]) {
+    return { text: statusName, textClass: 'text-green', bgClass: 'bg-green-light' };
+  }
+  if (code === StatusDriverRequestLookup[StatusDriverRequestLookup.REJECTED] ||
+    code === StatusRequestRoomLookup[StatusRequestRoomLookup.CANCELLED]) {
+    return { text: statusName, textClass: 'text-red', bgClass: 'bg-red-light' };
+  }
+  if (code === StatusDriverRequestLookup[StatusDriverRequestLookup.PROPOSAL]) {
+    return { text: statusName, textClass: 'text-orange', bgClass: 'bg-orange-light' };
+  }
+  if (code === StatusDriverRequestLookup[StatusDriverRequestLookup.EXPIRED]) {
+    return { text: statusName, textClass: 'text-gray', bgClass: 'bg-gray-light' };
+  }
+  if (code === StatusDriverRequestLookup[StatusDriverRequestLookup.FINISHED]) {
+    return { text: statusName, textClass: 'text-teal', bgClass: 'bg-teal-light' };
+  }
+  if (code === StatusDriverRequestLookup[StatusDriverRequestLookup.TRANSFER]) {
     return { text: statusName, textClass: 'text-purple', bgClass: 'bg-purple-light' };
   }
 }

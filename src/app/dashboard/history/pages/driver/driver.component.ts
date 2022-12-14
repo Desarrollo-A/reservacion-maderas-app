@@ -13,10 +13,12 @@ import { UserSessionService } from "../../../../core/services/user-session.servi
 import { MatDialog } from "@angular/material/dialog";
 import { ToastrService } from "ngx-toastr";
 import { RequestPackageViewModel } from "../../../../core/models/request-package-view.model";
-import { StatusRequestRoomLookup } from "../../../../core/enums/lookups/status-request-room.lookup";
 import { NameRole } from "../../../../core/enums/name-role";
 import { Sort } from "@angular/material/sort";
 import { getSort } from "../../../../shared/utils/http-functions";
+import { DeleteConfirmComponent } from "../../../../shared/components/delete-confirm/delete-confirm.component";
+import { of, switchMap } from "rxjs";
+import { StatusDriverRequestLookup } from "../../../../core/enums/lookups/status-driver-request.lookup";
 
 @Component({
   selector: 'app-driver',
@@ -62,7 +64,7 @@ export class DriverComponent implements OnInit {
   }
 
   canDeleteRequest(request: RequestPackageViewModel): boolean {
-    return (request.statusCode === StatusRequestRoomLookup[StatusRequestRoomLookup.NEW] &&
+    return (request.statusCode === StatusDriverRequestLookup[StatusDriverRequestLookup.NEW] &&
       this.userSessionService.user.role.name === NameRole.APPLICANT);
   }
 
@@ -88,7 +90,14 @@ export class DriverComponent implements OnInit {
   }
 
   deleteRequest(id: number): void {
-    //
+    this.dialog.open(DeleteConfirmComponent, { autoFocus: false }).afterClosed().pipe(
+      switchMap(confirm => (confirm) ? this.requestService.deleteRequestDriver(id) : of(false))
+    ).subscribe(confirm => {
+      if (confirm) {
+        this.toastrService.success('Solicitud eliminada', 'Proceso exitoso');
+        this.prepareFilters();
+      }
+    });
   }
 
   trackById(index: number, item: RequestDriverViewModel) {

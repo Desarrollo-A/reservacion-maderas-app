@@ -6,12 +6,14 @@ import { PageNotFoundComponent } from "../../shared/components/page-not-found/pa
 import { PackageComponent } from "./pages/package/package.component";
 import { PackageDetailComponent } from "./pages/package-detail/package-detail.component";
 import { DriverComponent } from "./pages/driver/driver.component";
+import { DriverDetailComponent } from "./pages/driver-detail/driver-detail.component";
 
 const routes: Routes = [
   {path: '', redirectTo: 'sala', pathMatch: 'full'},
   {path: 'conductor', component: DriverComponent, title: 'Chofer'},
   {path: 'sala', component: RoomComponent, title: 'Sala de Juntas'},
   {path: 'paqueteria', component: PackageComponent, title: 'Paquetería'},
+  {path: 'conductor/:id', component: DriverDetailComponent, title: 'Solicitud detalle'},
   {path: 'sala/:id', component: RoomDetailComponent, title: 'Solicitud detalle'},
   {path: 'paqueteria/:id', component: PackageDetailComponent, title: 'Solicitud detalle'},
   {path: '**', component: PageNotFoundComponent}

@@ -27,6 +27,7 @@ import { AddressModule } from "../../shared/components/address/address.module";
 import { DriverPackageAssignComponent } from './components/driver-package-assign/driver-package-assign.component';
 import { TransferRequestComponent } from './components/transfer-request/transfer-request.component';
 import { DriverComponent } from './pages/driver/driver.component';
+import { DriverDetailComponent } from './pages/driver-detail/driver-detail.component';
 
 
 @NgModule({
@@ -43,7 +44,8 @@ import { DriverComponent } from './pages/driver/driver.component';
     PackageDetailComponent,
     DriverPackageAssignComponent,
     TransferRequestComponent,
-    DriverComponent
+    DriverComponent,
+    DriverDetailComponent
   ],
   imports: [
     CommonModule,

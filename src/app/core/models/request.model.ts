@@ -2,7 +2,11 @@ import { RequestRoomModel } from "./request-room.model";
 import { Lookup } from "../interfaces/lookup";
 import { UserModel } from "./user.model";
 import { LabelButton } from "../../shared/interfaces/label-button";
-import { getStatusLabelRequestPackage, getStatusLabelRequestRoom } from "../../shared/utils/utils";
+import {
+  getStatusLabelRequestDriver,
+  getStatusLabelRequestPackage,
+  getStatusLabelRequestRoom
+} from "../../shared/utils/utils";
 import { InventoryModel } from "./inventory.model";
 import { CancelRequestModel } from "./cancel-request.model";
 import { ProposalRequestModel } from "./proposal-request.model";
@@ -75,5 +79,9 @@ export class RequestModel {
 
   get statusLabelRequestPackage(): LabelButton {
     return getStatusLabelRequestPackage(this.statusName, this.status.code);
+  }
+
+  get statusLabelRequestDriver(): LabelButton {
+    return getStatusLabelRequestDriver(this.statusName, this.status.code);
   }
 }

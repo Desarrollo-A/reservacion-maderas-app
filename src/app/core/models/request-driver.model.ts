@@ -21,6 +21,6 @@ export class RequestDriverModel {
     this.requestId = requestDriver.requestId;
     this.pickupAddress = requestDriver.pickupAddress;
     this.arrivalAddress = requestDriver.arrivalAddress;
-    this.request = requestDriver.request;
+    this.request = new RequestModel(requestDriver.request);
   }
 }

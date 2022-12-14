@@ -16,7 +16,13 @@
         <span class="flex-1"></span>
 
         <div class="flex items-center">
-          <!-- Botón de estatus -->
+          <button [ngClass]="[requestDriver.request.statusLabelRequestDriver.textClass,
+                  requestDriver.request.statusLabelRequestDriver.bgClass]"
+                  class="rounded -mt-6 px-3 py-2 text-sm flex-none"
+                  [matMenuTriggerFor]="statusMenu"
+                  [disabled]="statusChange.length === 0">
+            {{ requestDriver.request.statusName }}
+          </button>
         </div>
       </div>
 
@@ -83,16 +89,27 @@
                          [enableForm]="false">
             </app-address>
           </div>
-
-          <div class="flex items-center justify-end mt-3">
-            <button color="primary"
-                    mat-raised-button
-                    type="button"
-                    [disabled]="statusChange.length === 0">
-              Guardar
-            </button>
-          </div>
         </div>
+      </div>
+
+      <div class="flex-auto">
+        <div class="px-6 flex flex-col gap-2">
+          <app-cancel-request #cancelRequestComponent
+                              *ngIf="requestDriver.request.status.code === statusRequest[statusRequest.CANCELLED]"
+                              [previousStatus]="this.previousStatus"
+                              [cancelRequest]="requestDriver?.request?.cancelRequest">
+          </app-cancel-request>
+        </div>
+      </div>
+
+      <div class="flex items-center justify-end mt-3">
+        <button color="primary"
+                mat-raised-button
+                type="button"
+                (click)="save()"
+                [disabled]="statusChange.length === 0">
+          Guardar
+        </button>
       </div>
     </div>
   </vex-page-layout-content>
@@ -101,7 +118,7 @@
 <mat-menu #statusMenu="matMenu" xPosition="before" yPosition="below">
   <ng-template matMenuContent>
     <ng-container *ngFor="let status of statusChange; trackBy: trackById">
-      <button mat-menu-item>
+      <button mat-menu-item (click)="changeStatus(status)">
         <span>{{ status.name }}</span>
       </button>
     </ng-container>

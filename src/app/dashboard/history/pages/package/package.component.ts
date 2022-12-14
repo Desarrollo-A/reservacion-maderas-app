@@ -7,18 +7,17 @@ import { MatTableDataSource } from "@angular/material/table";
 import { TableColumn } from "../../../../shared/interfaces/table-column.interface";
 import { FormControl } from "@angular/forms";
 import { Filters, TypesEnum } from "../../../../core/interfaces/filters";
-import { trackById } from "../../../../shared/utils/track-by";
 import { RequestPackageService } from "../../../../core/services/request-package.service";
 import { MatDialog } from "@angular/material/dialog";
 import { ToastrService } from "ngx-toastr";
 import { UserSessionService } from "../../../../core/services/user-session.service";
 import { Sort } from "@angular/material/sort";
 import { getSort } from "../../../../shared/utils/http-functions";
-import { StatusRequestRoomLookup } from "../../../../core/enums/lookups/status-request-room.lookup";
 import { NameRole } from "../../../../core/enums/name-role";
 import { DeleteConfirmComponent } from "../../../../shared/components/delete-confirm/delete-confirm.component";
 import { of, switchMap } from "rxjs";
 import { RequestService } from "../../../../core/services/request.service";
+import { StatusPackageRequestLookup } from "../../../../core/enums/lookups/status-package-request.lookup";
 
 @Component({
   selector: 'app-package',
@@ -63,7 +62,7 @@ export class PackageComponent implements OnInit {
   }
 
   canDeleteRequest(request: RequestPackageViewModel): boolean {
-    return (request.statusCode === StatusRequestRoomLookup[StatusRequestRoomLookup.NEW] &&
+    return (request.statusCode === StatusPackageRequestLookup[StatusPackageRequestLookup.NEW] &&
       this.userSessionService.user.role.name === NameRole.APPLICANT);
   }
 

@@ -11,6 +11,8 @@ import { TransferRequestComponent } from "../../components/transfer-request/tran
 import { StatusDriverRequestLookup } from "../../../../core/enums/lookups/status-driver-request.lookup";
 import { stagger60ms } from "../../../../shared/animations/stagger.animation";
 import { fadeInUp400ms } from "../../../../shared/animations/fade-in-up.animation";
+import { switchMap, tap } from "rxjs";
+import { CancelRequestModel } from "../../../../core/models/cancel-request.model";
 
 @Component({
   selector: 'app-driver-detail',
@@ -56,9 +58,46 @@ export class DriverDetailComponent {
     return StatusDriverRequestLookup;
   }
 
+  changeStatus(status: Lookup): void {
+    this.requestDriver.request.statusId = status.id;
+    this.requestDriver.request.status = status;
+
+    if (status.code === StatusDriverRequestLookup[StatusDriverRequestLookup.CANCELLED]) {
+      this.toastrService.info('Agrega un comentario para cancelar la solicitud', 'Información');
+    }
+  }
+
   findByRequestId(requestId: number): void {
-    this.requestDriverService.findById(requestId).subscribe(requestDriver => {
-      this.requestDriver = requestDriver;
+    this.requestDriverService.findById(requestId).pipe(
+      tap(requestDriver => {
+        this.requestDriver = requestDriver;
+        this.previousStatus = {... requestDriver.request.status};
+      }),
+      switchMap(requestDriver => this.requestDriverService.getStatusByStatusCurrent(requestDriver.request.status.code))
+    ).subscribe(status => {
+      this.statusChange = status;
+    });
+  }
+
+  save(): void {
+    if (this.requestDriver.request.status.code === StatusDriverRequestLookup[StatusDriverRequestLookup.CANCELLED] &&
+      (this.previousStatus.code === StatusDriverRequestLookup[StatusDriverRequestLookup.APPROVED] ||
+        this.previousStatus.code === StatusDriverRequestLookup[StatusDriverRequestLookup.NEW])) {
+      this.cancelRequest();
+      return;
+    }
+  }
+
+  private cancelRequest(): void {
+    if (this.cancelRequestComponent.form.invalid) {
+      this.cancelRequestComponent.form.markAllAsTouched();
+      return;
+    }
+
+    const data: CancelRequestModel = this.cancelRequestComponent.form.getRawValue();
+    this.requestDriverService.cancelRequest(this.requestDriver.requestId, data).subscribe(() => {
+      this.toastrService.success('Solicitud cancelada', 'Proceso exitoso');
+      this.router.navigateByUrl(this.urlRedirectBack);
     });
   }
 }

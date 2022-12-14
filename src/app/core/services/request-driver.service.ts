@@ -46,4 +46,11 @@ export class RequestDriverService {
         })
       );
   }
+
+  findById(requestId: number): Observable<RequestDriverModel> {
+    const url = `${this.url}/${requestId}`;
+    return this.http.get<RequestDriverModel>(url).pipe(
+      map(res => new RequestDriverModel(res))
+    );
+  }
 }

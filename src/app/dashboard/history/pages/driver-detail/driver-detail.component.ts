@@ -13,6 +13,9 @@ import { stagger60ms } from "../../../../shared/animations/stagger.animation";
 import { fadeInUp400ms } from "../../../../shared/animations/fade-in-up.animation";
 import { switchMap, tap } from "rxjs";
 import { CancelRequestModel } from "../../../../core/models/cancel-request.model";
+import { StatusPackageRequestLookup } from "../../../../core/enums/lookups/status-package-request.lookup";
+import { OfficeModel } from "../../../../core/models/office.model";
+import { OfficeService } from "../../../../core/services/office.service";
 
 @Component({
   selector: 'app-driver-detail',
@@ -32,6 +35,7 @@ export class DriverDetailComponent {
   requestDriver: RequestDriverModel;
   statusChange: Lookup[] = [];
   previousStatus: Lookup;
+  transferOffices: OfficeModel[] = [];
 
   breadcrumbs: Breadcrumbs[] = [];
   urlRedirectBack = '';
@@ -41,7 +45,8 @@ export class DriverDetailComponent {
   constructor(private activatedRoute: ActivatedRoute,
               private router: Router,
               private requestDriverService: RequestDriverService,
-              private toastrService: ToastrService) {
+              private toastrService: ToastrService,
+              private officeService: OfficeService) {
     const [,,part] = this.router.url.split('/', 3);
     this.urlRedirectBack = `/dashboard/${part}/conductor`;
     this.breadcrumbs.push({
@@ -64,6 +69,9 @@ export class DriverDetailComponent {
 
     if (status.code === StatusDriverRequestLookup[StatusDriverRequestLookup.CANCELLED]) {
       this.toastrService.info('Agrega un comentario para cancelar la solicitud', 'Información');
+    } else if (status.code === StatusDriverRequestLookup[StatusDriverRequestLookup.TRANSFER]) {
+      this.loadOfficesForTransfer();
+      this.toastrService.info('Selecciona una oficina para transferir la solicitud', 'Información');
     }
   }
 
@@ -84,7 +92,9 @@ export class DriverDetailComponent {
       (this.previousStatus.code === StatusDriverRequestLookup[StatusDriverRequestLookup.APPROVED] ||
         this.previousStatus.code === StatusDriverRequestLookup[StatusDriverRequestLookup.NEW])) {
       this.cancelRequest();
-      return;
+
+    } else if (this.requestDriver.request.status.code === StatusPackageRequestLookup[StatusPackageRequestLookup.TRANSFER]) {
+      this.transferRequest();
     }
   }
 
@@ -99,5 +109,29 @@ export class DriverDetailComponent {
       this.toastrService.success('Solicitud cancelada', 'Proceso exitoso');
       this.router.navigateByUrl(this.urlRedirectBack);
     });
+  }
+
+  private transferRequest(): void {
+    if (this.transferRequestComponent.form.invalid) {
+      this.transferRequestComponent.form.markAllAsTouched();
+      return;
+    }
+
+    const data: {officeId: number} = this.transferRequestComponent.form.getRawValue();
+    this.requestDriverService.transferRequest(this.requestDriver.id, data).subscribe(() => {
+      this.toastrService.success('Solicitud redirigida', 'Proceso exitoso');
+      this.router.navigateByUrl(this.urlRedirectBack);
+    });
+  }
+
+  private loadOfficesForTransfer(): void {
+    this.officeService.getOfficeByStateWithDriverAndCarWithoutOffice(this.requestDriver.officeId,
+      this.requestDriver.request.people)
+      .subscribe(offices => {
+        this.transferOffices = offices;
+        if (offices.length === 0) {
+          this.toastrService.info('No hay oficinas con choferes y/o vehículos disponibles', 'Información');
+        }
+      });
   }
 }

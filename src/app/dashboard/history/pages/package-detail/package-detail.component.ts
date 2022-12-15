@@ -16,6 +16,8 @@ import { DriverPackageAssignComponent } from "../../components/driver-package-as
 import { ApprovedPackageRequest } from "../../interfaces/approved-package-request";
 import { getDateFormat } from "../../../../shared/utils/utils";
 import { StatusPackageRequestLookup } from "../../../../core/enums/lookups/status-package-request.lookup";
+import { OfficeModel } from "../../../../core/models/office.model";
+import { OfficeService } from "../../../../core/services/office.service";
 
 @Component({
   selector: 'app-package-detail',
@@ -37,6 +39,7 @@ export class PackageDetailComponent {
   requestPackage: PackageModel;
   statusChange: Lookup[] = [];
   previousStatus: Lookup;
+  transferOffices: OfficeModel[] = [];
 
   breadcrumbs: Breadcrumbs[] = [];
   urlRedirectBack = '';
@@ -46,7 +49,8 @@ export class PackageDetailComponent {
   constructor(private activatedRoute: ActivatedRoute,
               private router: Router,
               private requestPackageService: RequestPackageService,
-              private toastrService: ToastrService) {
+              private toastrService: ToastrService,
+              private officeService: OfficeService) {
     const [,,part] = this.router.url.split('/', 3);
     this.urlRedirectBack = `/dashboard/${part}/paqueteria`;
     this.breadcrumbs.push({
@@ -82,6 +86,7 @@ export class PackageDetailComponent {
     if (status.code === StatusPackageRequestLookup[StatusPackageRequestLookup.CANCELLED]) {
       this.toastrService.info('Agrega un comentario para cancelar la solicitud', 'Información');
     } else if (status.code === StatusPackageRequestLookup[StatusPackageRequestLookup.TRANSFER]) {
+      this.loadOfficesForTransfer();
       this.toastrService.info('Selecciona una oficina para transferir la solicitud', 'Información');
     } else if (status.code === StatusPackageRequestLookup[StatusPackageRequestLookup.APPROVED]) {
       this.toastrService.info('Selecciona el método de envío', 'Información');
@@ -167,5 +172,15 @@ export class PackageDetailComponent {
       this.toastrService.success('El paquete se encuentra en camino al destino', 'Proceso exitoso');
       this.router.navigateByUrl(this.urlRedirectBack);
     });
+  }
+
+  private loadOfficesForTransfer(): void {
+    this.officeService.getByStateWithDriverWithoutOffice(this.requestPackage.officeId)
+      .subscribe(offices => {
+        this.transferOffices = offices;
+        if (offices.length === 0) {
+          this.toastrService.info('No hay oficinas con choferes disponibles', 'Información');
+        }
+      });
   }
 }

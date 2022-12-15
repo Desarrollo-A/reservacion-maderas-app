@@ -145,7 +145,7 @@
 
           <app-transfer-request #transferRequestComponent
                                 *ngIf="requestPackage.request.status.code === statusRequest[statusRequest.TRANSFER]"
-                                [officeId]="requestPackage.officeId">
+                                [offices]="transferOffices">
           </app-transfer-request>
 
           <app-driver-package-assign #driverPackageAssignComponent

@@ -3,6 +3,7 @@ import { LabelButton } from "../interfaces/label-button";
 import { StatusRequestRoomLookup } from "../../core/enums/lookups/status-request-room.lookup";
 import { StatusPackageRequestLookup } from "../../core/enums/lookups/status-package-request.lookup";
 import { StatusDriverRequestLookup } from "../../core/enums/lookups/status-driver-request.lookup";
+import { StatusCarRequestLookup } from "src/app/core/enums/lookups/status-car-request.lookup";
 
 export const convertCamelCaseToSnakeCase = (str: string): string => {
   return str.replace(/[A-Z]/g, letter => `_${letter.toLowerCase()}`);
@@ -126,6 +127,32 @@ export const getStatusLabelRequestDriver = (statusName: string, code: string): L
     return { text: statusName, textClass: 'text-purple', bgClass: 'bg-purple-light' };
   }
 }
+
+export const getStatusLabelRequestCar = (statusName: string, code: string): LabelButton => {
+  if (code === StatusCarRequestLookup[StatusCarRequestLookup.NEW]) {
+    return { text: statusName, textClass: 'text-blue', bgClass: 'bg-blue-light' };
+  }
+  if (code === StatusCarRequestLookup[StatusCarRequestLookup.APPROVED]) {
+    return { text: statusName, textClass: 'text-green', bgClass: 'bg-green-light' };
+  }
+  if (code === StatusCarRequestLookup[StatusCarRequestLookup.REJECTED] ||
+    code === StatusRequestRoomLookup[StatusRequestRoomLookup.CANCELLED]) {
+    return { text: statusName, textClass: 'text-red', bgClass: 'bg-red-light' };
+  }
+  if (code === StatusCarRequestLookup[StatusCarRequestLookup.PROPOSAL]) {
+    return { text: statusName, textClass: 'text-orange', bgClass: 'bg-orange-light' };
+  }
+  if (code === StatusCarRequestLookup[StatusCarRequestLookup.EXPIRED]) {
+    return { text: statusName, textClass: 'text-gray', bgClass: 'bg-gray-light' };
+  }
+  if (code === StatusCarRequestLookup[StatusCarRequestLookup.FINISHED]) {
+    return { text: statusName, textClass: 'text-teal', bgClass: 'bg-teal-light' };
+  }
+  if (code === StatusCarRequestLookup[StatusCarRequestLookup.TRANSFER]) {
+    return { text: statusName, textClass: 'text-purple', bgClass: 'bg-purple-light' };
+  }
+}
+
 
 export const getDateFormat = (date: Date): string => date.toISOString().split('T')[0];
 

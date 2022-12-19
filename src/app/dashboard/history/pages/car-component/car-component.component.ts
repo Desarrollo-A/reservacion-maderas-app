@@ -10,6 +10,8 @@ import { Filters, TypesEnum } from 'src/app/core/interfaces/filters';
 import { RequestCarService } from 'src/app/core/services/request-car.service';
 import { Sort } from '@angular/material/sort';
 import { getSort } from 'src/app/shared/utils/http-functions';
+import { StatusCarRequestLookup } from "src/app/core/enums/lookups/status-car-request.lookup";
+import { ToastrService } from "ngx-toastr";
 
 @Component({
   selector: 'app-car-component',
@@ -30,7 +32,8 @@ export class CarComponentComponent implements OnInit {
     {label: 'Solicitante',    property: 'fullName',     type: 'text', visible: false},
     {label: 'Fecha salida',   property: 'startDate',  type: 'date', visible: true},
     {label: 'Fecha llegada',  property: 'endDate',    type: 'date', visible: true},
-    {label: 'Estatus',        property: 'statusName',  type: 'text', visible: true}
+    {label: 'Estatus',        property: 'statusName',  type: 'text', visible: true},
+    { label: 'Acciones', property: 'actions', type: 'button', visible: true }
   ];
 
   pageSizeOptions: number[] = [5, 10, 20, 50];
@@ -38,7 +41,8 @@ export class CarComponentComponent implements OnInit {
   searchCtrl = new FormControl('');
   filters: Filters = {filters: []};
   
-  constructor(private requestCarService: RequestCarService) {}
+  constructor(private requestCarService: RequestCarService,
+              private toastrService: ToastrService) {}
 
   ngOnInit(): void {
     this.dataSource = new MatTableDataSource<RequestCarViewModel>();
@@ -72,6 +76,19 @@ export class CarComponentComponent implements OnInit {
 
   trackById(index: number, item: RequestCarViewModel) {
     return item.requestId;
+  }
+
+  canDeleteRequestCar(requestCar: RequestCarViewModel): boolean{
+    return (requestCar.statusCode === StatusCarRequestLookup[StatusCarRequestLookup.NEW]);
+  }
+
+  deleteRequestCar(requestId: number): void{
+    this.requestCarService.deleteRequestCar(requestId).subscribe(confirmDelteRequest =>{
+      if(confirmDelteRequest){
+        this.toastrService.success('Solicitud eliminada', 'Proceso exitoso');
+        this.prepareFilters();
+      }
+    });
   }
 
   private prepareFilters(): void {

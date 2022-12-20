@@ -16,6 +16,8 @@ import { CancelRequestModel } from "../../../../core/models/cancel-request.model
 import { StatusPackageRequestLookup } from "../../../../core/enums/lookups/status-package-request.lookup";
 import { OfficeModel } from "../../../../core/models/office.model";
 import { OfficeService } from "../../../../core/services/office.service";
+import { DriverRequestAssignComponent } from "../../components/driver-request-assign/driver-request-assign.component";
+import { ApprovedDriverRequest } from "../../interfaces/approved-driver-request";
 
 @Component({
   selector: 'app-driver-detail',
@@ -31,6 +33,8 @@ export class DriverDetailComponent {
   cancelRequestComponent: CancelRequestComponent;
   @ViewChild('transferRequestComponent')
   transferRequestComponent: TransferRequestComponent;
+  @ViewChild('driverRequestAssignComponent')
+  driverRequestAssignComponent: DriverRequestAssignComponent;
 
   requestDriver: RequestDriverModel;
   statusChange: Lookup[] = [];
@@ -95,6 +99,10 @@ export class DriverDetailComponent {
 
     } else if (this.requestDriver.request.status.code === StatusPackageRequestLookup[StatusPackageRequestLookup.TRANSFER]) {
       this.transferRequest();
+
+    } else if (this.requestDriver.request.status.code === StatusDriverRequestLookup[StatusDriverRequestLookup.APPROVED] &&
+      this.previousStatus.code === StatusDriverRequestLookup[StatusDriverRequestLookup.NEW]) {
+      this.approvedRequest();
     }
   }
 
@@ -120,6 +128,25 @@ export class DriverDetailComponent {
     const data: {officeId: number} = this.transferRequestComponent.form.getRawValue();
     this.requestDriverService.transferRequest(this.requestDriver.id, data).subscribe(() => {
       this.toastrService.success('Solicitud redirigida', 'Proceso exitoso');
+      this.router.navigateByUrl(this.urlRedirectBack);
+    });
+  }
+
+  public approvedRequest(): void {
+    if (this.driverRequestAssignComponent.form.invalid) {
+      this.driverRequestAssignComponent.form.markAllAsTouched();
+      return;
+    }
+
+    const formValues = this.driverRequestAssignComponent.form.getRawValue();
+    const data: ApprovedDriverRequest = {
+      ...formValues,
+      requestId: this.requestDriver.requestId,
+      requestDriverId: this.requestDriver.id
+    };
+
+    this.requestDriverService.approvedRequest(data).subscribe(() => {
+      this.toastrService.success('Solicitud aprobada', 'Proceso exitoso');
       this.router.navigateByUrl(this.urlRedirectBack);
     });
   }

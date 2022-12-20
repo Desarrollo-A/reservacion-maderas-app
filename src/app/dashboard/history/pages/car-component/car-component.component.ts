@@ -12,6 +12,11 @@ import { Sort } from '@angular/material/sort';
 import { getSort } from 'src/app/shared/utils/http-functions';
 import { StatusCarRequestLookup } from "src/app/core/enums/lookups/status-car-request.lookup";
 import { ToastrService } from "ngx-toastr";
+import { MatDialog } from '@angular/material/dialog';
+import { DeleteConfirmComponent } from 'src/app/shared/components/delete-confirm/delete-confirm.component';
+import { of, switchMap } from 'rxjs';
+import { UserSessionService } from 'src/app/core/services/user-session.service';
+import { NameRole } from 'src/app/core/enums/name-role';
 
 @Component({
   selector: 'app-car-component',
@@ -42,7 +47,9 @@ export class CarComponentComponent implements OnInit {
   filters: Filters = {filters: []};
   
   constructor(private requestCarService: RequestCarService,
-              private toastrService: ToastrService) {}
+              private toastrService: ToastrService,
+              private dialog: MatDialog,
+              private userSessionService: UserSessionService) {}
 
   ngOnInit(): void {
     this.dataSource = new MatTableDataSource<RequestCarViewModel>();
@@ -79,15 +86,18 @@ export class CarComponentComponent implements OnInit {
   }
 
   canDeleteRequestCar(requestCar: RequestCarViewModel): boolean{
-    return (requestCar.statusCode === StatusCarRequestLookup[StatusCarRequestLookup.NEW]);
+    return (requestCar.statusCode === StatusCarRequestLookup[StatusCarRequestLookup.NEW] &&
+      this.userSessionService.user.role.name === NameRole.APPLICANT);
   }
 
   deleteRequestCar(requestId: number): void{
-    this.requestCarService.deleteRequestCar(requestId).subscribe(confirmDelteRequest =>{
-      if(confirmDelteRequest){
-        this.toastrService.success('Solicitud eliminada', 'Proceso exitoso');
-        this.prepareFilters();
-      }
+    this.dialog.open(DeleteConfirmComponent,{autoFocus: false}).afterClosed().pipe(
+      switchMap(confirm => (confirm) ? this.requestCarService.deleteRequestCar(requestId) : of(false))
+    ).subscribe(confirmDeleteRequest =>{
+        if(confirmDeleteRequest){
+          this.toastrService.success('Solicitud eliminada', 'Proceso exitoso');
+          this.prepareFilters();
+        }
     });
   }
 
@@ -104,7 +114,6 @@ export class CarComponentComponent implements OnInit {
 
     this.getData();
   }
-
 
   private getData(): void {
     const searchQuery = (this.filters.filters.length === 0) ? '' : JSON.stringify(this.filters);
@@ -125,12 +134,8 @@ export class CarComponentComponent implements OnInit {
   private clearFilters(): void {
     this.filters = { filters: [] };
   }
-
   
-
   private generateFilter(field: string, type: TypesEnum, value: any): void {
     this.filters.filters.push({ field, type, value });
   }
-
-
 }

@@ -1,13 +1,12 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from "@angular/common/http";
 import { environment } from "../../../environments/environment";
-import { Observable } from "rxjs";
-import { RequestModel } from "../models/request.model";
+import { Observable, map } from "rxjs";
 import { RequestCarModel } from "../models/request-car.model";
+import { RequestModel } from "../models/request.model";
 import { RequestCarViewModel } from '../models/request-car-view.model';
 import { PaginationResponse } from '../interfaces/pagination-response';
 import { getPaginateParams } from 'src/app/shared/utils/http-functions';
-import { map } from "rxjs/operators";
 
 @Injectable({
   providedIn: 'root'
@@ -44,5 +43,12 @@ export class RequestCarService {
           return res;
         })
       );
+  }
+
+  deleteRequestCar(requestId: number): Observable<boolean>{
+    const url = `${this.url}/${requestId}`;
+    return this.http.delete<boolean>(url).pipe(
+      map(() => true)
+    );
   }
 }

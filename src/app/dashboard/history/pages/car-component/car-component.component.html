@@ -23,7 +23,7 @@
                            [formControl]="searchCtrl"
                            (keyup.enter)="search()">
                 </div>
-          
+
                 <span class="flex-1"></span>
 
                 <button [matMenuTriggerFor]="columnFilterMenu"
@@ -37,19 +37,19 @@
 
             <table  @stagger mat-table [dataSource]="dataSource" class="w-full" matSort [trackBy]="trackById"
                     (matSortChange)="sortChange($event)">
-                
+
                 <!--code-->
                 <ng-container matColumnDef="code">
                     <th mat-header-cell *matHeaderCellDef class="uppercase" mat-sort-header>Clave</th>
                     <td mat-cell *matCellDef = "let row" class="text-secondary">{{ row.code }}</td>
                 </ng-container>
-                
+
                 <ng-container matColumnDef="title">
                     <th mat-header-cell *matHeaderCellDef class="uppercase" mat-sort-header>Título</th>
                     <td mat-cell *matCellDef = "let row">{{ row.title }}</td>
                 </ng-container>
 
-                
+
                 <ng-container matColumnDef="fullName">
                     <th mat-header-cell *matHeaderCellDef class="uppercase" mat-sort-header>Solicitante</th>
                     <td mat-cell *matCellDef = "let row">{{ row.fullName }}</td>
@@ -76,7 +76,21 @@
                         </div>
                     </td>
                 </ng-container>
-                
+
+                    <!-- Action Column -->
+                <ng-container matColumnDef="actions">
+                    <th *matHeaderCellDef mat-header-cell></th>
+                    <td *matCellDef="let row" class="w-10 text-secondary" mat-cell>
+                        <button (click)="$event.stopPropagation()"
+                                [matMenuTriggerData]="{ requestCar: row }"
+                                [matMenuTriggerFor]="actionsMenu"
+                                mat-icon-button
+                                type="button">
+                            <mat-icon svgIcon="mat:more_horiz"></mat-icon>
+                        </button>
+                    </td>
+                </ng-container>
+
                 <tr *matHeaderRowDef="visibleColumns" mat-header-row></tr>
                 <tr *matRowDef="let row; columns: visibleColumns;"
                     @fadeInUp
@@ -102,4 +116,19 @@
             {{ column.label }}
         </mat-checkbox>
     </button>
+</mat-menu>
+
+<mat-menu #actionsMenu="matMenu" xPosition="before" yPosition="below">
+    <ng-template let-requestCar = "requestCar" matMenuContent>
+        <a mat-menu-item>
+            <mat-icon svgIcon="mat:visibility"></mat-icon>
+            <span>Detalle</span>
+        </a>
+        <ng-container *ngIf="canDeleteRequestCar(requestCar)">
+            <button mat-menu-item (click)="deleteRequestCar(requestCar.requestId)">
+                <mat-icon svgIcon="mat:delete"></mat-icon>
+                <span>Eliminar</span>
+            </button>
+        </ng-container>
+    </ng-template>
 </mat-menu>

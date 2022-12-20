@@ -153,7 +153,6 @@ export const getStatusLabelRequestCar = (statusName: string, code: string): Labe
   }
 }
 
-
 export const getDateFormat = (date: Date): string => date.toISOString().split('T')[0];
 
 export const getTimeFormat = (date: Date): string => {

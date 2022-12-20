@@ -46,5 +46,10 @@ export class RequestCarService {
       );
   }
 
-  
+  deleteRequestCar(requestId: number): Observable<boolean>{
+    const url = `${this.url}/${requestId}`;
+    return this.http.delete<boolean>(url).pipe(
+      map(() => true)
+    );
+  }  
 }

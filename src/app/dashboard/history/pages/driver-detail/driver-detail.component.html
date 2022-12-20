@@ -104,6 +104,12 @@
                                 *ngIf="requestDriver.request.status.code === statusRequest[statusRequest.TRANSFER]"
                                 [offices]="transferOffices">
           </app-transfer-request>
+
+          <app-driver-request-assign #driverRequestAssignComponent
+                                     *ngIf="previousStatus.code === statusRequest[statusRequest.NEW] &&
+                                     requestDriver.request.status.code === statusRequest[statusRequest.APPROVED]"
+                                     [requestDriver]="requestDriver">
+          </app-driver-request-assign>
         </div>
       </div>
 

@@ -29,6 +29,7 @@ import { TransferRequestComponent } from './components/transfer-request/transfer
 import { DriverComponent } from './pages/driver/driver.component';
 import { DriverDetailComponent } from './pages/driver-detail/driver-detail.component';
 import { CarComponentComponent } from './pages/car-component/car-component.component';
+import { DriverRequestAssignComponent } from './components/driver-request-assign/driver-request-assign.component';
 
 
 @NgModule({
@@ -47,7 +48,8 @@ import { CarComponentComponent } from './pages/car-component/car-component.compo
     TransferRequestComponent,
     DriverComponent,
     DriverDetailComponent,
-    CarComponentComponent
+    CarComponentComponent,
+    DriverRequestAssignComponent
   ],
   imports: [
     CommonModule,

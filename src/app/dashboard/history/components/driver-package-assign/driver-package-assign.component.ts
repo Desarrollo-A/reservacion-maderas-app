@@ -11,7 +11,7 @@ import { CarModel } from "../../../../core/models/car.model";
 import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
 import { forkJoin, switchMap } from "rxjs";
 import { RequestPackageService } from "../../../../core/services/request-package.service";
-import { dateAfterNow, dateBeforeNow } from "../../../../shared/utils/form-validations";
+import { dateBeforeNow } from "../../../../shared/utils/form-validations";
 
 @UntilDestroy()
 @Component({
@@ -53,7 +53,7 @@ export class DriverPackageAssignComponent implements OnInit {
     this.form.get('driverId')?.valueChanges.pipe(
       untilDestroyed(this),
       switchMap((driverId: number) => {
-        this.form.get('carId')?.setValue(null);
+        this.form.patchValue({cardId: null});
         return forkJoin([
           this.driverService.findById(driverId),
           this.requestPackageService.getPackagesByDriverId(driverId, getDateFormat(new Date(this.requestPackage.request.startDate)))

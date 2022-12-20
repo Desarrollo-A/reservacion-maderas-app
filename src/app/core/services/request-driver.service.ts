@@ -10,6 +10,7 @@ import { map } from "rxjs/operators";
 import { RequestDriverViewModel } from "../models/request-driver-view.model";
 import { Lookup } from "../interfaces/lookup";
 import { CancelRequestModel } from "../models/cancel-request.model";
+import { ApprovedDriverRequest } from "../../dashboard/history/interfaces/approved-driver-request";
 
 @Injectable({
   providedIn: 'root'
@@ -66,8 +67,13 @@ export class RequestDriverService {
     return this.http.patch<void>(url, request);
   }
 
-  transferRequest(packageId: number, data: { officeId: number }): Observable<void> {
-    const url = `${this.url}/transfer/${packageId}`;
+  transferRequest(requestDriverId: number, data: { officeId: number }): Observable<void> {
+    const url = `${this.url}/transfer/${requestDriverId}`;
     return this.http.patch<void>(url, data);
+  }
+
+  approvedRequest(requestDriver: ApprovedDriverRequest): Observable<void> {
+    const url = `${this.url}/approved`;
+    return this.http.post<void>(url, requestDriver);
   }
 }

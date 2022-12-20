@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, map } from 'rxjs';
 import { getPaginateParams } from 'src/app/shared/utils/http-functions';
@@ -44,6 +44,19 @@ export class DriverService {
   getAvailablePackageRequest(officeId: number, date: string): Observable<DriverModel[]> {
     const url = `${this.url}/available-package/${officeId}/${date}`;
     return this.http.get<DriverModel[]>(url).pipe(
+      map(drivers => {
+        drivers = drivers.map(driver => new DriverModel(driver));
+        return drivers;
+      })
+    );
+  }
+
+  getAvailableDriverRequest(officeId: number, startDate: string, endDate: string): Observable<DriverModel[]> {
+    const params = new HttpParams()
+      .append('start_date', startDate)
+      .append('end_date', endDate);
+    const url = `${this.url}/available-request/${officeId}`;
+    return this.http.get<DriverModel[]>(url, {params}).pipe(
       map(drivers => {
         drivers = drivers.map(driver => new DriverModel(driver));
         return drivers;

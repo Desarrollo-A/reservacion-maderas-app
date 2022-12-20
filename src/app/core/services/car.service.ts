@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { map, Observable } from 'rxjs';
 import { PaginationResponse } from 'src/app/core/interfaces/pagination-response';
@@ -63,4 +63,11 @@ export class CarService {
     return this.http.get<CarModel[]>(url);
   }
 
+  getAvailableDriverRequest(driverId: number, startDate: string, endDate: string): Observable<CarModel[]> {
+    const params = new HttpParams()
+      .append('start_date', startDate)
+      .append('end_date', endDate);
+    const url = `${this.url}/available-driver-request/${driverId}`;
+    return this.http.get<CarModel[]>(url, {params});
+  }
 }

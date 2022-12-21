@@ -51,4 +51,11 @@ export class RequestCarService {
       map(() => true)
     );
   }
+
+  findByRequestId(requestId: number): Observable<RequestCarModel> {
+    const url = `${this.url}/${requestId}`;
+    return this.http.get<RequestCarModel>(url).pipe(
+      map(res => new RequestCarModel(res))
+    );
+  }
 }

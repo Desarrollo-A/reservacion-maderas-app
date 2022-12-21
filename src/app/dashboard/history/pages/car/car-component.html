@@ -120,7 +120,7 @@
 
 <mat-menu #actionsMenu="matMenu" xPosition="before" yPosition="below">
     <ng-template let-requestCar = "requestCar" matMenuContent>
-        <a mat-menu-item>
+        <a mat-menu-item [routerLink]="['./', requestCar.requestId]">
             <mat-icon svgIcon="mat:visibility"></mat-icon>
             <span>Detalle</span>
         </a>

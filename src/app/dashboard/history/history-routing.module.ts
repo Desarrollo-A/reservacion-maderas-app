@@ -11,6 +11,7 @@ import { CarComponentComponent } from './pages/car-component/car-component.compo
 
 const routes: Routes = [
   {path: '', redirectTo: 'sala', pathMatch: 'full'},
+  {path: 'automovil', component: CarComponentComponent, title: 'Automovil'},
   {path: 'conductor', component: DriverComponent, title: 'Chofer'},
   {path: 'sala', component: RoomComponent, title: 'Sala de Juntas'},
   {path: 'paqueteria', component: PackageComponent, title: 'Paquetería'},

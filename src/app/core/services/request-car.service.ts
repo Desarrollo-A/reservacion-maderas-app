@@ -51,5 +51,5 @@ export class RequestCarService {
     return this.http.delete<boolean>(url).pipe(
       map(() => true)
     );
-  }  
+  }
 }

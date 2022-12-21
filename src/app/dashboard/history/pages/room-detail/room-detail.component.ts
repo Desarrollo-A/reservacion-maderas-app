@@ -24,6 +24,7 @@ import { ProposalRequestModel } from "../../../../core/models/proposal-request.m
 import { getDateFormat, getTimeFormat } from "../../../../shared/utils/utils";
 import { trackById } from "../../../../shared/utils/track-by";
 import { CancelRequestModel } from "../../../../core/models/cancel-request.model";
+import { ErrorResponse } from 'src/app/core/interfaces/error-response';
 
 @Component({
   selector: 'app-room-detail',
@@ -88,6 +89,10 @@ export class RoomDetailComponent {
         this.dataRecepcionist(status);
       } else {
         this.statusChange = status
+      }
+    }, (error: ErrorResponse) => {
+      if(error.code === 404){
+        this.router.navigateByUrl(this.urlRedirectBack);
       }
     });
   }

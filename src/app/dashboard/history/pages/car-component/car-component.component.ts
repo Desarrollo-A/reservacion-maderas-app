@@ -57,7 +57,7 @@ export class CarComponentComponent implements OnInit {
   }
 
   get visibleColumns(): string[] {
-    return this.columns.filter(column => column.visible).map(column => column.property);    
+    return this.columns.filter(column => column.visible).map(column => column.property);
   }
 
   sortChange(sortState: Sort): void {

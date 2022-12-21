@@ -19,15 +19,15 @@ import { UserSessionService } from 'src/app/core/services/user-session.service';
 import { NameRole } from 'src/app/core/enums/name-role';
 
 @Component({
-  selector: 'app-car-component',
-  templateUrl: './car-component.component.html',
-  styleUrls: ['./car-component.component.scss'],
+  selector: 'app-car',
+  templateUrl: './car-component.html',
+  styleUrls: ['./car-component.scss'],
   animations: [
     fadeInUp400ms,
     stagger40ms
   ]
 })
-export class CarComponentComponent implements OnInit {
+export class CarComponent implements OnInit {
 
   requestCarResponse: PaginationResponse<RequestCarViewModel>;
   dataSource: MatTableDataSource<RequestCarViewModel> | null;

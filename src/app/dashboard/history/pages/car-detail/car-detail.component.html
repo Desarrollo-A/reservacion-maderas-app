@@ -1,27 +1,27 @@
 <vex-page-layout mode="card">
   <vex-page-layout-header class="flex flex-col items-start justify-center">
     <div class="container">
-      <h2 class="title m-0" *ngIf="requestDriver">
-        Detalle solicitud de chofer <strong>{{ requestDriver?.request?.code }}</strong>
+      <h2 class="title m-0" *ngIf="requestCar">
+        Detalle solicitud de automóvil <strong>{{ requestCar?.request?.code }}</strong>
       </h2>
       <vex-breadcrumbs [crumbs]="breadcrumbs"></vex-breadcrumbs>
     </div>
   </vex-page-layout-header>
 
-  <vex-page-layout-content class="container" *ngIf="requestDriver">
+  <vex-page-layout-content class="container" *ngIf="requestCar">
     <div class="card p-6">
       <div class="flex">
-        <h2 class="m-0 title mb-6"><strong>{{requestDriver.request.title}}</strong></h2>
+        <h2 class="m-0 title mb-6"><strong>{{requestCar.request.title}}</strong></h2>
 
         <span class="flex-1"></span>
 
         <div class="flex items-center">
-          <button [ngClass]="[requestDriver.request.statusLabelRequestDriver.textClass,
-                  requestDriver.request.statusLabelRequestDriver.bgClass]"
+          <button [ngClass]="[requestCar.request.statusLabelRequestDriver.textClass,
+                  requestCar.request.statusLabelRequestDriver.bgClass]"
                   class="rounded -mt-6 px-3 py-2 text-sm flex-none"
                   [matMenuTriggerFor]="statusMenu"
                   [disabled]="statusChange.length === 0">
-            {{ requestDriver.request.statusName }}
+            {{ requestCar.request.statusName }}
           </button>
         </div>
       </div>
@@ -33,36 +33,36 @@
           <div class="flex flex-col sm:flex-row sm:gap-4">
             <mat-form-field appearance="outline" class="flex-auto vex-flex-form-field">
               <mat-label>Solicitante</mat-label>
-              <input matInput readonly [value]="requestDriver.request.user.fullName">
+              <input matInput readonly [value]="requestCar.request.user.fullName">
             </mat-form-field>
 
             <mat-form-field appearance="outline" class="flex-auto vex-flex-form-field">
               <mat-label>Puesto</mat-label>
-              <input matInput readonly [value]="requestDriver.request.user.position">
+              <input matInput readonly [value]="requestCar.request.user.position">
             </mat-form-field>
           </div>
 
           <div class="flex flex-col sm:flex-row sm:gap-4">
             <mat-form-field appearance="outline" class="flex-auto vex-flex-form-field">
               <mat-label>Fecha y hora de salida</mat-label>
-              <input matInput readonly [value]="requestDriver.request.startDate|date:'dd-MM-y, h:mm a'">
+              <input matInput readonly [value]="requestCar.request.startDate|date:'dd-MM-y, h:mm a'">
             </mat-form-field>
 
             <mat-form-field appearance="outline" class="flex-auto vex-flex-form-field">
               <mat-label>Fecha y hora de llegada</mat-label>
-              <input matInput readonly [value]="requestDriver.request.endDate|date:'dd-MM-y, h:mm a'">
+              <input matInput readonly [value]="requestCar.request.endDate|date:'dd-MM-y, h:mm a'">
             </mat-form-field>
           </div>
 
           <div class="flex flex-col sm:flex-row sm:gap-4">
             <mat-form-field appearance="outline" class="flex-auto vex-flex-form-field">
               <mat-label>N° de personas</mat-label>
-              <input matInput readonly [value]="requestDriver.request.people.toString()">
+              <input matInput readonly [value]="requestCar.request.people.toString()">
             </mat-form-field>
 
             <div class="flex-auto sm:mt-2 mb-4 sm:mb-0">
               <a class="relative flex items-center cursor-pointer select-none rounded-full px-4 py-1 hover:bg-primary/10 trans-ease-out"
-                 matRipple [href]="requestDriver.authorizationFilename | url" target="_blank">
+                 matRipple [href]="requestCar.authorizationFilename | url" target="_blank">
                 <div class="p-2 bg-primary/10 text-primary rounded-full ltr:mr-4 rtl:ml-4">
                   <mat-icon class="block" svgIcon="mat:picture_as_pdf"></mat-icon>
                 </div>
@@ -73,44 +73,13 @@
 
           <mat-form-field appearance="outline" class="flex-auto vex-flex-form-field">
             <mat-label>Comentarios</mat-label>
-            <textarea matInput readonly [value]="requestDriver.request.comment"></textarea>
+            <textarea matInput readonly [value]="requestCar.request.comment"></textarea>
           </mat-form-field>
-
-          <div class="flex flex-col gap-5">
-            <app-address title="Dirección de salida"
-                         subtitle="Información del lugar de salida"
-                         [data]="requestDriver.pickupAddress"
-                         [enableForm]="false">
-            </app-address>
-
-            <app-address title="Dirección de llegada"
-                         subtitle="Información del lugar de llegada"
-                         [data]="requestDriver.arrivalAddress"
-                         [enableForm]="false">
-            </app-address>
-          </div>
         </div>
       </div>
 
       <div class="flex-auto">
-        <div class="px-6 flex flex-col gap-2">
-          <app-cancel-request #cancelRequestComponent
-                              *ngIf="requestDriver.request.status.code === statusRequest[statusRequest.CANCELLED]"
-                              [previousStatus]="this.previousStatus"
-                              [cancelRequest]="requestDriver?.request?.cancelRequest">
-          </app-cancel-request>
-
-          <app-transfer-request #transferRequestComponent
-                                *ngIf="requestDriver.request.status.code === statusRequest[statusRequest.TRANSFER]"
-                                [offices]="transferOffices">
-          </app-transfer-request>
-
-          <app-driver-request-assign #driverRequestAssignComponent
-                                     *ngIf="previousStatus.code === statusRequest[statusRequest.NEW] &&
-                                     requestDriver.request.status.code === statusRequest[statusRequest.APPROVED]"
-                                     [requestDriver]="requestDriver">
-          </app-driver-request-assign>
-        </div>
+        <div class="px-6 flex flex-col gap-2"></div>
       </div>
 
       <div class="flex items-center justify-end mt-3">

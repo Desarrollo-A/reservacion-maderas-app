@@ -18,6 +18,7 @@ import { OfficeModel } from "../../../../core/models/office.model";
 import { OfficeService } from "../../../../core/services/office.service";
 import { DriverRequestAssignComponent } from "../../components/driver-request-assign/driver-request-assign.component";
 import { ApprovedDriverRequest } from "../../interfaces/approved-driver-request";
+import { ErrorResponse } from 'src/app/core/interfaces/error-response';
 
 @Component({
   selector: 'app-driver-detail',
@@ -88,6 +89,10 @@ export class DriverDetailComponent {
       switchMap(requestDriver => this.requestDriverService.getStatusByStatusCurrent(requestDriver.request.status.code))
     ).subscribe(status => {
       this.statusChange = status;
+    }, (error: ErrorResponse) => {
+      if (error.code === 404) {
+        this.router.navigateByUrl(this.urlRedirectBack);
+      }
     });
   }
 

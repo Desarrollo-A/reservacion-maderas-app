@@ -18,6 +18,7 @@ import { getDateFormat } from "../../../../shared/utils/utils";
 import { StatusPackageRequestLookup } from "../../../../core/enums/lookups/status-package-request.lookup";
 import { OfficeModel } from "../../../../core/models/office.model";
 import { OfficeService } from "../../../../core/services/office.service";
+import { ErrorResponse } from 'src/app/core/interfaces/error-response';
 
 @Component({
   selector: 'app-package-detail',
@@ -76,6 +77,10 @@ export class PackageDetailComponent {
       switchMap(requestPackage => this.requestPackageService.getStatusByStatusCurrent(requestPackage.request.status.code))
     ).subscribe(status => {
       this.statusChange = status;
+    }, (error: ErrorResponse) => {
+      if (error.code === 404) {
+        this.router.navigateByUrl(this.urlRedirectBack)
+      }
     });
   }
 

@@ -77,6 +77,8 @@ export class DriverDetailComponent {
     } else if (status.code === StatusDriverRequestLookup[StatusDriverRequestLookup.TRANSFER]) {
       this.loadOfficesForTransfer();
       this.toastrService.info('Selecciona una oficina para transferir la solicitud', 'Información');
+    } else if (status.code === StatusDriverRequestLookup[StatusDriverRequestLookup.APPROVED]) {
+      this.toastrService.info('Selecciona un chofer y un automóvil', 'Información');
     }
   }
 

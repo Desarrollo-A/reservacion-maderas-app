@@ -8,6 +8,7 @@ import { RequestCarViewModel } from '../models/request-car-view.model';
 import { PaginationResponse } from '../interfaces/pagination-response';
 import { getPaginateParams } from 'src/app/shared/utils/http-functions';
 import { Lookup } from "../interfaces/lookup";
+import { CancelRequestModel } from "../models/cancel-request.model";
 
 @Injectable({
   providedIn: 'root'
@@ -68,5 +69,10 @@ export class RequestCarService {
   getStatusByStatusCurrent(code: string): Observable<Lookup[]> {
     const url = `${this.url}/status/${code}`;
     return this.http.get<Lookup[]>(url);
+  }
+
+  cancelRequest(id: number, request: CancelRequestModel): Observable<void> {
+    const url = `${this.url}/cancel/${id}`;
+    return this.http.patch<void>(url, request);
   }
 }

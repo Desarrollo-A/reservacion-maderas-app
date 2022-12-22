@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from "@angular/common/http";
 import { environment } from "../../../environments/environment";
-import { Observable } from "rxjs";
+import { map, Observable } from "rxjs";
 import { RequestModel } from "../models/request.model";
 import { RequestCarModel } from "../models/request-car.model";
 import { RequestCarViewModel } from '../models/request-car-view.model';

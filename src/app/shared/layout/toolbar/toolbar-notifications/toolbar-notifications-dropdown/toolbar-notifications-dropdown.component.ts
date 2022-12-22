@@ -116,7 +116,10 @@ export class ToolbarNotificationsDropdownComponent implements OnInit {
     } else if(notification.type.code === TypeNotificationLookup[TypeNotificationLookup.PARCEL] &&
       notification.requestNotification?.requestId){
         this.redirectPackage(notification);
-    }
+    } else if(notification.type.code === TypeNotificationLookup[TypeNotificationLookup.DRIVER] &&
+      notification.requestNotification?.requestId){
+        this.redirectDriver(notification);
+      }
   }
 
   private redirectDetailRoom(notification: NotificationModel): void {
@@ -136,6 +139,14 @@ export class ToolbarNotificationsDropdownComponent implements OnInit {
       this.router.navigateByUrl(`/dashboard/solicitudes/paqueteria/${notification.requestNotification.requestId}`);
     } else if (this.userSessionService.user.role.name === NameRole.APPLICANT) {
       this.router.navigateByUrl(`/dashboard/historial/paqueteria/${notification.requestNotification.requestId}`);
+    }
+  }
+
+  private redirectDriver(notification: NotificationModel): void{
+    if(this.userSessionService.user.role.name === NameRole.RECEPCIONIST){
+      this.router.navigateByUrl(`/dashboard/solicitudes/conductor/${notification.requestNotification.requestId}`);
+    }else if(this.userSessionService.user.role.name === NameRole.APPLICANT){
+      this.router.navigateByUrl(`/dashboard/historial/conductor/${notification.requestNotification.requestId}`);
     }
   }
 

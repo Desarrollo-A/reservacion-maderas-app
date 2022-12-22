@@ -15,6 +15,8 @@ import { OfficeService } from "../../../../core/services/office.service";
 import { StatusPackageRequestLookup } from "../../../../core/enums/lookups/status-package-request.lookup";
 import { TransferRequestComponent } from "../../components/transfer-request/transfer-request.component";
 import { switchMap, tap } from "rxjs";
+import { CancelRequestModel } from "../../../../core/models/cancel-request.model";
+import { CancelRequestComponent } from "../../components/cancel-request/cancel-request.component";
 
 @Component({
   selector: 'app-car-detail',
@@ -28,6 +30,8 @@ import { switchMap, tap } from "rxjs";
 export class CarDetailComponent implements OnInit {
   @ViewChild('transferRequestComponent')
   transferRequestComponent: TransferRequestComponent;
+  @ViewChild('cancelRequestComponent')
+  cancelRequestComponent: CancelRequestComponent;
 
   requestCar: RequestCarModel;
   statusChange: Lookup[] = [];
@@ -70,6 +74,8 @@ export class CarDetailComponent implements OnInit {
     if (status.code === StatusCarRequestLookup[StatusCarRequestLookup.TRANSFER]) {
       this.loadOfficesForTransfer();
       this.toastrService.info('Selecciona una oficina para transferir la solicitud', 'Información');
+    } else if (status.code === StatusCarRequestLookup[StatusCarRequestLookup.CANCELLED]) {
+      this.toastrService.info('Agrega un comentario para cancelar la solicitud', 'Información');
     }
   }
 
@@ -92,6 +98,10 @@ export class CarDetailComponent implements OnInit {
   save(): void {
     if (this.requestCar.request.status.code === StatusPackageRequestLookup[StatusPackageRequestLookup.TRANSFER]) {
       this.transferRequest();
+    } else if (this.requestCar.request.status.code === StatusCarRequestLookup[StatusCarRequestLookup.CANCELLED] &&
+      (this.previousStatus.code === StatusCarRequestLookup[StatusCarRequestLookup.APPROVED] ||
+        this.previousStatus.code === StatusCarRequestLookup[StatusCarRequestLookup.NEW])) {
+      this.cancelRequest();
     }
   }
 
@@ -104,6 +114,19 @@ export class CarDetailComponent implements OnInit {
     const data: {officeId: number} = this.transferRequestComponent.form.getRawValue();
     this.requestCarService.transferRequest(this.requestCar.id, data).subscribe(() => {
       this.toastrService.success('Solicitud redirigida', 'Proceso exitoso');
+      this.router.navigateByUrl(this.urlRedirectBack);
+    });
+  }
+
+  private cancelRequest(): void {
+    if (this.cancelRequestComponent.form.invalid) {
+      this.cancelRequestComponent.form.markAllAsTouched();
+      return;
+    }
+
+    const data: CancelRequestModel = this.cancelRequestComponent.form.getRawValue();
+    this.requestCarService.cancelRequest(this.requestCar.requestId, data).subscribe(() => {
+      this.toastrService.success('Solicitud cancelada', 'Proceso exitoso');
       this.router.navigateByUrl(this.urlRedirectBack);
     });
   }

@@ -1,6 +1,7 @@
 export enum TypeNotificationLookup {
   ROOM,
-  TRAVEL,
+  DRIVER,
+  CAR,
   INVENTORY,
   PAPER,
   PARCEL,

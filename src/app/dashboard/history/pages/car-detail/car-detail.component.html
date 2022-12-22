@@ -80,6 +80,11 @@
 
       <div class="flex-auto">
         <div class="px-6 flex flex-col gap-2">
+          <app-cancel-request #cancelRequestComponent
+                              *ngIf="requestCar.request.status.code === statusRequest[statusRequest.CANCELLED]"
+                              [previousStatus]="this.previousStatus"
+                              [cancelRequest]="requestCar?.request?.cancelRequest">
+          </app-cancel-request>
           <app-transfer-request #transferRequestComponent
                                 *ngIf="requestCar.request.status.code === statusRequest[statusRequest.TRANSFER]"
                                 [offices]="transferOffices">

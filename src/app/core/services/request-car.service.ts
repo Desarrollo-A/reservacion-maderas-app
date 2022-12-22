@@ -7,7 +7,7 @@ import { RequestCarModel } from "../models/request-car.model";
 import { RequestCarViewModel } from '../models/request-car-view.model';
 import { PaginationResponse } from '../interfaces/pagination-response';
 import { getPaginateParams } from 'src/app/shared/utils/http-functions';
-import { map } from "rxjs/operators";
+import { Lookup } from "../interfaces/lookup";
 
 @Injectable({
   providedIn: 'root'
@@ -58,5 +58,15 @@ export class RequestCarService {
     return this.http.get<RequestCarModel>(url).pipe(
       map(res => new RequestCarModel(res))
     );
+  }
+
+  transferRequest(requestCarId: number, data: { officeId: number }): Observable<void> {
+    const url = `${this.url}/transfer/${requestCarId}`;
+    return this.http.patch<void>(url, data);
+  }
+
+  getStatusByStatusCurrent(code: string): Observable<Lookup[]> {
+    const url = `${this.url}/status/${code}`;
+    return this.http.get<Lookup[]>(url);
   }
 }

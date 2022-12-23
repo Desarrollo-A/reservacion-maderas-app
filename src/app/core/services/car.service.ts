@@ -70,4 +70,12 @@ export class CarService {
     const url = `${this.url}/available-driver-request/${driverId}`;
     return this.http.get<CarModel[]>(url, {params});
   }
+
+  getAvailableCarsInRequestCar(officeId: number, startDate: string, endDate: string): Observable<CarModel[]> {
+    const params = new HttpParams()
+      .append('start_date', startDate)
+      .append('end_date', endDate);
+    const url = `${this.url}/available-car-request/${officeId}`;
+    return this.http.get<CarModel[]>(url, {params});
+  }
 }

@@ -31,6 +31,7 @@ import { DriverDetailComponent } from './pages/driver-detail/driver-detail.compo
 import { CarComponent } from './pages/car/car-component';
 import { DriverRequestAssignComponent } from './components/driver-request-assign/driver-request-assign.component';
 import { CarDetailComponent } from './pages/car-detail/car-detail.component';
+import { CarRequestAssignComponent } from './components/car-request-assign/car-request-assign.component';
 
 
 @NgModule({
@@ -51,7 +52,8 @@ import { CarDetailComponent } from './pages/car-detail/car-detail.component';
     DriverDetailComponent,
     CarComponent,
     DriverRequestAssignComponent,
-    CarDetailComponent
+    CarDetailComponent,
+    CarRequestAssignComponent
   ],
   imports: [
     CommonModule,

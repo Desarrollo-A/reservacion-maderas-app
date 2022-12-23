@@ -17,6 +17,8 @@ import { TransferRequestComponent } from "../../components/transfer-request/tran
 import { switchMap, tap } from "rxjs";
 import { CancelRequestModel } from "../../../../core/models/cancel-request.model";
 import { CancelRequestComponent } from "../../components/cancel-request/cancel-request.component";
+import { CarRequestAssignComponent } from "../../components/car-request-assign/car-request-assign.component";
+import { ApprovedCarRequest } from "../../interfaces/approved-car-request";
 
 @Component({
   selector: 'app-car-detail',
@@ -32,6 +34,8 @@ export class CarDetailComponent implements OnInit {
   transferRequestComponent: TransferRequestComponent;
   @ViewChild('cancelRequestComponent')
   cancelRequestComponent: CancelRequestComponent;
+  @ViewChild('carRequestAssignComponent')
+  carRequestAssignComponent: CarRequestAssignComponent;
 
   requestCar: RequestCarModel;
   statusChange: Lookup[] = [];
@@ -76,6 +80,8 @@ export class CarDetailComponent implements OnInit {
       this.toastrService.info('Selecciona una oficina para transferir la solicitud', 'Información');
     } else if (status.code === StatusCarRequestLookup[StatusCarRequestLookup.CANCELLED]) {
       this.toastrService.info('Agrega un comentario para cancelar la solicitud', 'Información');
+    } else if (status.code === StatusCarRequestLookup[StatusCarRequestLookup.APPROVED]) {
+      this.toastrService.info('Selecciona un automóvil', 'Información');
     }
   }
 
@@ -98,10 +104,15 @@ export class CarDetailComponent implements OnInit {
   save(): void {
     if (this.requestCar.request.status.code === StatusPackageRequestLookup[StatusPackageRequestLookup.TRANSFER]) {
       this.transferRequest();
+
     } else if (this.requestCar.request.status.code === StatusCarRequestLookup[StatusCarRequestLookup.CANCELLED] &&
       (this.previousStatus.code === StatusCarRequestLookup[StatusCarRequestLookup.APPROVED] ||
         this.previousStatus.code === StatusCarRequestLookup[StatusCarRequestLookup.NEW])) {
       this.cancelRequest();
+
+    } else if (this.requestCar.request.status.code === StatusCarRequestLookup[StatusCarRequestLookup.APPROVED] &&
+    this.previousStatus.code === StatusCarRequestLookup[StatusCarRequestLookup.NEW]) {
+      this.approvedRequest();
     }
   }
 
@@ -127,6 +138,25 @@ export class CarDetailComponent implements OnInit {
     const data: CancelRequestModel = this.cancelRequestComponent.form.getRawValue();
     this.requestCarService.cancelRequest(this.requestCar.requestId, data).subscribe(() => {
       this.toastrService.success('Solicitud cancelada', 'Proceso exitoso');
+      this.router.navigateByUrl(this.urlRedirectBack);
+    });
+  }
+
+  public approvedRequest(): void {
+    if (this.carRequestAssignComponent.form.invalid) {
+      this.carRequestAssignComponent.form.markAllAsTouched();
+      return;
+    }
+
+    const formValues = this.carRequestAssignComponent.form.getRawValue();
+    const data: ApprovedCarRequest = {
+      ...formValues,
+      requestId: this.requestCar.requestId,
+      requestCarId: this.requestCar.id
+    };
+
+    this.requestCarService.approvedRequest(data).subscribe(() => {
+      this.toastrService.success('Solicitud aprobada', 'Proceso exitoso');
       this.router.navigateByUrl(this.urlRedirectBack);
     });
   }

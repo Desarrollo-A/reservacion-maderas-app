@@ -76,6 +76,19 @@
             <textarea matInput readonly [value]="requestDriver.request.comment"></textarea>
           </mat-form-field>
 
+          <!-- Información del chofer que entregará la paquetería -->
+          <div class="flex flex-col sm:flex-row sm:gap-4" *ngIf="requestDriver.driverRequestSchedule">
+            <mat-form-field appearance="outline" class="flex-auto vex-flex-form-field">
+              <mat-label>Nombre del chofer</mat-label>
+              <input matInput readonly [value]="requestDriver.driverRequestSchedule.driverSchedule.driver.fullName">
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" class="flex-auto vex-flex-form-field">
+              <mat-label>Automóvil</mat-label>
+              <input matInput readonly [value]="requestDriver.driverRequestSchedule.carSchedule.car.smallInformation">
+            </mat-form-field>
+          </div>
+
           <div class="flex flex-col gap-5">
             <app-address title="Dirección de salida"
                          subtitle="Información del lugar de salida"

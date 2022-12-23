@@ -1,4 +1,5 @@
 import { AddressModel } from "./address.model";
+import { DriverRequestScheduleModel } from "./driver-request-schedule.model";
 import { RequestModel } from "./request.model";
 
 export class RequestDriverModel {
@@ -11,6 +12,7 @@ export class RequestDriverModel {
   pickupAddress: AddressModel;
   arrivalAddress: AddressModel;
   request: RequestModel;
+  driverRequestSchedule?: DriverRequestScheduleModel;
 
   constructor(requestDriver) {
     this.id = requestDriver.id;
@@ -22,5 +24,8 @@ export class RequestDriverModel {
     this.pickupAddress = requestDriver.pickupAddress;
     this.arrivalAddress = requestDriver.arrivalAddress;
     this.request = new RequestModel(requestDriver.request);
+    this.driverRequestSchedule = requestDriver.driverRequestSchedule?
+      new DriverRequestScheduleModel(requestDriver.driverRequestSchedule)
+      :null;
   }
 }

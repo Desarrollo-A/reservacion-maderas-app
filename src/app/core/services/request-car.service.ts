@@ -9,6 +9,7 @@ import { PaginationResponse } from '../interfaces/pagination-response';
 import { getPaginateParams } from 'src/app/shared/utils/http-functions';
 import { Lookup } from "../interfaces/lookup";
 import { CancelRequestModel } from "../models/cancel-request.model";
+import { ApprovedCarRequest } from "../../dashboard/history/interfaces/approved-car-request";
 
 @Injectable({
   providedIn: 'root'
@@ -74,5 +75,10 @@ export class RequestCarService {
   cancelRequest(id: number, request: CancelRequestModel): Observable<void> {
     const url = `${this.url}/cancel/${id}`;
     return this.http.patch<void>(url, request);
+  }
+
+  approvedRequest(requestCar: ApprovedCarRequest): Observable<void> {
+    const url = `${this.url}/approved`;
+    return this.http.post<void>(url, requestCar);
   }
 }

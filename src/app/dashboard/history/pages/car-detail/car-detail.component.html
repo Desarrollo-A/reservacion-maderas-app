@@ -89,6 +89,12 @@
                                 *ngIf="requestCar.request.status.code === statusRequest[statusRequest.TRANSFER]"
                                 [offices]="transferOffices">
           </app-transfer-request>
+
+          <app-car-request-assign #carRequestAssignComponent
+                                  *ngIf="previousStatus.code === statusRequest[statusRequest.NEW] &&
+                                     requestCar.request.status.code === statusRequest[statusRequest.APPROVED]"
+                                  [requestCar]="requestCar">
+          </app-car-request-assign>
         </div>
       </div>
 

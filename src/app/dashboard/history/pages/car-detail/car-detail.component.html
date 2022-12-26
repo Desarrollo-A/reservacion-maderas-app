@@ -75,6 +75,14 @@
             <mat-label>Comentarios</mat-label>
             <textarea matInput readonly [value]="requestCar.request.comment"></textarea>
           </mat-form-field>
+
+          <!-- Información del vehículo que se le asignó -->
+          <div class="flex flex-col sm:flex-row sm:gap-4" *ngIf="requestCar.carRequestSchedule">
+            <mat-form-field appearance="outline" class="flex-auto vex-flex-form-field">
+              <mat-label>Automóvil asignado</mat-label>
+              <input matInput readonly [value]="requestCar.carRequestSchedule.carSchedule.car.smallInformation">
+            </mat-form-field>
+          </div>
         </div>
       </div>
 

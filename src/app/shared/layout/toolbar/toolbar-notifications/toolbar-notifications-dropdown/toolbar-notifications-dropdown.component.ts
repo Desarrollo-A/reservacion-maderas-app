@@ -119,7 +119,10 @@ export class ToolbarNotificationsDropdownComponent implements OnInit {
     } else if(notification.type.code === TypeNotificationLookup[TypeNotificationLookup.DRIVER] &&
       notification.requestNotification?.requestId){
         this.redirectDriver(notification);
-      }
+    } else if(notification.type.code === TypeNotificationLookup[TypeNotificationLookup.CAR] &&
+      notification.requestNotification?.requestId){
+      this.redirectCar(notification);
+    }
   }
 
   private redirectDetailRoom(notification: NotificationModel): void {
@@ -147,6 +150,14 @@ export class ToolbarNotificationsDropdownComponent implements OnInit {
       this.router.navigateByUrl(`/dashboard/solicitudes/conductor/${notification.requestNotification.requestId}`);
     }else if(this.userSessionService.user.role.name === NameRole.APPLICANT){
       this.router.navigateByUrl(`/dashboard/historial/conductor/${notification.requestNotification.requestId}`);
+    }
+  }
+
+  private redirectCar(notification: NotificationModel): void {
+    if (this.userSessionService.user.role.name === NameRole.RECEPCIONIST) {
+      this.router.navigateByUrl(`/dashboard/solicitudes/automovil/${notification.requestNotification.requestId}`);
+    } else if (this.userSessionService.user.role.name === NameRole.APPLICANT) {
+      this.router.navigateByUrl(`/dashboard/historial/automovil/${notification.requestNotification.requestId}`);
     }
   }
 

@@ -26,4 +26,8 @@ export class WidgetAssistantComponent {
   get isApplicant(): boolean {
     return this.userService.user.role?.name === NameRole.APPLICANT;
   }
+
+  get isDriver(): boolean {
+    return this.userService.user.role?.name === NameRole.DRIVER ?? false;
+  }
 }

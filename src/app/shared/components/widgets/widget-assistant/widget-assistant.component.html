@@ -9,7 +9,7 @@
 
     <div class="mt-4 flex items-center">
       <mat-icon class="mr-2" svgIcon="mat:check_circle"></mat-icon>
-      <span class="body-2 cursor-pointer">Gestionar las solicitudes de sala de junta</span>
+      <span class="body-2 cursor-pointer">Gestionar las solicitudes de sala de junta, paquetería, chofer y automóvil</span>
     </div>
 
     <div class="mt-1 flex items-center">
@@ -29,7 +29,7 @@
 
     <div class="mt-4 flex items-center">
       <mat-icon class="mr-2" svgIcon="mat:check_circle"></mat-icon>
-      <span class="body-2 cursor-pointer">Crear solicitudes de sala de junta</span>
+      <span class="body-2 cursor-pointer">Crear solicitudes</span>
     </div>
 
     <div class="mt-1 flex items-center">
@@ -50,6 +50,21 @@
     <div class="mt-4 flex items-center">
       <mat-icon class="mr-2" svgIcon="mat:check_circle"></mat-icon>
       <span class="body-2 cursor-pointer">Ver el listado de usuarios del sistema</span>
+    </div>
+  </div>
+
+  <div class="p-6 text-primary-contrast flex-auto" *ngIf="isDriver">
+    <h2 class="headline m-0">¡Hola, {{ userFullName | titlecase }}!</h2>
+    <p class="caption m-0 opacity-50">En tu panel podrás realizar las siguientes acciones:</p>
+
+    <div class="mt-4 flex items-center">
+      <mat-icon class="mr-2" svgIcon="mat:check_circle"></mat-icon>
+      <span class="body-2 cursor-pointer">Gestionar las solicitudes</span>
+    </div>
+
+    <div class="mt-1 flex items-center">
+      <mat-icon class="mr-2" svgIcon="mat:check_circle"></mat-icon>
+      <span class="body-2 cursor-pointer">Generar reportes</span>
     </div>
   </div>
 </div>

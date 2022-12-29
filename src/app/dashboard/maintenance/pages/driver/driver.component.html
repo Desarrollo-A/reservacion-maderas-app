@@ -7,14 +7,14 @@
         </div>
       </div>
     </vex-page-layout-header>
-  
+
     <vex-page-layout-content class="container -mt-6">
       <div class="card overflow-auto -mt-16">
         <div class="bg-app-bar px-6 h-16 border-b sticky left-0 flex items-center">
           <h2 class="title my-0 ltr:pr-4 rtl:pl-4 ltr:mr-4 rtl:ml-4 ltr:border-r rtl:border-l hidden sm:block flex-none">
             <span>Conductores</span>
           </h2>
-  
+
           <div class="bg-foreground rounded-full border px-4 max-w-[300px] flex-auto flex items-center border border-gray-300">
             <mat-icon class="icon-sm text-secondary" svgIcon="mat:search"></mat-icon>
             <input class="px-4 py-2 border-0 outline-none w-full bg-transparent"
@@ -23,9 +23,9 @@
                    [formControl]="searchCtrl"
                    (keyup.enter)="search()">
           </div>
-  
+
         </div>
-  
+
         <table @stagger [dataSource]="dataSource" class="w-full" mat-table matSort [trackBy]="trackById"
                (matSortChange)="sortChange($event)">
           <ng-container matColumnDef="noEmployee">
@@ -37,14 +37,14 @@
             <th *matHeaderCellDef class="uppercase" mat-header-cell mat-sort-header>Nombre completo</th>
             <td *matCellDef="let row" mat-cell>{{ row.fullName }}</td>
           </ng-container>
-  
+
           <ng-container matColumnDef="email">
-            <th *matHeaderCellDef class="uppercase" mat-header-cell mat-sort-header>Correo Electronico</th>
+            <th *matHeaderCellDef class="uppercase" mat-header-cell mat-sort-header>Correo Electrónico</th>
             <td *matCellDef="let row" mat-cell>{{ row.email }}</td>
           </ng-container>
 
           <ng-container matColumnDef="personalPhone">
-            <th *matHeaderCellDef class="uppercase" mat-header-cell mat-sort-header>Telefono personal</th>
+            <th *matHeaderCellDef class="uppercase" mat-header-cell mat-sort-header>Teléfono personal</th>
             <td *matCellDef="let row" mat-cell>{{ row.personalPhone }}</td>
           </ng-container>
 
@@ -52,7 +52,7 @@
             <th *matHeaderCellDef class="uppercase" mat-header-cell>Estatus</th>
             <td *matCellDef="let row" mat-cell>
                 <div class="flex items-center gap-1">
-                    <div [ngClass]="[row.statusLabel.textClass, row.statusLabel.bgClass]" 
+                    <div [ngClass]="[row.statusLabel.textClass, row.statusLabel.bgClass]"
                         class="rounded px-2 py-1 font-medium text-xs flex-none">
                         {{row.statusLabel.text}}
                     </div>
@@ -63,7 +63,7 @@
           <ng-container matColumnDef="actions">
             <th *matHeaderCellDef mat-header-cell></th>
             <td *matCellDef="let row" class="w-10 text-secondary" mat-cell>
-              <button 
+              <button
                     [matMenuTriggerData]="{ driver: row }"
                     [matMenuTriggerFor]="actionsMenu"
                     mat-icon-button
@@ -79,7 +79,7 @@
               class="hover:bg-hover trans-ease-out cursor-pointer"
               mat-row></tr>
         </table>
-  
+
         <ng-container *ngIf="driveResponse">
           <app-paginator [pageSizeOptions]="pageSizeOptions"
                          [meta]="driveResponse.meta"

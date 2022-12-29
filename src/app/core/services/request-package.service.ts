@@ -34,8 +34,16 @@ export class RequestPackageService {
     const data = new FormData();
     data.append('file', file);
     data.append('_method', 'PUT');
-
     const url = `${this.url}/upload-file/${id}`;
+    return this.http.post<void>(url, data);
+  }
+
+  uploadFileCanvas(file: File): Observable<void> {
+    const data = new FormData();
+    data.append('signature', file);
+    data.append('_method', 'PUT');
+    console.log(file);
+    const url = `${this.url}/upload-signature`;
     return this.http.post<void>(url, data);
   }
 

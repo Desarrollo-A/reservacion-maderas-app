@@ -14,11 +14,14 @@ import { TokenInterceptor } from "./core/interceptors/token.interceptor";
 import { registerLocaleData } from "@angular/common";
 import localeMX from '@angular/common/locales/es-MX';
 import { PageNotFoundModule } from "./shared/components/page-not-found/page-not-found.module";
+import { RoomComponent } from './room/room.component';
+import { HomeComponent } from './home/home.component';
+import { DrawComponent } from './draw/draw.component';
 
 registerLocaleData(localeMX);
 
 @NgModule({
-  declarations: [AppComponent],
+  declarations: [AppComponent, RoomComponent, HomeComponent, DrawComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,

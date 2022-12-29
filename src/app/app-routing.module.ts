@@ -2,10 +2,13 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AuthGuard } from './core/guards/auth.guard';
 import { LoginGuard } from "./core/guards/login.guard";
+import { HomeComponent } from './home/home.component';
+import { RoomComponent } from './room/room.component';
 import { PageNotFoundComponent } from "./shared/components/page-not-found/page-not-found.component";
 
 
 const routes: Routes = [
+  {path: 'draw/:room', component: RoomComponent},
   {path: '', redirectTo: 'auth', pathMatch: 'full'},
   {
     path: 'auth',

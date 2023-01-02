@@ -30,6 +30,14 @@ export class HomeComponent implements OnInit {
     return this.userService.user?.role?.name === NameRole.ADMIN;
   }
 
+  get isDriver(): boolean {
+    return this.userService.user?.role?.name === NameRole.DRIVER;
+  }
+
+  get isApplicant(): boolean {
+    return this.userService.user?.role?.name === NameRole.APPLICANT;
+  }
+
   ngOnInit(): void {
     if (!this.isAdmin) {
       this.homeService.getDataHome().subscribe(({ cards, last7DaysRequests, percentage, totalMonth}) => {

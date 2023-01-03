@@ -1,4 +1,4 @@
-<div class="dropdown">
+<div class="dropdown" #menuNotifications>
   <div class="dropdown-header flex items-center justify-between">
     <div>
       <div class="dropdown-heading">Notificaciones</div>
@@ -38,6 +38,7 @@
 
 <div class="invisible fixed"
      [style.top]="menuTopLeftPosition.y"
+     [style.left] = "menuTopLeftPosition.x"
      [matMenuTriggerFor]="rightMenu">
 </div>
 

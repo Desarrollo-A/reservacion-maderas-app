@@ -29,7 +29,7 @@
       <vex-toolbar-notifications></vex-toolbar-notifications>
     </div>
 
-    <div class="px-1" *ngIf="!isAdmin">
+    <div class="px-1" *ngIf="showEvents">
       <button (click)="openQuickpanel()" mat-icon-button type="button">
         <mat-icon color="primary" svgIcon="mat:event"></mat-icon>
       </button>

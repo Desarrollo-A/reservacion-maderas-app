@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, HostListener } from '@angular/core';
 import { trackById } from '../../../../utils/track-by';
 import { NotificationService } from "../services/notification.service";
 import { NotificationModel } from "../models/notification.model";
@@ -33,6 +33,7 @@ interface Position {
   styleUrls: ['./toolbar-notifications-dropdown.component.scss']
 })
 export class ToolbarNotificationsDropdownComponent implements OnInit {
+  @ViewChild('menuNotifications', { static: false}) menuNotifications: any
   @ViewChild(MatMenuTrigger, { static: true })
   matMenuTrigger: MatMenuTrigger;
 
@@ -67,11 +68,11 @@ export class ToolbarNotificationsDropdownComponent implements OnInit {
   }
 
   onRightClick(event: MouseEvent, notification: NotificationModel) {
+    const posMenu = this.menuNotifications.nativeElement.getBoundingClientRect();
     if (!notification.isRead) {
       event.preventDefault();
-
-      this.menuTopLeftPosition.x = `${event.screenX}px`;
-      this.menuTopLeftPosition.y = `${event.screenY}px`;
+      this.menuTopLeftPosition.x = `${event.clientX - posMenu.left}px`;
+      this.menuTopLeftPosition.y = `${event.clientY - posMenu.top}px`;
 
       this.matMenuTrigger.menuData = { notification };
       this.matMenuTrigger.openMenu();

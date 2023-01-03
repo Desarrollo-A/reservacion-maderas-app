@@ -1,6 +1,7 @@
 export enum TypeRequestLookup {
   ROOM,
-  TRAVEL,
   PAPER,
-  PARCEL
+  PARCEL,
+  DRIVER,
+  CAR,
 }

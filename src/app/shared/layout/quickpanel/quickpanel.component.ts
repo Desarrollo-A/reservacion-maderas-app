@@ -38,6 +38,12 @@ export class QuickpanelComponent implements OnInit {
 
     if (request.type.code === TypeRequestLookup[TypeRequestLookup.ROOM]) {
       this.router.navigateByUrl(`/dashboard/${part}/sala/${request.id}`);
+    } else if (request.type.code === TypeRequestLookup[TypeRequestLookup.PARCEL]) {
+      this.router.navigateByUrl(`/dashboard/${part}/paqueteria/${request.id}`);
+    } else if (request.type.code === TypeRequestLookup[TypeRequestLookup.DRIVER]) {
+      this.router.navigateByUrl(`/dashboard/${part}/conductor/${request.id}`);
+    } else if (request.type.code === TypeRequestLookup[TypeRequestLookup.CAR]) {
+      this.router.navigateByUrl(`/dashboard/${part}/automovil/${request.id}`);
     }
   }
 

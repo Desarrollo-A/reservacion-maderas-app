@@ -8,7 +8,7 @@ import { CarComponent } from "./pages/car/car.component";
 
 const routes: Routes = [
   {path: '', redirectTo: 'sala', pathMatch: 'full'},
-  {path: 'automovil', component: CarComponent, title: 'Automóvil'},
+  {path: 'vehiculo', component: CarComponent, title: 'Vehículo'},
   {path: 'conductor', component: DriverComponent, title: 'Chofer'},
   {path: 'paqueteria', component: PackageComponent, title: 'Paquetería'},
   {path: 'sala', component: RoomComponent, title: 'Sala de Juntas'},

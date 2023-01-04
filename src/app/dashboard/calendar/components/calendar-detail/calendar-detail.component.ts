@@ -18,12 +18,25 @@ export class CalendarDetailComponent {
               private userSessionService: UserSessionService,
               @Inject(MAT_DIALOG_DATA) public request: RequestModel) {}
 
+  get isRequestPackage(): boolean {
+    return this.request.type.code === TypeRequestLookup[TypeRequestLookup.PARCEL];
+  }
+
   redirectRequestDetail(): void {
     const part = (this.userSessionService.user.role.name === NameRole.RECEPCIONIST) ? 'solicitudes' : 'historial';
 
     if (this.request.type.code === TypeRequestLookup[TypeRequestLookup.ROOM]) {
       this.dialogRef.close();
       this.router.navigateByUrl(`/dashboard/${part}/sala/${this.request.id}`);
+    } else if (this.request.type.code === TypeRequestLookup[TypeRequestLookup.PARCEL]) {
+      this.dialogRef.close();
+      this.router.navigateByUrl(`/dashboard/${part}/paqueteria/${this.request.id}`);
+    } else if (this.request.type.code === TypeRequestLookup[TypeRequestLookup.DRIVER]) {
+      this.dialogRef.close();
+      this.router.navigateByUrl(`/dashboard/${part}/conductor/${this.request.id}`);
+    } else if (this.request.type.code === TypeRequestLookup[TypeRequestLookup.CAR]) {
+      this.dialogRef.close();
+      this.router.navigateByUrl(`/dashboard/${part}/vehiculo/${this.request.id}`);
     }
   }
 }

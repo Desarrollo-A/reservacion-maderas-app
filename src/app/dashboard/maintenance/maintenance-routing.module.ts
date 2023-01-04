@@ -8,7 +8,7 @@ import { DriverComponent } from './pages/driver/driver.component';
 const routes: Routes = [
   { path: '', redirectTo: 'sala', pathMatch: 'full' },
   { path: 'sala', component: RoomComponent, title: 'Manto. Salas de Junta' },
-  { path: 'auto', component: CarComponent, title: 'Manto. Automóvil' },
+  { path: 'auto', component: CarComponent, title: 'Manto. Vehículo' },
   { path: 'conductor', component: DriverComponent, title:'Manto. Chofer'},
   { path: '**', component: PageNotFoundComponent }
 ];
@@ -18,4 +18,3 @@ const routes: Routes = [
   exports: [RouterModule]
 })
 export class MaintenanceRoutingModule { }
- 

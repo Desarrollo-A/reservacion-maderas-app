@@ -53,7 +53,7 @@ export class CarDetailComponent implements OnInit {
               private toastrService: ToastrService,
               private officeService: OfficeService) {
     const [,,part] = this.router.url.split('/', 3);
-    this.urlRedirectBack = `/dashboard/${part}/automovil`;
+    this.urlRedirectBack = `/dashboard/${part}/vehiculo`;
     this.breadcrumbs.push({
       link: this.urlRedirectBack,
       label: 'Historial'
@@ -81,7 +81,7 @@ export class CarDetailComponent implements OnInit {
     } else if (status.code === StatusCarRequestLookup[StatusCarRequestLookup.CANCELLED]) {
       this.toastrService.info('Agrega un comentario para cancelar la solicitud', 'Información');
     } else if (status.code === StatusCarRequestLookup[StatusCarRequestLookup.APPROVED]) {
-      this.toastrService.info('Selecciona un automóvil', 'Información');
+      this.toastrService.info('Selecciona un vehículo', 'Información');
     }
   }
 

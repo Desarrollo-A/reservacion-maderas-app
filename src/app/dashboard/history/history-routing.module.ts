@@ -12,11 +12,11 @@ import { CarDetailComponent } from "./pages/car-detail/car-detail.component";
 
 const routes: Routes = [
   {path: '', redirectTo: 'sala', pathMatch: 'full'},
-  {path: 'automovil', component: CarComponent, title: 'Automovil'},
+  {path: 'vehiculo', component: CarComponent, title: 'Vehículo'},
   {path: 'conductor', component: DriverComponent, title: 'Chofer'},
   {path: 'sala', component: RoomComponent, title: 'Sala de Juntas'},
   {path: 'paqueteria', component: PackageComponent, title: 'Paquetería'},
-  {path: 'automovil/:id', component: CarDetailComponent, title: 'Solicitud detalle'},
+  {path: 'vehiculo/:id', component: CarDetailComponent, title: 'Solicitud detalle'},
   {path: 'conductor/:id', component: DriverDetailComponent, title: 'Solicitud detalle'},
   {path: 'sala/:id', component: RoomDetailComponent, title: 'Solicitud detalle'},
   {path: 'paqueteria/:id', component: PackageDetailComponent, title: 'Solicitud detalle'},

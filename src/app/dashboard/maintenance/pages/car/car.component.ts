@@ -121,7 +121,7 @@ export class CarComponent implements OnInit {
       switchMap(confirm => (confirm) ? this.carService.delete(id) : of(false))
     ).subscribe(confirm => {
       if (confirm) {
-        this.toastrService.success('Automóvil eliminado', 'Proceso exitoso');
+        this.toastrService.success('Vehículo eliminado', 'Proceso exitoso');
         this.prepareFilters();
       }
     });

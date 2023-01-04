@@ -2,7 +2,7 @@
   <vex-page-layout-header class="flex flex-col items-start justify-center">
     <div class="container">
       <h2 class="title m-0" *ngIf="requestCar">
-        Detalle solicitud de automóvil <strong>{{ requestCar?.request?.code }}</strong>
+        Detalle solicitud de vehículo <strong>{{ requestCar?.request?.code }}</strong>
       </h2>
       <vex-breadcrumbs [crumbs]="breadcrumbs"></vex-breadcrumbs>
     </div>
@@ -79,7 +79,7 @@
           <!-- Información del vehículo que se le asignó -->
           <div class="flex flex-col sm:flex-row sm:gap-4" *ngIf="requestCar.carRequestSchedule">
             <mat-form-field appearance="outline" class="flex-auto vex-flex-form-field">
-              <mat-label>Automóvil asignado</mat-label>
+              <mat-label>Vehículo asignado</mat-label>
               <input matInput readonly [value]="requestCar.carRequestSchedule.carSchedule.car.smallInformation">
             </mat-form-field>
           </div>

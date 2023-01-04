@@ -9,6 +9,7 @@ import { RequestModel } from "../models/request.model";
 import { EventColor } from "calendar-utils";
 import { SummaryDay } from "../../shared/layout/quickpanel/interfaces/summary-day";
 import { QuickpanelService } from "../../shared/layout/quickpanel/services/quickpanel.service";
+import { TypeRequestLookup } from "../enums/lookups/type-request.lookup";
 
 @Injectable({
   providedIn: 'root'
@@ -32,13 +33,16 @@ export class CalendarService {
       map(dataCalendar => {
         let data: CalendarEvent<RequestModel>[] = [];
         dataCalendar.forEach(calendar => {
+          const allDay = calendar.request.type.code === TypeRequestLookup[TypeRequestLookup.PARCEL];
+
           const event: CalendarEvent = {
             id: calendar.request.id,
             start: new Date(calendar.request.startDate),
             end: new Date(calendar.request.endDate),
             title: calendar.title,
             color: this.color,
-            meta: calendar.request
+            meta: calendar.request,
+            allDay
           };
           data.push(event);
         });

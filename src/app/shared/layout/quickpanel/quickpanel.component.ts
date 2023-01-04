@@ -43,7 +43,7 @@ export class QuickpanelComponent implements OnInit {
     } else if (request.type.code === TypeRequestLookup[TypeRequestLookup.DRIVER]) {
       this.router.navigateByUrl(`/dashboard/${part}/conductor/${request.id}`);
     } else if (request.type.code === TypeRequestLookup[TypeRequestLookup.CAR]) {
-      this.router.navigateByUrl(`/dashboard/${part}/automovil/${request.id}`);
+      this.router.navigateByUrl(`/dashboard/${part}/vehiculo/${request.id}`);
     }
   }
 

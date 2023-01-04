@@ -156,9 +156,9 @@ export class ToolbarNotificationsDropdownComponent implements OnInit {
 
   private redirectCar(notification: NotificationModel): void {
     if (this.userSessionService.user.role.name === NameRole.RECEPCIONIST) {
-      this.router.navigateByUrl(`/dashboard/solicitudes/automovil/${notification.requestNotification.requestId}`);
+      this.router.navigateByUrl(`/dashboard/solicitudes/vehiculo/${notification.requestNotification.requestId}`);
     } else if (this.userSessionService.user.role.name === NameRole.APPLICANT) {
-      this.router.navigateByUrl(`/dashboard/historial/automovil/${notification.requestNotification.requestId}`);
+      this.router.navigateByUrl(`/dashboard/historial/vehiculo/${notification.requestNotification.requestId}`);
     }
   }
 

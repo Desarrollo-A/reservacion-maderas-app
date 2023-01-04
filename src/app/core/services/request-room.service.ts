@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from "@angular/common/http";
+import { HttpClient, HttpParams } from "@angular/common/http";
 import { environment } from "../../../environments/environment";
 import { Observable } from "rxjs";
 import { RequestModel } from "../models/request.model";
@@ -50,19 +50,17 @@ export class RequestRoomService {
       );
   }
 
-  getStatusByStatusCurrent(code: string): Observable<Lookup[]> {
+  getStatusByStatusCurrent(code: string, requestId: number): Observable<Lookup[]> {
+    const params = new HttpParams()
+      .append('request_id', requestId);
+
     const url = `${this.url}/status/${code}`;
-    return this.http.get<Lookup[]>(url);
+    return this.http.get<Lookup[]>(url, {params});
   }
 
   assignSnacks(requestRoom: {requestId: number, inventoryRequest: InventoryRequestModel[]}): Observable<void> {
     const url = `${this.url}/assign-snack`;
     return this.http.post<void>(url, requestRoom);
-  }
-
-  availableRoom(request: RequestModel): Observable<RequestModel> {
-    const url = `${this.url}/available-room`;
-    return this.http.post<RequestModel>(url, request);
   }
 
   cancelRequest(id: number, request: CancelRequestModel): Observable<void> {

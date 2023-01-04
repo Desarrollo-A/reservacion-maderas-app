@@ -6,7 +6,7 @@ import { ActivatedRoute, Router } from "@angular/router";
 import { RequestRoomService } from "../../../../core/services/request-room.service";
 import { RequestRoomModel } from "../../../../core/models/request-room.model";
 import { Lookup } from "../../../../core/interfaces/lookup";
-import { of, switchMap, tap } from "rxjs";
+import { of, switchMap } from "rxjs";
 import { InventoryService } from "../../../../core/services/inventory.service";
 import { InventoryModel } from "../../../../core/models/inventory.model";
 import { StatusRequestRoomLookup } from "../../../../core/enums/lookups/status-request-room.lookup";
@@ -24,7 +24,6 @@ import { ProposalRequestModel } from "../../../../core/models/proposal-request.m
 import { getDateFormat, getTimeFormat } from "../../../../shared/utils/utils";
 import { trackById } from "../../../../shared/utils/track-by";
 import { CancelRequestModel } from "../../../../core/models/cancel-request.model";
-import { ErrorResponse } from 'src/app/core/interfaces/error-response';
 
 @Component({
   selector: 'app-room-detail',
@@ -77,7 +76,7 @@ export class RoomDetailComponent {
     return StatusRequestRoomLookup;
   }
 
-  findByRequestId(requestId: number): void {
+  /*findByRequestId(requestId: number): void {
     this.requestRoomService.findByRequestId(requestId).pipe(
       tap(requestRoom => {
         this.requestRoom = requestRoom;
@@ -95,6 +94,26 @@ export class RoomDetailComponent {
         this.router.navigateByUrl(this.urlRedirectBack);
       }
     });
+  }*/
+
+  findByRequestId(requestId: number): void {
+    this.requestRoomService.findByRequestId(requestId).pipe(
+      switchMap(requestRoom => {
+        this.requestRoom = requestRoom;
+        this.previousStatus = {... requestRoom.request.status};
+        return this.requestRoomService.getStatusByStatusCurrent(requestRoom.request.status.code, requestId)
+      }),
+      switchMap(status => {
+        this.statusChange = status;
+
+        if (this.userSessionService.user.role.name === NameRole.RECEPCIONIST) {
+          return this.inventoryService.findAllSnacks();
+        }
+
+        const defaultSnacks: InventoryModel[] = [];
+        return of(defaultSnacks);
+      })
+    ).subscribe(snackList => this.snackList = snackList);
   }
 
   changeStatus(status: Lookup): void {
@@ -149,25 +168,6 @@ export class RoomDetailComponent {
       snacks.push(inventory.inventoryRequest);
     });
     return { requestId: this.requestRoom.requestId, inventoryRequest: snacks };
-  }
-
-  private dataRecepcionist(status: Lookup[]): void {
-    this.inventoryService.findAllSnacks().pipe(
-      tap(snackList => this.snackList = snackList),
-      switchMap(() => {
-        return (this.requestRoom.request.status.code === StatusRequestRoomLookup[StatusRequestRoomLookup.NEW])
-          ? this.requestRoomService.availableRoom(this.requestRoom.request)
-          : of({isAvailable: true});
-      }),
-      tap(({isAvailable}) => {
-        if (!isAvailable) {
-          const index = status.findIndex(status => status.code === StatusRequestRoomLookup[StatusRequestRoomLookup.APPROVED]);
-          status.splice(index, 1);
-        }
-
-        this.statusChange = status;
-      })
-    ).subscribe();
   }
 
   private approveRequest(): void {

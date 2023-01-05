@@ -13,6 +13,7 @@ export class DriverModel {
     officePhone:    string;
     officeId:       number;
     statusId:       number;
+    area:           string;
     status:         Lookup;
     cars:           CarModel[];
 
@@ -25,6 +26,7 @@ export class DriverModel {
         this.officePhone = driver.officePhone;
         this.officeId = driver.officeId;
         this.statusId = driver.statusId;
+        this.area = driver.area;
         this.status = driver.status;
         this.cars = driver.cars;
     }
@@ -40,6 +42,15 @@ export class DriverModel {
             return {text: this.statusName, textClass: 'text-gray', bgClass: 'bg-gray-light'};
         }else if(this.status.code === StatusDriverLookup[StatusDriverLookup.DOWN]){
             return {text: this.statusName, textClass: 'text-red', bgClass: 'bg-red-light'};
+        }
+    }
+
+    get carInfo(): LabelButton{
+        if(this.cars.length === 0){
+            return {text: 'Sin asignación', textClass: 'text-gray', bgClass: 'bg-gray-light'};
+        }else if(this.cars.length === 1){
+            const carAssigned: string = this.cars[0].businessName + ', ' + this.cars[0].model;
+            return {text: carAssigned, textClass: 'text-blue', bgClass: 'bg-blue-light'};
         }
     }
 }

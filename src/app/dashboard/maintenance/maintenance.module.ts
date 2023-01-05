@@ -16,6 +16,7 @@ import { RoomCreateUpdateComponent } from './components/room-create-update/room-
 import { CarCreateUpdateComponent } from './components/car-create-update/car-create-update.component';
 import { DriverComponent } from './pages/driver/driver.component';
 import { RelationCarDriverComponent } from './components/relation-car-driver/relation-car-driver.component';
+import { InfoDriverComponent } from './components/info-driver/info-driver/info-driver.component';
 
 
 @NgModule({
@@ -27,7 +28,8 @@ import { RelationCarDriverComponent } from './components/relation-car-driver/rel
     RoomCreateUpdateComponent,
     CarCreateUpdateComponent,
     DriverComponent,
-    RelationCarDriverComponent
+    RelationCarDriverComponent,
+    InfoDriverComponent
   ],
   imports: [
     CommonModule,

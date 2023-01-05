@@ -32,7 +32,10 @@ export class DriverService {
 
   findById(id: number): Observable<DriverModel> {
     const url = `${this.url}/${id}`;
-    return this.http.get<DriverModel>(url);
+    return this.http.get<DriverModel>(url)
+      .pipe(
+        map(res => new DriverModel(res))
+      );
   }
 
   insertDriverCar(carId: number, driverId: number): Observable<void>{

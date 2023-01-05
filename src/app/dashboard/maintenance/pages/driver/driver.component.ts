@@ -13,6 +13,7 @@ import { Sort } from '@angular/material/sort';
 import { getSort } from 'src/app/shared/utils/http-functions';
 import { RelationCarDriverComponent } from '../../components/relation-car-driver/relation-car-driver.component';
 import { MatDialog } from '@angular/material/dialog';
+import { InfoDriverComponent } from '../../components/info-driver/info-driver/info-driver.component';
 
 @Component({
   selector: 'app-driver',
@@ -31,6 +32,7 @@ export class DriverComponent implements OnInit {
     {label: 'Nombre completo', property: 'fullName', type: 'text', visible: true},
     {label: 'Correo electronico', property: 'email', type: 'text', visible: true},
     {label: 'Telefono personal', property: 'personalPhone', type: 'text', visible: true},
+    {label: 'Autómovil', property: 'cars', type: 'text', visible: true},
     {label: 'Estatus', property: 'status', type: 'text', visible: true},
     {label: 'Acciones', property: 'actions', visible: true}
   ];
@@ -41,7 +43,7 @@ export class DriverComponent implements OnInit {
   trackById = trackById;
 
   constructor(private driverService:  DriverService,
-              private dialog:         MatDialog) { }
+              private matDialog:         MatDialog) { }
 
   ngOnInit(): void {
     this.dataSource = new MatTableDataSource<DriverModel>;
@@ -54,12 +56,22 @@ export class DriverComponent implements OnInit {
 
   openDialog(id: number): void {
     this.driverService.findById(id).subscribe( driver => {
-      this.dialog.open(RelationCarDriverComponent, {
+      this.matDialog.open(RelationCarDriverComponent, {
         data: driver
       }).afterClosed().subscribe(created => {
         if (created) {
           this.prepareFilters();
         }
+      });
+    });
+  }
+
+  details(id: number): void{
+    this.driverService.findById(id).subscribe(driver => {
+      this.matDialog.open(InfoDriverComponent, {
+        data: driver,
+        width: '400px',
+        autoFocus: false
       });
     });
   }
@@ -91,7 +103,7 @@ export class DriverComponent implements OnInit {
     this.generateFilter('full_name', TypesEnum.String, filter);
     this.generateFilter('email', TypesEnum.String, filter);
     this.generateFilter('personal_phone', TypesEnum.String, filter);
-
+    
     this.getData();
   }
 
@@ -104,7 +116,6 @@ export class DriverComponent implements OnInit {
       currentPageInit = currentPage;
       parPageInit = perPage;
     }
-
     this.driverService.findAllPaginated(this.orderBy, parPageInit, currentPageInit, searchQuery).subscribe(driveResponse => {
       this.driveResponse = driveResponse;
       this.dataSource.data = driveResponse.data;

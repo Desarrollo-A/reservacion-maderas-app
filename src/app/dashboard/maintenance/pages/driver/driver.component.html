@@ -48,6 +48,18 @@
             <td *matCellDef="let row" mat-cell>{{ row.personalPhone }}</td>
           </ng-container>
 
+          <ng-container matColumnDef="cars">
+            <th *matHeaderCellDef class="uppercase" mat-header-cell>Vehículo</th>
+            <td *matCellDef="let row" mat-cell>
+              <div class="flex items-center gap-1">
+                <div [ngClass]="[row.carInfo.textClass, row.carInfo.bgClass]"
+                  class="rounded px-2 py-1 font-medium text-xs flex-none">
+                    {{row.carInfo.text}}
+                </div>
+              </div>
+            </td>
+          </ng-container>
+          
           <ng-container matColumnDef="status">
             <th *matHeaderCellDef class="uppercase" mat-header-cell>Estatus</th>
             <td *matCellDef="let row" mat-cell>
@@ -93,9 +105,14 @@
 
   <mat-menu #actionsMenu="matMenu" xPosition="before" yPosition="below">
     <ng-template let-driver="driver" matMenuContent>
+      <button mat-menu-item (click) = "details(driver.id)">
+        <mat-icon svgIcon="mat:visibility"></mat-icon>
+        <span>Detalle</span>
+      </button>
       <button mat-menu-item (click) = "openDialog(driver.id)">
         <mat-icon svgIcon="mat:directions_car"></mat-icon>
         <span>Asignar vehículo</span>
       </button>
     </ng-template>
+
   </mat-menu>

@@ -68,7 +68,9 @@ export class CarService {
       .append('start_date', startDate)
       .append('end_date', endDate);
     const url = `${this.url}/available-driver-request/${driverId}`;
-    return this.http.get<CarModel[]>(url, {params});
+    return this.http.get<CarModel[]>(url, {params}).pipe(
+      map(cars => cars.map(car => new CarModel(car)))
+    );
   }
 
   getAvailableCarsInRequestCar(officeId: number, startDate: string, endDate: string): Observable<CarModel[]> {
@@ -76,6 +78,17 @@ export class CarService {
       .append('start_date', startDate)
       .append('end_date', endDate);
     const url = `${this.url}/available-car-request/${officeId}`;
-    return this.http.get<CarModel[]>(url, {params});
+    return this.http.get<CarModel[]>(url, {params}).pipe(
+      map(cars => cars.map(car => new CarModel(car)))
+    );
+  }
+
+  getAvailableCarsInRequestPackage(driverId: number, startDate: string): Observable<CarModel[]> {
+    const params = new HttpParams()
+      .append('start_date', startDate);
+    const url = `${this.url}/available-package-request/${driverId}`;
+    return this.http.get<CarModel[]>(url, {params}).pipe(
+      map(cars => cars.map(car => new CarModel(car)))
+    );
   }
 }

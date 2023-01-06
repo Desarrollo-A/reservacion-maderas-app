@@ -34,7 +34,14 @@
             <mat-select formControlName="carId">
               <mat-option *ngFor="let car of cars; trackBy: trackById"
                           [value]="car.id">
-                {{ car.trademark + ', ' + car.model }}
+                <span *ngIf="car.hasDrivers; else hasntDrivers">
+                  {{ car.smallInformation }} - Asignado
+                </span>
+                <ng-template #hasntDrivers>
+                  <span>
+                  {{ car.smallInformation }}
+                </span>
+                </ng-template>
               </mat-option>
             </mat-select>
 

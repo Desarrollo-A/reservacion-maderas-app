@@ -38,7 +38,7 @@ export class CarComponent implements OnInit {
     {label: 'Marca', property:  'trademark', type: 'text', visible: true},
     {label: 'Modelo', property:  'model', type: 'text', visible: true},
     {label: 'Color', property:  'color', type: 'text', visible: true},
-    {label: 'Licencia', property:  'licensePlate', type: 'text', visible: true},
+    {label: 'Placa', property:  'licensePlate', type: 'text', visible: true},
     {label: 'Serie', property:  'serie', type: 'text', visible: true},
     {label: 'T. circulación', property:  'circulationCard', type: 'text', visible: true},
     {label: 'No. personas', property:  'people', type: 'text', visible: false},

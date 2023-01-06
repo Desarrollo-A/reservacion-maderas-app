@@ -13,7 +13,7 @@
           <mat-select formControlName="carId">
             <mat-option *ngFor="let car of cars; trackBy: trackById"
                         [value]="car.id">
-              {{ car.trademark + ', ' + car.model }}
+              {{ car.smallInformation }}
             </mat-option>
           </mat-select>
 

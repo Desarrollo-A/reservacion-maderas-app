@@ -4,7 +4,6 @@ import { trackById } from "../../../../shared/utils/track-by";
 import { DriverModel } from "../../../../core/models/driver.model";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { FormErrors } from "../../../../shared/utils/form-error";
-import { DriverService } from "../../../../core/services/driver.service";
 import { PackageModel } from "../../../../core/models/package.model";
 import { getDateFormat } from "../../../../shared/utils/utils";
 import { CarModel } from "../../../../core/models/car.model";
@@ -12,6 +11,8 @@ import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
 import { forkJoin, switchMap } from "rxjs";
 import { RequestPackageService } from "../../../../core/services/request-package.service";
 import { dateBeforeNow } from "../../../../shared/utils/form-validations";
+import { CarService } from "../../../../core/services/car.service";
+import { DriverService } from "../../../../core/services/driver.service";
 
 @UntilDestroy()
 @Component({
@@ -37,6 +38,7 @@ export class DriverPackageAssignComponent implements OnInit {
   trackById = trackById;
   constructor(private fb: FormBuilder,
               private driverService: DriverService,
+              private carService: CarService,
               private requestPackageService: RequestPackageService) {}
 
   ngOnInit(): void {
@@ -55,12 +57,12 @@ export class DriverPackageAssignComponent implements OnInit {
       switchMap((driverId: number) => {
         this.form.patchValue({cardId: null});
         return forkJoin([
-          this.driverService.findById(driverId),
+          this.carService.getAvailableCarsInRequestPackage(driverId, getDateFormat(new Date(this.requestPackage.request.startDate))),
           this.requestPackageService.getPackagesByDriverId(driverId, getDateFormat(new Date(this.requestPackage.request.startDate)))
         ]);
       })
-    ).subscribe(([drivers, packages]) => {
-      this.cars = drivers.cars;
+    ).subscribe(([cars, packages]) => {
+      this.cars = cars;
       this.approvedPackagesHistory = packages;
     });
 

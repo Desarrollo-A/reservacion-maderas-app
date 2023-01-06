@@ -45,12 +45,11 @@ export class DriverModel {
         }
     }
 
-    get carInfo(): LabelButton{
-        if(this.cars.length === 0){
-            return {text: 'Sin asignación', textClass: 'text-gray', bgClass: 'bg-gray-light'};
-        }else if(this.cars.length === 1){
-            const carAssigned: string = this.cars[0].businessName + ', ' + this.cars[0].model;
-            return {text: carAssigned, textClass: 'text-blue', bgClass: 'bg-blue-light'};
-        }
+  get carInfo(): LabelButton {
+    if(this.cars.length === 0) {
+      return {text: 'Sin asignación', textClass: 'text-gray', bgClass: 'bg-gray-light'};
     }
+    const carAssigned: string = this.cars[0].businessName + ', ' + this.cars[0].model;
+    return {text: carAssigned, textClass: 'text-blue', bgClass: 'bg-blue-light'};
+  }
 }

@@ -15,7 +15,7 @@ import { SnackAssignComponent } from './components/snack-assign/snack-assign.com
 import { SimplePaginatorModule } from "../../shared/components/simple-paginator/simple-paginator.module";
 import { UrlModule } from "../../shared/pipes/url/url.module";
 import { DeleteConfirmModule } from "../../shared/components/delete-confirm/delete-confirm.module";
-import { ProposalRequestComponent } from './components/proposal-request/proposal-request.component';
+import { ProposalRequestRoomComponent } from './components/proposal-request-room/proposal-request-room.component';
 import { CancelRequestComponent } from './components/cancel-request/cancel-request.component';
 import { ConfirmProposalComponent } from './components/confirm-proposal/confirm-proposal.component';
 import { PhoneRequestModule } from "../../shared/components/phone-request/phone-request.module";
@@ -40,7 +40,7 @@ import { CarRequestAssignComponent } from './components/car-request-assign/car-r
     RoomDetailComponent,
     SnackDetailComponent,
     SnackAssignComponent,
-    ProposalRequestComponent,
+    ProposalRequestRoomComponent,
     CancelRequestComponent,
     ConfirmProposalComponent,
     ScoreRequestComponent,

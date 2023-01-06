@@ -1,6 +1,7 @@
 import { Lookup } from "src/app/core/interfaces/lookup";
 import { OfficeModel } from "src/app/core/models/office.model";
 import { StatusCarLookup } from "../enums/lookups/status-car.lookup";
+import { DriverModel } from "./driver.model";
 
 export class CarModel {
   id:number;
@@ -16,6 +17,7 @@ export class CarModel {
   office: OfficeModel;
   statusId: number;
   status: Lookup;
+  drivers: DriverModel[];
 
   constructor(car) {
     this.id = car.id;
@@ -31,6 +33,7 @@ export class CarModel {
     this.office = car.office;
     this.statusId = car.statusId;
     this.status = car.status;
+    this.drivers = car.drivers;
   }
 
   get statusName(): string {
@@ -48,6 +51,10 @@ export class CarModel {
   }
 
   get smallInformation(): string {
-    return `${this.trademark} ${this.model}, ${this.color}`;
+    return `${this.trademark} ${this.model} Color ${this.color}, Placa ${this.licensePlate}`;
+  }
+
+  get hasDrivers(): boolean {
+    return this.drivers.length > 0;
   }
 }

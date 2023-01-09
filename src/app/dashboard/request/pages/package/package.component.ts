@@ -10,7 +10,7 @@ import { ToastrService } from "ngx-toastr";
 import { StateService } from "../../../../core/services/state.service";
 import { dateAfter30Days, dateBeforeNow, sizeFile } from "../../../../shared/utils/form-validations";
 import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
-import { switchMap, tap } from "rxjs";
+import { switchMap, tap, of } from "rxjs";
 import { OfficeService } from "../../../../core/services/office.service";
 import { AddressComponent } from "../../../../shared/components/address/address.component";
 import { RequestPackageService } from "../../../../core/services/request-package.service";
@@ -51,7 +51,6 @@ export class PackageComponent implements OnInit {
 
   ngOnInit(): void {
     this.getAllStates();
-
     this.form = this.fb.group({
       title: [null, [Validators.required, Validators.minLength(3), Validators.maxLength(100)]],
       state: [null, Validators.required],
@@ -60,11 +59,11 @@ export class PackageComponent implements OnInit {
       addGoogleCalendar: [false],
       nameReceive: [null, [Validators.required, Validators.minLength(5), Validators.maxLength(150)]],
       emailReceive: [null, [Validators.required, Validators.email, Validators.maxLength(150)]],
-      comment: [null, Validators.maxLength(2500)],
-      authorizationFile: [null, Validators.required],
-      authorizationFileSrc: [null, sizeFile(3000000)]
+      comment: [null,  [Validators.required, Validators.maxLength(2500)]],
+      authorizationFile: [null],
+      authorizationFileSrc: [null, sizeFile(3000000)],
+      isUrgent: [false],
     });
-
     this.formErrors = new FormErrors(this.form);
 
     this.form.get('state')?.valueChanges.pipe(
@@ -77,6 +76,18 @@ export class PackageComponent implements OnInit {
       }
       this.offices = offices;
     });
+  }
+
+  isUrgent(checked: boolean): void{
+    const refElemt = this.form.get('authorizationFile');
+    if (!checked){
+      refElemt.clearValidators();
+    }else{
+      refElemt.setValidators([
+        Validators.required
+      ])
+    }
+    refElemt.updateValueAndValidity();
   }
 
   changeFile(file: File): void {
@@ -102,6 +113,7 @@ export class PackageComponent implements OnInit {
       nameReceive: formValues.nameReceive,
       emailReceive: formValues.emailReceive,
       officeId: formValues.officeId,
+      isUrgent: formValues.isUrgent,
     };
     const request: RequestModel = <RequestModel> {
       title: formValues.title,
@@ -112,10 +124,19 @@ export class PackageComponent implements OnInit {
     };
 
     this.requestPackageService.store(request).pipe(
-      switchMap(res => this.requestPackageService.uploadFile(res.id, formValues.authorizationFileSrc))
+      switchMap(res => {
+        return (formValues.authorizationFileSrc === null) 
+        ? of(void 0)
+        : this.requestPackageService.uploadFile(res.id, formValues.authorizationFileSrc)
+      })
     )
       .subscribe(() => {
-        this.form.reset({}, { emitEvent: false });
+        this.form.reset({
+          addGoogleCalendar: false,
+          isUrgent: false
+        }, { emitEvent: false });
+        this.form.get('authorizationFile').clearValidators();
+        this.form.get('authorizationFile').updateValueAndValidity();
         this.pickupAddressComponent.clearData();
         this.arrivalAddressComponent.clearData();
 

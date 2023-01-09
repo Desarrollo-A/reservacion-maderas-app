@@ -11,8 +11,16 @@
   <vex-page-layout-content class="container" *ngIf="requestPackage">
     <div class="card p-6">
       <div class="flex">
-        <h2 class="m-0 title mb-6"><strong>{{requestPackage.request.title}}</strong></h2>
-
+        <h2 class="m-0 title mb-6">
+          <strong>
+            {{requestPackage.request.title}}
+          </strong>
+        </h2>
+        <div class="ml-2" *ngIf="requestPackage.isUrgent">
+          <span class="rounded px-2 py-1 font-medium text-2xs text-red bg-red-light">
+            ENVÍO URGENTE
+          </span>
+        </div>
         <span class="flex-1"></span>
 
         <div class="flex items-center">
@@ -53,7 +61,7 @@
               <input matInput readonly [value]="requestPackage.request.startDate|date:'dd-MM-y'">
             </mat-form-field>
 
-            <div class="flex-auto sm:mt-2 mb-4 sm:mb-0">
+            <div class="flex-auto sm:mt-2 mb-4 sm:mb-0" *ngIf="requestPackage.authorizationFilename">
               <a class="relative flex items-center cursor-pointer select-none rounded-full px-4 py-1 hover:bg-primary/10 trans-ease-out"
                    matRipple [href]="requestPackage.authorizationFilename | url" target="_blank">
                 <div class="p-2 bg-primary/10 text-primary rounded-full ltr:mr-4 rtl:ml-4">

@@ -16,6 +16,7 @@ export class PackageModel {
   trackingCode?: string;
 
   urlTracking?: string;
+  isUrgent: boolean;
   pickupAddress: AddressModel;
   arrivalAddress: AddressModel;
   request: RequestModel;
@@ -33,6 +34,7 @@ export class PackageModel {
     this.officeId = data.officeId;
     this.trackingCode = data.trackingCode;
     this.urlTracking = data.urlTracking;
+    this.isUrgent = data.isUrgent;
     this.pickupAddress = data.pickupAddress;
     this.arrivalAddress = data.arrivalAddress;
     this.request = new RequestModel(data.request);

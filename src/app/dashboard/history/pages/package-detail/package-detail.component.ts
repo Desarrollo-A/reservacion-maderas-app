@@ -19,6 +19,10 @@ import { StatusPackageRequestLookup } from "../../../../core/enums/lookups/statu
 import { OfficeModel } from "../../../../core/models/office.model";
 import { OfficeService } from "../../../../core/services/office.service";
 import { ErrorResponse } from 'src/app/core/interfaces/error-response';
+import { MatDialog } from "@angular/material/dialog";
+import {
+  ProposalRequestPackageComponent
+} from "../../components/proposal-request-package/proposal-request-package.component";
 
 @Component({
   selector: 'app-package-detail',
@@ -51,7 +55,8 @@ export class PackageDetailComponent {
               private router: Router,
               private requestPackageService: RequestPackageService,
               private toastrService: ToastrService,
-              private officeService: OfficeService) {
+              private officeService: OfficeService,
+              private dialog: MatDialog) {
     const [,,part] = this.router.url.split('/', 3);
     this.urlRedirectBack = `/dashboard/${part}/paqueteria`;
     this.breadcrumbs.push({
@@ -95,32 +100,37 @@ export class PackageDetailComponent {
       this.toastrService.info('Selecciona una oficina para transferir la solicitud', 'Información');
     } else if (status.code === StatusPackageRequestLookup[StatusPackageRequestLookup.APPROVED]) {
       this.toastrService.info('Selecciona el método de envío', 'Información');
+    } else if (status.code === StatusPackageRequestLookup[StatusPackageRequestLookup.PROPOSAL]) {
+      this.dialog.open(ProposalRequestPackageComponent, {
+        data: this.requestPackage,
+        width: '750px',
+        autoFocus: false
+      })
+        .afterClosed()
+        .subscribe((date: boolean) => {
+          if (!date) {
+            this.requestPackage.request.status = {... this.previousStatus};
+          } else {
+            this.proposalRequest();
+          }
+        });
     }
   }
 
   save(): void {
-    if (this.requestPackage.request.status.code === StatusPackageRequestLookup[StatusPackageRequestLookup.CANCELLED] &&
+    const statusCode = this.requestPackage.request.status.code;
+    if (statusCode === StatusPackageRequestLookup[StatusPackageRequestLookup.CANCELLED] &&
       (this.previousStatus.code === StatusPackageRequestLookup[StatusPackageRequestLookup.APPROVED] ||
         this.previousStatus.code === StatusPackageRequestLookup[StatusPackageRequestLookup.NEW])) {
       this.cancelRequest();
-      return;
-    }
-
-    if (this.requestPackage.request.status.code === StatusPackageRequestLookup[StatusPackageRequestLookup.TRANSFER]) {
+    } else if (statusCode === StatusPackageRequestLookup[StatusPackageRequestLookup.TRANSFER]) {
       this.transferRequest();
-      return;
-    }
-
-    if (this.requestPackage.request.status.code === StatusPackageRequestLookup[StatusPackageRequestLookup.APPROVED]
+    } else if (statusCode === StatusPackageRequestLookup[StatusPackageRequestLookup.APPROVED]
       && this.previousStatus.code === StatusPackageRequestLookup[StatusPackageRequestLookup.NEW]) {
       this.approvedRequest();
-      return;
-    }
-
-    if (this.requestPackage.request.status.code === StatusPackageRequestLookup[StatusPackageRequestLookup.ROAD]
+    } else if (statusCode === StatusPackageRequestLookup[StatusPackageRequestLookup.ROAD]
       && this.previousStatus.code === StatusPackageRequestLookup[StatusPackageRequestLookup.APPROVED]) {
       this.onRoadRequest();
-      return;
     }
   }
 
@@ -177,6 +187,11 @@ export class PackageDetailComponent {
       this.toastrService.success('El paquete se encuentra en camino al destino', 'Proceso exitoso');
       this.router.navigateByUrl(this.urlRedirectBack);
     });
+  }
+
+  private proposalRequest(): void {
+    this.toastrService.success('Propuesta enviada', 'Proceso exitoso');
+    this.router.navigateByUrl(this.urlRedirectBack);
   }
 
   private loadOfficesForTransfer(): void {

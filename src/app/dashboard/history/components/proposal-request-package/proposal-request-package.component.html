@@ -1,0 +1,37 @@
+<div class="flex items-center" mat-dialog-title>
+  <h2 class="headline m-0 flex-auto block">
+    Propuesta
+  </h2>
+
+  <button class="text-secondary" [mat-dialog-close]="false" mat-icon-button type="button">
+    <mat-icon svgIcon="mat:close"></mat-icon>
+  </button>
+</div>
+
+<mat-divider class="-mx-6 text-border"></mat-divider>
+
+<mat-dialog-content class="flex flex-col gap-2 mt-4">
+  <h2 class="title mx-auto">Día seleccionado: <span *ngIf="dateValue">{{dateValue | date:'dd/MM/y'}}</span></h2>
+
+  <mat-card class="w-60 sm:w-80 mx-auto my-2">
+    <mat-calendar [selected]="form.get('date').value"
+                  (selectedChange)="updateDate($event)">
+    </mat-calendar>
+  </mat-card>
+
+  <div class="mb-2">
+    <ng-container *ngFor="let packageModel of packages">
+      <app-request-packahe-driver-info [package]="packageModel"></app-request-packahe-driver-info>
+    </ng-container>
+  </div>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-button [mat-dialog-close]="false" type="button">Cerrar</button>
+  <button color="primary"
+          mat-flat-button
+          type="button"
+          (click)="save()">
+    Guardar
+  </button>
+</mat-dialog-actions>

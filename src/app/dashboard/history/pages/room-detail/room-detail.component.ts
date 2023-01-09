@@ -17,7 +17,7 @@ import { UserSessionService } from "../../../../core/services/user-session.servi
 import { NameRole } from "../../../../core/enums/name-role";
 import { FormBuilder } from "@angular/forms";
 import { RequestModel } from "../../../../core/models/request.model";
-import { ProposalRequestComponent } from "../../components/proposal-request/proposal-request.component";
+import { ProposalRequestRoomComponent } from "../../components/proposal-request-room/proposal-request-room.component";
 import { RequestService } from "../../../../core/services/request.service";
 import { CancelRequestComponent } from "../../components/cancel-request/cancel-request.component";
 import { ProposalRequestModel } from "../../../../core/models/proposal-request.model";
@@ -38,7 +38,7 @@ export class RoomDetailComponent {
   @ViewChild('snackDetailComponent')
   snackDetailComponent: SnackDetailComponent;
   @ViewChild('proposalRequestComponent')
-  proposalRequestComponent: ProposalRequestComponent;
+  proposalRequestComponent: ProposalRequestRoomComponent;
   @ViewChild('cancelRequestComponent')
   cancelRequestComponent: CancelRequestComponent;
 

@@ -13,6 +13,7 @@ import { CancelRequestModel } from "../models/cancel-request.model";
 import { ApprovedPackageRequest } from "../../dashboard/history/interfaces/approved-package-request";
 import { AuthCodePackage } from 'src/app/package/interfaces/auth-code-package';
 import { DeliveredPackage } from 'src/app/package/interfaces/delivered-package';
+import { ProposalRequestModel } from "../models/proposal-request.model";
 
 @Injectable({
   providedIn: 'root'
@@ -114,5 +115,15 @@ export class RequestPackageService {
   onRoadPackage(requestId: number): Observable<void> {
     const url = `${this.url}/road/${requestId}`;
     return this.http.patch<void>(url, null);
+  }
+
+  findAllByDateAndOffice(officeId: number, date: string): Observable<PackageModel[]> {
+    const url = `${this.url}/date/${officeId}/${date}`;
+    return this.http.get<PackageModel[]>(url);
+  }
+
+  proposalRequest(data: ProposalRequestModel): Observable<void> {
+    const url = `${this.url}/proposal`;
+    return this.http.patch<void>(url, data);
   }
 }

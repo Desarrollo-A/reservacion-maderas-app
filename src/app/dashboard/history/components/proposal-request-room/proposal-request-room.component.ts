@@ -18,15 +18,15 @@ import { ConfirmProposalComponent } from "../confirm-proposal/confirm-proposal.c
 
 @UntilDestroy()
 @Component({
-  selector: 'app-proposal-request',
-  templateUrl: './proposal-request.component.html',
-  styleUrls: ['./proposal-request.component.scss'],
+  selector: 'app-proposal-request-room',
+  templateUrl: './proposal-request-room.component.html',
+  styleUrls: ['./proposal-request-room.component.scss'],
   animations: [
     fadeInUp400ms,
     stagger40ms
   ]
 })
-export class ProposalRequestComponent implements OnInit {
+export class ProposalRequestRoomComponent implements OnInit {
   @Input()
   requestId: number;
   @Input()

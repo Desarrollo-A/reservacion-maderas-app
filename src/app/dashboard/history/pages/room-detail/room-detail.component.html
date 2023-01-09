@@ -112,12 +112,12 @@
                             [requestId]="requestRoom.requestId">
           </app-snack-detail>
 
-          <app-proposal-request #proposalRequestComponent
+          <app-proposal-request-room #proposalRequestComponent
                                 *ngIf="requestRoom.request.status.code === statusRequest[statusRequest.PROPOSAL]"
                                 [requestId]="requestRoom.requestId"
                                 [proposalData]="requestRoom.request.proposalRequest"
                                 (chosenProposal)="responseRejectRequest($event)">
-          </app-proposal-request>
+          </app-proposal-request-room>
 
           <app-cancel-request #cancelRequestComponent
                               *ngIf="requestRoom.request.status.code === statusRequest[statusRequest.CANCELLED]"

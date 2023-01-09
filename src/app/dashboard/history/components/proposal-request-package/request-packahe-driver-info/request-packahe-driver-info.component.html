@@ -1,0 +1,14 @@
+<mat-list class="list mat-elevation-z1">
+  <h3 mat-subheader>Chofer: {{package.driverPackageSchedule.driverSchedule.driver.fullName}}</h3>
+  <mat-list-item>
+    <mat-icon color="primary" mat-list-avatar svgIcon="mat:local_shipping"></mat-icon>
+    <h3 matLine>{{package.request.code}}</h3>
+    <p matLine>
+      <span class="subline">
+        <strong>{{package.pickupAddress.state}} -> {{package.pickupAddress.country.name}}</strong>
+        hacia
+        <strong>{{package.arrivalAddress.state}} -> {{package.arrivalAddress.country.name}}</strong>
+      </span>
+    </p>
+  </mat-list-item>
+</mat-list>

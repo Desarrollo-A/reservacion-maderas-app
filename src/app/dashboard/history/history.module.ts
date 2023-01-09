@@ -32,6 +32,8 @@ import { CarComponent } from './pages/car/car-component';
 import { DriverRequestAssignComponent } from './components/driver-request-assign/driver-request-assign.component';
 import { CarDetailComponent } from './pages/car-detail/car-detail.component';
 import { CarRequestAssignComponent } from './components/car-request-assign/car-request-assign.component';
+import { ProposalRequestPackageComponent } from './components/proposal-request-package/proposal-request-package.component';
+import { RequestPackaheDriverInfoComponent } from './components/proposal-request-package/request-packahe-driver-info/request-packahe-driver-info.component';
 
 
 @NgModule({
@@ -53,7 +55,9 @@ import { CarRequestAssignComponent } from './components/car-request-assign/car-r
     CarComponent,
     DriverRequestAssignComponent,
     CarDetailComponent,
-    CarRequestAssignComponent
+    CarRequestAssignComponent,
+    ProposalRequestPackageComponent,
+    RequestPackaheDriverInfoComponent
   ],
   imports: [
     CommonModule,

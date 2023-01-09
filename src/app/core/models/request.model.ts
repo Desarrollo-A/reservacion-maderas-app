@@ -37,6 +37,7 @@ export class RequestModel {
   isAvailable: boolean;
   cancelRequest: CancelRequestModel;
   proposalRequest: ProposalRequestModel[];
+  proposalId?: number;
   requestPhoneNumber: RequestPhoneNumberModel[];
   requestEmail: RequestEmailModel[];
   score?: ScoreModel;

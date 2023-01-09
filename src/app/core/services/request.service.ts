@@ -44,11 +44,6 @@ export class RequestService {
     );
   }
 
-  responseRejectRequest(id: number, data: RequestModel): Observable<void> {
-    const url = `${this.url}/response-reject/${id}`;
-    return this.http.patch<void>(url, data);
-  }
-
   starRatingRequest(data: ScoreModel): Observable<void> {
     const url = `${this.url}/rating`;
     return this.http.post<void>(url, data);

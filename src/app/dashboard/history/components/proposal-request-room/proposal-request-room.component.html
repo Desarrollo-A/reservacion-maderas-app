@@ -113,7 +113,7 @@
       <th *matHeaderCellDef class="uppercase" mat-header-cell>Acciones</th>
       <td *matCellDef="let row; let i = index" mat-cell>
         <div class="flex">
-          <button (click)="confirmationProposal(i)"
+          <button (click)="confirmationProposal(row.id, i)"
              class="w-8 h-8 leading-none flex items-center justify-center hover:bg-hover text-primary bg-primary/10"
              mat-icon-button>
             <mat-icon class="icon-sm" svgIcon="mat:done"></mat-icon>

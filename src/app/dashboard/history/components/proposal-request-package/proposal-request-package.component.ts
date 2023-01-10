@@ -61,7 +61,7 @@ export class ProposalRequestPackageComponent implements OnInit {
     }
 
     const { date } = this.form.getRawValue();
-    const data: ProposalRequestModel = {
+    const data: ProposalRequestModel = <ProposalRequestModel>{
       requestId: this.data.requestId,
       startDate: getDateFormat(date)
     };

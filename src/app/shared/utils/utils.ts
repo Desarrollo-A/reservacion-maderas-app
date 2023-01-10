@@ -88,7 +88,8 @@ export const getStatusLabelRequestPackage = (statusName: string, code: string): 
     code === StatusRequestRoomLookup[StatusRequestRoomLookup.CANCELLED]) {
     return { text: statusName, textClass: 'text-red', bgClass: 'bg-red-light' };
   }
-  if (code === StatusPackageRequestLookup[StatusPackageRequestLookup.PROPOSAL]) {
+  if (code === StatusPackageRequestLookup[StatusPackageRequestLookup.PROPOSAL] ||
+    code === StatusPackageRequestLookup[StatusPackageRequestLookup.IN_REVIEW]) {
     return { text: statusName, textClass: 'text-orange', bgClass: 'bg-orange-light' };
   }
   if (code === StatusPackageRequestLookup[StatusPackageRequestLookup.EXPIRED]) {

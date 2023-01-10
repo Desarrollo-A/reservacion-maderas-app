@@ -123,12 +123,12 @@ export class ProposalRequestRoomComponent implements OnInit {
     return this._dataSource;
   }
 
-  confirmationProposal(index: number): void {
+  confirmationProposal(id: number, index: number): void {
     this.dialog.open(ConfirmProposalComponent, {data: index+1, autoFocus: false})
       .afterClosed()
       .subscribe((confirm: boolean) => {
         if (confirm) {
-          this.chosenProposal.emit(this.proposalData[index]);
+          this.chosenProposal.emit(this.proposalData.find(proposal => proposal.id === id));
         }
       });
   }

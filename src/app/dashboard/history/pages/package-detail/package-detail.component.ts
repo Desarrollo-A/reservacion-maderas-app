@@ -23,6 +23,12 @@ import { MatDialog } from "@angular/material/dialog";
 import {
   ProposalRequestPackageComponent
 } from "../../components/proposal-request-package/proposal-request-package.component";
+import { MatTableDataSource } from "@angular/material/table";
+import { ProposalRequestModel } from "../../../../core/models/proposal-request.model";
+import { TableColumn } from "../../../../shared/interfaces/table-column.interface";
+import { ConfirmProposalComponent } from "../../components/confirm-proposal/confirm-proposal.component";
+import { RequestModel } from "../../../../core/models/request.model";
+import { UserSessionService } from "../../../../core/services/user-session.service";
 
 @Component({
   selector: 'app-package-detail',
@@ -49,6 +55,13 @@ export class PackageDetailComponent {
   breadcrumbs: Breadcrumbs[] = [];
   urlRedirectBack = '';
 
+  proposalDataSource = new MatTableDataSource<ProposalRequestModel>();
+  columns: TableColumn<ProposalRequestModel>[] = [
+    {label: 'Número', property: 'number', type: 'text', visible: true},
+    {label: 'Fecha', property: 'date', type: 'text', visible: true},
+    {label: 'Acción', property: 'action', type: 'button', visible: true}
+  ];
+
   trackById = trackById;
 
   constructor(private activatedRoute: ActivatedRoute,
@@ -56,7 +69,8 @@ export class PackageDetailComponent {
               private requestPackageService: RequestPackageService,
               private toastrService: ToastrService,
               private officeService: OfficeService,
-              private dialog: MatDialog) {
+              private dialog: MatDialog,
+              private userSessionService: UserSessionService) {
     const [,,part] = this.router.url.split('/', 3);
     this.urlRedirectBack = `/dashboard/${part}/paqueteria`;
     this.breadcrumbs.push({
@@ -73,11 +87,22 @@ export class PackageDetailComponent {
     return StatusPackageRequestLookup;
   }
 
+  get proposalVisibleColumns() {
+    return this.columns.filter(column => column.visible).map(column => column.property);
+  }
+
+  get enableProposal(): boolean {
+    return this.previousStatus.code === StatusPackageRequestLookup[StatusPackageRequestLookup.PROPOSAL] &&
+      this.requestPackage.request.status.code === StatusPackageRequestLookup[StatusPackageRequestLookup.PROPOSAL] &&
+      this.userSessionService.isApplicant;
+  }
+
   findByRequestId(requestId: number): void {
     this.requestPackageService.findById(requestId).pipe(
       tap(requestPackage => {
         this.requestPackage = requestPackage;
         this.previousStatus = {... requestPackage.request.status};
+        this.proposalDataSource.data = requestPackage.request.proposalRequest;
       }),
       switchMap(requestPackage => this.requestPackageService.getStatusByStatusCurrent(requestPackage.request.status.code))
     ).subscribe(status => {
@@ -117,6 +142,18 @@ export class PackageDetailComponent {
     }
   }
 
+  confirmationProposal(id: number, index: number): void {
+    const { proposalRequest } = this.requestPackage.request;
+    this.dialog.open(ConfirmProposalComponent, {data: index+1, autoFocus: false})
+      .afterClosed()
+      .subscribe((confirm: boolean) => {
+        if (confirm) {
+          const data = proposalRequest.find(proposal => proposal.id === id);
+          this.responseRejectRequest(data);
+        }
+      });
+  }
+
   save(): void {
     const statusCode = this.requestPackage.request.status.code;
     if (statusCode === StatusPackageRequestLookup[StatusPackageRequestLookup.CANCELLED] &&
@@ -126,11 +163,14 @@ export class PackageDetailComponent {
     } else if (statusCode === StatusPackageRequestLookup[StatusPackageRequestLookup.TRANSFER]) {
       this.transferRequest();
     } else if (statusCode === StatusPackageRequestLookup[StatusPackageRequestLookup.APPROVED]
-      && this.previousStatus.code === StatusPackageRequestLookup[StatusPackageRequestLookup.NEW]) {
+      && (this.previousStatus.code === StatusPackageRequestLookup[StatusPackageRequestLookup.NEW] ||
+        this.previousStatus.code === StatusPackageRequestLookup[StatusPackageRequestLookup.IN_REVIEW])) {
       this.approvedRequest();
     } else if (statusCode === StatusPackageRequestLookup[StatusPackageRequestLookup.ROAD]
       && this.previousStatus.code === StatusPackageRequestLookup[StatusPackageRequestLookup.APPROVED]) {
       this.onRoadRequest();
+    } else if (statusCode === StatusPackageRequestLookup[StatusPackageRequestLookup.REJECTED]) {
+      this.responseRejectRequest();
     }
   }
 
@@ -192,6 +232,30 @@ export class PackageDetailComponent {
   private proposalRequest(): void {
     this.toastrService.success('Propuesta enviada', 'Proceso exitoso');
     this.router.navigateByUrl(this.urlRedirectBack);
+  }
+
+  public responseRejectRequest(proposalRequest?: ProposalRequestModel): void {
+    const status = <Lookup> {
+      code: (proposalRequest)
+        ? StatusPackageRequestLookup[StatusPackageRequestLookup.IN_REVIEW]
+        : this.requestPackage.request.status.code
+    };
+    let data = <RequestModel> { status };
+
+    if (proposalRequest) {
+      data.proposalId = proposalRequest.id;
+    }
+
+    this.requestPackageService.responseRejectRequest(this.requestPackage.requestId, data)
+      .subscribe(() => {
+        if (this.requestPackage.request.status.code === StatusPackageRequestLookup[StatusPackageRequestLookup.REJECTED]) {
+          this.toastrService.success('Solicitud rechazada', 'Proceso exitoso');
+          this.router.navigateByUrl(this.urlRedirectBack);
+        } else {
+          this.toastrService.success('Propuesta aceptada', 'Proceso exitoso');
+          this.router.navigateByUrl(this.urlRedirectBack);
+        }
+      });
   }
 
   private loadOfficesForTransfer(): void {

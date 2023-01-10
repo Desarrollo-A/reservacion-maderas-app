@@ -163,7 +163,8 @@ export class PackageDetailComponent {
     } else if (statusCode === StatusPackageRequestLookup[StatusPackageRequestLookup.TRANSFER]) {
       this.transferRequest();
     } else if (statusCode === StatusPackageRequestLookup[StatusPackageRequestLookup.APPROVED]
-      && this.previousStatus.code === StatusPackageRequestLookup[StatusPackageRequestLookup.NEW]) {
+      && (this.previousStatus.code === StatusPackageRequestLookup[StatusPackageRequestLookup.NEW] ||
+        this.previousStatus.code === StatusPackageRequestLookup[StatusPackageRequestLookup.IN_REVIEW])) {
       this.approvedRequest();
     } else if (statusCode === StatusPackageRequestLookup[StatusPackageRequestLookup.ROAD]
       && this.previousStatus.code === StatusPackageRequestLookup[StatusPackageRequestLookup.APPROVED]) {

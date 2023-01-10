@@ -157,7 +157,8 @@
           </app-transfer-request>
 
           <app-driver-package-assign #driverPackageAssignComponent
-                                     *ngIf="previousStatus.code === statusRequest[statusRequest.NEW] &&
+                                     *ngIf="(previousStatus.code === statusRequest[statusRequest.NEW] ||
+                                     previousStatus.code === statusRequest[statusRequest.IN_REVIEW]) &&
                                      requestPackage.request.status.code === statusRequest[statusRequest.APPROVED]"
                                      [requestPackage]="requestPackage">
           </app-driver-package-assign>

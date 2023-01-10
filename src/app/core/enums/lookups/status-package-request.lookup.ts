@@ -8,4 +8,5 @@ export enum StatusPackageRequestLookup {
   EXPIRED,
   PROPOSAL,
   TRANSFER,
+  IN_REVIEW,
 }

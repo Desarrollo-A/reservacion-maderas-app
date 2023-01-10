@@ -15,15 +15,14 @@ import { InventoryRequestModel } from "../../../../core/models/inventory-request
 import { ToastrService } from "ngx-toastr";
 import { UserSessionService } from "../../../../core/services/user-session.service";
 import { NameRole } from "../../../../core/enums/name-role";
-import { FormBuilder } from "@angular/forms";
 import { RequestModel } from "../../../../core/models/request.model";
 import { ProposalRequestRoomComponent } from "../../components/proposal-request-room/proposal-request-room.component";
-import { RequestService } from "../../../../core/services/request.service";
 import { CancelRequestComponent } from "../../components/cancel-request/cancel-request.component";
 import { ProposalRequestModel } from "../../../../core/models/proposal-request.model";
-import { getDateFormat, getTimeFormat } from "../../../../shared/utils/utils";
+import { getDateFormat } from "../../../../shared/utils/utils";
 import { trackById } from "../../../../shared/utils/track-by";
 import { CancelRequestModel } from "../../../../core/models/cancel-request.model";
+import { ErrorResponse } from "../../../../core/interfaces/error-response";
 
 @Component({
   selector: 'app-room-detail',
@@ -57,9 +56,7 @@ export class RoomDetailComponent {
               private requestRoomService: RequestRoomService,
               private inventoryService: InventoryService,
               private toastrService: ToastrService,
-              private userSessionService: UserSessionService,
-              private fb: FormBuilder,
-              private requestService: RequestService) {
+              private userSessionService: UserSessionService) {
     const [,,part] = this.router.url.split('/', 3);
     this.urlRedirectBack = `/dashboard/${part}/sala`;
     this.breadcrumbs.push({
@@ -75,26 +72,6 @@ export class RoomDetailComponent {
   get statusRequest(): typeof StatusRequestRoomLookup {
     return StatusRequestRoomLookup;
   }
-
-  /*findByRequestId(requestId: number): void {
-    this.requestRoomService.findByRequestId(requestId).pipe(
-      tap(requestRoom => {
-        this.requestRoom = requestRoom;
-        this.previousStatus = {... requestRoom.request.status};
-      }),
-      switchMap(requestRoom => this.requestRoomService.getStatusByStatusCurrent(requestRoom.request.status.code))
-    ).subscribe(status => {
-      if (this.userSessionService.user.role.name === NameRole.RECEPCIONIST) {
-        this.dataRecepcionist(status);
-      } else {
-        this.statusChange = status
-      }
-    }, (error: ErrorResponse) => {
-      if(error.code === 404){
-        this.router.navigateByUrl(this.urlRedirectBack);
-      }
-    });
-  }*/
 
   findByRequestId(requestId: number): void {
     this.requestRoomService.findByRequestId(requestId).pipe(
@@ -113,7 +90,11 @@ export class RoomDetailComponent {
         const defaultSnacks: InventoryModel[] = [];
         return of(defaultSnacks);
       })
-    ).subscribe(snackList => this.snackList = snackList);
+    ).subscribe(snackList => this.snackList = snackList, (error: ErrorResponse) => {
+      if(error.code === 404){
+        this.router.navigateByUrl(this.urlRedirectBack);
+      }
+    });
   }
 
   changeStatus(status: Lookup): void {
@@ -227,15 +208,10 @@ export class RoomDetailComponent {
     let data = <RequestModel> { status };
 
     if (proposalRequest) {
-      if (typeof proposalRequest.startDate !== "string") {
-        data.startDate = `${getDateFormat(proposalRequest.startDate)} ${getTimeFormat(proposalRequest.startDate)}`;
-      }
-      if (typeof proposalRequest.endDate !== "string") {
-        data.endDate = `${getDateFormat(proposalRequest.endDate)} ${getTimeFormat(proposalRequest.endDate)}`;
-      }
+      data.proposalId = proposalRequest.id;
     }
 
-    this.requestService.responseRejectRequest(this.requestRoom.requestId, data)
+    this.requestRoomService.responseRejectRequest(this.requestRoom.requestId, data)
       .subscribe(() => {
         if (this.requestRoom.request.status.code === StatusRequestRoomLookup[StatusRequestRoomLookup.REJECTED]) {
           this.toastrService.success('Solicitud rechazada', 'Proceso exitoso');

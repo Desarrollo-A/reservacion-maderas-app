@@ -126,4 +126,9 @@ export class RequestPackageService {
     const url = `${this.url}/proposal`;
     return this.http.patch<void>(url, data);
   }
+
+  responseRejectRequest(requestId: number, data: RequestModel): Observable<void> {
+    const url = `${this.url}/response-reject/${requestId}`;
+    return this.http.patch<void>(url, data);
+  }
 }

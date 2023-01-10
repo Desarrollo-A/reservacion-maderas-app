@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { UserSession } from "../interfaces/user-session";
 import { User } from "../interfaces/user";
+import { NameRole } from "../enums/name-role";
 
 @Injectable({
   providedIn: 'root'
@@ -27,6 +28,10 @@ export class UserSessionService {
 
   get token(): string {
     return localStorage.getItem(this._apiToken) ?? '';
+  }
+
+  get isApplicant(): boolean {
+    return this.user?.role?.name === NameRole.APPLICANT;
   }
 
   setUser(userSession: UserSession): void {

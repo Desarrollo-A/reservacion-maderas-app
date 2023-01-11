@@ -8,7 +8,7 @@ import { CarModel } from "../../../../core/models/car.model";
 import { trackById } from "../../../../shared/utils/track-by";
 import { DriverService } from "../../../../core/services/driver.service";
 import { CarService } from "../../../../core/services/car.service";
-import { getDateFormat } from "../../../../shared/utils/utils";
+import { getDateFormat, getFullDateFormat } from "../../../../shared/utils/utils";
 import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
 import { switchMap } from "rxjs";
 
@@ -48,8 +48,8 @@ export class DriverRequestAssignComponent implements OnInit {
       untilDestroyed(this),
       switchMap((driverId: number) => {
         const { request: { startDate, endDate } } = this.requestDriver;
-        const parseStartDate = getDateFormat(new Date(startDate));
-        const parseEndDate = getDateFormat(new Date(endDate));
+        const parseStartDate = getFullDateFormat(new Date(startDate));
+        const parseEndDate = getFullDateFormat(new Date(endDate));
 
         this.form.patchValue({cardId: null});
         return this.carService.getAvailableDriverRequest(driverId, parseStartDate, parseEndDate);

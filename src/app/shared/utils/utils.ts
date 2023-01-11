@@ -160,6 +160,10 @@ export const getTimeFormat = (date: Date): string => {
   return (date.getHours() < 10) ? `0${date.toLocaleTimeString()}` : date.toLocaleTimeString();
 }
 
+export const getFullDateFormat = (date: Date): string => {
+  return `${getDateFormat(date)} ${getTimeFormat(date)}`
+}
+
 export const playNotificationAudio = (): void => {
   let audio = new Audio('assets/audio/notification-song.mp3');
   audio.load();

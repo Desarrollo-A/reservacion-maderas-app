@@ -45,4 +45,9 @@ export class OfficeService {
     const url = `${this.url}/state-car-without-office/${officeId}/${noPeople}`;
     return this.http.get<OfficeModel[]>(url);
   }
+
+  getAllOffices(): Observable<OfficeModel[]>{
+    const url = `${this.url}/all`;
+    return this.http.get<OfficeModel[]>(url);
+  }
 }

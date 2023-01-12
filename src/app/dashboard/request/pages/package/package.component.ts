@@ -10,7 +10,7 @@ import { ToastrService } from "ngx-toastr";
 import { StateService } from "../../../../core/services/state.service";
 import { dateAfter30Days, dateBeforeNow, sizeFile } from "../../../../shared/utils/form-validations";
 import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
-import { switchMap, tap, of } from "rxjs";
+import { switchMap, tap, of, forkJoin } from "rxjs";
 import { OfficeService } from "../../../../core/services/office.service";
 import { AddressComponent } from "../../../../shared/components/address/address.component";
 import { RequestPackageService } from "../../../../core/services/request-package.service";
@@ -40,6 +40,7 @@ export class PackageComponent implements OnInit {
 
   states: StateModel[] = [];
   offices: OfficeModel[] = [];
+  allOffices: OfficeModel[] = [];
 
   trackById = trackById;
 
@@ -50,7 +51,7 @@ export class PackageComponent implements OnInit {
               private requestPackageService: RequestPackageService) {}
 
   ngOnInit(): void {
-    this.getAllStates();
+    this.getAllStatesAndOffices();
     this.form = this.fb.group({
       title: [null, [Validators.required, Validators.minLength(3), Validators.maxLength(100)]],
       state: [null, Validators.required],
@@ -75,7 +76,7 @@ export class PackageComponent implements OnInit {
         this.toastrService.info('No hay oficinas con choferes en esta sede', 'Información');
       }
       this.offices = offices;
-    });
+    });    
   }
 
   isUrgent(checked: boolean): void{
@@ -105,11 +106,19 @@ export class PackageComponent implements OnInit {
     }
 
     const formValues = this.form.getRawValue();
-    const pickupAddress: AddressModel = this.pickupAddressComponent.form.value;
-    const arrivalAddress: AddressModel = this.arrivalAddressComponent.form.value;
+    const pickupAddress: AddressModel = {
+                                          ...this.pickupAddressComponent.form.value,
+                                          isExternal: this.pickupAddressComponent.isExternalControl.value
+                                        };
+    const arrivalAddress: AddressModel =  {
+                                            ...this.arrivalAddressComponent.form.value,
+                                            isExternal: this.arrivalAddressComponent.isExternalControl.value
+                                          };
     const packageModel: PackageModel = <PackageModel> {
       pickupAddress,
       arrivalAddress,
+      pickupAddressId: this.pickupAddressComponent.formAddressInternal.value.officeAddressId,
+      arrivalAddressId: this.arrivalAddressComponent.formAddressInternal.value.officeAddressId,
       nameReceive: formValues.nameReceive,
       emailReceive: formValues.emailReceive,
       officeId: formValues.officeId,
@@ -122,7 +131,6 @@ export class PackageComponent implements OnInit {
       addGoogleCalendar: formValues.addGoogleCalendar,
       package: packageModel
     };
-
     this.requestPackageService.store(request).pipe(
       switchMap(res => {
         return (formValues.authorizationFileSrc === null) 
@@ -144,9 +152,10 @@ export class PackageComponent implements OnInit {
       });
   }
 
-  private getAllStates(): void {
-    this.stateService.findAll().subscribe(states => {
+  private getAllStatesAndOffices(): void {
+    forkJoin([this.stateService.findAll(), this.officeService.getAllOffices()]).subscribe(([states, offices]) => {
       this.states = states;
+      this.allOffices = offices;
     });
   }
 }

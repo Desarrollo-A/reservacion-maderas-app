@@ -10,7 +10,7 @@ import { StateService } from "../../../../core/services/state.service";
 import { AddressComponent } from "../../../../shared/components/address/address.component";
 import { OfficeService } from "../../../../core/services/office.service";
 import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
-import { debounceTime, distinctUntilChanged, of, switchMap, tap } from "rxjs";
+import { debounceTime, distinctUntilChanged, of, switchMap, tap, forkJoin } from "rxjs";
 import {
   dateAfter30Days,
   dateBeforeNow,
@@ -51,6 +51,7 @@ export class DriverComponent implements OnInit {
 
   states: StateModel[] = [];
   offices: OfficeModel[] = [];
+  allOffices: OfficeModel[] = [];
 
   trackById = trackById;
 
@@ -127,11 +128,19 @@ export class DriverComponent implements OnInit {
     }
 
     const formValues = this.form.getRawValue();
-    const pickupAddress: AddressModel = this.pickupAddressComponent.form.value;
-    const arrivalAddress: AddressModel = this.arrivalAddressComponent.form.value;
+    const pickupAddress: AddressModel = {
+                                          ...this.pickupAddressComponent.form.value,
+                                          isExternal: this.pickupAddressComponent.isExternalControl.value
+                                        };
+    const arrivalAddress: AddressModel =  {
+                                            ...this.arrivalAddressComponent.form.value,
+                                            isExternal: this.arrivalAddressComponent.isExternalControl.value
+                                          };
     const requestDriver: RequestDriverModel = <RequestDriverModel>{
       pickupAddress,
       arrivalAddress,
+      pickupAddressId: this.pickupAddressComponent.formAddressInternal.value.officeAddressId,
+      arrivalAddressId: this.arrivalAddressComponent.formAddressInternal.value.officeAddressId,
       officeId: formValues.officeId
     };
     const request: RequestModel = <RequestModel>{
@@ -148,7 +157,9 @@ export class DriverComponent implements OnInit {
     this.requestDriverService.store(request).pipe(
       switchMap(res => this.requestDriverService.uploadFile(res.id, formValues.authorizationFileSrc))
     ).subscribe(() => {
-      this.form.reset({}, { emitEvent: false });
+      this.form.reset({
+        addGoogleCalendar: false
+      }, { emitEvent: false });
       this.pickupAddressComponent.clearData();
       this.arrivalAddressComponent.clearData();
       this.emailRequestTableComponent.clearData();
@@ -158,8 +169,9 @@ export class DriverComponent implements OnInit {
   }
 
   private getAllStates(): void {
-    this.stateService.findAll().subscribe(states => {
+    forkJoin([this.stateService.findAll(), this.officeService.getAllOffices()]).subscribe(([states, offices]) => {
       this.states = states;
+      this.allOffices = offices;
     });
   }
 }

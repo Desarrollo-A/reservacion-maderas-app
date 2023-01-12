@@ -139,12 +139,14 @@
         <div class="flex flex-col gap-5">
           <app-address #pickupAddress
                        title="Dirección de salida"
-                       subtitle="Información del lugar de salida">
+                       subtitle="Información del lugar de salida"
+                       [offices] = "allOffices">
           </app-address>
 
           <app-address #arrivalAddress
                        title="Dirección de llegada"
-                       subtitle="Información del lugar de llegada">
+                       subtitle="Información del lugar de llegada"
+                       [offices] = "allOffices">
           </app-address>
         </div>
 

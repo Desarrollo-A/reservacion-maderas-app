@@ -23,7 +23,7 @@ export class RegisterComponent implements OnInit {
   ngOnInit() {}
 
   checkUser(noEmployee: string): void {
-    this.authService.checkEmployee(noEmployee).subscribe(({resultado, data}) => {
+    this.authService.checkEmployee(noEmployee).subscribe(({resultado, data}) => { 
       if (resultado === Result.NOT_EXIST) {
         this.toastrService.warning('No existe el registro', 'Atención');
       } else if (resultado === Result.USER_LOW) {
@@ -32,6 +32,10 @@ export class RegisterComponent implements OnInit {
         this.toastrService.warning('No tiene correo corporativo. Favor de acercarse a Capital Humano',
           'Empleado sin correo');
       } else if (resultado === Result.ACTIVE_WITH_EMAIL) {
+        if((data[0].puesto.toUpperCase()).indexOf('CHOFER') !== -1){
+          this.toastrService.warning('Colaboradores con puesto "CHOFER" ya están registrados en el sistema', 'Atención');
+          return;
+        }
         let state = new StateModel(data[0]);
         const office = new OfficeModel(data[0]);
         let user = new UserModel(data[0]);

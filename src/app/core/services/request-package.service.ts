@@ -131,4 +131,17 @@ export class RequestPackageService {
     const url = `${this.url}/response-reject/${requestId}`;
     return this.http.patch<void>(url, data);
   }
+
+  findAllByDriverPaginated(sort: string, itemsPerPage: number, page: number, search: string | null)
+  : Observable<PaginationResponse<RequestPackageViewModel>> {
+  const params = getPaginateParams(sort, itemsPerPage, page, search);
+  const url = `${this.url}/driver`;
+  return this.http.get<PaginationResponse<RequestPackageViewModel>>(url, {params})
+    .pipe(
+      map(res => {
+        res.data = res.data.map(requestPackage => new RequestPackageViewModel(requestPackage));
+        return res;
+      })
+    );
+}
 }

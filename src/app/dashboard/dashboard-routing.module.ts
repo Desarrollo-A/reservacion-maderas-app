@@ -74,6 +74,13 @@ const routes: Routes = [
         canActivate: [ PermissionGuard ],
         canLoad: [ PermissionGuard ]
       },
+      {
+        path:'solicitudes-asignadas',
+        loadChildren: () => import('./history-driver/history-driver.module').then(m => m.HistoryDriverModule),
+        data: {roles: [NameRole.DRIVER]},
+        canActivate: [ PermissionGuard ],
+        canLoad: [ PermissionGuard ]
+      },
       { path: '**', component: PageNotFoundComponent }
     ]
   }

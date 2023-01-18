@@ -76,4 +76,17 @@ export class RequestDriverService {
     const url = `${this.url}/approved`;
     return this.http.post<void>(url, requestDriver);
   }
+
+  findAllByDriverIdPaginated(sort: string, itemsPerPage: number, page: number, search: string | null)
+    : Observable<PaginationResponse<RequestDriverViewModel>> {
+    const params = getPaginateParams(sort, itemsPerPage, page, search);
+    const url = `${this.url}/driver`;
+    return this.http.get<PaginationResponse<RequestDriverViewModel>>(url, {params})
+      .pipe(
+        map(res => {
+          res.data = res.data.map(requestDriver => new RequestDriverViewModel(requestDriver));
+          return res;
+        })
+      );
+  }
 }

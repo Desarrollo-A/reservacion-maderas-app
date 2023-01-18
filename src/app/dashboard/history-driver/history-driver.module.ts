@@ -9,10 +9,12 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { PaginatorModule } from 'src/app/shared/components/paginator/paginator.module';
 import { BreadcrumbsModule } from 'src/app/shared/components/breadcrumbs/breadcrumbs.module';
 import { PageNotFoundModule } from 'src/app/shared/components/page-not-found/page-not-found.module';
+import { DriverComponent } from './pages/driver/driver.component';
 
 @NgModule({
   declarations: [
-    PackageComponent
+    PackageComponent,
+    DriverComponent
   ],
   imports: [
     CommonModule,

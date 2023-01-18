@@ -12,7 +12,7 @@
       <div class="card overflow-auto -mt-16">
         <div class="bg-app-bar px-6 h-16 border-b sticky left-0 flex items-center">
           <h2 class="title my-0 ltr:pr-4 rtl:pl-4 ltr:mr-4 rtl:ml-4 ltr:border-r rtl:border-l hidden sm:block flex-none">
-            <span>Paquetería</span>
+            <span>Chofer</span>
           </h2>
   
           <div class="bg-foreground rounded-full border px-4 max-w-[300px] flex-auto flex items-center border border-gray-300">
@@ -61,11 +61,17 @@
             </td>
           </ng-container>
   
-          <!-- Fecha column -->
           <ng-container matColumnDef="startDate">
-            <th *matHeaderCellDef class="uppercase" mat-header-cell mat-sort-header>Fecha</th>
+            <th *matHeaderCellDef class="uppercase" mat-header-cell mat-sort-header>Fecha salida</th>
             <td *matCellDef="let row" mat-cell>
-              {{ row.startDate | date:'dd-MM-y' }}
+              {{ row.startDate | date:'dd-MM-y, h:mm a' }}
+            </td>
+          </ng-container>
+  
+          <ng-container matColumnDef="endDate">
+            <th *matHeaderCellDef class="uppercase" mat-header-cell mat-sort-header>Fecha llegada</th>
+            <td *matCellDef="let row" mat-cell>
+              {{ row.endDate | date:'dd-MM-y, h:mm a' }}
             </td>
           </ng-container>
   
@@ -103,7 +109,7 @@
             <th *matHeaderCellDef mat-header-cell></th>
             <td *matCellDef="let row" class="w-10 text-secondary" mat-cell>
               <button (click)="$event.stopPropagation()"
-                      [matMenuTriggerData]="{ package: row }"
+                      [matMenuTriggerData]="{ driver: row }"
                       [matMenuTriggerFor]="actionsMenu"
                       mat-icon-button
                       type="button">
@@ -119,9 +125,9 @@
               mat-row></tr>
         </table>
   
-        <ng-container *ngIf="requestPackageResponse">
+        <ng-container *ngIf="requestDriverResponse">
           <app-paginator [pageSizeOptions]="pageSizeOptions"
-                         [meta]="requestPackageResponse.meta"
+                         [meta]="requestDriverResponse.meta"
                          (onChanges)="paginatorChanges($event)">
           </app-paginator>
         </ng-container>
@@ -139,7 +145,7 @@
   </mat-menu>
   
   <mat-menu #actionsMenu="matMenu" xPosition="before" yPosition="below">
-    <ng-template let-package="package" matMenuContent>
+    <ng-template let-driver="driver" matMenuContent>
       <a mat-menu-item>
         <mat-icon svgIcon="mat:visibility"></mat-icon>
         <span>Detalle</span>

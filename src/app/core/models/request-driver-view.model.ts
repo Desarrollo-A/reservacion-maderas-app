@@ -13,6 +13,7 @@ export class RequestDriverViewModel {
   fullName: string;
   statePickup: string;
   stateArrival: string;
+  driverId?: number;
 
   constructor(requestDriver) {
     this.requestId = requestDriver.requestId;
@@ -26,6 +27,7 @@ export class RequestDriverViewModel {
     this.fullName = requestDriver.fullName;
     this.statePickup = requestDriver.statePickup;
     this.stateArrival = requestDriver.stateArrival;
+    this.driverId = requestDriver.driverId;
   }
 
   get statusLabel(): LabelButton {

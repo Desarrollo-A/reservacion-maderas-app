@@ -11,6 +11,7 @@ import { RequestDriverViewModel } from "../models/request-driver-view.model";
 import { Lookup } from "../interfaces/lookup";
 import { CancelRequestModel } from "../models/cancel-request.model";
 import { ApprovedDriverRequest } from "../../dashboard/history/interfaces/approved-driver-request";
+import { ProposalDriverRequest } from "../../dashboard/history/interfaces/proposal-driver-request";
 
 @Injectable({
   providedIn: 'root'
@@ -75,5 +76,17 @@ export class RequestDriverService {
   approvedRequest(requestDriver: ApprovedDriverRequest): Observable<void> {
     const url = `${this.url}/approved`;
     return this.http.post<void>(url, requestDriver);
+  }
+
+  getBusyDaysForProposalCalendar(): Observable<Date[]> {
+    const url = `${this.url}/busy-days`;
+    return this.http.get<string[]>(url).pipe(
+      map(data => data.map(date => new Date(date)))
+    );
+  }
+
+  proposalRequest(data: ProposalDriverRequest): Observable<void> {
+    const url = `${this.url}/proposal`;
+    return this.http.patch<void>(url, data);
   }
 }

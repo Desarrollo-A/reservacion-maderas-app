@@ -132,8 +132,8 @@ export class PackageDetailComponent {
         autoFocus: false
       })
         .afterClosed()
-        .subscribe((date: boolean) => {
-          if (!date) {
+        .subscribe((hasAction: boolean) => {
+          if (!hasAction) {
             this.requestPackage.request.status = {... this.previousStatus};
           } else {
             this.proposalRequest();

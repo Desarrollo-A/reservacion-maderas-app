@@ -19,6 +19,11 @@ import { OfficeService } from "../../../../core/services/office.service";
 import { DriverRequestAssignComponent } from "../../components/driver-request-assign/driver-request-assign.component";
 import { ApprovedDriverRequest } from "../../interfaces/approved-driver-request";
 import { ErrorResponse } from 'src/app/core/interfaces/error-response';
+import { MatDialog } from "@angular/material/dialog";
+import {
+  ProposalRequestDriverComponent
+} from "../../components/proposal-request-driver/proposal-request-driver.component";
+import { InputDataProposalDriverRequest } from "../../interfaces/input-data-proposal-driver-request";
 
 @Component({
   selector: 'app-driver-detail',
@@ -51,7 +56,8 @@ export class DriverDetailComponent {
               private router: Router,
               private requestDriverService: RequestDriverService,
               private toastrService: ToastrService,
-              private officeService: OfficeService) {
+              private officeService: OfficeService,
+              private dialog: MatDialog) {
     const [,,part] = this.router.url.split('/', 3);
     this.urlRedirectBack = `/dashboard/${part}/conductor`;
     this.breadcrumbs.push({
@@ -79,6 +85,8 @@ export class DriverDetailComponent {
       this.toastrService.info('Selecciona una oficina para transferir la solicitud', 'Información');
     } else if (status.code === StatusDriverRequestLookup[StatusDriverRequestLookup.APPROVED]) {
       this.toastrService.info('Selecciona un chofer y un vehículo', 'Información');
+    } else if (status.code === StatusDriverRequestLookup[StatusDriverRequestLookup.PROPOSAL]) {
+      this.openDialogProposalRequest();
     }
   }
 
@@ -155,6 +163,27 @@ export class DriverDetailComponent {
     this.requestDriverService.approvedRequest(data).subscribe(() => {
       this.toastrService.success('Solicitud aprobada', 'Proceso exitoso');
       this.router.navigateByUrl(this.urlRedirectBack);
+    });
+  }
+
+  private openDialogProposalRequest(): void {
+    this.requestDriverService.getBusyDaysForProposalCalendar().subscribe(dates => {
+      const data: InputDataProposalDriverRequest = {dates, requestDriver: this.requestDriver};
+
+      this.dialog.open(ProposalRequestDriverComponent, {
+        width: '750px',
+        autoFocus: false,
+        data
+      })
+        .afterClosed()
+        .subscribe((hasAction: boolean) => {
+          if (!hasAction) {
+            this.requestDriver.request.status = {... this.previousStatus};
+          } else {
+            this.toastrService.success('Propuesta enviada', 'Proceso exitoso');
+            this.router.navigateByUrl(this.urlRedirectBack);
+          }
+        });
     });
   }
 

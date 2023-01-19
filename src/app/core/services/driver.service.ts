@@ -5,6 +5,7 @@ import { getPaginateParams } from 'src/app/shared/utils/http-functions';
 import { environment } from 'src/environments/environment';
 import { PaginationResponse } from '../interfaces/pagination-response';
 import { DriverModel } from '../models/driver.model';
+import { CarModel } from "../models/car.model";
 
 @Injectable({
   providedIn: 'root'
@@ -59,6 +60,18 @@ export class DriverService {
       .append('start_date', startDate)
       .append('end_date', endDate);
     const url = `${this.url}/available-request/${officeId}`;
+    return this.http.get<DriverModel[]>(url, {params}).pipe(
+      map(drivers => {
+        drivers = drivers.map(driver => new DriverModel(driver));
+        return drivers;
+      })
+    );
+  }
+
+  getAvailableDriversProposalRequest(requestId: number, dateSelected: string): Observable<DriverModel[]> {
+    const params = new HttpParams()
+      .append('date', dateSelected);
+    const url = `${this.url}/proposal-request/${requestId}`;
     return this.http.get<DriverModel[]>(url, {params}).pipe(
       map(drivers => {
         drivers = drivers.map(driver => new DriverModel(driver));

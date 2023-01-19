@@ -182,3 +182,6 @@ export const downloadFile = (data: Blob, filename: string): void => {
   a.download = filename;
   a.click();
 }
+
+export const compareDate = (d: Date, date: Date): boolean => d.getDate() === date.getDate()
+  && d.getMonth() === date.getMonth() && d.getFullYear() === date.getFullYear();

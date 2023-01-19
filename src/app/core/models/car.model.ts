@@ -2,6 +2,7 @@ import { Lookup } from "src/app/core/interfaces/lookup";
 import { OfficeModel } from "src/app/core/models/office.model";
 import { StatusCarLookup } from "../enums/lookups/status-car.lookup";
 import { DriverModel } from "./driver.model";
+import { DatesModel } from "./dates.model";
 
 export class CarModel {
   id:number;
@@ -18,6 +19,7 @@ export class CarModel {
   statusId: number;
   status: Lookup;
   drivers: DriverModel[];
+  availableSchedules?: DatesModel[];
 
   constructor(car) {
     this.id = car.id;
@@ -34,6 +36,9 @@ export class CarModel {
     this.statusId = car.statusId;
     this.status = car.status;
     this.drivers = car.drivers;
+    this.availableSchedules = (car.availableSchedules)
+      ? car.availableSchedules.map(schedule => new DatesModel(schedule))
+      : null;
   }
 
   get statusName(): string {

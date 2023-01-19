@@ -7,8 +7,8 @@ import { HomeModel } from "../models/home.model";
 @Injectable({
   providedIn: 'root'
 })
-export class HomeService {
-  private _baseUrl = 'home';
+export class DashboardService {
+  private _baseUrl = 'dashboard';
 
   constructor(private http: HttpClient) {}
 

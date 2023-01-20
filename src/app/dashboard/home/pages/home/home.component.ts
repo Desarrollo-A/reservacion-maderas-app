@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { UserSessionService } from 'src/app/core/services/user-session.service';
 import { NameRole } from 'src/app/core/enums/name-role';
-import { HomeService } from "../../../../core/services/home.service";
+import { DashboardService } from "../../../../core/services/dashboard.service";
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
@@ -20,7 +20,7 @@ export class HomeComponent implements OnInit {
   }];
 
   constructor(private userService: UserSessionService,
-              private homeService: HomeService) { }
+              private homeService: DashboardService) { }
 
   get isRecepcionist(): boolean {
    return this.userService.user.role?.name == NameRole.RECEPCIONIST;

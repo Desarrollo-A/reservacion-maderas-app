@@ -133,7 +133,8 @@ export const getStatusLabelRequestDriver = (statusName: string, code: string): L
   if (code === StatusDriverRequestLookup[StatusDriverRequestLookup.NEW]) {
     return { text: statusName, textClass: 'text-blue', bgClass: 'bg-blue-light' };
   }
-  if (code === StatusDriverRequestLookup[StatusDriverRequestLookup.APPROVED]) {
+  if (code === StatusDriverRequestLookup[StatusDriverRequestLookup.APPROVED] ||
+    code === StatusDriverRequestLookup[StatusDriverRequestLookup.ACCEPTED]) {
     return { text: statusName, textClass: 'text-green', bgClass: 'bg-green-light' };
   }
   if (code === StatusDriverRequestLookup[StatusDriverRequestLookup.REJECTED] ||

@@ -8,12 +8,10 @@ import { trackById } from "../../../../shared/utils/track-by";
 import { RequestDriverModel } from "../../../../core/models/request-driver.model";
 import { CancelRequestComponent } from "../../components/cancel-request/cancel-request.component";
 import { TransferRequestComponent } from "../../components/transfer-request/transfer-request.component";
-import { StatusDriverRequestLookup } from "../../../../core/enums/lookups/status-driver-request.lookup";
 import { stagger60ms } from "../../../../shared/animations/stagger.animation";
 import { fadeInUp400ms } from "../../../../shared/animations/fade-in-up.animation";
 import { switchMap, tap } from "rxjs";
 import { CancelRequestModel } from "../../../../core/models/cancel-request.model";
-import { StatusPackageRequestLookup } from "../../../../core/enums/lookups/status-package-request.lookup";
 import { OfficeModel } from "../../../../core/models/office.model";
 import { OfficeService } from "../../../../core/services/office.service";
 import { DriverRequestAssignComponent } from "../../components/driver-request-assign/driver-request-assign.component";
@@ -24,6 +22,8 @@ import {
   ProposalRequestDriverComponent
 } from "../../components/proposal-request-driver/proposal-request-driver.component";
 import { InputDataProposalDriverRequest } from "../../interfaces/input-data-proposal-driver-request";
+import { RequestModel } from "../../../../core/models/request.model";
+import { StatusDriverRequestLookup } from "../../../../core/enums/lookups/status-driver-request.lookup";
 
 @Component({
   selector: 'app-driver-detail',
@@ -107,17 +107,23 @@ export class DriverDetailComponent {
   }
 
   save(): void {
-    if (this.requestDriver.request.status.code === StatusDriverRequestLookup[StatusDriverRequestLookup.CANCELLED] &&
+    const statusCode = this.requestDriver.request.status.code;
+
+    if (statusCode === StatusDriverRequestLookup[StatusDriverRequestLookup.CANCELLED] &&
       (this.previousStatus.code === StatusDriverRequestLookup[StatusDriverRequestLookup.APPROVED] ||
         this.previousStatus.code === StatusDriverRequestLookup[StatusDriverRequestLookup.NEW])) {
       this.cancelRequest();
 
-    } else if (this.requestDriver.request.status.code === StatusPackageRequestLookup[StatusPackageRequestLookup.TRANSFER]) {
+    } else if (statusCode === StatusDriverRequestLookup[StatusDriverRequestLookup.TRANSFER]) {
       this.transferRequest();
 
-    } else if (this.requestDriver.request.status.code === StatusDriverRequestLookup[StatusDriverRequestLookup.APPROVED] &&
+    } else if (statusCode === StatusDriverRequestLookup[StatusDriverRequestLookup.APPROVED] &&
       this.previousStatus.code === StatusDriverRequestLookup[StatusDriverRequestLookup.NEW]) {
       this.approvedRequest();
+
+    } else if (statusCode === StatusDriverRequestLookup[StatusDriverRequestLookup.REJECTED] ||
+      statusCode === StatusDriverRequestLookup[StatusDriverRequestLookup.ACCEPTED]) {
+      this.responseRejectRequest();
     }
   }
 
@@ -147,7 +153,7 @@ export class DriverDetailComponent {
     });
   }
 
-  public approvedRequest(): void {
+  private approvedRequest(): void {
     if (this.driverRequestAssignComponent.form.invalid) {
       this.driverRequestAssignComponent.form.markAllAsTouched();
       return;
@@ -185,6 +191,22 @@ export class DriverDetailComponent {
           }
         });
     });
+  }
+
+  public responseRejectRequest(): void {
+    const status = <Lookup> { code: this.requestDriver.request.status.code };
+    let data = <RequestModel> { status };
+
+    this.requestDriverService.responseRejectRequest(this.requestDriver.requestId, data)
+      .subscribe(() => {
+        if (this.requestDriver.request.status.code === StatusDriverRequestLookup[StatusDriverRequestLookup.REJECTED]) {
+          this.toastrService.success('Solicitud rechazada', 'Proceso exitoso');
+          this.router.navigateByUrl(this.urlRedirectBack);
+        } else {
+          this.toastrService.success('Propuesta aceptada', 'Proceso exitoso');
+          this.router.navigateByUrl(this.urlRedirectBack);
+        }
+      });
   }
 
   private loadOfficesForTransfer(): void {

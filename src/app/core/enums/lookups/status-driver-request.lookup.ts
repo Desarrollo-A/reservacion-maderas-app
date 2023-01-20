@@ -6,5 +6,6 @@ export enum StatusDriverRequestLookup {
    FINISHED,
    EXPIRED,
    PROPOSAL,
-   TRANSFER
+   TRANSFER,
+   ACCEPTED
 }

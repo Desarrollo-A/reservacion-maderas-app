@@ -10,6 +10,7 @@ import { getPaginateParams } from 'src/app/shared/utils/http-functions';
 import { Lookup } from "../interfaces/lookup";
 import { CancelRequestModel } from "../models/cancel-request.model";
 import { ApprovedCarRequest } from "../../dashboard/history/interfaces/approved-car-request";
+import { ProposalCarDriverRequest } from "../../dashboard/history/interfaces/proposal-car-driver-request";
 
 @Injectable({
   providedIn: 'root'
@@ -80,5 +81,17 @@ export class RequestCarService {
   approvedRequest(requestCar: ApprovedCarRequest): Observable<void> {
     const url = `${this.url}/approved`;
     return this.http.post<void>(url, requestCar);
+  }
+
+  getBusyDaysForProposalCalendar(): Observable<Date[]> {
+    const url = `${this.url}/busy-days`;
+    return this.http.get<string[]>(url).pipe(
+      map(data => data.map(date => new Date(date)))
+    );
+  }
+
+  proposalRequest(data: ProposalCarDriverRequest): Observable<void> {
+    const url = `${this.url}/proposal`;
+    return this.http.patch<void>(url, data);
   }
 }

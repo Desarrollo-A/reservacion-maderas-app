@@ -1,0 +1,204 @@
+<vex-page-layout mode="card">
+    <vex-page-layout-header class="flex flex-col items-start justify-center">
+        <div class="container">
+            <h2 class="title m-0" *ngIf="requestPackage">
+                Detalle solicitud de paquetería <strong>{{ requestPackage?.request?.code }}</strong>
+            </h2>
+            <vex-breadcrumbs [crumbs]="breadcrumbs"></vex-breadcrumbs>
+        </div>
+    </vex-page-layout-header>
+  
+    <vex-page-layout-content class="container" *ngIf="requestPackage">
+        <div class="card p-6">
+            <div class="flex">
+                <h2 class="m-0 title mb-6">
+                    <strong>
+                        {{requestPackage.request.title}}
+                    </strong>
+                </h2>
+                <div class="ml-2" *ngIf="requestPackage.isUrgent">
+                    <span class="rounded px-2 py-1 font-medium text-2xs text-red bg-red-light">
+                        ENVÍO URGENTE
+                    </span>
+                </div>
+                <span class="flex-1"></span>
+
+                <div class="flex items-center">
+                    <button [ngClass]="[requestPackage.request.statusLabelRequestPackage.textClass,
+                                requestPackage.request.statusLabelRequestPackage.bgClass]"
+                            class="rounded -mt-6 px-3 py-2 text-sm flex-none"
+                            [disabled]="true">
+                        {{ requestPackage.request.statusName }}
+                    </button>
+                </div>
+            </div>
+            
+            <mat-divider class="-mx-6 text-border"></mat-divider>
+
+            <div @fadeInUp class="flex-auto">
+                <div class="px-6 py-4 flex flex-col">
+                    <div class="flex-auto border-b border-gray-300 py-4">
+                        <div class="flex-auto">
+                            <span class="block font-medium text-sm text-blue-600">
+                                Comentarios
+                            </span>
+                            <span class="font-medium text-lg">
+                                {{requestPackage.request.comment}}
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="flex-auto border-b border-gray-300 py-4">
+                        <div class="flex flex-col sm:flex-row sm:gap-4">
+                            <div class="flex-auto">
+                                <span class="block font-medium text-sm text-blue-600">
+                                    Fecha de salida
+                                </span>
+                                <span class="font-medium text-lg">
+                                    {{requestPackage.request.startDate|date:'dd-MM-y, h:mm a'}}
+                                </span>
+                            </div>
+                            <div class="flex-auto">
+                                <span class="block font-medium text-sm text-blue-600">
+                                    Fecha de llegada
+                                </span>
+                                <span class="font-medium text-lg">
+                                    {{requestPackage.request.endDate|date:'dd-MM-y, h:mm a'}}
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="flex-auto border-b border-gray-300 py-4">
+                        <div class="flex-auto">
+                            <span class="block font-medium text-sm text-blue-600">
+                                Nombre de la persona quien recibe
+                            </span>
+                            <span class="font-medium text-lg">
+                                {{requestPackage.nameReceive}}
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="flex-auto border-b border-gray-300 py-4">
+                        <span class="block font-medium text-sm text-blue-600">
+                            Origen
+                        </span>
+                        <div class="mt-2">
+                            <app-address    title="Dirección de salida"
+                                            subtitle="Información del lugar de salida del paquete"
+                                            [data]="requestPackage.pickupAddress"
+                                            [enableForm]="false">
+                            </app-address>
+                        </div>
+                    </div>
+
+                    <div class="flex-auto border-b border-gray-300 py-4">
+                        <span class="block font-medium text-sm text-blue-600">
+                            Destino
+                        </span>
+                        <div class="mt-2">
+                            <app-address    title="Dirección de llegada"
+                                            subtitle="Información del lugar de llegada del paquete"
+                                            [data]="requestPackage.arrivalAddress"
+                                            [enableForm]="false">
+                            </app-address>
+                        </div>
+                    </div>
+
+                    <div class="flex-auto border-b border-gray-300 py-4">
+
+                        <span class="block font-medium text-sm text-blue-600">
+                            Estatus
+                        </span>
+
+                        <div class="flex flex-col sm:flex-row sm:gap-4 py-2">
+
+                            <div class="flex w-full flex-row sm:flex-col">
+
+                                <div class="flex rounded-full w-16 h-16 bg-blue-600 justify-center 
+                                            items-center tracking-status-circle py-2">
+                                    <mat-icon svgIcon="mat:task" class="icon-tracking-white"></mat-icon>
+                                </div>
+                                <span class="flex font-medium text-sm items-center ml-4 sm:ml-0">
+                                    Aprovada
+                                </span>
+                            </div>
+                            <div class="flex w-full flex-row sm:flex-col mt-8 sm:mt-0 relative tracking-status tracking-status-active">
+
+                                <div class="flex rounded-full w-16 h-16 bg-blue-600 justify-center 
+                                            items-center tracking-status-circle py-2">
+                                    <mat-icon svgIcon="mat:local_shipping" class="icon-tracking-white"></mat-icon>
+                                </div>
+                                <span class="flex font-medium text-sm items-center ml-4 sm:ml-0">
+                                    En camino
+                                </span>
+
+                            </div>
+
+                            <div class="flex w-full flex-row mt-8 sm:mt-0 sm:flex-col tracking-status tracking-status-active relative">
+
+                                <div class="flex rounded-full w-16 h-16 bg-blue-600 justify-center 
+                                            items-center tracking-status-circle py-2">
+                                    <mat-icon svgIcon="mat:done_all" class="icon-tracking-white"></mat-icon>
+                                </div>
+                                <span class="flex font-medium text-sm items-center ml-4 sm:ml-0">
+                                    Entregado
+                                </span>
+
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="flex flex-col border-b border-gray-300 py-4 sm:flex-row sm:gap-4">
+                        <div class="flex-row w-full">
+                            <span class="block font-medium text-sm text-blue-600 py-2">
+                                Notificaciones
+                            </span>
+                            <ul>
+                                <li class="flex flex-col sm:flex-row sm:gap-4 relative overflow-hidden pb-6">
+                                    <div class="flex tracking-history-item w-5 relative">
+                                        <span class="tracking-history-point rounded-full block w-5 h-5 border-4
+                                                    border-blue-600 bg-blue-600"></span>
+                                    </div>
+                                    <div class="flex-auto ml-5 md:ml-0">
+                                        <span class="block text-sm font-bold">Opcion 1 de estilo para Notificacion</span>
+                                        <span class="block text-sm text-gray-500 font-bold">Opcion 2 de estilo para Notificacion</span>
+                                        <span class="block text-sm text-blue-600 font-bold">Opcion 3 de estilo para Notificacion</span>
+                                    </div>
+                                </li>
+                                <li class="flex flex-col sm:flex-row sm:gap-4 relative overflow-hidden pb-6">
+                                    <div class="flex tracking-history-item w-5 relative">
+                                        <span class="tracking-history-point rounded-full block w-5 h-5 border-4
+                                                    border-blue-600 bg-white"></span>
+                                    </div>
+                                    <div class="flex-auto ml-5 md:ml-0">
+                                        <span class="block text-sm font-bold">Opcion 1 de estilo para Notificacion</span>
+                                        <span class="block text-sm text-gray-500 font-bold">Opcion 2 de estilo para Notificacion</span>
+                                        <span class="block text-sm text-blue-600 font-bold">Opcion 3 de estilo para Notificacion</span>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="flex-row w-full">
+                            <span class="block font-medium text-sm text-blue-600 mt-2">
+                                Firma electronica
+                            </span>
+                            <img src="assets/img/demo/firma-demo.png" class="border-4 mt-2 p-2 border-gray-100">
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="flex items-center justify-end mt-3">
+                <button mat-button
+                        color="primary"
+                        [routerLink]="urlRedirectBack">
+                    Regresar
+                </button>
+            </div>
+        </div>
+    </vex-page-layout-content>
+  </vex-page-layout>

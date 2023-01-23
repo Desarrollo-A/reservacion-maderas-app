@@ -143,6 +143,8 @@ export class ToolbarNotificationsDropdownComponent implements OnInit {
       this.router.navigateByUrl(`/dashboard/solicitudes/paqueteria/${notification.requestNotification.requestId}`);
     } else if (this.userSessionService.user.role.name === NameRole.APPLICANT) {
       this.router.navigateByUrl(`/dashboard/historial/paqueteria/${notification.requestNotification.requestId}`);
+    }else if(this.userSessionService.user.role.name === NameRole.DRIVER){
+      this.router.navigateByUrl(`/dashboard/solicitudes-asignadas/paqueteria/${notification.requestNotification.requestId}`);
     }
   }
 
@@ -151,6 +153,8 @@ export class ToolbarNotificationsDropdownComponent implements OnInit {
       this.router.navigateByUrl(`/dashboard/solicitudes/conductor/${notification.requestNotification.requestId}`);
     }else if(this.userSessionService.user.role.name === NameRole.APPLICANT){
       this.router.navigateByUrl(`/dashboard/historial/conductor/${notification.requestNotification.requestId}`);
+    }else if(this.userSessionService.user.role.name === NameRole.DRIVER){
+      this.router.navigateByUrl(`/dashboard/solicitudes-asignadas/conductor/${notification.requestNotification.requestId}`);
     }
   }
 

@@ -1,15 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { MatDialog } from '@angular/material/dialog';
 import { Sort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
-import { ToastrService } from 'ngx-toastr';
 import { Filters, TypesEnum } from 'src/app/core/interfaces/filters';
 import { Meta, PaginationResponse } from 'src/app/core/interfaces/pagination-response';
 import { RequestPackageViewModel } from 'src/app/core/models/request-package-view.model';
 import { RequestPackageService } from 'src/app/core/services/request-package.service';
-import { RequestService } from 'src/app/core/services/request.service';
-import { UserSessionService } from 'src/app/core/services/user-session.service';
 import { TableColumn } from 'src/app/shared/interfaces/table-column.interface';
 import { getSort } from 'src/app/shared/utils/http-functions';
 import { fadeInUp400ms } from 'src/app/shared/animations/fade-in-up.animation';
@@ -42,11 +38,7 @@ export class PackageComponent implements OnInit {
   searchCtrl = new FormControl('');
   filters: Filters = { filters: [] };
 
-  constructor(private requestPackageService: RequestPackageService,
-              private requestService: RequestService,
-              private userSessionService: UserSessionService,
-              private dialog: MatDialog,
-              private toastrService: ToastrService) {}
+  constructor(private requestPackageService: RequestPackageService) {}
 
   ngOnInit(): void {
     this.dataSource = new MatTableDataSource<RequestPackageViewModel>();

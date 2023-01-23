@@ -10,11 +10,16 @@ import { PaginatorModule } from 'src/app/shared/components/paginator/paginator.m
 import { BreadcrumbsModule } from 'src/app/shared/components/breadcrumbs/breadcrumbs.module';
 import { PageNotFoundModule } from 'src/app/shared/components/page-not-found/page-not-found.module';
 import { DriverComponent } from './pages/driver/driver.component';
+import { DriverDetailComponent } from './pages/driver-detail/driver-detail.component';
+import { AddressModule } from 'src/app/shared/components/address/address.module';
+import { PackageDetailComponent } from './pages/package-detail/package-detail.component';
 
 @NgModule({
   declarations: [
     PackageComponent,
-    DriverComponent
+    DriverComponent,
+    DriverDetailComponent,
+    PackageDetailComponent
   ],
   imports: [
     CommonModule,
@@ -25,7 +30,8 @@ import { DriverComponent } from './pages/driver/driver.component';
     ReactiveFormsModule,
     PaginatorModule,
     BreadcrumbsModule,
-    PageNotFoundModule
+    PageNotFoundModule,
+    AddressModule
   ]
 })
 export class HistoryDriverModule { }

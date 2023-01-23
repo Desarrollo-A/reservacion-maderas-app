@@ -1,11 +1,10 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, map } from 'rxjs';
+import { map, Observable } from 'rxjs';
 import { getPaginateParams } from 'src/app/shared/utils/http-functions';
 import { environment } from 'src/environments/environment';
 import { PaginationResponse } from '../interfaces/pagination-response';
 import { DriverModel } from '../models/driver.model';
-import { CarModel } from "../models/car.model";
 
 @Injectable({
   providedIn: 'root'

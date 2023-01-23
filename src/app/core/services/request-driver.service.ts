@@ -11,7 +11,7 @@ import { RequestDriverViewModel } from "../models/request-driver-view.model";
 import { Lookup } from "../interfaces/lookup";
 import { CancelRequestModel } from "../models/cancel-request.model";
 import { ApprovedDriverRequest } from "../../dashboard/history/interfaces/approved-driver-request";
-import { ProposalDriverRequest } from "../../dashboard/history/interfaces/proposal-driver-request";
+import { ProposalCarDriverRequest } from "../../dashboard/history/interfaces/proposal-car-driver-request";
 
 @Injectable({
   providedIn: 'root'
@@ -98,7 +98,7 @@ export class RequestDriverService {
     );
   }
 
-  proposalRequest(data: ProposalDriverRequest): Observable<void> {
+  proposalRequest(data: ProposalCarDriverRequest): Observable<void> {
     const url = `${this.url}/proposal`;
     return this.http.patch<void>(url, data);
   }

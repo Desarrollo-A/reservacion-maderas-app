@@ -91,4 +91,16 @@ export class CarService {
       map(cars => cars.map(car => new CarModel(car)))
     );
   }
+
+  getAvailableCarsProposalRequest(requestId: number, dateSelected: string): Observable<CarModel[]> {
+    const params = new HttpParams()
+      .append('date', dateSelected);
+    const url = `${this.url}/proposal-request/${requestId}`;
+    return this.http.get<CarModel[]>(url, {params}).pipe(
+      map(cars => {
+        cars = cars.map(car => new CarModel(car));
+        return cars;
+      })
+    );
+  }
 }

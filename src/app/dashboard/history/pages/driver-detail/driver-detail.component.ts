@@ -121,8 +121,9 @@ export class DriverDetailComponent {
       this.previousStatus.code === StatusDriverRequestLookup[StatusDriverRequestLookup.NEW]) {
       this.approvedRequest();
 
-    } else if (statusCode === StatusDriverRequestLookup[StatusDriverRequestLookup.REJECTED] ||
-      statusCode === StatusDriverRequestLookup[StatusDriverRequestLookup.ACCEPTED]) {
+    } else if ((statusCode === StatusDriverRequestLookup[StatusDriverRequestLookup.REJECTED] ||
+        statusCode === StatusDriverRequestLookup[StatusDriverRequestLookup.ACCEPTED]) &&
+      this.previousStatus.code === StatusDriverRequestLookup[StatusDriverRequestLookup.PROPOSAL]) {
       this.responseRejectRequest();
     }
   }

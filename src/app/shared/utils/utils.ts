@@ -104,6 +104,32 @@ export const getStatusLabelRequestPackage = (statusName: string, code: string): 
   }
 }
 
+export const getStatusLabelRequestCar = (statusName: string, code: string): LabelButton => {
+  if (code === StatusCarRequestLookup[StatusCarRequestLookup.NEW]) {
+    return { text: statusName, textClass: 'text-blue', bgClass: 'bg-blue-light' };
+  }
+  if (code === StatusCarRequestLookup[StatusCarRequestLookup.APPROVED] ||
+    code === StatusDriverRequestLookup[StatusDriverRequestLookup.ACCEPTED]) {
+    return { text: statusName, textClass: 'text-green', bgClass: 'bg-green-light' };
+  }
+  if (code === StatusCarRequestLookup[StatusCarRequestLookup.REJECTED] ||
+    code === StatusRequestRoomLookup[StatusRequestRoomLookup.CANCELLED]) {
+    return { text: statusName, textClass: 'text-red', bgClass: 'bg-red-light' };
+  }
+  if (code === StatusCarRequestLookup[StatusCarRequestLookup.PROPOSAL]) {
+    return { text: statusName, textClass: 'text-orange', bgClass: 'bg-orange-light' };
+  }
+  if (code === StatusCarRequestLookup[StatusCarRequestLookup.EXPIRED]) {
+    return { text: statusName, textClass: 'text-gray', bgClass: 'bg-gray-light' };
+  }
+  if (code === StatusCarRequestLookup[StatusCarRequestLookup.FINISHED]) {
+    return { text: statusName, textClass: 'text-teal', bgClass: 'bg-teal-light' };
+  }
+  if (code === StatusCarRequestLookup[StatusCarRequestLookup.TRANSFER]) {
+    return { text: statusName, textClass: 'text-purple', bgClass: 'bg-purple-light' };
+  }
+}
+
 export const getStatusLabelRequestDriver = (statusName: string, code: string): LabelButton => {
   if (code === StatusDriverRequestLookup[StatusDriverRequestLookup.NEW]) {
     return { text: statusName, textClass: 'text-blue', bgClass: 'bg-blue-light' };
@@ -126,31 +152,6 @@ export const getStatusLabelRequestDriver = (statusName: string, code: string): L
     return { text: statusName, textClass: 'text-teal', bgClass: 'bg-teal-light' };
   }
   if (code === StatusDriverRequestLookup[StatusDriverRequestLookup.TRANSFER]) {
-    return { text: statusName, textClass: 'text-purple', bgClass: 'bg-purple-light' };
-  }
-}
-
-export const getStatusLabelRequestCar = (statusName: string, code: string): LabelButton => {
-  if (code === StatusCarRequestLookup[StatusCarRequestLookup.NEW]) {
-    return { text: statusName, textClass: 'text-blue', bgClass: 'bg-blue-light' };
-  }
-  if (code === StatusCarRequestLookup[StatusCarRequestLookup.APPROVED]) {
-    return { text: statusName, textClass: 'text-green', bgClass: 'bg-green-light' };
-  }
-  if (code === StatusCarRequestLookup[StatusCarRequestLookup.REJECTED] ||
-    code === StatusRequestRoomLookup[StatusRequestRoomLookup.CANCELLED]) {
-    return { text: statusName, textClass: 'text-red', bgClass: 'bg-red-light' };
-  }
-  if (code === StatusCarRequestLookup[StatusCarRequestLookup.PROPOSAL]) {
-    return { text: statusName, textClass: 'text-orange', bgClass: 'bg-orange-light' };
-  }
-  if (code === StatusCarRequestLookup[StatusCarRequestLookup.EXPIRED]) {
-    return { text: statusName, textClass: 'text-gray', bgClass: 'bg-gray-light' };
-  }
-  if (code === StatusCarRequestLookup[StatusCarRequestLookup.FINISHED]) {
-    return { text: statusName, textClass: 'text-teal', bgClass: 'bg-teal-light' };
-  }
-  if (code === StatusCarRequestLookup[StatusCarRequestLookup.TRANSFER]) {
     return { text: statusName, textClass: 'text-purple', bgClass: 'bg-purple-light' };
   }
 }

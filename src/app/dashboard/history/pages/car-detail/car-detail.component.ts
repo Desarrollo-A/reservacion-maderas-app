@@ -19,6 +19,9 @@ import { CancelRequestModel } from "../../../../core/models/cancel-request.model
 import { CancelRequestComponent } from "../../components/cancel-request/cancel-request.component";
 import { CarRequestAssignComponent } from "../../components/car-request-assign/car-request-assign.component";
 import { ApprovedCarRequest } from "../../interfaces/approved-car-request";
+import { InputDataProposalCarRequest } from "../../interfaces/input-data-proposal-car-request";
+import { MatDialog } from "@angular/material/dialog";
+import { ProposalRequestCarComponent } from "../../components/proposal-request-car/proposal-request-car.component";
 
 @Component({
   selector: 'app-car-detail',
@@ -51,7 +54,8 @@ export class CarDetailComponent implements OnInit {
               private router: Router,
               private requestCarService: RequestCarService,
               private toastrService: ToastrService,
-              private officeService: OfficeService) {
+              private officeService: OfficeService,
+              private dialog: MatDialog) {
     const [,,part] = this.router.url.split('/', 3);
     this.urlRedirectBack = `/dashboard/${part}/vehiculo`;
     this.breadcrumbs.push({
@@ -82,6 +86,8 @@ export class CarDetailComponent implements OnInit {
       this.toastrService.info('Agrega un comentario para cancelar la solicitud', 'Información');
     } else if (status.code === StatusCarRequestLookup[StatusCarRequestLookup.APPROVED]) {
       this.toastrService.info('Selecciona un vehículo', 'Información');
+    } else if (status.code === StatusCarRequestLookup[StatusCarRequestLookup.PROPOSAL]) {
+      this.openDialogProposalRequest();
     }
   }
 
@@ -158,6 +164,27 @@ export class CarDetailComponent implements OnInit {
     this.requestCarService.approvedRequest(data).subscribe(() => {
       this.toastrService.success('Solicitud aprobada', 'Proceso exitoso');
       this.router.navigateByUrl(this.urlRedirectBack);
+    });
+  }
+
+  private openDialogProposalRequest(): void {
+    this.requestCarService.getBusyDaysForProposalCalendar().subscribe(dates => {
+      const data: InputDataProposalCarRequest= {dates, requestCar: this.requestCar};
+
+      this.dialog.open(ProposalRequestCarComponent, {
+        width: '750px',
+        autoFocus: false,
+        data
+      })
+        .afterClosed()
+        .subscribe((hasAction: boolean) => {
+          if (!hasAction) {
+            this.requestCar.request.status = {... this.previousStatus};
+          } else {
+            this.toastrService.success('Propuesta enviada', 'Proceso exitoso');
+            this.router.navigateByUrl(this.urlRedirectBack);
+          }
+        });
     });
   }
 

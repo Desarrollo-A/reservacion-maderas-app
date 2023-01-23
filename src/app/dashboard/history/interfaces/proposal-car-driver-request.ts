@@ -1,6 +1,6 @@
-export interface ProposalDriverRequest {
+export interface ProposalCarDriverRequest {
   requestId: number;
-  driverId: number;
+  driverId?: number;
   carId: number;
   startDate: string;
   endDate: string;

@@ -6,5 +6,6 @@ export enum StatusCarRequestLookup{
     FINISHED,
     EXPIRED,
     PROPOSAL,
-    TRANSFER
+    TRANSFER,
+    ACCEPTED
 }

@@ -3,6 +3,7 @@ import { Lookup } from "../interfaces/lookup";
 import { UserModel } from "./user.model";
 import { LabelButton } from "../../shared/interfaces/label-button";
 import {
+  getStatusLabelRequestCar,
   getStatusLabelRequestDriver,
   getStatusLabelRequestPackage,
   getStatusLabelRequestRoom
@@ -84,5 +85,9 @@ export class RequestModel {
 
   get statusLabelRequestDriver(): LabelButton {
     return getStatusLabelRequestDriver(this.statusName, this.status.code);
+  }
+
+  get statusLabelRequestCar(): LabelButton {
+    return getStatusLabelRequestCar(this.statusName, this.status.code);
   }
 }

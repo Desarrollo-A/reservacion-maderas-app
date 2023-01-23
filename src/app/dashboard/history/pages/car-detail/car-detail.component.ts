@@ -22,6 +22,7 @@ import { ApprovedCarRequest } from "../../interfaces/approved-car-request";
 import { InputDataProposalCarRequest } from "../../interfaces/input-data-proposal-car-request";
 import { MatDialog } from "@angular/material/dialog";
 import { ProposalRequestCarComponent } from "../../components/proposal-request-car/proposal-request-car.component";
+import { RequestModel } from "../../../../core/models/request.model";
 
 @Component({
   selector: 'app-car-detail',
@@ -108,17 +109,24 @@ export class CarDetailComponent implements OnInit {
   }
 
   save(): void {
-    if (this.requestCar.request.status.code === StatusPackageRequestLookup[StatusPackageRequestLookup.TRANSFER]) {
+    const statusCode = this.requestCar.request.status.code;
+
+    if (statusCode === StatusPackageRequestLookup[StatusPackageRequestLookup.TRANSFER]) {
       this.transferRequest();
 
-    } else if (this.requestCar.request.status.code === StatusCarRequestLookup[StatusCarRequestLookup.CANCELLED] &&
+    } else if (statusCode === StatusCarRequestLookup[StatusCarRequestLookup.CANCELLED] &&
       (this.previousStatus.code === StatusCarRequestLookup[StatusCarRequestLookup.APPROVED] ||
         this.previousStatus.code === StatusCarRequestLookup[StatusCarRequestLookup.NEW])) {
       this.cancelRequest();
 
-    } else if (this.requestCar.request.status.code === StatusCarRequestLookup[StatusCarRequestLookup.APPROVED] &&
+    } else if (statusCode === StatusCarRequestLookup[StatusCarRequestLookup.APPROVED] &&
     this.previousStatus.code === StatusCarRequestLookup[StatusCarRequestLookup.NEW]) {
       this.approvedRequest();
+
+    } else if ((statusCode === StatusCarRequestLookup[StatusCarRequestLookup.REJECTED] ||
+        statusCode === StatusCarRequestLookup[StatusCarRequestLookup.ACCEPTED]) &&
+      this.previousStatus.code === StatusCarRequestLookup[StatusCarRequestLookup.PROPOSAL]) {
+      this.responseRejectRequest();
     }
   }
 
@@ -186,6 +194,22 @@ export class CarDetailComponent implements OnInit {
           }
         });
     });
+  }
+
+  public responseRejectRequest(): void {
+    const status = <Lookup> { code: this.requestCar.request.status.code };
+    let data = <RequestModel> { status };
+
+    this.requestCarService.responseRejectRequest(this.requestCar.requestId, data)
+      .subscribe(() => {
+        if (this.requestCar.request.status.code === StatusCarRequestLookup[StatusCarRequestLookup.REJECTED]) {
+          this.toastrService.success('Solicitud rechazada', 'Proceso exitoso');
+          this.router.navigateByUrl(this.urlRedirectBack);
+        } else {
+          this.toastrService.success('Propuesta aceptada', 'Proceso exitoso');
+          this.router.navigateByUrl(this.urlRedirectBack);
+        }
+      });
   }
 
   private loadOfficesForTransfer(): void {

@@ -103,7 +103,7 @@
             <th *matHeaderCellDef mat-header-cell></th>
             <td *matCellDef="let row" class="w-10 text-secondary" mat-cell>
               <button (click)="$event.stopPropagation()"
-                      [matMenuTriggerData]="{ package: row }"
+                      [matMenuTriggerData]="{ packageDriver: row }"
                       [matMenuTriggerFor]="actionsMenu"
                       mat-icon-button
                       type="button">
@@ -139,8 +139,8 @@
   </mat-menu>
   
   <mat-menu #actionsMenu="matMenu" xPosition="before" yPosition="below">
-    <ng-template let-package="package" matMenuContent>
-      <a mat-menu-item>
+    <ng-template let-packageDriver="packageDriver" matMenuContent>
+      <a mat-menu-item [routerLink]="['./', packageDriver.requestId]">
         <mat-icon svgIcon="mat:visibility"></mat-icon>
         <span>Detalle</span>
       </a>

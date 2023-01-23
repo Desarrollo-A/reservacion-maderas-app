@@ -108,7 +108,8 @@ export const getStatusLabelRequestCar = (statusName: string, code: string): Labe
   if (code === StatusCarRequestLookup[StatusCarRequestLookup.NEW]) {
     return { text: statusName, textClass: 'text-blue', bgClass: 'bg-blue-light' };
   }
-  if (code === StatusCarRequestLookup[StatusCarRequestLookup.APPROVED]) {
+  if (code === StatusCarRequestLookup[StatusCarRequestLookup.APPROVED] ||
+    code === StatusDriverRequestLookup[StatusDriverRequestLookup.ACCEPTED]) {
     return { text: statusName, textClass: 'text-green', bgClass: 'bg-green-light' };
   }
   if (code === StatusCarRequestLookup[StatusCarRequestLookup.REJECTED] ||

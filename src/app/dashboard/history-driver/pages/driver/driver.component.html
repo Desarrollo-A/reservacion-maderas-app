@@ -146,7 +146,7 @@
   
   <mat-menu #actionsMenu="matMenu" xPosition="before" yPosition="below">
     <ng-template let-driver="driver" matMenuContent>
-      <a mat-menu-item>
+      <a mat-menu-item [routerLink]="['./', driver.requestId]">
         <mat-icon svgIcon="mat:visibility"></mat-icon>
         <span>Detalle</span>
       </a>

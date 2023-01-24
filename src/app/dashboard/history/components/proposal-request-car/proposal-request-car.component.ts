@@ -5,7 +5,7 @@ import { CarModel } from "../../../../core/models/car.model";
 import { DatesModel } from "../../../../core/models/dates.model";
 import { trackById } from "../../../../shared/utils/track-by";
 import { MatCalendarCellClassFunction } from "@angular/material/datepicker";
-import { compareDate, getDateFormat, getFullDateFormat } from "../../../../shared/utils/utils";
+import { compareDate, getFullDateFormat } from "../../../../shared/utils/utils";
 import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material/dialog";
 import { ToastrService } from "ngx-toastr";
 import { CarService } from "../../../../core/services/car.service";
@@ -82,7 +82,7 @@ export class ProposalRequestCarComponent implements OnInit {
       return;
     }
 
-    this.carService.getAvailableCarsProposalRequest(this.data.requestCar.requestId, getDateFormat(value))
+    this.carService.getAvailableCarsProposalRequest(this.data.requestCar.requestId, getFullDateFormat(value))
       .subscribe(cars => {
         this.cars = cars;
         this.form.get('date').setValue(value);

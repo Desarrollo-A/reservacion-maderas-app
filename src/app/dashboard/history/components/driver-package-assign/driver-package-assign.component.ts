@@ -13,6 +13,7 @@ import { RequestPackageService } from "../../../../core/services/request-package
 import { dateBeforeNow } from "../../../../shared/utils/form-validations";
 import { CarService } from "../../../../core/services/car.service";
 import { DriverService } from "../../../../core/services/driver.service";
+import { ToastrService } from "ngx-toastr";
 
 @UntilDestroy()
 @Component({
@@ -39,7 +40,8 @@ export class DriverPackageAssignComponent implements OnInit {
   constructor(private fb: FormBuilder,
               private driverService: DriverService,
               private carService: CarService,
-              private requestPackageService: RequestPackageService) {}
+              private requestPackageService: RequestPackageService,
+              private toastrService: ToastrService) {}
 
   ngOnInit(): void {
     this.form = this.fb.group({
@@ -64,6 +66,9 @@ export class DriverPackageAssignComponent implements OnInit {
     ).subscribe(([cars, packages]) => {
       this.cars = cars;
       this.approvedPackagesHistory = packages;
+      if (cars.length === 0) {
+        this.toastrService.info('No hay vehículos disponibles para el chofer seleccionado', 'Información');
+      }
     });
 
     this.loadDrivers();
@@ -97,6 +102,9 @@ export class DriverPackageAssignComponent implements OnInit {
     const { officeId, request: { startDate } } = this.requestPackage;
     this.driverService.getAvailablePackageRequest(officeId, getDateFormat(new Date(startDate))).subscribe(drivers => {
       this.drivers = drivers;
+      if (drivers.length === 0) {
+        this.toastrService.info('No hay choferes disponibles', 'Información');
+      }
     });
   }
 }

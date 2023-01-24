@@ -63,10 +63,11 @@ export class CarService {
     return this.http.get<CarModel[]>(url);
   }
 
-  getAvailableDriverRequest(driverId: number, startDate: string, endDate: string): Observable<CarModel[]> {
+  getAvailableDriverRequest(driverId: number, startDate: string, endDate: string, people: number): Observable<CarModel[]> {
     const params = new HttpParams()
       .append('start_date', startDate)
-      .append('end_date', endDate);
+      .append('end_date', endDate)
+      .append('people', people);
     const url = `${this.url}/available-driver-request/${driverId}`;
     return this.http.get<CarModel[]>(url, {params}).pipe(
       map(cars => cars.map(car => new CarModel(car)))

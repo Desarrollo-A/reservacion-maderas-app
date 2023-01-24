@@ -67,9 +67,10 @@ export class DriverService {
     );
   }
 
-  getAvailableDriversProposalRequest(requestId: number, dateSelected: string): Observable<DriverModel[]> {
+  getAvailableDriversProposalRequest(requestId: number, dateSelected: string, people: number): Observable<DriverModel[]> {
     const params = new HttpParams()
-      .append('date', dateSelected);
+      .append('date', dateSelected)
+      .append('people', people);
     const url = `${this.url}/proposal-request/${requestId}`;
     return this.http.get<DriverModel[]>(url, {params}).pipe(
       map(drivers => {

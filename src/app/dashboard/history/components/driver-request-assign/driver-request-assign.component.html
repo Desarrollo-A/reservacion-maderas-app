@@ -28,7 +28,7 @@
             <mat-option *ngFor="let car of cars; trackBy: trackById"
                         [value]="car.id">
               <span *ngIf="car.hasDrivers; else hasntDrivers">
-                  {{ car.smallInformation }} - Asignado
+                  <mat-icon color="primary" mat-list-avatar svgIcon="mat:key"></mat-icon> {{ car.smallInformation }}
               </span>
               <ng-template #hasntDrivers>
                 <span>

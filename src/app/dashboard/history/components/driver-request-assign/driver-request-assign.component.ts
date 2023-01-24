@@ -8,9 +8,10 @@ import { CarModel } from "../../../../core/models/car.model";
 import { trackById } from "../../../../shared/utils/track-by";
 import { DriverService } from "../../../../core/services/driver.service";
 import { CarService } from "../../../../core/services/car.service";
-import { getDateFormat, getFullDateFormat } from "../../../../shared/utils/utils";
+import { getFullDateFormat } from "../../../../shared/utils/utils";
 import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
 import { switchMap } from "rxjs";
+import { ToastrService } from "ngx-toastr";
 
 @UntilDestroy()
 @Component({
@@ -34,7 +35,8 @@ export class DriverRequestAssignComponent implements OnInit {
 
   constructor(private fb: FormBuilder,
               private driverService: DriverService,
-              private carService: CarService) {}
+              private carService: CarService,
+              private toastrService: ToastrService) {}
 
   ngOnInit(): void {
     this.form = this.fb.group({
@@ -47,24 +49,32 @@ export class DriverRequestAssignComponent implements OnInit {
     this.form.get('driverId')?.valueChanges.pipe(
       untilDestroyed(this),
       switchMap((driverId: number) => {
-        const { request: { startDate, endDate } } = this.requestDriver;
+        const { request: { startDate, endDate, people } } = this.requestDriver;
         const parseStartDate = getFullDateFormat(new Date(startDate));
         const parseEndDate = getFullDateFormat(new Date(endDate));
 
         this.form.patchValue({cardId: null});
-        return this.carService.getAvailableDriverRequest(driverId, parseStartDate, parseEndDate);
+        return this.carService.getAvailableDriverRequest(driverId, parseStartDate, parseEndDate, people);
       })
-    ).subscribe(cars => this.cars = cars);
+    ).subscribe(cars => {
+      this.cars = cars;
+      if (cars.length === 0) {
+        this.toastrService.info('No hay vehículos disponibles para el chofer seleccionado', 'Información');
+      }
+    });
 
     this.loadDrivers();
   }
 
   private loadDrivers(): void {
     const { officeId, request: { startDate, endDate } } = this.requestDriver;
-    const parseStartDate = getDateFormat(new Date(startDate));
-    const parseEndDate = getDateFormat(new Date(endDate));
+    const parseStartDate = getFullDateFormat(new Date(startDate));
+    const parseEndDate = getFullDateFormat(new Date(endDate));
     this.driverService.getAvailableDriverRequest(officeId, parseStartDate, parseEndDate).subscribe(drivers => {
       this.drivers = drivers;
+      (drivers.length === 0)
+        ? this.toastrService.info('No hay choferes disponibles', 'Información')
+        : this.toastrService.info('Selecciona un chofer y un vehículo', 'Información');
     });
   }
 }

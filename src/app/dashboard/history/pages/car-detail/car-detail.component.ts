@@ -76,10 +76,13 @@ export class CarDetailComponent implements OnInit {
     return StatusCarRequestLookup;
   }
 
+  get enableProposal(): boolean {
+    return this.previousStatus.code === StatusCarRequestLookup[StatusCarRequestLookup.PROPOSAL];
+  }
+
   changeStatus(status: Lookup): void {
     this.requestCar.request.statusId = status.id;
     this.requestCar.request.status = status;
-
     if (status.code === StatusCarRequestLookup[StatusCarRequestLookup.TRANSFER]) {
       this.loadOfficesForTransfer();
       this.toastrService.info('Selecciona una oficina para transferir la solicitud', 'Información');

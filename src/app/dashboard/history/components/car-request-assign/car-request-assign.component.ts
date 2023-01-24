@@ -6,7 +6,8 @@ import { FormErrors } from "../../../../shared/utils/form-error";
 import { CarModel } from "../../../../core/models/car.model";
 import { trackById } from "../../../../shared/utils/track-by";
 import { CarService } from "../../../../core/services/car.service";
-import { getDateFormat } from "../../../../shared/utils/utils";
+import { getFullDateFormat } from "../../../../shared/utils/utils";
+import { ToastrService } from "ngx-toastr";
 
 @Component({
   selector: 'app-car-request-assign',
@@ -27,7 +28,8 @@ export class CarRequestAssignComponent implements OnInit {
   trackById = trackById;
 
   constructor(private fb: FormBuilder,
-              private carService: CarService) {}
+              private carService: CarService,
+              private toastrService: ToastrService) {}
 
   ngOnInit(): void {
     this.form = this.fb.group({
@@ -41,10 +43,13 @@ export class CarRequestAssignComponent implements OnInit {
 
   private loadCars(): void {
     const { officeId, request: { startDate, endDate } } = this.requestCar;
-    const parseStartDate = getDateFormat(new Date(startDate));
-    const parseEndDate = getDateFormat(new Date(endDate));
+    const parseStartDate = getFullDateFormat(new Date(startDate));
+    const parseEndDate = getFullDateFormat(new Date(endDate));
     this.carService.getAvailableCarsInRequestCar(officeId, parseStartDate, parseEndDate).subscribe(cars => {
       this.cars = cars;
+      (cars.length === 0)
+        ? this.toastrService.info('No hay vehículos disponibles', 'Información')
+        : this.toastrService.info('Selecciona un vehículo', 'Información');
     });
   }
 }

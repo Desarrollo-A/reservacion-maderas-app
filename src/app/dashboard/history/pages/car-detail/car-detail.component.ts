@@ -88,8 +88,6 @@ export class CarDetailComponent implements OnInit {
       this.toastrService.info('Selecciona una oficina para transferir la solicitud', 'Información');
     } else if (status.code === StatusCarRequestLookup[StatusCarRequestLookup.CANCELLED]) {
       this.toastrService.info('Agrega un comentario para cancelar la solicitud', 'Información');
-    } else if (status.code === StatusCarRequestLookup[StatusCarRequestLookup.APPROVED]) {
-      this.toastrService.info('Selecciona un vehículo', 'Información');
     } else if (status.code === StatusCarRequestLookup[StatusCarRequestLookup.PROPOSAL]) {
       this.openDialogProposalRequest();
     }

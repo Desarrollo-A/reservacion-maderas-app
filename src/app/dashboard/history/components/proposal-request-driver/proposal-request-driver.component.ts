@@ -96,7 +96,9 @@ export class ProposalRequestDriverComponent implements OnInit {
       return;
     }
 
-    this.driverService.getAvailableDriversProposalRequest(this.data.requestDriver.requestId, getDateFormat(value))
+    const {request: {people}, requestId} = this.data.requestDriver;
+
+    this.driverService.getAvailableDriversProposalRequest(requestId, getDateFormat(value), people)
       .subscribe(drivers => {
         this.drivers = drivers;
         this.form.get('date').setValue(value);

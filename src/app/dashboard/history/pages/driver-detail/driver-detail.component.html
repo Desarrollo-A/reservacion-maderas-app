@@ -126,23 +126,23 @@
         </div>
       </div>
 
-      <div class="flex-auto" *ngIf="enableProposal">
+      <div class="flex-auto" *ngIf="previousStatus.code === statusRequest[statusRequest.PROPOSAL]">
         <div class="px-6 flex flex-col gap-2">
           <div class="h-16 border-b sticky left-0 flex items-center">
             <h2 class="title my-0 ltr:pr-4 rtl:pl-4 ltr:mr-4 rtl:ml-4 ltr:border-r rtl:border-l hidden sm:block flex-none">
               <span>Propuesta</span>
             </h2>
           </div>
-          
+
           <div class="flex flex-col sm:flex-row sm:gap-4">
             <mat-form-field appearance="outline" class="flex-auto vex-flex-form-field">
               <mat-label>Fecha y hora de salida</mat-label>
-              <input matInput readonly [value]="requestDriver.driverRequestSchedule.driverSchedule.startDate|date:'dd-MM-y, h:mm a'">
+              <input matInput readonly [value]="requestDriver.request.proposalRequest[0].startDate|date:'dd-MM-y, h:mm a'">
             </mat-form-field>
 
             <mat-form-field appearance="outline" class="flex-auto vex-flex-form-field">
               <mat-label>Fecha y hora de llegada</mat-label>
-              <input matInput readonly [value]="requestDriver.driverRequestSchedule.driverSchedule.endDate|date:'dd-MM-y, h:mm a'">
+              <input matInput readonly [value]="requestDriver.request.proposalRequest[0].endDate|date:'dd-MM-y, h:mm a'">
             </mat-form-field>
           </div>
         </div>

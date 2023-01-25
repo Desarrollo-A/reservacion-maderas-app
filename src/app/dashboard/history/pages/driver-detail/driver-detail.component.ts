@@ -74,10 +74,6 @@ export class DriverDetailComponent {
     return StatusDriverRequestLookup;
   }
 
-  get enableProposal(): boolean {
-    return this.previousStatus.code === StatusDriverRequestLookup[StatusDriverRequestLookup.PROPOSAL];
-  }
-
   changeStatus(status: Lookup): void {
     this.requestDriver.request.statusId = status.id;
     this.requestDriver.request.status = status;

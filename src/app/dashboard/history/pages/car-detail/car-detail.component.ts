@@ -76,10 +76,6 @@ export class CarDetailComponent implements OnInit {
     return StatusCarRequestLookup;
   }
 
-  get enableProposal(): boolean {
-    return this.previousStatus.code === StatusCarRequestLookup[StatusCarRequestLookup.PROPOSAL];
-  }
-
   changeStatus(status: Lookup): void {
     this.requestCar.request.statusId = status.id;
     this.requestCar.request.status = status;

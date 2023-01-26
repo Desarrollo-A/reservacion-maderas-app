@@ -166,9 +166,6 @@ export class PackageDetailComponent {
       && (this.previousStatus.code === StatusPackageRequestLookup[StatusPackageRequestLookup.NEW] ||
         this.previousStatus.code === StatusPackageRequestLookup[StatusPackageRequestLookup.IN_REVIEW])) {
       this.approvedRequest();
-    } else if (statusCode === StatusPackageRequestLookup[StatusPackageRequestLookup.ROAD]
-      && this.previousStatus.code === StatusPackageRequestLookup[StatusPackageRequestLookup.APPROVED]) {
-      this.onRoadRequest();
     } else if (statusCode === StatusPackageRequestLookup[StatusPackageRequestLookup.REJECTED]) {
       this.responseRejectRequest();
     }
@@ -218,13 +215,6 @@ export class PackageDetailComponent {
 
     this.requestPackageService.approvedPackageRequest(data).subscribe(() => {
       this.toastrService.success('Solicitud aprobada', 'Proceso exitoso');
-      this.router.navigateByUrl(this.urlRedirectBack);
-    });
-  }
-
-  private onRoadRequest(): void {
-    this.requestPackageService.onRoadPackage(this.requestPackage.requestId).subscribe(() => {
-      this.toastrService.success('El paquete se encuentra en camino al destino', 'Proceso exitoso');
       this.router.navigateByUrl(this.urlRedirectBack);
     });
   }

@@ -107,6 +107,10 @@
 
       <div class="flex-auto">
         <div class="px-6 flex flex-col gap-2">
+          <app-email-request-table [previousStatus]="previousStatus"
+                                   [requestId]="requestDriver.requestId"
+                                   [emails]="requestDriver.request.requestEmail">
+          </app-email-request-table>
           <app-cancel-request #cancelRequestComponent
                               *ngIf="requestDriver.request.status.code === statusRequest[statusRequest.CANCELLED]"
                               [previousStatus]="this.previousStatus"

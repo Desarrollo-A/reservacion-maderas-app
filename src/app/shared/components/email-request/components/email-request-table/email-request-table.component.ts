@@ -16,6 +16,8 @@ import { StatusRequestRoomLookup } from "../../../../../core/enums/lookups/statu
 import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
 import { EmailCreateUpdateComponent } from "../email-create-update/email-create-update.component";
 import { DeleteConfirmComponent } from "../../../delete-confirm/delete-confirm.component";
+import { StatusDriverRequestLookup } from "../../../../../core/enums/lookups/status-driver-request.lookup";
+import { StatusCarRequestLookup } from "../../../../../core/enums/lookups/status-car-request.lookup";
 
 @UntilDestroy()
 @Component({
@@ -72,7 +74,9 @@ export class EmailRequestTableComponent implements OnInit, AfterViewInit {
   }
 
   get canDoActions(): boolean {
-    return (this.previousStatus && this.previousStatus?.code === StatusRequestRoomLookup[StatusRequestRoomLookup.NEW]);
+    return (this.previousStatus && (this.previousStatus?.code === StatusRequestRoomLookup[StatusRequestRoomLookup.NEW] ||
+      this.previousStatus?.code === StatusDriverRequestLookup[StatusDriverRequestLookup.NEW] ||
+      this.previousStatus?.code === StatusCarRequestLookup[StatusCarRequestLookup.NEW]));
   }
 
   get visibleColumns() {

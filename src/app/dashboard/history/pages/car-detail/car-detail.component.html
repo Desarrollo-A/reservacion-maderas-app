@@ -83,6 +83,10 @@
               <input matInput readonly [value]="requestCar.carRequestSchedule.carSchedule.car.smallInformation">
             </mat-form-field>
           </div>
+
+          <app-score-request *ngIf="requestCar.request.score"
+                             [score]="requestCar.request.score">
+          </app-score-request>
         </div>
       </div>
 

@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, HostListener } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { trackById } from '../../../../utils/track-by';
 import { NotificationService } from "../services/notification.service";
 import { NotificationModel } from "../models/notification.model";
@@ -33,7 +33,8 @@ interface Position {
   styleUrls: ['./toolbar-notifications-dropdown.component.scss']
 })
 export class ToolbarNotificationsDropdownComponent implements OnInit {
-  @ViewChild('menuNotifications', { static: false}) menuNotifications: any
+  @ViewChild('menuNotifications', { static: false})
+  menuNotifications: any;
   @ViewChild(MatMenuTrigger, { static: true })
   matMenuTrigger: MatMenuTrigger;
 
@@ -102,25 +103,40 @@ export class ToolbarNotificationsDropdownComponent implements OnInit {
 
   private actionNotification(notification: NotificationModel): void {
     if (notification.requestNotification?.actionRequestNotification) {
+      const actionRequestNotificationCode = notification.requestNotification.actionRequestNotification.type.code;
+
       // Se verifica si tiene alguna acción extra la notificación
-      if (notification.requestNotification.actionRequestNotification.type.code === ActionRequestNotificationLookup[ActionRequestNotificationLookup.CONFIRM]) {
+      if (actionRequestNotificationCode === ActionRequestNotificationLookup[ActionRequestNotificationLookup.CONFIRM]) {
         this.confirmNotification(notification);
-      } else if (notification.requestNotification.actionRequestNotification.type.code === ActionRequestNotificationLookup[ActionRequestNotificationLookup.SCORE]) {
+
+      } else if (actionRequestNotificationCode === ActionRequestNotificationLookup[ActionRequestNotificationLookup.SCORE]) {
         this.starRatingNotification(notification);
       }
-    } else if (notification.type.code === TypeNotificationLookup[TypeNotificationLookup.ROOM] &&
-        notification.requestNotification?.requestId) {
+    } else {
+      this.redirectNotification(notification);
+    }
+  }
+
+  private redirectNotification(notification: NotificationModel): void {
+    const notificationTypeCode = notification.type.code;
+
+    if (notificationTypeCode === TypeNotificationLookup[TypeNotificationLookup.ROOM] &&
+      notification.requestNotification?.requestId) {
       // Si la notificación es de tipo Sala
       this.redirectDetailRoom(notification);
-    } else if (notification.type.code === TypeNotificationLookup[TypeNotificationLookup.INVENTORY]) {
+
+    } else if (notificationTypeCode === TypeNotificationLookup[TypeNotificationLookup.INVENTORY]) {
       this.redirectInventory();
-    } else if(notification.type.code === TypeNotificationLookup[TypeNotificationLookup.PARCEL] &&
+
+    } else if(notificationTypeCode === TypeNotificationLookup[TypeNotificationLookup.PARCEL] &&
       notification.requestNotification?.requestId){
-        this.redirectPackage(notification);
-    } else if(notification.type.code === TypeNotificationLookup[TypeNotificationLookup.DRIVER] &&
+      this.redirectPackage(notification);
+
+    } else if(notificationTypeCode === TypeNotificationLookup[TypeNotificationLookup.DRIVER] &&
       notification.requestNotification?.requestId){
-        this.redirectDriver(notification);
-    } else if(notification.type.code === TypeNotificationLookup[TypeNotificationLookup.CAR] &&
+      this.redirectDriver(notification);
+
+    } else if(notificationTypeCode === TypeNotificationLookup[TypeNotificationLookup.CAR] &&
       notification.requestNotification?.requestId){
       this.redirectCar(notification);
     }
@@ -206,7 +222,7 @@ export class ToolbarNotificationsDropdownComponent implements OnInit {
         });
       });
     } else {
-      this.redirectDetailRoom(notification);
+      this.redirectNotification(notification);
     }
   }
 

@@ -36,12 +36,26 @@ export class RatingRequestComponent implements OnInit {
   }
 
   get service(): string {
-     if (this.notification.requestNotification.request.type.code === TypeRequestLookup[TypeRequestLookup.ROOM]) {
-       const room = this.notification.requestNotification.request.requestRoom.room.name;
-       return `Sala ${room}`;
-     }
+    const requestTypeCode = this.notification.requestNotification.request.type.code;
 
-     return '';
+   if (requestTypeCode === TypeRequestLookup[TypeRequestLookup.ROOM]) {
+     const room = this.notification.requestNotification.request.requestRoom.room.name;
+     return `Sala de junta "${room}"`;
+   }
+
+   if (requestTypeCode === TypeRequestLookup[TypeRequestLookup.PARCEL]) {
+     return 'Paquetería';
+   }
+
+    if (requestTypeCode === TypeRequestLookup[TypeRequestLookup.DRIVER]) {
+      return 'Chofer';
+    }
+
+    if (requestTypeCode === TypeRequestLookup[TypeRequestLookup.CAR]) {
+      return 'Vehículo';
+    }
+
+   return '';
   }
 
   save(): void {

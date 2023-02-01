@@ -11,16 +11,19 @@ import { DeliveredPackageComponent } from './pages/delivered-package/delivered-p
 
 
 @NgModule({
-  declarations: [
-    ReceivedPackageComponent,
-    DeliveredPackageComponent,
-  ],
-  imports: [
-    CommonModule,
-    PackageRoutingModule,
-    StarRatingModule,
-    MaterialModule,
-    ReactiveFormsModule
-  ]
+    declarations: [
+        ReceivedPackageComponent,
+        DeliveredPackageComponent,
+    ],
+    exports: [
+        DeliveredPackageComponent
+    ],
+    imports: [
+        CommonModule,
+        PackageRoutingModule,
+        StarRatingModule,
+        MaterialModule,
+        ReactiveFormsModule
+    ]
 })
 export class PackageModule { }

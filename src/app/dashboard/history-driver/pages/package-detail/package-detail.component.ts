@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, NgZone, ViewChild } from '@angular/core';
 import { Lookup } from 'src/app/core/interfaces/lookup';
 import { PackageModel } from 'src/app/core/models/package.model';
 import { Breadcrumbs } from 'src/app/shared/components/breadcrumbs/breadcrumbs.model';
@@ -11,6 +11,9 @@ import { fadeInUp400ms } from 'src/app/shared/animations/fade-in-up.animation';
 import { StatusPackageRequestLookup } from "../../../../core/enums/lookups/status-package-request.lookup";
 import { ToastrService } from "ngx-toastr";
 import { StatusClass } from "../../interfaces/status-class";
+import { DeliveredPackageComponent } from "../../components/delivered-package/delivered-package.component";
+import { DeliveredPackageModel } from "../../../../core/models/delivered-package.model";
+import { Observable, switchMap } from "rxjs";
 
 @Component({
   selector: 'app-package-detail',
@@ -22,6 +25,9 @@ import { StatusClass } from "../../interfaces/status-class";
   ]
 })
 export class PackageDetailComponent {
+  @ViewChild('deliveredPackageComponent')
+  deliveredPackageComponent: DeliveredPackageComponent;
+
   requestPackage: PackageModel;
   previousStatus: Lookup;
   codeStatusToChange: string;
@@ -40,7 +46,8 @@ export class PackageDetailComponent {
   constructor(private activatedRoute: ActivatedRoute,
               private router: Router,
               private requestPackageService: RequestPackageService,
-              private toastrService: ToastrService) {
+              private toastrService: ToastrService,
+              private ngZone: NgZone) {
     const [,,part] = this.router.url.split('/', 3);
     this.urlRedirectBack = `/dashboard/${part}/paqueteria`;
     this.breadcrumbs.push({
@@ -62,6 +69,9 @@ export class PackageDetailComponent {
 
     if (statusCode === StatusPackageRequestLookup[StatusPackageRequestLookup.ROAD]) {
       this.onRoadCssClass = this.enableCssClass;
+    } else if (statusCode === StatusPackageRequestLookup[StatusPackageRequestLookup.DELIVERED]) {
+      this.deliveredCssClass = this.enableCssClass;
+      this.toastrService.info('Ingresa nombre y firma de la persona que recibió', 'Información');
     }
   }
 
@@ -69,6 +79,9 @@ export class PackageDetailComponent {
     if (this.codeStatusToChange === StatusPackageRequestLookup[StatusPackageRequestLookup.ROAD]
       && this.previousStatus.code === StatusPackageRequestLookup[StatusPackageRequestLookup.APPROVED]) {
       this.onRoadRequest();
+    } else if (this.codeStatusToChange === StatusPackageRequestLookup[StatusPackageRequestLookup.DELIVERED]
+      && this.previousStatus.code === StatusPackageRequestLookup[StatusPackageRequestLookup.ROAD]) {
+      this.deliveredPackage();
     }
   }
 
@@ -80,7 +93,7 @@ export class PackageDetailComponent {
       this.validateStatusCurrent();
     }, (error: ErrorResponse) => {
       if (error.code === 404) {
-        this.router.navigateByUrl(this.urlRedirectBack)
+        this.router.navigateByUrl(this.urlRedirectBack);
       }
     });
   }
@@ -98,6 +111,52 @@ export class PackageDetailComponent {
     this.requestPackageService.onRoadPackage(this.requestPackage.requestId).subscribe(() => {
       this.toastrService.success('Paquete en camino al destino', 'Proceso exitoso');
       this.router.navigateByUrl(this.urlRedirectBack);
+    });
+  }
+
+  private deliveredPackage(): void {
+    if (this.deliveredPackageComponent.form.invalid) {
+      this.deliveredPackageComponent.form.markAllAsTouched();
+      return;
+    }
+
+    let signatureFile = null;
+
+    this.getSignatureFile().pipe(
+      switchMap(signature => {
+        signatureFile = signature;
+
+        const formData = this.deliveredPackageComponent.form.getRawValue();
+        const data = <DeliveredPackageModel>{
+          packageId: this.requestPackage.id,
+          nameReceive: formData.nameReceive
+        };
+
+        return this.requestPackageService.deliveredPackage(data);
+      }),
+      switchMap(() => {
+        const dataFile = <DeliveredPackageModel> {
+          packageId: this.requestPackage.id,
+          signatureFile
+        };
+
+        return this.requestPackageService.uploadSignature(dataFile);
+      })
+    ).subscribe(() => {
+      this.toastrService.success('Paquete entregado', 'Proceso exitoso');
+      this.router.navigateByUrl(this.urlRedirectBack);
+    });
+  }
+
+  private getSignatureFile(): Observable<File> {
+    return new Observable<File>(observer => {
+      this.deliveredPackageComponent.signatureComponent.canvasRef.nativeElement.toBlob((blob: Blob) => {
+        this.ngZone.run(() => {
+          const file = new File([blob], "signature.png", {type: "image/png"});
+          observer.next(file);
+          observer.complete();
+        });
+      }, 'image/png', 1);
     });
   }
 }

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Subject } from 'rxjs';
 import { Router } from '@angular/router';
 import { map } from 'rxjs/operators';
 import { BreakpointObserver } from '@angular/cdk/layout';
@@ -28,6 +28,9 @@ export class LayoutService {
 
   private _searchOpen = new BehaviorSubject<boolean>(false);
   searchOpen$ = this._searchOpen.asObservable();
+
+  private _sideNavContentOverflow = new Subject<boolean>();
+  sideNavContentOverflow$ = this._sideNavContentOverflow.asObservable();
 
   isDesktop$ = this.breakpointObserver.observe(`(min-width: 1280px)`).pipe(
     map(state => state.matches)
@@ -106,5 +109,13 @@ export class LayoutService {
 
   closeSearch() {
     this._searchOpen.next(false);
+  }
+
+  disableScrollBarOnSideNavContent(): void{
+    this._sideNavContentOverflow.next(true);
+  }
+
+  enableScrollBarOnSideNavContent(): void{
+    this._sideNavContentOverflow.next(false);
   }
 }

@@ -59,13 +59,15 @@
               </div>
 
               <div class="flex w-full flex-row mt-8 sm:mt-0 sm:flex-col tracking-status tracking-status-active relative"
-                   *ngIf="deliveredCssClass">
+                   *ngIf="deliveredCssClass"
+                   (click)="changeStatus(statusRequest[statusRequest.DELIVERED])">
                 <div class="flex rounded-full w-16 h-16 bg-blue-600 justify-center items-center tracking-status-circle py-2"
                      [ngClass]="deliveredCssClass.button">
                   <mat-icon svgIcon="mat:done_all" class="fill-white"></mat-icon>
                 </div>
 
-                <span class="flex font-medium text-sm items-center ml-4 sm:ml-0">
+                <span class="flex font-medium text-sm items-center ml-4 sm:ml-0"
+                      [ngClass]="deliveredCssClass.text">
                     Entregado
                 </span>
               </div>
@@ -143,6 +145,11 @@
                            [enableForm]="false">
               </app-address>
             </div>
+          </div>
+
+          <div class="flex-auto border-b border-gray-300 py-4"
+               *ngIf="codeStatusToChange === statusRequest[statusRequest.DELIVERED]">
+            <app-delivered-package #deliveredPackageComponent></app-delivered-package>
           </div>
 
           <div class="flex flex-col border-b border-gray-300 py-4 sm:flex-row sm:gap-4" *ngIf="false">

@@ -13,13 +13,16 @@ import { DriverComponent } from './pages/driver/driver.component';
 import { DriverDetailComponent } from './pages/driver-detail/driver-detail.component';
 import { AddressModule } from 'src/app/shared/components/address/address.module';
 import { PackageDetailComponent } from './pages/package-detail/package-detail.component';
+import { DeliveredPackageComponent } from './components/delivered-package/delivered-package.component';
+import { SignatureModule } from "../../shared/components/signature/signature.module";
 
 @NgModule({
   declarations: [
     PackageComponent,
     DriverComponent,
     DriverDetailComponent,
-    PackageDetailComponent
+    PackageDetailComponent,
+    DeliveredPackageComponent
   ],
   imports: [
     CommonModule,
@@ -31,7 +34,8 @@ import { PackageDetailComponent } from './pages/package-detail/package-detail.co
     PaginatorModule,
     BreadcrumbsModule,
     PageNotFoundModule,
-    AddressModule
+    AddressModule,
+    SignatureModule
   ]
 })
 export class HistoryDriverModule { }

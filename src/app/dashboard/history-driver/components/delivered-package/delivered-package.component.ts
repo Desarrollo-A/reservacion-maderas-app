@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { FormErrors } from "../../../../shared/utils/form-error";
+import { SignatureComponent } from "../../../../shared/components/signature/signature.component";
 
 @Component({
   selector: 'app-delivered-package',
@@ -8,6 +9,9 @@ import { FormErrors } from "../../../../shared/utils/form-error";
   styleUrls: ['./delivered-package.component.scss']
 })
 export class DeliveredPackageComponent implements OnInit {
+  @ViewChild('signatureComponent')
+  signatureComponent: SignatureComponent;
+
   form: FormGroup;
   formErrors: FormErrors;
 
@@ -20,5 +24,4 @@ export class DeliveredPackageComponent implements OnInit {
 
     this.formErrors = new FormErrors(this.form);
   }
-
 }

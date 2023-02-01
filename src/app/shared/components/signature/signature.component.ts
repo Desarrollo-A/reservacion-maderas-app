@@ -1,7 +1,6 @@
-import { AfterViewInit, Component, HostListener, ViewChild } from '@angular/core';
-import { DeliveredPackageModel } from 'src/app/core/models/delivered-package.model';
-import { RequestPackageService } from 'src/app/core/services/request-package.service';
+import { AfterViewInit, Component, ElementRef, HostListener, ViewChild } from '@angular/core';
 import { LayoutService } from '../../services/layout.service';
+
 @Component({
   selector: 'app-signature',
   templateUrl: './signature.component.html',
@@ -9,7 +8,7 @@ import { LayoutService } from '../../services/layout.service';
 })
 export class SignatureComponent implements AfterViewInit {
   @ViewChild('canvasRef', {static: false})
-  canvasRef: any;
+  canvasRef: ElementRef;
 
   private context : CanvasRenderingContext2D;
   private points: Array<any> = [];
@@ -21,57 +20,57 @@ export class SignatureComponent implements AfterViewInit {
   canvasDownload = null;
 
   @HostListener('window:resize', ['$event'])
-  OnRezise = (event) => {
+  OnRezise = () => {
     this.setCanvasSize();
   }
 
   @HostListener('document:mousemove', ['$event'])
-  onMouseMove = ($event) => {
-    if ($event.target.id === 'canvas' && (this.isAvailable) && (this.isSigning)) {
-      this.canvasDownload = $event.target;
-      this.write($event);
+  onMouseMove = (e: MouseEvent) => {
+    if (e.target['id'] === 'canvas' && (this.isAvailable) && (this.isSigning)) {
+      this.canvasDownload = e.target;
+      this.write(e);
     }
   }
 
   @HostListener('document:touchmove', ['$event'])
-  touchmove = ($event) => {
-    if ($event.target.id === 'canvas' && (this.isAvailable) && (this.isSigning)) {
-      this.canvasDownload = $event.target;
-      this.write($event.touches[0]);
+  touchmove = (e: TouchEvent) => {
+    if (e.target['id'] === 'canvas' && (this.isAvailable) && (this.isSigning)) {
+      this.canvasDownload = e.target;
+      this.write(e.touches[0]);
     }
   }
 
   @HostListener('document:mousedown', ['$event'])
-  onMouseDown = (e: any) => {
-    if(e.target.id === 'canvas'){
+  onMouseDown = (e: MouseEvent) => {
+    if(e.target['id'] === 'canvas'){
       this.points = [];
       this.isAvailable = true;
     }
   }
 
   @HostListener('document:touchstart', ['$event'])
-  touchstart = (e: any) => {
-    if(e.target.id === 'canvas'){
+  touchstart = (e: TouchEvent) => {
+    if(e.target['id'] === 'canvas'){
       this.points = [];
       this.isAvailable = true;
     }
   }
 
   @HostListener("document:mouseup", ['$event'])
-  mouseup = (e: any) =>{
-    if(e.target.id === 'canvas'){
+  mouseup = (e: MouseEvent) => {
+    if(e.target['id'] === 'canvas'){
       this.isAvailable = false;
     }
   }
 
   @HostListener("document:touchend", ['$event'])
-  touchend = (e: any) =>{
-    if(e.target.id === 'canvas'){
+  touchend = (e: TouchEvent) =>{
+    if(e.target['id'] === 'canvas'){
       this.isAvailable = false;
     }
   }
-  constructor(private layaoutService: LayoutService,
-              private requestPackageService: RequestPackageService) { }
+
+  constructor(private layaoutService: LayoutService) { }
 
   ngAfterViewInit(): void {
     this.render();
@@ -87,18 +86,6 @@ export class SignatureComponent implements AfterViewInit {
     this.points = []
     const canvasSize = this.canvasRef.nativeElement.getBoundingClientRect();
     this.context.clearRect(0, 0, canvasSize.width, canvasSize.height);
-  }
-
-  convertToBlob(): void{
-    this.canvasRef.nativeElement.toBlob((blob: Blob) => {
-      const file = new File([blob], "signature.png", {type: "image/png"});
-      const data = <DeliveredPackageModel>{
-        packageId:1,
-        signatureFile:file
-      };
-      this.requestPackageService.uploadSignature(data).subscribe();
-    }, 'image/png', 1.0);
-
   }
 
   signatureZone(){
@@ -120,11 +107,11 @@ export class SignatureComponent implements AfterViewInit {
       this.renderResize(true);
     }
   }
-  
+
   private renderResize(isResponsive: boolean): void{
     const canvasEl = this.canvasRef.nativeElement;
     let canvasParentSize = this.canvasRef.nativeElement.parentElement.parentElement.getBoundingClientRect();
-    isResponsive 
+    isResponsive
       ? canvasEl.width = (canvasParentSize.width) / 2
       : canvasEl.width = (canvasParentSize.width - 32);
     if(window.innerWidth < window.innerHeight){
@@ -163,7 +150,7 @@ export class SignatureComponent implements AfterViewInit {
 
   //Funcion dedicada para la escritura del dibujo dentro del lienzo ya realizado.
   private write(res): void {
-    const canvasEl: any = this.canvasRef.nativeElement;
+    const canvasEl = this.canvasRef.nativeElement;
     const rect = canvasEl.getBoundingClientRect();
     const prevPos = {
       x: res.clientX - rect.left,

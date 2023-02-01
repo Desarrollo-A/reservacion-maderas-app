@@ -153,7 +153,7 @@ export class RequestPackageService {
 
   uploadSignature(data: DeliveredPackageModel): Observable<void> {
     const formData = new FormData();
-    formData.append('signature', data.signatureFile);
+    formData.append('signatureFile', data.signatureFile);
     formData.append('_method', 'PUT');
     const url = `${this.url}/signature/${data.packageId}`;
     return this.http.post<void>(url, formData);

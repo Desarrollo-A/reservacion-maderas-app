@@ -11,7 +11,7 @@ import {
 import { BreakpointObserver } from '@angular/cdk/layout';
 import { LayoutService } from '../services/layout.service';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
-import { MatSidenav, MatSidenavContainer } from '@angular/material/sidenav';
+import { MatSidenav, MatSidenavContainer, MatSidenavContent } from '@angular/material/sidenav';
 import { Event, NavigationEnd, Router, Scroll } from '@angular/router';
 import { filter, map, startWith, withLatestFrom } from 'rxjs/operators';
 import { checkRouterChildsData } from '../utils/check-router-childs-data';
@@ -56,6 +56,7 @@ export class LayoutComponent implements OnInit, AfterViewInit {
   @ViewChild('quickpanel', { static: true }) quickpanel: MatSidenav;
   @ViewChild('sidenav', { static: true }) sidenav: MatSidenav;
   @ViewChild(MatSidenavContainer, { static: true }) sidenavContainer: MatSidenavContainer;
+  @ViewChild(MatSidenavContent, { static: true }) sideNavContent: MatSidenavContent;
 
   constructor(private cd: ChangeDetectorRef,
               private breakpointObserver: BreakpointObserver,
@@ -97,6 +98,16 @@ export class LayoutComponent implements OnInit, AfterViewInit {
       filter(([, matches]) => !matches),
       untilDestroyed(this)
     ).subscribe(() => this.sidenav.close());
+
+    this.layoutService.sideNavContentOverflow$.pipe(
+      untilDestroyed(this)
+    ).subscribe(isOverflow => {
+      if(isOverflow){
+        this.sideNavContent['elementRef'].nativeElement.style.cssText = "overflow:hidden;"
+      }else{
+        this.sideNavContent['elementRef'].nativeElement.style.removeProperty('overflow');
+      }
+    })
   }
 
   ngAfterViewInit(): void {

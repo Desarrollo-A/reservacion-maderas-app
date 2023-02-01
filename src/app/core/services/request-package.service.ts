@@ -14,6 +14,7 @@ import { ApprovedPackageRequest } from "../../dashboard/history/interfaces/appro
 import { AuthCodePackage } from 'src/app/package/interfaces/auth-code-package';
 import { DeliveredPackage } from 'src/app/package/interfaces/delivered-package';
 import { ProposalRequestModel } from "../models/proposal-request.model";
+import { DeliveredPackageModel } from "../models/delivered-package.model";
 
 @Injectable({
   providedIn: 'root'
@@ -143,5 +144,18 @@ export class RequestPackageService {
         return res;
       })
     );
-}
+  }
+
+  deliveredPackage(data: DeliveredPackageModel): Observable<void> {
+    const url = `${this.url}/delivered`;
+    return this.http.post<void>(url, data);
+  }
+
+  uploadSignature(data: DeliveredPackageModel): Observable<void> {
+    const formData = new FormData();
+    formData.append('signature', data.signatureFile);
+    formData.append('_method', 'PUT');
+    const url = `${this.url}/signature/${data.packageId}`;
+    return this.http.post<void>(url, formData);
+  }
 }

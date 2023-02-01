@@ -1,0 +1,30 @@
+<canvas class="border-4 border-primary border-solid rounded-lg bg-white"
+        id="canvas"
+        #canvasRef>
+</canvas>
+
+<div class="flex flex-row gap-4 mt-2">
+  <button *ngIf="isSigning"
+          color="primary"
+          (click)="clearZone()"
+          mat-mini-fab
+          matTooltip="Limpiar">
+    <mat-icon svgIcon="mat:cleaning_services"></mat-icon>
+  </button>
+
+  <button *ngIf="!isSigning"
+          color="primary"
+          (click)="signatureZone()"
+          mat-mini-fab
+          matTooltip="Firma">
+    <mat-icon svgIcon="mat:draw"></mat-icon>
+  </button>
+
+  <button *ngIf="isSigning"
+          color="primary"
+          (click)="isOk()"
+          mat-mini-fab
+          matTooltip="Ok">
+    <mat-icon svgIcon="mat:done"></mat-icon>
+  </button>
+</div>

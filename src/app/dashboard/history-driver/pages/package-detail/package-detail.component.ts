@@ -62,6 +62,9 @@ export class PackageDetailComponent {
 
     if (statusCode === StatusPackageRequestLookup[StatusPackageRequestLookup.ROAD]) {
       this.onRoadCssClass = this.enableCssClass;
+    } else if (statusCode === StatusPackageRequestLookup[StatusPackageRequestLookup.DELIVERED]) {
+      this.deliveredCssClass = this.enableCssClass;
+      this.toastrService.info('Ingresa nombre y firma de la persona que recibió', 'Información');
     }
   }
 

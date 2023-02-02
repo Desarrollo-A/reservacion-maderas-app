@@ -15,6 +15,7 @@ import { AddressModule } from 'src/app/shared/components/address/address.module'
 import { PackageDetailComponent } from './pages/package-detail/package-detail.component';
 import { DeliveredPackageComponent } from './components/delivered-package/delivered-package.component';
 import { SignatureModule } from "../../shared/components/signature/signature.module";
+import { UrlModule } from "../../shared/pipes/url/url.module";
 
 @NgModule({
   declarations: [
@@ -35,7 +36,8 @@ import { SignatureModule } from "../../shared/components/signature/signature.mod
     BreadcrumbsModule,
     PageNotFoundModule,
     AddressModule,
-    SignatureModule
+    SignatureModule,
+    UrlModule
   ]
 })
 export class HistoryDriverModule { }

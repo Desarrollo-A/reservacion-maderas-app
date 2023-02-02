@@ -127,9 +127,30 @@
             </div>
           </div>
 
-          <app-score-request *ngIf="requestPackage.request.score"
-                             [score]="requestPackage.request.score">
-          </app-score-request>
+          <div class="flex flex-col md:flex-row md:gap-4"
+               *ngIf="requestPackage.request.score || requestPackage.deliveredPackage">
+            <app-score-request class="flex-auto"
+                               *ngIf="requestPackage.request.score"
+                               [score]="requestPackage.request.score">
+            </app-score-request>
+
+            <div class="flex-auto" *ngIf="requestPackage.deliveredPackage">
+              <vex-page-layout-content class="container">
+                <div class="px-6 h-16 border-b sticky left-0 flex items-center">
+                  <h2 class="title my-0 ltr:pr-4 rtl:pl-4 ltr:mr-4 rtl:ml-4 ltr:border-r rtl:border-l flex-none">
+                    Firma electrónica
+                  </h2>
+                </div>
+
+                <div class="flex-auto">
+                  <div class="px-6 py-4 flex flex-col">
+                    <img class="flex border-4 border-gray-100 w-48" alt="firma"
+                         [src]="requestPackage.deliveredPackage.signature | url">
+                  </div>
+                </div>
+              </vex-page-layout-content>
+            </div>
+          </div>
 
           <div class="flex flex-col gap-5">
             <app-address title="Dirección de salida"

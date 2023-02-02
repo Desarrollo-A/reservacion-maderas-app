@@ -1,6 +1,7 @@
 import { AddressModel } from "./address.model";
 import { RequestModel } from "./request.model";
 import { DriverPackageScheduleModel } from "./driver-package-schedule.model";
+import { DeliveredPackageModel } from "./delivered-package.model";
 
 export class PackageModel {
   id: number;
@@ -21,6 +22,7 @@ export class PackageModel {
   arrivalAddress: AddressModel;
   request: RequestModel;
   driverPackageSchedule?: DriverPackageScheduleModel;
+  deliveredPackage: DeliveredPackageModel;
 
   constructor(data) {
     this.id = data.id;
@@ -41,5 +43,6 @@ export class PackageModel {
     this.driverPackageSchedule = (data.driverPackageSchedule) ?
       new DriverPackageScheduleModel(data.driverPackageSchedule)
       : null;
+    this.deliveredPackage = data.deliveredPackage;
   }
 }

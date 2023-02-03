@@ -11,7 +11,7 @@ import { CoreModule } from "./core/core.module";
 import { ToastrModule } from "ngx-toastr";
 import { ErrorInterceptor } from "./core/interceptors/error.interceptor";
 import { TokenInterceptor } from "./core/interceptors/token.interceptor";
-import { registerLocaleData } from "@angular/common";
+import { DatePipe, registerLocaleData } from "@angular/common";
 import localeMX from '@angular/common/locales/es-MX';
 import { PageNotFoundModule } from "./shared/components/page-not-found/page-not-found.module";
 
@@ -30,6 +30,7 @@ registerLocaleData(localeMX);
     PageNotFoundModule
   ],
   providers: [
+    DatePipe,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: LoadingInterceptor,

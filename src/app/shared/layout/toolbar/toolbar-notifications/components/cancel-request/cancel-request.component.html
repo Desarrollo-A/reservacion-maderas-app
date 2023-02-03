@@ -1,7 +1,7 @@
 <form [formGroup]="form" (ngSubmit)="save()" @fadeInUp>
   <div class="flex items-center" mat-dialog-title>
     <h2 class="headline m-0 flex-auto block">
-      Cancelar solicitud {{request.code}}
+      Cancelar solicitud de {{request.type.name}} {{request.code}}
     </h2>
 
     <button class="text-secondary" mat-dialog-close mat-icon-button type="button">

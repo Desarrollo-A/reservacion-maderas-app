@@ -66,8 +66,8 @@ export class RequestPackageService {
     return this.http.get<Lookup[]>(url);
   }
 
-  cancelRequest(id: number, request: CancelRequestModel): Observable<void> {
-    const url = `${this.url}/cancel/${id}`;
+  cancelRequest(requestId: number, request: CancelRequestModel): Observable<void> {
+    const url = `${this.url}/cancel/${requestId}`;
     return this.http.patch<void>(url, request);
   }
 

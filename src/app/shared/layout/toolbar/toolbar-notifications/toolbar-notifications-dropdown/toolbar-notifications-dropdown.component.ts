@@ -20,6 +20,10 @@ import { ActionRequestNotificationLookup } from "../enums/action-request-notific
 import { RatingRequestComponent } from "../components/rating-request/rating-request.component";
 import { ScoreModel } from "../../../../../core/models/score.model";
 import { RequestService } from "../../../../../core/services/request.service";
+import { RequestPackageService } from "../../../../../core/services/request-package.service";
+import { RequestDriverService } from "../../../../../core/services/request-driver.service";
+import { RequestCarService } from "../../../../../core/services/request-car.service";
+import { TypeRequestLookup } from "../../../../../core/enums/lookups/type-request.lookup";
 
 interface Position {
   x: string;
@@ -53,7 +57,10 @@ export class ToolbarNotificationsDropdownComponent implements OnInit {
               private requestRoomService: RequestRoomService,
               private dialog: MatDialog,
               private toastrService: ToastrService,
-              private requestService: RequestService) {}
+              private requestService: RequestService,
+              private requestPackageService: RequestPackageService,
+              private requestDriverService: RequestDriverService,
+              private requestCarService: RequestCarService) {}
 
   ngOnInit() {
     this.notificationService.notifications$.asObservable()
@@ -105,7 +112,6 @@ export class ToolbarNotificationsDropdownComponent implements OnInit {
     if (notification.requestNotification?.actionRequestNotification) {
       const actionRequestNotificationCode = notification.requestNotification.actionRequestNotification.type.code;
 
-      // Se verifica si tiene alguna acción extra la notificación
       if (actionRequestNotificationCode === ActionRequestNotificationLookup[ActionRequestNotificationLookup.CONFIRM]) {
         this.confirmNotification(notification);
 
@@ -122,8 +128,7 @@ export class ToolbarNotificationsDropdownComponent implements OnInit {
 
     if (notificationTypeCode === TypeNotificationLookup[TypeNotificationLookup.ROOM] &&
       notification.requestNotification?.requestId) {
-      // Si la notificación es de tipo Sala
-      this.redirectDetailRoom(notification);
+      this.redirectRoom(notification);
 
     } else if (notificationTypeCode === TypeNotificationLookup[TypeNotificationLookup.INVENTORY]) {
       this.redirectInventory();
@@ -142,7 +147,7 @@ export class ToolbarNotificationsDropdownComponent implements OnInit {
     }
   }
 
-  private redirectDetailRoom(notification: NotificationModel): void {
+  private redirectRoom(notification: NotificationModel): void {
     if (this.userSessionService.user.role.name === NameRole.RECEPCIONIST) {
       this.router.navigateByUrl(`/dashboard/solicitudes/sala/${notification.requestNotification.requestId}`);
     } else if (this.userSessionService.user.role.name === NameRole.APPLICANT) {
@@ -184,7 +189,6 @@ export class ToolbarNotificationsDropdownComponent implements OnInit {
 
   private confirmNotification(notification: NotificationModel): void {
     if (!notification.requestNotification.actionRequestNotification.isAnswered) {
-      // Si no está respondida la confirmación
       this.notificationService.findById(notification.id).subscribe(result => {
         this.dialog.open(ConfirmRequestComponent, {
           data: result,
@@ -195,12 +199,12 @@ export class ToolbarNotificationsDropdownComponent implements OnInit {
               this.toastrService.success('Gracias por confirmar tu solicitud');
             });
           } else if (confirm === false) {
-            this.cancelRequest(notification);
+            this.cancelRequest(result);
           }
         });
       });
     } else {
-      this.redirectDetailRoom(notification);
+      this.redirectNotification(notification);
     }
   }
 
@@ -232,14 +236,45 @@ export class ToolbarNotificationsDropdownComponent implements OnInit {
       autoFocus: false
     }).afterClosed().subscribe((cancelRequest: CancelRequestModel) => {
       if (cancelRequest) {
-        this.requestRoomService.cancelRequest(notification.requestNotification.requestId, cancelRequest).pipe(
-          switchMap(() => this.notificationService.answeredNotification(notification.id))
-        ).subscribe(() => {
-          this.toastrService.success('Solicitud cancelada correctamente','Proceso exitoso');
-          this.redirectDetailRoom(notification);
-        });
+        this.cancelRequestByTypeRequest(notification, cancelRequest);
       }
     });
   }
-}
 
+  private cancelRequestByTypeRequest(notification: NotificationModel, cancelRequest: CancelRequestModel): void {
+    const { code } = notification.requestNotification.request.type;
+
+    if (code === TypeRequestLookup[TypeRequestLookup.ROOM]) {
+      this.requestRoomService.cancelRequest(notification.requestNotification.requestId, cancelRequest).pipe(
+        switchMap(() => this.notificationService.answeredNotification(notification.id))
+      ).subscribe(() => {
+        this.toastrService.success('Solicitud cancelada correctamente','Proceso exitoso');
+        this.redirectRoom(notification);
+      });
+
+    } else if (code === TypeRequestLookup[TypeRequestLookup.PARCEL]) {
+      this.requestPackageService.cancelRequest(notification.requestNotification.requestId, cancelRequest).pipe(
+        switchMap(() => this.notificationService.answeredNotification(notification.id))
+      ).subscribe(() => {
+        this.toastrService.success('Solicitud cancelada correctamente','Proceso exitoso');
+        this.redirectPackage(notification);
+      });
+
+    } else if (code === TypeRequestLookup[TypeRequestLookup.DRIVER]) {
+      this.requestDriverService.cancelRequest(notification.requestNotification.requestId, cancelRequest).pipe(
+        switchMap(() => this.notificationService.answeredNotification(notification.id))
+      ).subscribe(() => {
+        this.toastrService.success('Solicitud cancelada correctamente','Proceso exitoso');
+        this.redirectDriver(notification);
+      });
+
+    } else if (code === TypeRequestLookup[TypeRequestLookup.CAR]) {
+      this.requestCarService.cancelRequest(notification.requestNotification.requestId, cancelRequest).pipe(
+        switchMap(() => this.notificationService.answeredNotification(notification.id))
+      ).subscribe(() => {
+        this.toastrService.success('Solicitud cancelada correctamente','Proceso exitoso');
+        this.redirectCar(notification);
+      });
+    }
+  }
+}

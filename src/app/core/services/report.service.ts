@@ -46,11 +46,27 @@ export class ReportService {
     return this.generateReportPdf(params, headers, url);
   }
 
+  reportRequestPackagePdf(filters: Filters): Observable<Blob> {
+    const params = getFiltersQueryParams(filters);
+    const headers = acceptApplicationPdfHeader();
+    //const url = `${this._baseUrlLocalhost}driver-delivered/pdf`;
+    const url = `${this.url}driver-delivered/pdf`;
+    return this.generateReportPdf(params, headers, url);
+  }
+
   reportInputOutputInventoryExcel(filters: Filters): Observable<Blob> {
     const params = getFiltersQueryParams(filters);
     const headers = acceptApplicationExcelHeader();
     // const url = `${this._baseUrlLocalhost}input-output/excel`;
     const url = `${this.url}input-output/excel`;
+    return this.generateReportExcel(params, headers, url);
+  }
+
+  reportRequestPackageExcel(filters: Filters): Observable<Blob> {
+    const params = getFiltersQueryParams(filters);
+    const headers = acceptApplicationExcelHeader();
+    //const url = `${this._baseUrlLocalhost}driver-delivered/excel`;
+    const url = `${this.url}driver-delivered/excel`;
     return this.generateReportExcel(params, headers, url);
   }
 

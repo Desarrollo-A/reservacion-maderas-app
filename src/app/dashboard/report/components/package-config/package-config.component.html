@@ -1,0 +1,51 @@
+<form [formGroup]="form" (ngSubmit)="generateReport()">
+    <div class="flex items-center" mat-dialog-title>
+      <h2 class="headline m-0 flex-auto">Generar reporte</h2>
+  
+      <button class="text-secondary" mat-dialog-close mat-icon-button type="button">
+        <mat-icon svgIcon="mat:close"></mat-icon>
+      </button>
+    </div>
+  
+    <mat-divider class="-mx-6 text-border"></mat-divider>
+  
+    <mat-dialog-content class="flex flex-col mt-2 gap-3">
+      <mat-form-field class="flex-auto">
+        <mat-label>Fecha inicio</mat-label>
+        <input [matDatepicker]="datepickerRefStart" formControlName="startDate" matInput readonly>
+        <mat-datepicker-toggle [for]="datepickerRefStart" matSuffix></mat-datepicker-toggle>
+        <mat-datepicker #datepickerRefStart></mat-datepicker>
+        <mat-error *ngIf="formErrors.customError('startDate', 'dateAfterNow')">
+            La fecha inicio debe de ser igual o menor a la fecha fin
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field class="flex-auto">
+        <mat-label>Fecha fin</mat-label>
+        <input [matDatepicker]="datepickerRefEnd" formControlName="endDate" matInput readonly>
+        <mat-datepicker-toggle [for]="datepickerRefEnd" matSuffix></mat-datepicker-toggle>
+        <mat-datepicker #datepickerRefEnd></mat-datepicker>
+
+        <mat-error *ngIf="formErrors.customError('endDate', 'dateAfterNow')">
+            La fecha fin debe ser menor a la fecha actual
+        </mat-error>
+        <mat-error *ngIf="formErrors.customError('endDate', 'dateAfter')">
+            La fecha fin debe ser mayor o igual a la fecha de inicio
+        </mat-error>
+      </mat-form-field>
+  
+      <mat-form-field class="flex-auto">
+        <mat-label>Formato</mat-label>
+        <mat-select formControlName="format">
+          <mat-option value="pdf">PDF</mat-option>
+          <mat-option value="xlsx">EXCEL</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </mat-dialog-content>
+  
+    <mat-dialog-actions align="end">
+      <button mat-button mat-dialog-close type="button">Cancelar</button>
+      <button color="primary" mat-flat-button type="submit">Generar</button>
+    </mat-dialog-actions>
+  </form>
+  

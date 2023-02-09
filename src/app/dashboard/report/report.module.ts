@@ -10,12 +10,16 @@ import { PageLayoutModule } from "../../shared/components/page-layout/page-layou
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { BreadcrumbsModule } from "../../shared/components/breadcrumbs/breadcrumbs.module";
 import { InputOutputInventoryConfigComponent } from './components/input-output-inventory-config/input-output-inventory-config.component';
+import { PackageComponent } from './pages/package/package.component';
+import { PackageConfigComponent } from './components/package-config/package-config.component';
 
 
 @NgModule({
   declarations: [
     InputOutputInventoryComponent,
-    InputOutputInventoryConfigComponent
+    InputOutputInventoryConfigComponent,
+    PackageComponent,
+    PackageConfigComponent,
   ],
   imports: [
     CommonModule,

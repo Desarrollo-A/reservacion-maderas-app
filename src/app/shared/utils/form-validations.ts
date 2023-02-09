@@ -23,6 +23,11 @@ export const comparePassword = (password: string, confirmPassword: string) => {
 
 export const endDateIsAfterToStartDate = (startDate: string, endDate: string) => {
   return (formGroup: AbstractControl): ValidationErrors | null => {
+    if (!formGroup.get(startDate)?.value || !formGroup.get(endDate)?.value) {
+      removeError(formGroup.get(endDate), 'dateAfter');
+      return null;
+    }
+    
     const startDateValue = new Date(formGroup.get(startDate)?.value);
     const endDateValue = new Date(formGroup.get(endDate)?.value);
 

@@ -146,6 +146,19 @@ export class RequestPackageService {
     );
   }
 
+  findAllDeliveredByDriverIdPaginated(sort: string, itemsPerPage: number, page: number, search: string | null)
+  : Observable<PaginationResponse<RequestPackageViewModel>> {
+  const params = getPaginateParams(sort, itemsPerPage, page, search);
+  const url = `${this.url}/driver-delivered`;
+  return this.http.get<PaginationResponse<RequestPackageViewModel>>(url, {params})
+    .pipe(
+      map(res => {
+        res.data = res.data.map(requestPackage => new RequestPackageViewModel(requestPackage));
+        return res;
+      })
+    );
+  }
+
   deliveredPackage(data: DeliveredPackageModel): Observable<void> {
     const url = `${this.url}/delivered`;
     return this.http.post<void>(url, data);

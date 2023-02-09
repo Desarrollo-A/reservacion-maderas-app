@@ -7,6 +7,7 @@ export class RequestPackageViewModel {
   code: string;
   title: string;
   startDate: Date;
+  endDate: Date;
   statusName: string;
   statusCode: string;
   officeId: number;
@@ -21,6 +22,7 @@ export class RequestPackageViewModel {
     this.code = requestPackage.code;
     this.title = requestPackage.title;
     this.startDate = new Date(requestPackage.startDate);
+    this.endDate = new Date(requestPackage.endDate);
     this.statusName = requestPackage.statusName;
     this.statusCode = requestPackage.statusCode;
     this.officeId = requestPackage.officeId;

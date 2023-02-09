@@ -42,7 +42,7 @@ const routes: Routes = [
       {
         path: 'reporte',//para URL
         loadChildren: () => import('./report/report.module').then(m => m.ReportModule),
-        data: { roles: [ NameRole.RECEPCIONIST ] },
+        data: { roles: [ NameRole.RECEPCIONIST, NameRole.DRIVER ] },
         canActivate: [ PermissionGuard ],
         canLoad: [ PermissionGuard ]
       },

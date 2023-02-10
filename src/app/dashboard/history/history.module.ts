@@ -36,6 +36,7 @@ import { ProposalRequestPackageComponent } from './components/proposal-request-p
 import { RequestPackaheDriverInfoComponent } from './components/proposal-request-package/request-packahe-driver-info/request-packahe-driver-info.component';
 import { ProposalRequestDriverComponent } from './components/proposal-request-driver/proposal-request-driver.component';
 import { ProposalRequestCarComponent } from './components/proposal-request-car/proposal-request-car.component';
+import { ExtraInformationRequestCarComponent } from './components/extra-information-request-car/extra-information-request-car.component';
 
 
 @NgModule({
@@ -61,7 +62,8 @@ import { ProposalRequestCarComponent } from './components/proposal-request-car/p
     ProposalRequestPackageComponent,
     RequestPackaheDriverInfoComponent,
     ProposalRequestDriverComponent,
-    ProposalRequestCarComponent
+    ProposalRequestCarComponent,
+    ExtraInformationRequestCarComponent
   ],
   imports: [
     CommonModule,

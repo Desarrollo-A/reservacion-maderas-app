@@ -19,14 +19,12 @@
               (click)="deleteImage()"></mat-icon>
   </div>
 
-  <form [formGroup]="form" class="mb-3 w-96 mt-3">
-    <label for="file"
-           class="form-label inline-block mb-2 text-gray-700">
+  <form [formGroup]="form" class="flex flex-col mb-3 w-96 mt-3">
+    <label for="file" class="flex-auto form-label inline-block mb-2">
       Seleccione una imagen
     </label>
-    <input class="block w-full px-2 py-1 text-sm font-normal text-gray-700 bg-white bg-clip-padding
-      border border-solid border-gray-300 rounded transition ease-in-out m-0
-      focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
+    <input class="flex-auto px-2 py-1 text-sm font-normal bg-clip-padding border border-solid
+            border-gray-300 rounded transition ease-in-out m-0 focus:border-blue-600 focus:outline-none cursor-pointer"
            id="file"
            type="file"
            accept="image/*"

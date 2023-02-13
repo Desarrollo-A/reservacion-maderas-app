@@ -20,6 +20,14 @@
     <mat-icon svgIcon="mat:draw"></mat-icon>
   </button>
 
+  <button *ngIf="!isSigning"
+          color="primary"
+          (click)="changeSize()"
+          mat-mini-fab
+          matTooltip="Recuperar firma">
+    <mat-icon svgIcon="mat:history_edu"></mat-icon>
+  </button>
+
   <button *ngIf="isSigning"
           color="primary"
           (click)="isOk()"

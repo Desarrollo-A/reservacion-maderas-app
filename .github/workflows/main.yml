@@ -27,7 +27,6 @@ jobs:
 
       - name: Build
         run: |
-          npm cache clean --force
           npm install
           npm run-script deploy-test
 

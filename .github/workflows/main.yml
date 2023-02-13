@@ -10,7 +10,8 @@ jobs:
     runs-ons: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v1
+      - name: Checkout
+        uses: actions/checkout@v1
       - uses: actions/setup-node@v1
         with:
           node-version: "14.x"
@@ -23,9 +24,10 @@ jobs:
             ${{ runner.os }}-node-
 
       - name: Build
-      - run: npm cache clean --force
-      - run: npm install
-      - run: npm run-script deploy-test
+      - run: |
+          npm cache clean --force
+          npm install
+          npm run-script deploy-test
 
       - name: Copy files via SSH key
         uses: appleboy/scp-action@master

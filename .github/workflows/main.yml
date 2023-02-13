@@ -40,4 +40,4 @@ jobs:
           source: "./dist"
           target: "/mnt/data/aplicaciones/Prueba/recepcion-cm-app/"
           strip_components: 2
-
+          rm: true

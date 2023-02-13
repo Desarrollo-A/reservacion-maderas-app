@@ -26,7 +26,7 @@ jobs:
             ${{ runner.os }}-node-
 
       - name: Build
-      - run: |
+        run: |
           npm cache clean --force
           npm install
           npm run-script deploy-test

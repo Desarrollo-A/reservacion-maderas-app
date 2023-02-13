@@ -7,7 +7,7 @@ on:
 
 jobs:
   build:
-    runs-ons: ubuntu-latest
+    runs-on: ubuntu-latest
 
     steps:
       - name: Checkout
@@ -18,7 +18,6 @@ jobs:
           node-version: "14.x"
 
       - name: Cache
-        uses: actions/cache@v1
         with:
           path: ~/.npm
           key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
@@ -27,7 +26,6 @@ jobs:
 
       - name: Build
         run: |
-          npm cache clean --force
           npm install
           npm run-script deploy-test
 

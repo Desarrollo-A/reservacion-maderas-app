@@ -15,6 +15,7 @@ import { TableColumn } from "../../../../shared/interfaces/table-column.interfac
 import { ToastrService } from "ngx-toastr";
 import { MatDialog } from "@angular/material/dialog";
 import { ConfirmProposalComponent } from "../confirm-proposal/confirm-proposal.component";
+import { UserSessionService } from "../../../../core/services/user-session.service";
 
 @UntilDestroy()
 @Component({
@@ -47,16 +48,20 @@ export class ProposalRequestRoomComponent implements OnInit {
     {label: 'Número', property: 'number', type: 'text', visible: true},
     {label: 'Fecha', property: 'date', type: 'text', visible: true},
     {label: 'Hora inicio', property: 'startTime', type: 'text', visible: true},
-    {label: 'Hora fin', property: 'endTime', type: 'text', visible: true},
-    {label: 'Acción', property: 'action', type: 'button', visible: true}
+    {label: 'Hora fin', property: 'endTime', type: 'text', visible: true}
   ];
 
   constructor(private fb: FormBuilder,
               private requestRoomService: RequestRoomService,
               private toastrService: ToastrService,
-              private dialog: MatDialog) {}
+              private dialog: MatDialog,
+              private userSessionService: UserSessionService) {}
 
   ngOnInit(): void {
+    if (this.userSessionService.isApplicant) {
+      this.columns.push({label: 'Acción', property: 'action', type: 'button', visible: true});
+    }
+
     this.form = this.fb.group({
       date1: [null, [Validators.required, dateBeforeNow]],
       schedule1: [null, [Validators.required]],
@@ -121,6 +126,10 @@ export class ProposalRequestRoomComponent implements OnInit {
   get dataSource(): MatTableDataSource<ProposalRequestModel> {
     this._dataSource.data = this.proposalData;
     return this._dataSource;
+  }
+
+  get isApplicant(): boolean {
+    return this.userSessionService.isApplicant;
   }
 
   confirmationProposal(id: number, index: number): void {

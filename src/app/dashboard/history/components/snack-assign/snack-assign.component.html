@@ -33,8 +33,7 @@
 
       <input matInput
              formControlName="snackCtrl"
-             [matAutocomplete]="auto"
-             required>
+             [matAutocomplete]="auto">
 
       <mat-error *ngIf="formErrors.customError('snackCtrl', 'required')">
         Campo obligatorio.

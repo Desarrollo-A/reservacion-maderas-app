@@ -109,7 +109,7 @@
       </td>
     </ng-container>
 
-    <ng-container matColumnDef="action">
+    <ng-container matColumnDef="action" *ngIf="isApplicant">
       <th *matHeaderCellDef class="uppercase" mat-header-cell>Acciones</th>
       <td *matCellDef="let row; let i = index" mat-cell>
         <div class="flex">

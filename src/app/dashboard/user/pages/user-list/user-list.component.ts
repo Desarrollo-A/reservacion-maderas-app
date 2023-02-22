@@ -13,6 +13,7 @@ import { MatDialog } from "@angular/material/dialog";
 import { UserService } from "../../../../core/services/user.service";
 import { getSort } from "../../../../shared/utils/http-functions";
 import { trackById } from "../../../../shared/utils/track-by";
+import { UpdateUserComponent } from "../../components/update-user/update-user.component";
 
 @UntilDestroy()
 @Component({
@@ -35,7 +36,8 @@ export class UserListComponent implements OnInit {
     {label: 'Puesto', property: 'position', type: 'text', visible: false},
     {label: 'Área', property: 'area', type: 'text', visible: false},
     {label: 'Estatus', property: 'status', type: 'button', visible: true},
-    {label: 'Rol', property: 'role', type: 'button', visible: true}
+    {label: 'Rol', property: 'role', type: 'button', visible: true},
+    {label: 'Acciones', property: 'actions', type: 'button', visible: true}
   ];
   pageSizeOptions: number[] = [5, 10, 20, 50];
   orderBy: string = '-id';
@@ -75,6 +77,19 @@ export class UserListComponent implements OnInit {
     event.stopPropagation();
     event.stopImmediatePropagation();
     column.visible = !column.visible;
+  }
+
+  updateDialog(id: number): void {
+    this.userService.findByid(id).subscribe(user => {
+      this.dialog.open(UpdateUserComponent, {
+        width: '100%',
+        data: user
+      }).afterClosed().subscribe(updated => {
+        if (updated) {
+          this.prepareFilters();
+        }
+      });
+    });
   }
 
   private prepareFilters(): void {

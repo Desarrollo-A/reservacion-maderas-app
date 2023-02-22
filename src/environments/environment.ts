@@ -4,8 +4,8 @@
 
 export const environment = {
   production: false,
-  // baseUrl: 'http://127.0.0.1:8000/',
-  baseUrl: 'http://192.168.30.209:8000/',
+  baseUrl: 'http://127.0.0.1:8000/',
+  // baseUrl: 'http://192.168.30.209:8000/',
   api: 'api/v1/',
   baseUrlCapital: 'https://prueba.gphsis.com/RHCV/index.php/WS/',
   pusher: {

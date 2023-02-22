@@ -1,0 +1,170 @@
+<form [formGroup]="form">
+  <div class="flex items-center" mat-dialog-title>
+    <h2 class="headline m-0 flex-auto block">
+      Actualizar Usuario
+    </h2>
+
+    <button class="text-secondary" mat-dialog-close mat-icon-button type="button">
+      <mat-icon svgIcon="mat:close"></mat-icon>
+    </button>
+  </div>
+
+  <mat-divider class="-mx-6 text-border"></mat-divider>
+
+  <mat-dialog-content class="flex flex-col gap-2 mt-4">
+    <div class="flex flex-col md:flex-row md:gap-3">
+      <mat-form-field class="flex-auto">
+        <mat-label># de colaborador</mat-label>
+        <input cdkFocusInitial
+               matInput
+               type="text"
+               formControlName="noEmployee"
+               autocomplete="off">
+
+        <mat-error *ngIf="formErrors.customError('noEmployee', 'required')">
+          Campo obligatorio.
+        </mat-error>
+        <mat-error *ngIf="formErrors.customError('noEmployee', 'maxlength')">
+          El # de colaborador debe tener menos de {{ formErrors.maxLengthNumber('noEmployee') }} caracteres.
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field class="flex-auto">
+        <mat-label>Nombre completo</mat-label>
+        <input matInput
+               type="text"
+               formControlName="fullName"
+               autocomplete="off">
+
+        <mat-error *ngIf="formErrors.customError('fullName', 'required')">
+          Campo obligatorio.
+        </mat-error>
+        <mat-error *ngIf="formErrors.customError('fullName', 'maxlength')">
+          El nombre completo debe tener menos de {{ formErrors.maxLengthNumber('fullName') }} caracteres.
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field class="flex-auto">
+        <mat-label>Correo electrónico</mat-label>
+        <input matInput
+               type="text"
+               formControlName="email"
+               autocomplete="off">
+
+        <mat-error *ngIf="formErrors.customError('email', 'required')">
+          Campo obligatorio.
+        </mat-error>
+        <mat-error *ngIf="formErrors.customError('email', 'email')">
+          Debe ingresar un correo válido.
+        </mat-error>
+        <mat-error *ngIf="formErrors.customError('email', 'maxlength')">
+          El correo electrónico debe tener menos de {{ formErrors.maxLengthNumber('email') }} caracteres.
+        </mat-error>
+      </mat-form-field>
+    </div>
+
+    <div class="flex flex-col sm:flex-row sm:gap-3">
+      <mat-form-field class="flex-auto">
+        <mat-label>Teléfono personal</mat-label>
+        <input matInput
+               type="text"
+               formControlName="personalPhone"
+               autocomplete="off">
+
+        <mat-error *ngIf="formErrors.customError('personalPhone', 'required')">
+          Campo obligatorio.
+        </mat-error>
+        <mat-error *ngIf="formErrors.customError('personalPhone', 'minlength')">
+          El teléfono personal debe tener más de {{ formErrors.minLengthNumber('personalPhone') }} caracteres.
+        </mat-error>
+        <mat-error *ngIf="formErrors.customError('personalPhone', 'maxlength')">
+          El teléfono personal debe tener menos de {{ formErrors.maxLengthNumber('personalPhone') }} caracteres.
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field class="flex-auto">
+        <mat-label>Teléfono de oficina</mat-label>
+        <input matInput
+               type="text"
+               formControlName="officePhone"
+               autocomplete="off">
+
+        <mat-error *ngIf="formErrors.customError('officePhone', 'minlength')">
+          El teléfono de oficina debe tener más de {{ formErrors.minLengthNumber('officePhone') }} caracteres.
+        </mat-error>
+        <mat-error *ngIf="formErrors.customError('officePhone', 'maxlength')">
+          El teléfono de oficina debe tener menos de {{ formErrors.maxLengthNumber('officePhone') }} caracteres.
+        </mat-error>
+      </mat-form-field>
+    </div>
+
+    <div class="flex flex-col sm:flex-row sm:gap-3">
+      <mat-form-field class="flex-auto">
+        <mat-label>Puesto</mat-label>
+        <input matInput
+               type="text"
+               formControlName="position"
+               autocomplete="off">
+
+        <mat-error *ngIf="formErrors.customError('position', 'required')">
+          Campo obligatorio.
+        </mat-error>
+        <mat-error *ngIf="formErrors.customError('position', 'maxlength')">
+          El puesto debe tener menos de {{ formErrors.maxLengthNumber('position') }} caracteres.
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field class="flex-auto">
+        <mat-label>Área / Departamento</mat-label>
+        <input matInput
+               type="text"
+               formControlName="area"
+               autocomplete="off">
+
+        <mat-error *ngIf="formErrors.customError('area', 'required')">
+          Campo obligatorio.
+        </mat-error>
+        <mat-error *ngIf="formErrors.customError('area', 'maxlength')">
+          El área debe tener menos de {{ formErrors.maxLengthNumber('area') }} caracteres.
+        </mat-error>
+      </mat-form-field>
+    </div>
+
+    <div class="flex flex-col sm:flex-row sm:gap-3">
+      <mat-form-field class="flex-auto">
+        <mat-label>Oficina</mat-label>
+
+        <mat-select formControlName="officeId">
+          <mat-option *ngFor="let office of offices; trackBy: trackById"
+                      [value]="office.id">
+            {{ office.name }} - {{ office.state.name }}
+          </mat-option>
+        </mat-select>
+
+        <mat-error *ngIf="formErrors.customError('officeId', 'required')">
+          Campo obligatorio.
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field class="flex-auto">
+        <mat-label>Estatus</mat-label>
+
+        <mat-select formControlName="statusId">
+          <mat-option *ngFor="let status of statusUser; trackBy: trackById"
+                      [value]="status.id">
+            {{ status.name }}
+          </mat-option>
+        </mat-select>
+
+        <mat-error *ngIf="formErrors.customError('statusId', 'required')">
+          Campo obligatorio.
+        </mat-error>
+      </mat-form-field>
+    </div>
+  </mat-dialog-content>
+
+  <mat-dialog-actions align="end">
+    <button mat-button mat-dialog-close type="button">Cancelar</button>
+    <button color="primary" mat-flat-button (click)="save()">Guardar</button>
+  </mat-dialog-actions>
+</form>

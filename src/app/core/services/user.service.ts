@@ -40,4 +40,14 @@ export class UserService {
     const url = `${this.url}/profile`;
     return this.http.get<UserModel>(url);
   }
+
+  findByid(id: number): Observable<UserModel> {
+    const url = `${this.url}/${id}`;
+    return this.http.get<UserModel>(url);
+  }
+
+  update(id: number, data: UserModel): Observable<UserModel> {
+    const url = `${this.url}/${id}`;
+    return this.http.put<UserModel>(url, data);
+  }
 }

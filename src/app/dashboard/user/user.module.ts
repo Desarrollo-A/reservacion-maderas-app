@@ -11,11 +11,13 @@ import { LayoutModule } from '@angular/cdk/layout';
 import { SidenavModule } from 'src/app/shared/layout/sidenav/sidenav.module';
 import { ToolbarModule } from 'src/app/shared/layout/toolbar/toolbar.module';
 import { BreadcrumbsModule } from 'src/app/shared/components/breadcrumbs/breadcrumbs.module';
+import { UpdateUserComponent } from './components/update-user/update-user.component';
 
 
 @NgModule({
   declarations: [
-    UserListComponent
+    UserListComponent,
+    UpdateUserComponent
   ],
   imports: [
     CommonModule,

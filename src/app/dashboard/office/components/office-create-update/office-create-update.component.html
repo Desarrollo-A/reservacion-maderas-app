@@ -1,0 +1,221 @@
+<form [formGroup]="form" (ngSubmit)="save()">
+  <div class="flex items-center" mat-dialog-title>
+    <h2 class="headline m-0 flex-auto block">
+      {{ (data) ? 'Actualizar' : 'Nueva' }} Oficina
+    </h2>
+
+    <button class="text-secondary" mat-dialog-close mat-icon-button type="button">
+      <mat-icon svgIcon="mat:close"></mat-icon>
+    </button>
+  </div>
+
+  <mat-divider class="-mx-6 text-border"></mat-divider>
+
+  <mat-dialog-content class="flex flex-col gap-2 mt-4">
+    <div class="flex flex-col sm:flex-row sm:gap-3"
+         *ngIf="!data">
+      <mat-form-field class="flex-auto">
+        <mat-label>Nombre</mat-label>
+        <input cdkFocusInitial
+               matInput
+               type="text"
+               formControlName="name"
+               autocomplete="off">
+
+        <mat-error *ngIf="formErrors.customError('name', 'required')">
+          Campo obligatorio.
+        </mat-error>
+        <mat-error *ngIf="formErrors.customError('name', 'minlength')">
+          El nombre debe tener más de {{ formErrors.minLengthNumber('name') }} caracteres.
+        </mat-error>
+        <mat-error *ngIf="formErrors.customError('name', 'maxlength')">
+          El nombre debe tener menos de {{ formErrors.maxLengthNumber('name') }} caracteres.
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field class="flex-auto">
+        <mat-label>Sede</mat-label>
+        <mat-select formControlName="stateId">
+          <mat-option *ngFor="let state of states; trackBy: trackById"
+                      [value]="state.id">
+            {{ state.name }}
+          </mat-option>
+        </mat-select>
+
+        <mat-error *ngIf="formErrors.customError('stateId', 'required')">
+          Campo obligatorio.
+        </mat-error>
+      </mat-form-field>
+    </div>
+
+    <div class="flex flex-col md:flex-row md:gap-3"
+         *ngIf="data">
+      <mat-form-field class="flex-auto">
+        <mat-label>Nombre</mat-label>
+        <input cdkFocusInitial
+               matInput
+               type="text"
+               formControlName="name"
+               autocomplete="off">
+
+        <mat-error *ngIf="formErrors.customError('name', 'required')">
+          Campo obligatorio.
+        </mat-error>
+        <mat-error *ngIf="formErrors.customError('name', 'minlength')">
+          El nombre debe tener más de {{ formErrors.minLengthNumber('name') }} caracteres.
+        </mat-error>
+        <mat-error *ngIf="formErrors.customError('name', 'maxlength')">
+          El nombre debe tener menos de {{ formErrors.maxLengthNumber('name') }} caracteres.
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field class="flex-auto">
+        <mat-label>Sede</mat-label>
+        <mat-select formControlName="stateId">
+          <mat-option *ngFor="let state of states; trackBy: trackById"
+                      [value]="state.id">
+            {{ state.name }}
+          </mat-option>
+        </mat-select>
+
+        <mat-error *ngIf="formErrors.customError('stateId', 'required')">
+          Campo obligatorio.
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field class="flex-auto">
+        <mat-label>Estatus</mat-label>
+        <mat-select formControlName="status">
+          <mat-option [value]="true">Activo</mat-option>
+          <mat-option [value]="false">Inactivo</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+
+    <ng-container formGroupName="address">
+      <div class="flex flex-col sm:flex-row sm:gap-4">
+        <mat-form-field class="flex-auto">
+          <mat-label>Calle</mat-label>
+          <input matInput
+                 formControlName="street"
+                 autocomplete="off">
+
+          <mat-error *ngIf="formErrors.customError('address.street', 'required')">
+            Campo obligatorio.
+          </mat-error>
+          <mat-error *ngIf="formErrors.customError('address.street', 'minlength')">
+            La calle debe tener más de {{ formErrors.minLengthNumber('address.street') }} caracteres.
+          </mat-error>
+          <mat-error *ngIf="formErrors.customError('address.street', 'maxlength')">
+            La calle debe tener menos de {{ formErrors.maxLengthNumber('address.street') }} caracteres.
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field class="flex-auto">
+          <mat-label>No. Exterior</mat-label>
+          <input matInput
+                 formControlName="numExt"
+                 autocomplete="off">
+
+          <mat-error *ngIf="formErrors.customError('address.numExt', 'required')">
+            Campo obligatorio.
+          </mat-error>
+          <mat-error *ngIf="formErrors.customError('address.numExt', 'minlength')">
+            El número exterior debe tener más de {{ formErrors.minLengthNumber('address.numExt') }} caracteres.
+          </mat-error>
+          <mat-error *ngIf="formErrors.customError('address.numExt', 'maxlength')">
+            El número exterior debe tener menos de {{ formErrors.maxLengthNumber('address.numExt') }} caracteres.
+          </mat-error>
+        </mat-form-field>
+      </div>
+
+      <div class="flex flex-col sm:flex-row sm:gap-4">
+        <mat-form-field class="flex-auto">
+          <mat-label>No. Interior</mat-label>
+          <input matInput
+                 formControlName="numInt"
+                 autocomplete="off">
+
+          <mat-error *ngIf="formErrors.customError('address.numInt', 'minlength')">
+            El número interior debe tener más de {{ formErrors.minLengthNumber('address.numInt') }} caracteres.
+          </mat-error>
+          <mat-error *ngIf="formErrors.customError('address.numInt', 'maxlength')">
+            El número interior debe tener menos de {{ formErrors.maxLengthNumber('address.numInt') }} caracteres.
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field class="flex-auto">
+          <mat-label>Colonia</mat-label>
+          <input matInput
+                 formControlName="suburb"
+                 autocomplete="off">
+
+          <mat-error *ngIf="formErrors.customError('address.suburb', 'required')">
+            Campo obligatorio.
+          </mat-error>
+          <mat-error *ngIf="formErrors.customError('address.suburb', 'minlength')">
+            La colonia debe tener más de {{ formErrors.minLengthNumber('address.suburb') }} caracteres.
+          </mat-error>
+          <mat-error *ngIf="formErrors.customError('address.suburb', 'maxlength')">
+            La colonia debe tener menos de {{ formErrors.maxLengthNumber('address.suburb') }} caracteres.
+          </mat-error>
+        </mat-form-field>
+      </div>
+
+      <div class="flex flex-col md:flex-row md:gap-4">
+        <mat-form-field class="flex-auto">
+          <mat-label>Código postal</mat-label>
+          <input matInput
+                 formControlName="postalCode"
+                 autocomplete="off">
+
+          <mat-error *ngIf="formErrors.customError('address.postalCode', 'required')">
+            Campo obligatorio.
+          </mat-error>
+          <mat-error *ngIf="formErrors.customError('address.postalCode', 'minlength')">
+            El código postal debe tener más de {{ formErrors.minLengthNumber('address.postalCode') }} caracteres.
+          </mat-error>
+          <mat-error *ngIf="formErrors.customError('address.postalCode', 'maxlength')">
+            El código postal debe tener menos de {{ formErrors.maxLengthNumber('address.postalCode') }} caracteres.
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field class="flex-auto">
+          <mat-label>Estado</mat-label>
+          <input matInput
+                 formControlName="state"
+                 autocomplete="off">
+
+          <mat-error *ngIf="formErrors.customError('address.state', 'required')">
+            Campo obligatorio.
+          </mat-error>
+          <mat-error *ngIf="formErrors.customError('address.state', 'minlength')">
+            El estado debe tener más de {{ formErrors.minLengthNumber('address.state') }} caracteres.
+          </mat-error>
+          <mat-error *ngIf="formErrors.customError('address.state', 'maxlength')">
+            El estado debe tener menos de {{ formErrors.maxLengthNumber('address.state') }} caracteres.
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field class="flex-auto">
+          <mat-label>País</mat-label>
+          <mat-select formControlName="countryId">
+            <mat-option *ngFor="let country of countries"
+                        [value]="country.id">
+              {{ country.name }}
+            </mat-option>
+          </mat-select>
+
+          <mat-error *ngIf="formErrors.customError('address.countryId', 'required')">
+            Campo obligatorio.
+          </mat-error>
+        </mat-form-field>
+      </div>
+    </ng-container>
+  </mat-dialog-content>
+
+  <mat-dialog-actions align="end">
+    <button mat-button mat-dialog-close type="button">Cancelar</button>
+    <button color="primary" mat-flat-button type="submit">Guardar</button>
+  </mat-dialog-actions>
+</form>

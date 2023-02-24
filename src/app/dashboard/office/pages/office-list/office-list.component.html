@@ -1,0 +1,112 @@
+<vex-page-layout>
+  <vex-page-layout-header class="pb-16 flex flex-col items-start justify-center">
+    <div class="container w-full flex flex-col sm:flex-row justify-between">
+      <div>
+        <h1 class="title mt-0 mb-1">Listado de Oficinas</h1>
+        <vex-breadcrumbs></vex-breadcrumbs>
+      </div>
+    </div>
+  </vex-page-layout-header>
+
+  <vex-page-layout-content class="container -mt-6">
+    <div class="card overflow-auto -mt-16">
+      <div class="bg-app-bar px-6 h-16 border-b sticky left-0 flex items-center">
+        <h2 class="title my-0 ltr:pr-4 rtl:pl-4 ltr:mr-4 rtl:ml-4 ltr:border-r rtl:border-l hidden sm:block flex-none">
+          <span>Oficinas</span>
+        </h2>
+
+        <div
+          class="bg-foreground rounded-full border px-4 max-w-[300px] flex-auto flex items-center border border-gray-300">
+          <mat-icon class="icon-sm text-secondary" svgIcon="mat:search"></mat-icon>
+          <input [formControl]="searchCtrl"
+                 class="px-4 py-2 border-0 outline-none w-full bg-transparent"
+                 placeholder="Buscar..."
+                 type="search"
+                 (keyup.enter)="search()">
+        </div>
+
+        <span class="flex-1"></span>
+
+        <button class="ml-4 flex-none"
+                color="primary"
+                mat-mini-fab
+                matTooltip="Nueva oficina"
+                type="button"
+                (click)="openDialog()">
+          <mat-icon svgIcon="mat:add"></mat-icon>
+        </button>
+      </div>
+
+      <table @stagger [dataSource]="dataSource" class="w-full" mat-table matSort [trackBy]="trackById"
+             (matSortChange)="sortChange($event)">
+        <!-- nombre oficina columna -->
+        <ng-container matColumnDef="name">
+          <th *matHeaderCellDef class="uppercase" mat-header-cell mat-sort-header>Nombre</th>
+          <td *matCellDef="let row" mat-cell>{{ row.name }}</td>
+        </ng-container>
+
+        <!-- Sede columna -->
+        <ng-container matColumnDef="state">
+          <th *matHeaderCellDef class="uppercase" mat-header-cell mat-sort-header>Sede</th>
+          <td *matCellDef="let row" mat-cell>{{ row.state.name }}</td>
+        </ng-container>
+
+        <!-- Estatus Column -->
+        <ng-container matColumnDef="status">
+          <th *matHeaderCellDef class="uppercase" mat-header-cell>Estatus</th>
+          <td *matCellDef="let row" mat-cell>
+            <div class="flex items-center gap-1">
+              <div [ngClass]="[row.statusLabel.textClass, row.statusLabel.bgClass]"
+                   class="rounded px-2 py-1 font-medium text-xs flex-none">
+                {{ row.statusLabel.text }}
+              </div>
+            </div>
+          </td>
+        </ng-container>
+
+        <!-- Actions column -->
+        <ng-container matColumnDef="actions">
+          <th *matHeaderCellDef mat-header-cell></th>
+          <td *matCellDef="let row" class="w-10 text-secondary" mat-cell>
+            <button (click)="$event.stopPropagation()"
+                    [matMenuTriggerData]="{ office: row }"
+                    [matMenuTriggerFor]="actionsMenu"
+                    mat-icon-button
+                    type="button">
+              <mat-icon svgIcon="mat:more_horiz"></mat-icon>
+            </button>
+          </td>
+        </ng-container>
+
+        <tr *matHeaderRowDef="visibleColumns" mat-header-row></tr>
+        <tr *matRowDef="let row; columns: visibleColumns;"
+            @fadeInUp
+            class="hover:bg-hover trans-ease-out cursor-pointer"
+            mat-row></tr>
+      </table>
+
+      <ng-container *ngIf="officeResponse">
+        <app-paginator [pageSizeOptions]="pageSizeOptions"
+                       [meta]="officeResponse.meta"
+                       (onChanges)="paginatorChanges($event)">
+        </app-paginator>
+      </ng-container>
+    </div>
+  </vex-page-layout-content>
+</vex-page-layout>
+
+<mat-menu #actionsMenu="matMenu" xPosition="before" yPosition="below">
+  <ng-template let-office="office" matMenuContent>
+    <button mat-menu-item
+            (click)="openDialog(office.id)">
+      <mat-icon svgIcon="mat:edit"></mat-icon>
+      <span>Modificar</span>
+    </button>
+
+    <button mat-menu-item
+            (click)="deleteOffice(office.id)">
+      <mat-icon svgIcon="mat:delete"></mat-icon>
+      <span>Eliminar</span>
+    </button>
+  </ng-template>
+</mat-menu>

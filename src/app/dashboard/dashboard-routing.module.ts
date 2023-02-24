@@ -81,6 +81,13 @@ const routes: Routes = [
         canActivate: [ PermissionGuard ],
         canLoad: [ PermissionGuard ]
       },
+      {
+        path: 'oficinas',
+        loadChildren: () => import('./office/office.module').then(m => m.OfficeModule),
+        data: { roles: [NameRole.ADMIN] },
+        canActivate: [ PermissionGuard ],
+        canLoad: [ PermissionGuard ]
+      },
       { path: '**', component: PageNotFoundComponent }
     ]
   }

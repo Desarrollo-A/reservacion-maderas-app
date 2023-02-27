@@ -34,10 +34,10 @@ jobs:
       - name: Copy files via SSH key
         uses: appleboy/scp-action@master
         with:
-          host: ${{ server.IP_HOST_TEST }}
-          username: ${{ server.USERNAME_TEST }}
+          host: ${{ secrets.IP_HOST_TEST }}
+          username: ${{ secrets.USERNAME_TEST }}
           key: ${{ secrets.SFTP_SSH_PRIVATE_KEY }}
           source: "./dist"
-          target: ${{ server.URL_FOLDER_TEST }}
+          target: ${{ secrets.URL_FOLDER_TEST }}
           strip_components: 2
           rm: true

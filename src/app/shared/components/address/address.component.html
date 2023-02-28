@@ -12,7 +12,7 @@
     <ng-container>
       <div *ngIf="enableForm">
         <div class="px-6 flex flex-col gap-1">
-          <mat-slide-toggle class="flex-auto" 
+          <mat-slide-toggle class="flex-auto"
                             color="primary"
                             [formControl]="isExternalControl"
                             (change)="isAddressExternal($event.checked)">
@@ -21,12 +21,12 @@
         </div>
 
         <ng-container *ngIf="!isExternal; else formAddress">
-          <div  class="px-6 py-4 flex flex-col gap-1" 
+          <div  class="px-6 py-4 flex flex-col gap-1"
                 [formGroup]="formAddressInternal">
             <mat-form-field class="flex-auto">
               <mat-label>Oficina</mat-label>
               <mat-select formControlName="officeAddressId">
-                <mat-option *ngFor="let office of dataOffices; trackBy: trackById"                          
+                <mat-option *ngFor="let office of dataOffices; trackBy: trackById"
                             [value]="office.addressId">
                   {{ office.name }} - {{office.state.name}}
                 </mat-option>
@@ -161,20 +161,20 @@
             </div>
           </div>
         </ng-template>
-        
+
       </div>
 
       <div class="px-6 py-4 flex flex-col gap-1"
            *ngIf="!enableForm">
-        <ng-container *ngIf="data.office">
+        <ng-container *ngIf="office.length > 0">
           <mat-form-field appearance="outline"
                         class="vex-flex-form-field flex-auto"
                         color="primary">
             <mat-label>Oficina</mat-label>
-            <input matInput [value]="data.office.name" readonly>
+            <input matInput [value]="office" readonly>
           </mat-form-field>
         </ng-container>
-        
+
         <div class="flex flex-col sm:flex-row sm:gap-4">
           <mat-form-field appearance="outline"
                           class="vex-flex-form-field flex-auto"

@@ -1,5 +1,6 @@
 import { RequestModel } from "./request.model";
 import { CarRequestScheduleModel } from "./car-request-schedule.model";
+import { OfficeModel } from "./office.model";
 
 export class RequestCarModel {
   id: number;
@@ -13,6 +14,7 @@ export class RequestCarModel {
   finalKm?: number;
   deliveryCondition?: string;
   carRequestSchedule?: CarRequestScheduleModel;
+  office: OfficeModel;
 
   constructor(requestCar) {
     this.id = requestCar.id;
@@ -28,5 +30,6 @@ export class RequestCarModel {
     this.carRequestSchedule = (requestCar.carRequestSchedule)
       ? new CarRequestScheduleModel(requestCar.carRequestSchedule)
       : null;
+    this.office = requestCar.office;
   }
 }

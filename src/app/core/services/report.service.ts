@@ -42,7 +42,7 @@ export class ReportService {
     const params = getFiltersQueryParams(filters);
     const headers = acceptApplicationPdfHeader();
     // const url = `${this._baseUrlLocalhost}input-output/pdf`;
-    const url = `${this.url}input-output/pdf`;
+    const url = `${this.url}/input-output/pdf`;
     return this.generateReportPdf(params, headers, url);
   }
 
@@ -50,7 +50,7 @@ export class ReportService {
     const params = getFiltersQueryParams(filters);
     const headers = acceptApplicationPdfHeader();
     //const url = `${this._baseUrlLocalhost}driver-delivered/pdf`;
-    const url = `${this.url}driver-delivered/pdf`;
+    const url = `${this.url}/driver-delivered/pdf`;
     return this.generateReportPdf(params, headers, url);
   }
 
@@ -58,7 +58,7 @@ export class ReportService {
     const params = getFiltersQueryParams(filters);
     const headers = acceptApplicationExcelHeader();
     // const url = `${this._baseUrlLocalhost}input-output/excel`;
-    const url = `${this.url}input-output/excel`;
+    const url = `${this.url}/input-output/excel`;
     return this.generateReportExcel(params, headers, url);
   }
 
@@ -66,7 +66,7 @@ export class ReportService {
     const params = getFiltersQueryParams(filters);
     const headers = acceptApplicationExcelHeader();
     //const url = `${this._baseUrlLocalhost}driver-delivered/excel`;
-    const url = `${this.url}driver-delivered/excel`;
+    const url = `${this.url}/driver-delivered/excel`;
     return this.generateReportExcel(params, headers, url);
   }
 

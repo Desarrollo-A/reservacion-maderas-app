@@ -24,6 +24,8 @@ export class AddressComponent implements OnInit {
   @Input()
   data: AddressModel;
   @Input()
+  officeName?: string;
+  @Input()
   set offices(data:OfficeModel[]){
     this.dataOffices = data;
   }
@@ -32,7 +34,7 @@ export class AddressComponent implements OnInit {
   accordion: MatAccordion;
 
   /**
-   * Variable para el almacenamiento de 
+   * Variable para el almacenamiento de
    * las officinas traidas desde el padre
    * y plasmadas en el componente address
    */
@@ -41,7 +43,7 @@ export class AddressComponent implements OnInit {
 
   form: FormGroup;
   formAddressInternal: FormGroup;
-  isExternalControl = new FormControl<boolean>(false); 
+  isExternalControl = new FormControl<boolean>(false);
 
   formErrors: FormErrors;
   formErrorsAddressInternal: FormErrors;
@@ -73,6 +75,10 @@ export class AddressComponent implements OnInit {
 
   get isExternal(): boolean{
     return this.isExternalControl.value;
+  }
+
+  get office(): string {
+    return this.data.office?.name ?? this.officeName ?? '';
   }
 
   isAddressExternal(checked: boolean){

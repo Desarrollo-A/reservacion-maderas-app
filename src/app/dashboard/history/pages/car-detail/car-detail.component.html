@@ -84,6 +84,15 @@
             </mat-form-field>
           </div>
 
+          <div class="flex flex-col gap-5">
+            <app-address title="Dirección de la oficina"
+                         subtitle="Lugar a recoger el vehículo"
+                         [data]="requestCar.office.address"
+                         [enableForm]="false"
+                         [officeName]="requestCar.office.name">
+            </app-address>
+          </div>
+
           <app-score-request *ngIf="requestCar.request.score"
                              [score]="requestCar.request.score">
           </app-score-request>

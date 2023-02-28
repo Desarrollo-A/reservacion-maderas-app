@@ -135,7 +135,9 @@ export class CarComponent implements OnInit {
     this.requestCarService.store(request).pipe(
       switchMap(res => this.requestCarService.uploadFile(res.id, formValues.authorizationFileSrc))
     ).subscribe(() => {
-      this.form.reset({}, { emitEvent: false });
+      this.form.reset({
+        addGoogleCalendar: false
+      }, { emitEvent: false });
       this.emailRequestTableComponent.clearData();
 
       this.toastrService.success('Solicitud creada', 'Proceso existoso');

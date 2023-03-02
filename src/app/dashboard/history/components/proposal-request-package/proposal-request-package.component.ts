@@ -8,7 +8,16 @@ import { ToastrService } from "ngx-toastr";
 import { RequestPackageService } from "../../../../core/services/request-package.service";
 import { getDateFormat } from "../../../../shared/utils/utils";
 import { ProposalRequestModel } from "../../../../core/models/proposal-request.model";
+import { DriverService } from "../../../../core/services/driver.service";
+import { CarService } from "../../../../core/services/car.service";
+import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
+import { forkJoin, switchMap } from "rxjs";
+import { DriverModel } from "../../../../core/models/driver.model";
+import { trackById } from "../../../../shared/utils/track-by";
+import { CarModel } from "../../../../core/models/car.model";
+import { ProposalPackageRequest } from "../../interfaces/proposal-package-request";
 
+@UntilDestroy()
 @Component({
   selector: 'app-proposal-request-package',
   templateUrl: './proposal-request-package.component.html',
@@ -18,19 +27,52 @@ export class ProposalRequestPackageComponent implements OnInit {
   form: FormGroup;
   formErrors: FormErrors;
   packages: PackageModel[] = [];
+  drivers: DriverModel[] = [];
+  cars: CarModel[] = [];
+  isChecked = false;
+
+  trackById = trackById;
 
   constructor(private dialogRef: MatDialogRef<ProposalRequestPackageComponent>,
               private fb: FormBuilder,
               private toastrService: ToastrService,
               private requestPackageService: RequestPackageService,
+              private driverService: DriverService,
+              private carService: CarService,
               @Inject(MAT_DIALOG_DATA) public data: PackageModel) { }
 
   ngOnInit(): void {
     this.form = this.fb.group({
-      date: [null, [Validators.required]]
+      date: [null, [Validators.required]],
+      driverId: [null, Validators.required],
+      carId: [null, Validators.required],
+      endDate: [null]
     });
 
     this.formErrors = new FormErrors(this.form);
+
+    this.form.get('date').valueChanges.pipe(
+      untilDestroyed(this),
+      switchMap(date => this.driverService.getAvailablePackageRequest(this.data.officeId, getDateFormat(date)))
+    ).subscribe(drivers => {
+      this.drivers = drivers;
+      if (drivers.length === 0) {
+        this.toastrService.info('No hay choferes disponibles', 'Información');
+      }
+    });
+
+    this.form.get('driverId').valueChanges.pipe(
+      untilDestroyed(this),
+      switchMap((driverId: number) => {
+        this.form.patchValue({cardId: null});
+        return this.carService.getAvailableCarsInRequestPackage(driverId, getDateFormat(this.form.get('date').value))
+      })
+    ).subscribe(cars => {
+      this.cars = cars;
+      if (cars.length === 0) {
+        this.toastrService.info('No hay vehículos disponibles para el chofer seleccionado', 'Información');
+      }
+    });
   }
 
   get dateValue(): Date | undefined {
@@ -56,17 +98,48 @@ export class ProposalRequestPackageComponent implements OnInit {
 
   save(): void {
     if (this.form.invalid) {
-      this.toastrService.warning('Debe seleccionar una fecha del calendario','Validación');
+      if (!this.form.get('date').value) {
+        this.toastrService.warning('Debe seleccionar una fecha del calendario','Validación');
+      }
+
+      this.form.markAllAsTouched();
       return;
     }
 
-    const { date } = this.form.getRawValue();
-    const data: ProposalRequestModel = <ProposalRequestModel>{
+    const formValues = this.form.getRawValue();
+    const data: ProposalPackageRequest = <ProposalPackageRequest> {
       requestId: this.data.requestId,
-      startDate: getDateFormat(date)
+      startDate: getDateFormat(formValues.date),
+      isDriverSelected: (!this.isChecked),
+      packageId: this.data.id,
+      carId: formValues.carId,
+      driverId: formValues.driverId,
+      endDate: (formValues.endDate) ? getDateFormat(formValues.endDate) : null
     };
+
     this.requestPackageService.proposalRequest(data).subscribe(() => {
       this.dialogRef.close(true);
     });
+  }
+
+  changeToggle(): void {
+    this.isChecked = !this.isChecked;
+
+    if (this.isChecked) {
+      this.form.get('driverId').clearValidators();
+      this.form.get('carId').clearValidators();
+
+      this.form.get('driverId').reset(null, {emitEvent: false});
+      this.form.get('carId').reset(null);
+
+      this.form.get('endDate').addValidators([Validators.required, dateBeforeNow])
+    } else {
+      this.form.get('endDate').clearValidators();
+
+      this.form.get('endDate').reset(null);
+
+      this.form.get('driverId').addValidators([Validators.required]);
+      this.form.get('carId').addValidators([Validators.required]);
+    }
   }
 }

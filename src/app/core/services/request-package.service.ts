@@ -15,6 +15,7 @@ import { AuthCodePackage } from 'src/app/package/interfaces/auth-code-package';
 import { DeliveredPackage } from 'src/app/package/interfaces/delivered-package';
 import { ProposalRequestModel } from "../models/proposal-request.model";
 import { DeliveredPackageModel } from "../models/delivered-package.model";
+import { ProposalPackageRequest } from "../../dashboard/history/interfaces/proposal-package-request";
 
 @Injectable({
   providedIn: 'root'
@@ -123,7 +124,7 @@ export class RequestPackageService {
     return this.http.get<PackageModel[]>(url);
   }
 
-  proposalRequest(data: ProposalRequestModel): Observable<void> {
+  proposalRequest(data: ProposalPackageRequest): Observable<void> {
     const url = `${this.url}/proposal`;
     return this.http.patch<void>(url, data);
   }

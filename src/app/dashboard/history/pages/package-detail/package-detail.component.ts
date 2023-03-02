@@ -107,6 +107,8 @@ export class PackageDetailComponent {
       switchMap(requestPackage => this.requestPackageService.getStatusByStatusCurrent(requestPackage.request.status.code))
     ).subscribe(status => {
       this.statusChange = status;
+
+      this.prepareProposalTableColumns();
     }, (error: ErrorResponse) => {
       if (error.code === 404) {
         this.router.navigateByUrl(this.urlRedirectBack)
@@ -124,7 +126,9 @@ export class PackageDetailComponent {
       this.loadOfficesForTransfer();
       this.toastrService.info('Selecciona una oficina para transferir la solicitud', 'Información');
     } else if (status.code === StatusPackageRequestLookup[StatusPackageRequestLookup.APPROVED]) {
-      this.toastrService.info('Selecciona el método de envío', 'Información');
+      if (!this.requestPackage.proposalPackage) {
+        this.toastrService.info('Selecciona el método de envío', 'Información');
+      }
     } else if (status.code === StatusPackageRequestLookup[StatusPackageRequestLookup.PROPOSAL]) {
       this.dialog.open(ProposalRequestPackageComponent, {
         data: this.requestPackage,
@@ -156,6 +160,7 @@ export class PackageDetailComponent {
 
   save(): void {
     const statusCode = this.requestPackage.request.status.code;
+
     if (statusCode === StatusPackageRequestLookup[StatusPackageRequestLookup.CANCELLED] &&
       (this.previousStatus.code === StatusPackageRequestLookup[StatusPackageRequestLookup.APPROVED] ||
         this.previousStatus.code === StatusPackageRequestLookup[StatusPackageRequestLookup.NEW])) {
@@ -246,6 +251,18 @@ export class PackageDetailComponent {
           this.router.navigateByUrl(this.urlRedirectBack);
         }
       });
+  }
+
+  private prepareProposalTableColumns(): void {
+    if (!this.requestPackage.proposalPackage) {
+      return;
+    }
+
+    if (!this.requestPackage.proposalPackage.isDriverSelected) {
+      this.columns.splice(2, 0, {
+        label: 'Fecha llegada aproximada', property: 'endDate', type: 'text', visible: true
+      });
+    }
   }
 
   private loadOfficesForTransfer(): void {

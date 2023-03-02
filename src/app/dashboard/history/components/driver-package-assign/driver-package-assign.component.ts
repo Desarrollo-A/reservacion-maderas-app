@@ -2,7 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { fadeInUp400ms } from "../../../../shared/animations/fade-in-up.animation";
 import { trackById } from "../../../../shared/utils/track-by";
 import { DriverModel } from "../../../../core/models/driver.model";
-import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+import { FormBuilder, FormControl, FormGroup, Validators } from "@angular/forms";
 import { FormErrors } from "../../../../shared/utils/form-error";
 import { PackageModel } from "../../../../core/models/package.model";
 import { getDateFormat } from "../../../../shared/utils/utils";
@@ -30,11 +30,11 @@ export class DriverPackageAssignComponent implements OnInit {
 
   form: FormGroup;
   formErrors: FormErrors;
+  externalDelivery = new FormControl(false);
 
   drivers: DriverModel[] = [];
   cars: CarModel[] = [];
   approvedPackagesHistory: PackageModel[] = [];
-  isChecked = false;
 
   trackById = trackById;
   constructor(private fb: FormBuilder,
@@ -44,6 +44,8 @@ export class DriverPackageAssignComponent implements OnInit {
               private toastrService: ToastrService) {}
 
   ngOnInit(): void {
+    this.loadDrivers();
+
     this.form = this.fb.group({
       driverId: [null, Validators.required],
       carId: [null, Validators.required],
@@ -51,6 +53,22 @@ export class DriverPackageAssignComponent implements OnInit {
       urlTracking: [null],
       endDate: [null]
     });
+
+    if (this.requestPackage.proposalPackage) {
+      this.externalDelivery.setValue(true);
+      this.externalDelivery.disable();
+
+      this.form.get('driverId')?.clearValidators();
+      this.form.get('carId')?.clearValidators();
+
+      this.form.get('trackingCode')?.addValidators([Validators.required, Validators.minLength(10),
+        Validators.maxLength(25)]);
+      this.form.get('urlTracking')?.addValidators([Validators.required, Validators.minLength(10),
+        Validators.maxLength(255)]);
+
+      this.form.get('endDate').setValue(new Date(this.requestPackage.request.endDate));
+      this.form.get('endDate').disable();
+    }
 
     this.formErrors = new FormErrors(this.form);
 
@@ -71,13 +89,13 @@ export class DriverPackageAssignComponent implements OnInit {
       }
     });
 
-    this.loadDrivers();
+    this.externalDelivery.valueChanges.pipe(
+      untilDestroyed(this)
+    ).subscribe(value => this.changeToggle(value));
   }
 
-  changeToggle(): void {
-    this.isChecked = !this.isChecked;
-
-    if (this.isChecked) {
+  changeToggle(value: boolean): void {
+    if (value) {
       this.form.get('driverId')?.clearValidators();
       this.form.get('carId')?.clearValidators();
 

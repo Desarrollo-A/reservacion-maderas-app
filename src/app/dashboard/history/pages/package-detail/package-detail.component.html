@@ -85,7 +85,8 @@
           </div>
 
           <!-- Información del chofer que entregará la paquetería -->
-          <div class="flex flex-col md:flex-row md:gap-4" *ngIf="requestPackage.driverPackageSchedule">
+          <div class="flex flex-col md:flex-row md:gap-4" *ngIf="requestPackage.driverPackageSchedule &&
+            statusRequest[statusRequest.APPROVED] === requestPackage.request.status.code">
             <mat-form-field appearance="outline" class="flex-auto vex-flex-form-field">
               <mat-label>Nombre del chofer quien entrega</mat-label>
               <input matInput readonly [value]="requestPackage.driverPackageSchedule.driverSchedule.driver.fullName">
@@ -103,7 +104,8 @@
           </div>
 
           <!-- Información de la paquetería externa que entregará el pedido -->
-          <div class="flex flex-col md:flex-row md:gap-4" *ngIf="requestPackage.trackingCode">
+          <div class="flex flex-col md:flex-row md:gap-4" *ngIf="requestPackage.trackingCode &&
+            statusRequest[statusRequest.APPROVED] === requestPackage.request.status.code">
             <mat-form-field appearance="outline" class="flex-auto vex-flex-form-field">
               <mat-label>Clave de rastreo</mat-label>
               <input matInput readonly [value]="requestPackage.trackingCode">
@@ -205,8 +207,16 @@
             </ng-container>
 
             <ng-container matColumnDef="date">
-              <th *matHeaderCellDef class="uppercase" mat-header-cell>Fecha</th>
+              <th *matHeaderCellDef class="uppercase" mat-header-cell>
+                {{(requestPackage.proposalPackage.isDriverSelected) ? 'Fecha' : 'Fecha salida'}}
+              </th>
               <td *matCellDef="let row" mat-cell>{{ row.startDate | date:'dd-MM-y' }}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="endDate"
+                          *ngIf="!requestPackage.proposalPackage.isDriverSelected">
+              <th *matHeaderCellDef class="uppercase" mat-header-cell>Fecha llegada aproximada</th>
+              <td *matCellDef="let row" mat-cell>{{ row.endDate | date:'dd-MM-y' }}</td>
             </ng-container>
 
             <ng-container matColumnDef="action">

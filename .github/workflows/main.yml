@@ -4,12 +4,10 @@ on:
   push:
     branches:
       - test
-      - master
 
 jobs:
   build:
     runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/test'
     steps:
       - name: Checkout
         uses: actions/checkout@v1

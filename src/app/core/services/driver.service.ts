@@ -54,11 +54,11 @@ export class DriverService {
     );
   }
 
-  getAvailableDriverRequest(officeId: number, startDate: string, endDate: string): Observable<DriverModel[]> {
+  getAvailableDriverRequest(requestId: number, startDate: string, endDate: string): Observable<DriverModel[]> {
     const params = new HttpParams()
       .append('start_date', startDate)
       .append('end_date', endDate);
-    const url = `${this.url}/available-request/${officeId}`;
+    const url = `${this.url}/available-request/${requestId}`;
     return this.http.get<DriverModel[]>(url, {params}).pipe(
       map(drivers => {
         drivers = drivers.map(driver => new DriverModel(driver));

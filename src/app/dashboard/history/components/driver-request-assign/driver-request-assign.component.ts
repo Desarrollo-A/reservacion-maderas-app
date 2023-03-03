@@ -39,6 +39,8 @@ export class DriverRequestAssignComponent implements OnInit {
               private toastrService: ToastrService) {}
 
   ngOnInit(): void {
+    this.loadDrivers();
+
     this.form = this.fb.group({
       driverId: [null, Validators.required],
       carId: [null, Validators.required]
@@ -62,15 +64,13 @@ export class DriverRequestAssignComponent implements OnInit {
         this.toastrService.info('No hay vehículos disponibles para el chofer seleccionado', 'Información');
       }
     });
-
-    this.loadDrivers();
   }
 
   private loadDrivers(): void {
-    const { officeId, request: { startDate, endDate } } = this.requestDriver;
+    const { requestId, request: { startDate, endDate } } = this.requestDriver;
     const parseStartDate = getFullDateFormat(new Date(startDate));
     const parseEndDate = getFullDateFormat(new Date(endDate));
-    this.driverService.getAvailableDriverRequest(officeId, parseStartDate, parseEndDate).subscribe(drivers => {
+    this.driverService.getAvailableDriverRequest(requestId, parseStartDate, parseEndDate).subscribe(drivers => {
       this.drivers = drivers;
       (drivers.length === 0)
         ? this.toastrService.info('No hay choferes disponibles', 'Información')

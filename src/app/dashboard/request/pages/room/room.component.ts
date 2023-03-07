@@ -158,7 +158,10 @@ export class RoomComponent implements OnInit {
   }
 
   private getStatesAndMeetingTypes(): void {
-    forkJoin([this.stateService.findAll(), this.lookupService.findAllByType(TypeLookup.LEVEL_MEETING)])
+    forkJoin([
+      this.stateService.findAll(),
+      this.lookupService.findAllByType(TypeLookup.LEVEL_MEETING)
+    ])
       .subscribe(([states, meetingTypes]) => {
         this.states = states;
         this.meetingTypes = meetingTypes;

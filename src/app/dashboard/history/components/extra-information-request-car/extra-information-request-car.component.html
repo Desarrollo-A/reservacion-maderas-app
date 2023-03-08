@@ -1,0 +1,160 @@
+<mat-accordion>
+  <mat-expansion-panel>
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        Información complementaria
+      </mat-panel-title>
+    </mat-expansion-panel-header>
+
+    <div class="flex flex-col gap-4"
+                  [formGroup]="form">
+      <div class="flex flex-col"
+           *ngIf="!requestCar.responsiveFilename">
+        <label for="responsiveFile" class="flex-auto form-label inline-block mb-2">
+          Archivo de responsiva de vehículo
+        </label>
+        <input class="flex-auto px-2 py-1 text-sm font-normal bg-clip-padding border border-solid
+                border-gray-300 rounded transition ease-in-out m-0 focus:border-blue-600 focus:outline-none cursor-pointer"
+               formControlName="responsiveFile"
+               accept="application/pdf"
+               id="responsiveFile"
+               type="file"
+               (change)="changeResponsiveFile($event.target['files'][0])">
+
+        <mat-error *ngIf="formErrors.customError('responsiveFile', 'required')">
+          Campo obligatorio.
+        </mat-error>
+        <mat-error *ngIf="formErrors.customErrorFile('responsiveFileSrc', 'sizeFile')">
+          El tamaño del archivo debe ser menor a 2mb.
+        </mat-error>
+      </div>
+
+      <div class="flex flex-col"
+           *ngIf="!requestCar.imageZip">
+        <label for="imageZipFile"
+               class="flex-auto form-label inline-block mb-2">
+          Archivo ZIP con las imágenes del vehículo
+        </label>
+        <input class="flex-auto px-2 py-1 text-sm font-normal bg-clip-padding border border-solid
+                border-gray-300 rounded transition ease-in-out m-0 focus:border-blue-600 focus:outline-none cursor-pointer"
+               formControlName="imageZipFile"
+               accept="application/zip"
+               id="imageZipFile"
+               type="file"
+               (change)="changeImageZipFile($event.target['files'][0])">
+
+        <mat-error *ngIf="formErrors.customError('imageZipFile', 'required')">
+          Campo obligatorio.
+        </mat-error>
+        <mat-error *ngIf="formErrors.customErrorFile('imageZipFileSrc', 'sizeFile')">
+          El tamaño del archivo debe ser menor a 5mb.
+        </mat-error>
+      </div>
+
+      <div class="flex flex-col sm:flex-row sm:gap-4"
+           *ngIf="requestCar.responsiveFilename && requestCar.imageZip">
+        <div class="flex-auto sm:mt-2 mb-4 sm:mb-0">
+          <a class="relative flex items-center cursor-pointer select-none rounded-full px-4 py-1 hover:bg-primary/10 trans-ease-out"
+             matRipple [href]="requestCar.responsiveFilename | url" target="_blank">
+            <div class="p-2 bg-primary/10 text-primary rounded-full ltr:mr-4 rtl:ml-4">
+              <mat-icon class="block" svgIcon="mat:picture_as_pdf"></mat-icon>
+            </div>
+            <p class="font-medium text-primary">Responsiva de vehículo</p>
+          </a>
+        </div>
+
+        <div class="flex-auto sm:mt-2 mb-4 sm:mb-0">
+          <a class="relative flex items-center cursor-pointer select-none rounded-full px-4 py-1 hover:bg-primary/10 trans-ease-out"
+             matRipple [href]="requestCar.imageZip | url" target="_blank">
+            <div class="p-2 bg-primary/10 text-primary rounded-full ltr:mr-4 rtl:ml-4">
+              <mat-icon class="block" svgIcon="mat:picture_as_pdf"></mat-icon>
+            </div>
+            <p class="font-medium text-primary">Imágenes ZIP del vehículo</p>
+          </a>
+        </div>
+      </div>
+
+      <div class="flex flex-col md:flex-row md:gap-4">
+        <mat-form-field class="flex-auto"
+                        *ngIf="!requestCar.initialKm">
+          <mat-label>Kilometraje inicial</mat-label>
+          <input matInput
+                 type="number"
+                 formControlName="initialKm"
+                 autocomplete="off">
+
+          <mat-error *ngIf="formErrors.customError('initialKm', 'required')">
+            Campo obligatorio.
+          </mat-error>
+          <mat-error *ngIf="formErrors.customError('initialKm', 'min')">
+            El KM inicial debe ser mayor a {{formErrors.minNumber('initialKm')}}.
+          </mat-error>
+          <mat-error *ngIf="formErrors.customError('initialKm', 'max')">
+            El KM inicial debe ser menor a {{formErrors.maxNumber('initialKm')}}.
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="flex-auto vex-flex-form-field"
+                        *ngIf="requestCar.initialKm">
+          <mat-label>Kilometraje inicial</mat-label>
+          <input matInput readonly [value]="requestCar.initialKm.toString()">
+        </mat-form-field>
+
+        <mat-form-field class="flex-auto"
+                        *ngIf="!requestCar.finalKm">
+          <mat-label>Kilometraje final</mat-label>
+          <input matInput
+                 type="number"
+                 formControlName="finalKm"
+                 autocomplete="off">
+
+          <mat-error *ngIf="formErrors.customError('finalKm', 'required')">
+            Campo obligatorio.
+          </mat-error>
+          <mat-error *ngIf="formErrors.customError('finalKm', 'min')">
+            El KM final debe ser mayor a {{formErrors.minNumber('finalKm')}}.
+          </mat-error>
+          <mat-error *ngIf="formErrors.customError('finalKm', 'max')">
+            El KM final debe ser menor a {{formErrors.maxNumber('finalKm')}}.
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="flex-auto vex-flex-form-field"
+                        *ngIf="requestCar.finalKm">
+          <mat-label>Kilometraje final</mat-label>
+          <input matInput readonly [value]="requestCar.finalKm.toString()">
+        </mat-form-field>
+      </div>
+
+      <mat-form-field *ngIf="!requestCar.deliveryCondition">
+        <mat-label>Condiciones del vehículo al momento de recibirlo</mat-label>
+        <textarea placeholder="Escriba aquí...."
+                  matInput
+                  formControlName="deliveryCondition"></textarea>
+
+        <mat-error *ngIf="formErrors.customError('deliveryCondition', 'required')">
+          Campo obligatorio.
+        </mat-error>
+        <mat-error *ngIf="formErrors.customError('deliveryCondition', 'maxlength')">
+          El comentario debe tener menos de {{ formErrors.maxLengthNumber('deliveryCondition') }} caracteres.
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="flex-auto vex-flex-form-field"
+                      *ngIf="requestCar.deliveryCondition">
+        <mat-label>Condiciones del vehículo al momento de recibirlo</mat-label>
+        <textarea matInput readonly [value]="requestCar.deliveryCondition"></textarea>
+      </mat-form-field>
+    </div>
+
+    <div class="flex items-center justify-end mt-3">
+      <button color="primary"
+              mat-raised-button
+              type="button"
+              (click)="save()"
+              [disabled]="!enableSaveButton">
+        Guardar
+      </button>
+    </div>
+  </mat-expansion-panel>
+</mat-accordion>

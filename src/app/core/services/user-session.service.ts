@@ -34,6 +34,10 @@ export class UserSessionService {
     return this.user?.role?.name === NameRole.APPLICANT;
   }
 
+  get isRecepcionist(): boolean {
+    return this.user?.role?.name === NameRole.RECEPCIONIST;
+  }
+
   setUser(userSession: UserSession): void {
     this._userSession = userSession;
   }

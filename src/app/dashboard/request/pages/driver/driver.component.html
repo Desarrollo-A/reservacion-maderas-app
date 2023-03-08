@@ -150,13 +150,12 @@
           </app-address>
         </div>
 
-        <div class="flex-auto mb-3 mt-2">
-          <label for="file" class="form-label inline-block mb-2 text-gray-700">
+        <div class="flex flex-col mb-3 mt-2">
+          <label for="file" class="flex-auto form-label inline-block mb-2">
             Autorización de solicitud de chofer
           </label>
-          <input class="block w-full sm:w-4/5 px-2 py-1 text-sm font-normal text-gray-700 bg-white bg-clip-padding
-            border border-solid border-gray-300 rounded transition ease-in-out m-0
-            focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
+          <input class="flex-auto px-2 py-1 text-sm font-normal bg-clip-padding border border-solid
+            border-gray-300 rounded transition ease-in-out m-0 focus:border-blue-600 focus:outline-none cursor-pointer"
                  formControlName="authorizationFile"
                  accept="application/pdf"
                  id="file"

@@ -101,6 +101,14 @@
 
       <div class="flex-auto">
         <div class="px-6 flex flex-col gap-2">
+          <app-extra-information-request-car class="flex-auto mb-2"
+                                             *ngIf="(previousStatus.code === statusRequest[statusRequest.APPROVED] ||
+                                                previousStatus.code === statusRequest[statusRequest.FINISHED])
+                                                && isRecepcionist"
+                                             [requestCar]="requestCar"
+                                             (submitForm)="onSubmitAddExtraInformation()">
+          </app-extra-information-request-car>
+
           <app-email-request-table [previousStatus]="previousStatus"
                                    [requestId]="requestCar.requestId"
                                    [emails]="requestCar.request.requestEmail">

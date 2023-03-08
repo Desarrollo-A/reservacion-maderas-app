@@ -23,6 +23,7 @@ import { InputDataProposalCarRequest } from "../../interfaces/input-data-proposa
 import { MatDialog } from "@angular/material/dialog";
 import { ProposalRequestCarComponent } from "../../components/proposal-request-car/proposal-request-car.component";
 import { RequestModel } from "../../../../core/models/request.model";
+import { UserSessionService } from "../../../../core/services/user-session.service";
 
 @Component({
   selector: 'app-car-detail',
@@ -56,7 +57,8 @@ export class CarDetailComponent implements OnInit {
               private requestCarService: RequestCarService,
               private toastrService: ToastrService,
               private officeService: OfficeService,
-              private dialog: MatDialog) {
+              private dialog: MatDialog,
+              private userSessionService: UserSessionService) {
     const [,,part] = this.router.url.split('/', 3);
     this.urlRedirectBack = `/dashboard/${part}/vehiculo`;
     this.breadcrumbs.push({
@@ -69,11 +71,14 @@ export class CarDetailComponent implements OnInit {
     });
   }
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void {}
 
   get statusRequest(): typeof StatusCarRequestLookup {
     return StatusCarRequestLookup;
+  }
+
+  get isRecepcionist(): boolean {
+    return this.userSessionService.isRecepcionist;
   }
 
   changeStatus(status: Lookup): void {
@@ -127,6 +132,11 @@ export class CarDetailComponent implements OnInit {
     }
   }
 
+  onSubmitAddExtraInformation(): void {
+    this.toastrService.success('Datos guardados', 'Proceso exitoso');
+    this.router.navigateByUrl(this.urlRedirectBack);
+  }
+
   private transferRequest(): void {
     if (this.transferRequestComponent.form.invalid) {
       this.transferRequestComponent.form.markAllAsTouched();
@@ -153,7 +163,7 @@ export class CarDetailComponent implements OnInit {
     });
   }
 
-  public approvedRequest(): void {
+  private approvedRequest(): void {
     if (this.carRequestAssignComponent.form.invalid) {
       this.carRequestAssignComponent.form.markAllAsTouched();
       return;
@@ -193,7 +203,7 @@ export class CarDetailComponent implements OnInit {
     });
   }
 
-  public responseRejectRequest(): void {
+  private responseRejectRequest(): void {
     const status = <Lookup> { code: this.requestCar.request.status.code };
     let data = <RequestModel> { status };
 

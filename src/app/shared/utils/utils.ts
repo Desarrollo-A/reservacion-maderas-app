@@ -156,7 +156,11 @@ export const getStatusLabelRequestDriver = (statusName: string, code: string): L
   }
 }
 
-export const getDateFormat = (date: Date): string => date.toISOString().split('T')[0];
+export const getDateFormat = (date: Date): string => {
+  const day = (date.getDate() < 10) ? `0${date.getDate()}` : date.getDate();
+  const month = ((date.getMonth() + 1) < 10) ? `0${date.getMonth() + 1}` : date.getMonth();
+  return `${date.getFullYear()}-${month}-${day}`;
+};
 
 export const getTimeFormat = (date: Date): string => {
   return (date.getHours() < 10) ? `0${date.toLocaleTimeString()}` : date.toLocaleTimeString();

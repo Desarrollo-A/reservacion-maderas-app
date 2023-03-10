@@ -47,6 +47,7 @@ export class LoginComponent implements OnInit {
     }
 
     const user: User = this.form.getRawValue();
+    user.noEmployee = user.noEmployee.toUpperCase();
     this.authService.login(user).subscribe(() => {
       this.router.navigateByUrl('/dashboard');
     });

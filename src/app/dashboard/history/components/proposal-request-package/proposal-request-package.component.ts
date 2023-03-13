@@ -114,7 +114,7 @@ export class ProposalRequestPackageComponent implements OnInit {
       packageId: this.data.id,
       carId: formValues.carId,
       driverId: formValues.driverId,
-      endDate: (formValues.endDate) ? getDateFormat(formValues.endDate) : null
+      endDate: (this.isChecked) ? getDateFormat(formValues.endDate) : null
     };
 
     this.requestPackageService.proposalRequest(data).subscribe(() => {

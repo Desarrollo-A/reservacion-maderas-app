@@ -9,27 +9,6 @@
     <div class="flex flex-col gap-4"
                   [formGroup]="form">
       <div class="flex flex-col"
-           *ngIf="!requestCar.responsiveFilename">
-        <label for="responsiveFile" class="flex-auto form-label inline-block mb-2">
-          Archivo de responsiva de vehículo
-        </label>
-        <input class="flex-auto px-2 py-1 text-sm font-normal bg-clip-padding border border-solid
-                border-gray-300 rounded transition ease-in-out m-0 focus:border-blue-600 focus:outline-none cursor-pointer"
-               formControlName="responsiveFile"
-               accept="application/pdf"
-               id="responsiveFile"
-               type="file"
-               (change)="changeResponsiveFile($event.target['files'][0])">
-
-        <mat-error *ngIf="formErrors.customError('responsiveFile', 'required')">
-          Campo obligatorio.
-        </mat-error>
-        <mat-error *ngIf="formErrors.customErrorFile('responsiveFileSrc', 'sizeFile')">
-          El tamaño del archivo debe ser menor a 2mb.
-        </mat-error>
-      </div>
-
-      <div class="flex flex-col"
            *ngIf="!requestCar.imageZip">
         <label for="imageZipFile"
                class="flex-auto form-label inline-block mb-2">
@@ -52,17 +31,7 @@
       </div>
 
       <div class="flex flex-col sm:flex-row sm:gap-4"
-           *ngIf="requestCar.responsiveFilename && requestCar.imageZip">
-        <div class="flex-auto sm:mt-2 mb-4 sm:mb-0">
-          <a class="relative flex items-center cursor-pointer select-none rounded-full px-4 py-1 hover:bg-primary/10 trans-ease-out"
-             matRipple [href]="requestCar.responsiveFilename | url" target="_blank">
-            <div class="p-2 bg-primary/10 text-primary rounded-full ltr:mr-4 rtl:ml-4">
-              <mat-icon class="block" svgIcon="mat:picture_as_pdf"></mat-icon>
-            </div>
-            <p class="font-medium text-primary">Responsiva de vehículo</p>
-          </a>
-        </div>
-
+           *ngIf="requestCar.imageZip">
         <div class="flex-auto sm:mt-2 mb-4 sm:mb-0">
           <a class="relative flex items-center cursor-pointer select-none rounded-full px-4 py-1 hover:bg-primary/10 trans-ease-out"
              matRipple [href]="requestCar.imageZip | url" target="_blank">

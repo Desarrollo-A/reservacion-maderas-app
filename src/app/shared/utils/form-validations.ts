@@ -27,7 +27,7 @@ export const endDateIsAfterToStartDate = (startDate: string, endDate: string) =>
       removeError(formGroup.get(endDate), 'dateAfter');
       return null;
     }
-    
+
     const startDateValue = new Date(formGroup.get(startDate)?.value);
     const endDateValue = new Date(formGroup.get(endDate)?.value);
 
@@ -144,6 +144,18 @@ export const greaterThanCero = (control: FormControl): ValidationErrors | null =
     if (control.value <= 0) {
       return { greaterThanCero: true };
     }
+  }
+
+  return null;
+}
+
+export const termsConditions = (control: FormControl): ValidationErrors | null => {
+  if (control.value === null) {
+    return { termsConditions: true };
+  }
+
+  if (control.value === false) {
+    return { termsConditions: true };
   }
 
   return null;

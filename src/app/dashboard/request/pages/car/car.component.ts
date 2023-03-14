@@ -17,7 +17,8 @@ import {
   dateBeforeNow,
   endDateIsAfterToStartDate,
   endTimeIsAfterToStarTimeWithDates,
-  sizeFile
+  sizeFile,
+  termsConditions
 } from "../../../../shared/utils/form-validations";
 import { debounceTime, distinctUntilChanged, of, switchMap, tap } from "rxjs";
 import {
@@ -25,12 +26,15 @@ import {
 } from "../../../../shared/components/email-request/components/email-request-table/email-request-table.component";
 import { RequestCarModel } from "../../../../core/models/request-car.model";
 import { RequestModel } from "../../../../core/models/request.model";
+import { MatDialog } from "@angular/material/dialog";
+import {
+  TermsConditionsRequestCarComponent
+} from "../../../../shared/components/terms-conditions/terms-conditions-request-car/terms-conditions-request-car.component";
 
 @UntilDestroy()
 @Component({
   selector: 'app-car',
   templateUrl: './car.component.html',
-  styleUrls: ['./car.component.scss'],
   animations: [
     stagger60ms,
     fadeInUp400ms
@@ -46,11 +50,14 @@ export class CarComponent implements OnInit {
   offices: OfficeModel[] = [];
   trackById = trackById;
 
-  constructor(private fb: FormBuilder,
-              private stateService: StateService,
-              private officeService: OfficeService,
-              private requestCarService: RequestCarService,
-              private toastrService: ToastrService) { }
+  constructor(
+    private fb: FormBuilder,
+    private stateService: StateService,
+    private officeService: OfficeService,
+    private requestCarService: RequestCarService,
+    private toastrService: ToastrService,
+    private dialog: MatDialog
+  ) { }
 
   ngOnInit(): void {
     this.getAllStates();
@@ -67,7 +74,8 @@ export class CarComponent implements OnInit {
       endTime: [null, [Validators.required]],
       authorizationFile: [null, Validators.required],
       authorizationFileSrc: [null, sizeFile(3000000)],
-      comment: [null, [Validators.required, Validators.maxLength(2500)]]
+      comment: [null, [Validators.required, Validators.maxLength(2500)]],
+      termsConditions: [false, termsConditions]
     }, {
       validators: [
         endDateIsAfterToStartDate('startDate', 'endDate'),
@@ -108,6 +116,10 @@ export class CarComponent implements OnInit {
     this.form.patchValue({
       authorizationFileSrc: file
     });
+  }
+
+  termsAndConditions(): void {
+    this.dialog.open(TermsConditionsRequestCarComponent);
   }
 
   save(): void {

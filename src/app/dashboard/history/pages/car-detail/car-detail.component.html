@@ -153,6 +153,17 @@
         </div>
       </div>
 
+      <div class="flex flex-col px-6 gap-2 mt-3">
+        <div class="flex flex-row">
+          <mat-checkbox [checked]="true"
+                        disabled>
+          </mat-checkbox>
+          <label class="ml-2">
+            <u class="cursor-pointer" (click)="termsAndConditions()">Términos y Condiciones.</u>
+          </label>
+        </div>
+      </div>
+
       <div class="flex items-center justify-end mt-3">
         <button color="primary"
                 mat-raised-button

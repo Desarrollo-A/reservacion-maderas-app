@@ -24,6 +24,9 @@ import { MatDialog } from "@angular/material/dialog";
 import { ProposalRequestCarComponent } from "../../components/proposal-request-car/proposal-request-car.component";
 import { RequestModel } from "../../../../core/models/request.model";
 import { UserSessionService } from "../../../../core/services/user-session.service";
+import {
+  TermsConditionsRequestCarComponent
+} from "../../../../shared/components/terms-conditions/terms-conditions-request-car/terms-conditions-request-car.component";
 
 @Component({
   selector: 'app-car-detail',
@@ -135,6 +138,10 @@ export class CarDetailComponent implements OnInit {
   onSubmitAddExtraInformation(): void {
     this.toastrService.success('Datos guardados', 'Proceso exitoso');
     this.router.navigateByUrl(this.urlRedirectBack);
+  }
+
+  termsAndConditions(): void {
+    this.dialog.open(TermsConditionsRequestCarComponent);
   }
 
   private transferRequest(): void {

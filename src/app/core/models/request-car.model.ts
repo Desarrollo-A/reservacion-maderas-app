@@ -5,7 +5,6 @@ import { OfficeModel } from "./office.model";
 export class RequestCarModel {
   id: number;
   authorizationFilename?: string;
-  responsiveFilename?: string;
   imageZip?: string;
   requestId: number;
   request: RequestModel;
@@ -19,7 +18,6 @@ export class RequestCarModel {
   constructor(requestCar) {
     this.id = requestCar.id;
     this.authorizationFilename = requestCar.authorizationFilename;
-    this.responsiveFilename = requestCar.responsiveFilename;
     this.imageZip = requestCar.imageZip;
     this.requestId = requestCar.requestId;
     this.request = new RequestModel(requestCar.request);

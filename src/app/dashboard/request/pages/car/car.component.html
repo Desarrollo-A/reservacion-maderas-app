@@ -171,6 +171,19 @@
 
         <app-email-request-table #emailRequestTableComponent></app-email-request-table>
 
+        <div class="flex flex-col gap-2 mt-2">
+          <div class="flex flex-row">
+            <mat-checkbox formControlName="termsConditions"></mat-checkbox>
+            <label class="ml-2">
+              Estoy de acuerdo con los <u class="cursor-pointer" (click)="termsAndConditions()">Términos y Condiciones.</u>
+            </label>
+          </div>
+
+          <mat-error *ngIf="formErrors.customError('termsConditions', 'termsConditions')">
+            Campo obligatorio.
+          </mat-error>
+        </div>
+
         <div class="flex items-center justify-end mt-2">
           <button color="primary"
                   mat-raised-button

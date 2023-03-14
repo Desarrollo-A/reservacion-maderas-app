@@ -7,11 +7,10 @@ import { dateBeforeNow } from "../../../../shared/utils/form-validations";
 import { ToastrService } from "ngx-toastr";
 import { RequestPackageService } from "../../../../core/services/request-package.service";
 import { getDateFormat } from "../../../../shared/utils/utils";
-import { ProposalRequestModel } from "../../../../core/models/proposal-request.model";
 import { DriverService } from "../../../../core/services/driver.service";
 import { CarService } from "../../../../core/services/car.service";
 import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
-import { forkJoin, switchMap } from "rxjs";
+import { switchMap } from "rxjs";
 import { DriverModel } from "../../../../core/models/driver.model";
 import { trackById } from "../../../../shared/utils/track-by";
 import { CarModel } from "../../../../core/models/car.model";
@@ -107,6 +106,14 @@ export class ProposalRequestPackageComponent implements OnInit {
     }
 
     const formValues = this.form.getRawValue();
+
+    if (this.isChecked) {
+      if (formValues.date.getTime() > formValues.endDate.getTime()) {
+        this.toastrService.warning('La fecha de llegada debe ser mayor o igual a la fecha propuesta','Validación');
+        return;
+      }
+    }
+
     const data: ProposalPackageRequest = <ProposalPackageRequest> {
       requestId: this.data.requestId,
       startDate: getDateFormat(formValues.date),

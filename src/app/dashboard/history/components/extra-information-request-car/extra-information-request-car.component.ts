@@ -30,8 +30,6 @@ export class ExtraInformationRequestCarComponent implements OnInit {
       this.form = this.fb.group({
         imageZipFile: [null, Validators.required],
         imageZipFileSrc: [null, sizeFile(5000000)],
-        responsiveFile: [null, Validators.required],
-        responsiveFileSrc: [null, sizeFile(2000000)],
         initialKm: [null, [Validators.required, Validators.min(1), Validators.max(999999)]],
         finalKm: [null],
         deliveryCondition: [null]
@@ -44,8 +42,6 @@ export class ExtraInformationRequestCarComponent implements OnInit {
       this.form = this.fb.group({
         imageZipFile: [null],
         imageZipFileSrc: [null],
-        responsiveFile: [null],
-        responsiveFileSrc: [null],
         initialKm: [null],
         finalKm: [null, [Validators.required, Validators.min(1), Validators.max(999999)]],
         deliveryCondition: [null, [Validators.required, Validators.maxLength(2500)]]
@@ -65,7 +61,7 @@ export class ExtraInformationRequestCarComponent implements OnInit {
    * Se habilitan los campos de archivo de responsiva, archivo ZIP para imágenes y kilometraje inicial
    */
   get enableFirstSubmit(): boolean {
-    return isNil(this.requestCar.imageZip) || isNil(this.requestCar.responsiveFilename) || isNil(this.requestCar.initialKm);
+    return isNil(this.requestCar.imageZip) || isNil(this.requestCar.initialKm);
   }
 
   /**
@@ -73,18 +69,12 @@ export class ExtraInformationRequestCarComponent implements OnInit {
    */
   get enableSecondSubmit(): boolean {
     return (isNil(this.requestCar.finalKm) || isNil(this.requestCar.deliveryCondition) &&
-      (!isNil(this.requestCar.imageZip) && !isNil(this.requestCar.responsiveFilename) && !isNil(this.requestCar.initialKm)));
+      (!isNil(this.requestCar.imageZip) && !isNil(this.requestCar.initialKm)));
   }
 
   changeImageZipFile(file: File): void {
     this.form.patchValue({
       imageZipFileSrc: file
-    });
-  }
-
-  changeResponsiveFile(file: File): void {
-    this.form.patchValue({
-      responsiveFileSrc: file
     });
   }
 
@@ -106,7 +96,6 @@ export class ExtraInformationRequestCarComponent implements OnInit {
       };
 
       request$ = this.requestCarService.addExtraCarInformation(id, data).pipe(
-        switchMap(() => this.requestCarService.uploadResponsiveFile(id, formValues.responsiveFileSrc)),
         switchMap(() => this.requestCarService.uploadZipImages(id, formValues.imageZipFileSrc))
       );
     } else if (this.enableSecondSubmit) {

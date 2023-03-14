@@ -12,6 +12,7 @@ import { PackageComponent } from './pages/package/package.component';
 import { AddressModule } from "../../shared/components/address/address.module";
 import { DriverComponent } from './pages/driver/driver.component';
 import { CarComponent } from './pages/car/car.component';
+import { TermsConditionsModule } from "../../shared/components/terms-conditions/terms-conditions.module";
 
 
 @NgModule({
@@ -30,6 +31,7 @@ import { CarComponent } from './pages/car/car.component';
     PhoneRequestModule,
     EmailRequestModule,
     AddressModule,
+    TermsConditionsModule,
   ]
 })
 export class RequestModule { }

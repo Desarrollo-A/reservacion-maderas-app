@@ -109,15 +109,6 @@ export class RequestCarService {
     return this.http.post<void>(url, formData);
   }
 
-  uploadResponsiveFile(id: number, responsive: File): Observable<void> {
-    const formData = new FormData();
-    formData.append('responsiveFile', responsive);
-    formData.append('_method', 'PUT');
-
-    const url = `${this.url}/responsive-file/${id}`;
-    return this.http.post<void>(url, formData);
-  }
-
   addExtraCarInformation(id: number, data: RequestCarModel): Observable<void> {
     const url = `${this.url}/extra-information/${id}`;
     return this.http.patch<void>(url, data);

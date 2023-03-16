@@ -85,9 +85,9 @@ export class PerDiemComponent implements OnInit {
       && this.isRecepcionist
       && (
         (this._status.type === TypeLookup.STATUS_CAR_REQUEST &&
-          this._status.code === StatusCarRequestLookup[StatusCarRequestLookup.FINISHED]) ||
+          this._status.code === StatusCarRequestLookup[StatusCarRequestLookup.APPROVED]) ||
         (this._status.type === TypeLookup.STATUS_DRIVER_REQUEST &&
-          this._status.code === StatusDriverRequestLookup[StatusDriverRequestLookup.FINISHED])
+          this._status.code === StatusDriverRequestLookup[StatusDriverRequestLookup.APPROVED])
       );
   }
 

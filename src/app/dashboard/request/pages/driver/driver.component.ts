@@ -15,8 +15,7 @@ import {
   dateAfter30Days,
   dateBeforeNow,
   endDateIsAfterToStartDate,
-  endTimeIsAfterToStarTimeWithDates,
-  sizeFile
+  endTimeIsAfterToStarTimeWithDates
 } from "../../../../shared/utils/form-validations";
 import { getDateFormat, roundedTime } from "../../../../shared/utils/utils";
 import {
@@ -74,8 +73,6 @@ export class DriverComponent implements OnInit {
       addGoogleCalendar: [false],
       startTime: [null, [Validators.required]],
       endTime: [null, [Validators.required]],
-      authorizationFile: [null, Validators.required],
-      authorizationFileSrc: [null, sizeFile(3000000)],
       comment: [null, [Validators.required, Validators.maxLength(2500)]]
     }, {
       validators: [
@@ -113,12 +110,6 @@ export class DriverComponent implements OnInit {
     this.form.get(field)?.setValue(roundedTime(value));
   }
 
-  changeFile(file: File): void {
-    this.form.patchValue({
-      authorizationFileSrc: file
-    });
-  }
-
   save(): void {
     if (this.form.invalid || this.pickupAddressComponent.isInvalidForm() || this.arrivalAddressComponent.isInvalidForm()) {
       this.form.markAllAsTouched();
@@ -143,6 +134,7 @@ export class DriverComponent implements OnInit {
       arrivalAddressId: this.arrivalAddressComponent.formAddressInternal.value.officeAddressId,
       officeId: formValues.officeId
     };
+
     const request: RequestModel = <RequestModel>{
       title: formValues.title,
       startDate: `${getDateFormat(formValues.startDate)} ${formValues.startTime}`,
@@ -154,9 +146,7 @@ export class DriverComponent implements OnInit {
       requestEmail: this.emailRequestTableComponent.emails,
     };
 
-    this.requestDriverService.store(request).pipe(
-      switchMap(res => this.requestDriverService.uploadFile(res.id, formValues.authorizationFileSrc))
-    ).subscribe(() => {
+    this.requestDriverService.store(request).subscribe(() => {
       this.form.reset({
         addGoogleCalendar: false
       }, { emitEvent: false });

@@ -136,26 +136,6 @@
           </mat-form-field>
         </div>
 
-        <div class="flex flex-col mb-3">
-          <label for="file" class="flex-auto form-label inline-block mb-2">
-            Autorización de solicitud de vehículo
-          </label>
-          <input class="flex-auto px-2 py-1 text-sm font-normal bg-clip-padding border border-solid
-            border-gray-300 rounded transition ease-in-out m-0 focus:border-blue-600 focus:outline-none cursor-pointer"
-                 formControlName="authorizationFile"
-                 accept="application/pdf"
-                 id="file"
-                 type="file"
-                 (change)="changeFile($event.target['files'][0])">
-
-          <mat-error *ngIf="formErrors.customError('authorizationFile', 'required')">
-            Campo obligatorio.
-          </mat-error>
-          <mat-error *ngIf="formErrors.customErrorFile('authorizationFileSrc', 'sizeFile')">
-            El tamaño del archivo debe ser menor a 3mb.
-          </mat-error>
-        </div>
-
         <mat-form-field>
           <mat-label>Comentarios sobre el viaje</mat-label>
           <textarea placeholder="Describa aquí la actividad y función a realizar..."

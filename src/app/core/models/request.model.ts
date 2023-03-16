@@ -17,6 +17,7 @@ import { ScoreModel } from "./score.model";
 import { PackageModel } from "./package.model";
 import { RequestDriverModel } from "./request-driver.model";
 import { RequestCarModel } from "./request-car.model";
+import { PerDiemModel } from "./per-diem.model";
 
 export class RequestModel {
   id: number;
@@ -45,6 +46,7 @@ export class RequestModel {
   package?: PackageModel;
   requestDriver?: RequestDriverModel;
   requestCar?: RequestCarModel;
+  perDiem?: PerDiemModel;
 
   constructor(request) {
     this.id = request.id;
@@ -69,6 +71,7 @@ export class RequestModel {
     this.requestPhoneNumber = request.requestPhoneNumber;
     this.requestEmail = request.requestEmail;
     this.score = request.score;
+    this.perDiem = request.perDiem;
   }
 
   get statusName(): string {

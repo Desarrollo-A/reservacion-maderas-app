@@ -1,0 +1,162 @@
+<mat-accordion>
+  <mat-expansion-panel>
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        Viáticos para el viaje
+      </mat-panel-title>
+    </mat-expansion-panel-header>
+
+    <div class="flex flex-col gap-2"
+         [formGroup]="form">
+      <div *ngIf="enableFirstSubmit"
+           class="flex flex-col md:flex-row md:gap-4">
+        <mat-form-field class="flex-auto">
+          <mat-label>Gasolina</mat-label>
+          <input matInput
+                 type="number"
+                 formControlName="gasoline"
+                 autocomplete="off">
+
+          <mat-error *ngIf="formErrors.customError('gasoline', 'required')">
+            Campo obligatorio.
+          </mat-error>
+          <mat-error *ngIf="formErrors.customError('gasoline', 'min')">
+            El costo de la gasolina debe ser mayor a {{formErrors.minNumber('gasoline')}}.
+          </mat-error>
+          <mat-error *ngIf="formErrors.customError('gasoline', 'max')">
+            El costo de la gasolina debe ser menor a {{formErrors.maxNumber('gasoline')}}.
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field class="flex-auto">
+          <mat-label>Casetas de cobro</mat-label>
+          <input matInput
+                 type="number"
+                 formControlName="tollbooths"
+                 autocomplete="off">
+
+          <mat-error *ngIf="formErrors.customError('tollbooths', 'required')">
+            Campo obligatorio.
+          </mat-error>
+          <mat-error *ngIf="formErrors.customError('tollbooths', 'min')">
+            El costo de caseta de cobro debe ser mayor a {{formErrors.minNumber('tollbooths')}}.
+          </mat-error>
+          <mat-error *ngIf="formErrors.customError('tollbooths', 'max')">
+            El costo de caseta de cobro debe ser menor a {{formErrors.maxNumber('tollbooths')}}.
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field class="flex-auto">
+          <mat-label>Comida</mat-label>
+          <input matInput
+                 type="number"
+                 formControlName="food"
+                 autocomplete="off">
+
+          <mat-error *ngIf="formErrors.customError('food', 'required')">
+            Campo obligatorio.
+          </mat-error>
+          <mat-error *ngIf="formErrors.customError('food', 'min')">
+            El costo de la comida debe ser mayor a {{formErrors.minNumber('food')}}.
+          </mat-error>
+          <mat-error *ngIf="formErrors.customError('food', 'max')">
+            El costo de la comida debe ser menor a {{formErrors.maxNumber('food')}}.
+          </mat-error>
+        </mat-form-field>
+      </div>
+
+      <div *ngIf="!enableFirstSubmit"
+           class="flex flex-col md:flex-row md:gap-4">
+        <mat-form-field appearance="outline"
+                        class="flex-auto vex-flex-form-field">
+          <mat-label>Gasolina</mat-label>
+          <input matInput readonly [value]="perDiem?.gasoline.toString()">
+        </mat-form-field>
+
+        <mat-form-field appearance="outline"
+                        class="flex-auto vex-flex-form-field">
+          <mat-label>Caseta de cobro</mat-label>
+          <input matInput readonly [value]="perDiem?.tollbooths.toString()">
+        </mat-form-field>
+
+        <mat-form-field appearance="outline"
+                        class="flex-auto vex-flex-form-field">
+          <mat-label>Comida</mat-label>
+          <input matInput readonly [value]="perDiem?.food.toString()">
+        </mat-form-field>
+      </div>
+
+      <div *ngIf="enableSecondSubmit" class="flex flex-col gap-2">
+        <mat-form-field class="flex-auto">
+          <mat-label>Total gastado en el viaje</mat-label>
+          <input matInput
+                 type="number"
+                 formControlName="spent"
+                 autocomplete="off">
+
+          <mat-error *ngIf="formErrors.customError('spent', 'required')">
+            Campo obligatorio.
+          </mat-error>
+          <mat-error *ngIf="formErrors.customError('spent', 'min')">
+            El total debe ser mayor a {{formErrors.minNumber('spent')}}.
+          </mat-error>
+          <mat-error *ngIf="formErrors.customError('spent', 'max')">
+            El total debe ser menor a {{formErrors.maxNumber('spent')}}.
+          </mat-error>
+        </mat-form-field>
+
+        <div class="flex flex-col">
+          <label for="billFile"
+                 class="flex-auto form-label inline-block mb-2">
+            Archivo ZIP con las facturas del viaje
+          </label>
+          <input class="flex-auto px-2 py-1 text-sm font-normal bg-clip-padding border border-solid
+                border-gray-300 rounded transition ease-in-out m-0 focus:border-blue-600 focus:outline-none cursor-pointer"
+                 formControlName="billFile"
+                 accept="application/zip"
+                 id="billFile"
+                 type="file"
+                 (change)="changeBillZipFile($event.target['files'][0])">
+
+          <mat-hint>
+            Adjunta todas las facturas (PDF y XML) emitidas durante el viaje para la comprobación de gastos
+          </mat-hint>
+          <mat-error *ngIf="formErrors.customError('billFile', 'required')">
+            Campo obligatorio.
+          </mat-error>
+          <mat-error *ngIf="formErrors.customErrorFile('billFile', 'sizeFile')">
+            El tamaño del archivo debe ser menor a 5mb.
+          </mat-error>
+        </div>
+      </div>
+
+      <div *ngIf="showSecondSubmit"
+           class="flex flex-col md:flex-row md:gap-4">
+        <mat-form-field appearance="outline" class="flex-auto vex-flex-form-field">
+          <mat-label>Total gastado durante el viaje</mat-label>
+          <input matInput readonly [value]="perDiem.spent.toString()">
+        </mat-form-field>
+
+        <div class="flex-auto sm:mt-2 mb-4 sm:mb-0">
+          <a class="relative flex items-center cursor-pointer select-none rounded-full px-4 py-1 hover:bg-primary/10 trans-ease-out"
+             matRipple [href]="perDiem.billFilename | url" target="_blank">
+            <div class="p-2 bg-primary/10 text-primary rounded-full ltr:mr-4 rtl:ml-4">
+              <mat-icon class="block" svgIcon="mat:picture_as_pdf"></mat-icon>
+            </div>
+            <p class="font-medium text-primary">Facturas ZIP</p>
+          </a>
+        </div>
+      </div>
+
+      <div class="flex items-center justify-end">
+        <button color="primary"
+                mat-raised-button
+                type="button"
+                (click)="save()"
+                [disabled]="disableSaveButton">
+          Guardar
+        </button>
+      </div>
+    </div>
+  </mat-expansion-panel>
+</mat-accordion>

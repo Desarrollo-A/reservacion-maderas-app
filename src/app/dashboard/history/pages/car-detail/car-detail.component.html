@@ -42,7 +42,7 @@
             </mat-form-field>
           </div>
 
-          <div class="flex flex-col sm:flex-row sm:gap-4">
+          <div class="flex flex-col md:flex-row md:gap-4">
             <mat-form-field appearance="outline" class="flex-auto vex-flex-form-field">
               <mat-label>Fecha y hora de salida</mat-label>
               <input matInput readonly [value]="requestCar.request.startDate|date:'dd-MM-y, h:mm a'">
@@ -52,23 +52,11 @@
               <mat-label>Fecha y hora de llegada</mat-label>
               <input matInput readonly [value]="requestCar.request.endDate|date:'dd-MM-y, h:mm a'">
             </mat-form-field>
-          </div>
 
-          <div class="flex flex-col sm:flex-row sm:gap-4">
             <mat-form-field appearance="outline" class="flex-auto vex-flex-form-field">
               <mat-label>N° de personas</mat-label>
               <input matInput readonly [value]="requestCar.request.people.toString()">
             </mat-form-field>
-
-            <div class="flex-auto sm:mt-2 mb-4 sm:mb-0">
-              <a class="relative flex items-center cursor-pointer select-none rounded-full px-4 py-1 hover:bg-primary/10 trans-ease-out"
-                 matRipple [href]="requestCar.authorizationFilename | url" target="_blank">
-                <div class="p-2 bg-primary/10 text-primary rounded-full ltr:mr-4 rtl:ml-4">
-                  <mat-icon class="block" svgIcon="mat:picture_as_pdf"></mat-icon>
-                </div>
-                <p class="font-medium text-primary">Archivo de autorización</p>
-              </a>
-            </div>
           </div>
 
           <mat-form-field appearance="outline" class="flex-auto vex-flex-form-field">
@@ -106,8 +94,19 @@
                                                 previousStatus.code === statusRequest[statusRequest.FINISHED])
                                                 && isRecepcionist"
                                              [requestCar]="requestCar"
-                                             (submitForm)="onSubmitAddExtraInformation()">
+                                             (submitForm)="onSubmitFormRedirectBack()">
           </app-extra-information-request-car>
+
+          <app-per-diem *ngIf="(previousStatus.code === statusRequest[statusRequest.APPROVED]
+                                || previousStatus.code === statusRequest[statusRequest.FINISHED])"
+                        [requestId]="requestCar.requestId"
+                        [status]="previousStatus"
+                        [isRecepcionist]="isRecepcionist"
+                        [isApplicant]="isApplicant"
+                        [perDiem]="requestCar.request.perDiem"
+                        (submitForm)="onSubmitFormRedirectBack()"
+                        class="flex-auto mb-2">
+          </app-per-diem>
 
           <app-email-request-table [previousStatus]="previousStatus"
                                    [requestId]="requestCar.requestId"

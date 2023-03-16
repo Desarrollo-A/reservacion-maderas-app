@@ -24,6 +24,7 @@ import {
 import { InputDataProposalDriverRequest } from "../../interfaces/input-data-proposal-driver-request";
 import { RequestModel } from "../../../../core/models/request.model";
 import { StatusDriverRequestLookup } from "../../../../core/enums/lookups/status-driver-request.lookup";
+import { UserSessionService } from "../../../../core/services/user-session.service";
 
 @Component({
   selector: 'app-driver-detail',
@@ -52,12 +53,15 @@ export class DriverDetailComponent {
 
   trackById = trackById;
 
-  constructor(private activatedRoute: ActivatedRoute,
-              private router: Router,
-              private requestDriverService: RequestDriverService,
-              private toastrService: ToastrService,
-              private officeService: OfficeService,
-              private dialog: MatDialog) {
+  constructor(
+    private activatedRoute: ActivatedRoute,
+    private router: Router,
+    private requestDriverService: RequestDriverService,
+    private toastrService: ToastrService,
+    private officeService: OfficeService,
+    private dialog: MatDialog,
+    private userSessionService: UserSessionService
+  ) {
     const [,,part] = this.router.url.split('/', 3);
     this.urlRedirectBack = `/dashboard/${part}/conductor`;
     this.breadcrumbs.push({
@@ -72,6 +76,14 @@ export class DriverDetailComponent {
 
   get statusRequest(): typeof StatusDriverRequestLookup {
     return StatusDriverRequestLookup;
+  }
+
+  get isRecepcionist(): boolean {
+    return this.userSessionService.isRecepcionist;
+  }
+
+  get isApplicant(): boolean {
+    return this.userSessionService.isApplicant;
   }
 
   changeStatus(status: Lookup): void {
@@ -124,6 +136,11 @@ export class DriverDetailComponent {
       this.previousStatus.code === StatusDriverRequestLookup[StatusDriverRequestLookup.PROPOSAL]) {
       this.responseRejectRequest();
     }
+  }
+
+  onSubmitFormRedirectBack(): void {
+    this.toastrService.success('Datos guardados', 'Proceso exitoso');
+    this.router.navigateByUrl(this.urlRedirectBack);
   }
 
   private cancelRequest(): void {

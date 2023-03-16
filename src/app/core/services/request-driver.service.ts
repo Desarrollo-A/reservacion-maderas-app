@@ -29,15 +29,6 @@ export class RequestDriverService {
     return this.http.post<RequestDriverModel>(this.url, data);
   }
 
-  uploadFile(id: number, file: File): Observable<void> {
-    const data = new FormData();
-    data.append('file', file);
-    data.append('_method', 'PUT');
-
-    const url = `${this.url}/upload-file/${id}`;
-    return this.http.post<void>(url, data);
-  }
-
   findAllPaginated(sort: string, itemsPerPage: number, page: number, search: string | null)
     : Observable<PaginationResponse<RequestDriverViewModel>> {
     const params = getPaginateParams(sort, itemsPerPage, page, search);

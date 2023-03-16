@@ -37,6 +37,7 @@ import { RequestPackaheDriverInfoComponent } from './components/proposal-request
 import { ProposalRequestDriverComponent } from './components/proposal-request-driver/proposal-request-driver.component';
 import { ProposalRequestCarComponent } from './components/proposal-request-car/proposal-request-car.component';
 import { ExtraInformationRequestCarComponent } from './components/extra-information-request-car/extra-information-request-car.component';
+import { PerDiemModule } from "../../shared/components/per-diem/per-diem.module";
 
 
 @NgModule({
@@ -80,7 +81,8 @@ import { ExtraInformationRequestCarComponent } from './components/extra-informat
     DeleteConfirmModule,
     PhoneRequestModule,
     EmailRequestModule,
-    AddressModule
+    AddressModule,
+    PerDiemModule,
   ]
 })
 export class HistoryModule { }

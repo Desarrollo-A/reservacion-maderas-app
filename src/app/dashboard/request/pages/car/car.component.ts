@@ -17,7 +17,6 @@ import {
   dateBeforeNow,
   endDateIsAfterToStartDate,
   endTimeIsAfterToStarTimeWithDates,
-  sizeFile,
   termsConditions
 } from "../../../../shared/utils/form-validations";
 import { debounceTime, distinctUntilChanged, of, switchMap, tap } from "rxjs";
@@ -72,8 +71,6 @@ export class CarComponent implements OnInit {
       addGoogleCalendar: [false],
       startTime: [null, [Validators.required]],
       endTime: [null, [Validators.required]],
-      authorizationFile: [null, Validators.required],
-      authorizationFileSrc: [null, sizeFile(3000000)],
       comment: [null, [Validators.required, Validators.maxLength(2500)]],
       termsConditions: [false, termsConditions]
     }, {
@@ -112,12 +109,6 @@ export class CarComponent implements OnInit {
     this.form.get(field)?.setValue(roundedTime(value));
   }
 
-  changeFile(file: File): void {
-    this.form.patchValue({
-      authorizationFileSrc: file
-    });
-  }
-
   termsAndConditions(): void {
     this.dialog.open(TermsConditionsRequestCarComponent);
   }
@@ -144,9 +135,7 @@ export class CarComponent implements OnInit {
       requestEmail: this.emailRequestTableComponent.emails,
     };
 
-    this.requestCarService.store(request).pipe(
-      switchMap(res => this.requestCarService.uploadFile(res.id, formValues.authorizationFileSrc))
-    ).subscribe(() => {
+    this.requestCarService.store(request).subscribe(() => {
       this.form.reset({
         addGoogleCalendar: false
       }, { emitEvent: false });

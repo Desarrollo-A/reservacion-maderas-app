@@ -84,9 +84,14 @@ export class CarDetailComponent implements OnInit {
     return this.userSessionService.isRecepcionist;
   }
 
+  get isApplicant(): boolean {
+    return this.userSessionService.isApplicant;
+  }
+
   changeStatus(status: Lookup): void {
     this.requestCar.request.statusId = status.id;
     this.requestCar.request.status = status;
+
     if (status.code === StatusCarRequestLookup[StatusCarRequestLookup.TRANSFER]) {
       this.loadOfficesForTransfer();
       this.toastrService.info('Selecciona una oficina para transferir la solicitud', 'Información');
@@ -135,7 +140,7 @@ export class CarDetailComponent implements OnInit {
     }
   }
 
-  onSubmitAddExtraInformation(): void {
+  onSubmitFormRedirectBack(): void {
     this.toastrService.success('Datos guardados', 'Proceso exitoso');
     this.router.navigateByUrl(this.urlRedirectBack);
   }

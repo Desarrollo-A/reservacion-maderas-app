@@ -6,7 +6,6 @@ export class RequestDriverModel {
   id: number;
   pickupAddressId: number;
   arrivalAddressId: number;
-  authorizationFilename: string;
   officeId: number;
   requestId: number;
   pickupAddress: AddressModel;
@@ -18,7 +17,6 @@ export class RequestDriverModel {
     this.id = requestDriver.id;
     this.pickupAddressId = requestDriver.pickupAddressId;
     this.arrivalAddressId = requestDriver.arrivalAddressId;
-    this.authorizationFilename = requestDriver.authorizationFilename;
     this.officeId = requestDriver.officeId;
     this.requestId = requestDriver.requestId;
     this.pickupAddress = requestDriver.pickupAddress;

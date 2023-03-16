@@ -136,6 +136,19 @@
           </mat-form-field>
         </div>
 
+        <mat-form-field>
+          <mat-label>Comentarios sobre el viaje</mat-label>
+          <textarea placeholder="Describa aquí la actividad y función a realizar..."
+                    matInput formControlName="comment"></textarea>
+
+          <mat-error *ngIf="formErrors.customError('comment', 'required')">
+            Campo obligatorio.
+          </mat-error>
+          <mat-error *ngIf="formErrors.customError('comment', 'maxlength')">
+            El comentario debe tener menos de {{ formErrors.maxLengthNumber('comment') }} caracteres.
+          </mat-error>
+        </mat-form-field>
+
         <div class="flex flex-col gap-5">
           <app-address #pickupAddress
                        title="Dirección de salida"
@@ -150,40 +163,7 @@
           </app-address>
         </div>
 
-        <div class="flex flex-col mb-3 mt-2">
-          <label for="file" class="flex-auto form-label inline-block mb-2">
-            Autorización de solicitud de chofer
-          </label>
-          <input class="flex-auto px-2 py-1 text-sm font-normal bg-clip-padding border border-solid
-            border-gray-300 rounded transition ease-in-out m-0 focus:border-blue-600 focus:outline-none cursor-pointer"
-                 formControlName="authorizationFile"
-                 accept="application/pdf"
-                 id="file"
-                 type="file"
-                 (change)="changeFile($event.target['files'][0])">
-
-          <mat-error *ngIf="formErrors.customError('authorizationFile', 'required')">
-            Campo obligatorio.
-          </mat-error>
-          <mat-error *ngIf="formErrors.customErrorFile('authorizationFileSrc', 'sizeFile')">
-            El tamaño del archivo debe ser menor a 3mb.
-          </mat-error>
-        </div>
-
-        <mat-form-field>
-          <mat-label>Comentarios sobre el viaje</mat-label>
-          <textarea placeholder="Describa aquí la actividad y función a realizar..."
-                    matInput formControlName="comment"></textarea>
-
-          <mat-error *ngIf="formErrors.customError('comment', 'required')">
-            Campo obligatorio.
-          </mat-error>
-          <mat-error *ngIf="formErrors.customError('comment', 'maxlength')">
-            El comentario debe tener menos de {{ formErrors.maxLengthNumber('comment') }} caracteres.
-          </mat-error>
-        </mat-form-field>
-
-        <app-email-request-table #emailRequestTableComponent></app-email-request-table>
+        <app-email-request-table class="mt-2" #emailRequestTableComponent></app-email-request-table>
 
         <div class="flex items-center justify-end mt-2">
           <button color="primary"

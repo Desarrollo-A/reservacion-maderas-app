@@ -12,7 +12,6 @@ import { Lookup } from "../interfaces/lookup";
 import { InventoryRequestModel } from "../models/inventory-request.model";
 import { AvailableScheduleModel } from "../models/available-schedule.model";
 import { CancelRequestModel } from "../models/cancel-request.model";
-import { WeekdayRoomUserModel } from "../models/weekday-room-user.model";
 
 @Injectable({
   providedIn: 'root'
@@ -93,10 +92,5 @@ export class RequestRoomService {
   responseRejectRequest(id: number, data: RequestModel): Observable<void> {
     const url = `${this.url}/response-reject/${id}`;
     return this.http.patch<void>(url, data);
-  }
-
-  getRequestRoomOfWeekdayByUser(userId: number): Observable<WeekdayRoomUserModel> {
-    const url = `${this.url}/weekday/${userId}`;
-    return this.http.get<WeekdayRoomUserModel>(url);
   }
 }

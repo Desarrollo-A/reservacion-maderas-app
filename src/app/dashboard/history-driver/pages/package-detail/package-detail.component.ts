@@ -12,8 +12,8 @@ import { StatusPackageRequestLookup } from "../../../../core/enums/lookups/statu
 import { ToastrService } from "ngx-toastr";
 import { StatusClass } from "../../interfaces/status-class";
 import { DeliveredPackageComponent } from "../../components/delivered-package/delivered-package.component";
-import { DeliveredPackageModel } from "../../../../core/models/delivered-package.model";
 import { Observable, switchMap } from "rxjs";
+import { DeliveredPackageModel } from "../../../../core/models/delivered-package.model";
 
 @Component({
   selector: 'app-package-detail',
@@ -117,6 +117,11 @@ export class PackageDetailComponent {
   private deliveredPackage(): void {
     if (this.deliveredPackageComponent.form.invalid) {
       this.deliveredPackageComponent.form.markAllAsTouched();
+      return;
+    }
+
+    if (this.deliveredPackageComponent.signatureComponent.canvaIsEmpty) {
+      this.toastrService.warning('La firma es obligatoria', 'Validación');
       return;
     }
 

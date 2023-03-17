@@ -11,17 +11,19 @@ export class SignatureComponent implements AfterViewInit {
   canvasRef: ElementRef;
 
   private context : CanvasRenderingContext2D;
-  private points: Array<any> = [];
+  private _points: Array<any> = [];
 
   isSigning: boolean = false;
   width: number;
   height: number;
   isAvailable: boolean;
   canvasDownload = null;
+  canvaIsEmpty = true;
 
   @HostListener('window:resize', ['$event'])
-  OnRezise = () => {
+  OnResize = () => {
     this.setCanvasSize();
+    this.canvaIsEmpty = true;
   }
 
   @HostListener('document:mousemove', ['$event'])
@@ -43,7 +45,7 @@ export class SignatureComponent implements AfterViewInit {
   @HostListener('document:mousedown', ['$event'])
   onMouseDown = (e: MouseEvent) => {
     if(e.target['id'] === 'canvas'){
-      this.points = [];
+      this._points = [];
       this.isAvailable = true;
     }
   }
@@ -51,7 +53,7 @@ export class SignatureComponent implements AfterViewInit {
   @HostListener('document:touchstart', ['$event'])
   touchstart = (e: TouchEvent) => {
     if(e.target['id'] === 'canvas'){
-      this.points = [];
+      this._points = [];
       this.isAvailable = true;
     }
   }
@@ -83,9 +85,11 @@ export class SignatureComponent implements AfterViewInit {
   }
 
   clearZone(): void {
-    this.points = []
+    this._points = []
     const canvasSize = this.canvasRef.nativeElement.getBoundingClientRect();
     this.context.clearRect(0, 0, canvasSize.width, canvasSize.height);
+
+    this.canvaIsEmpty = true;
   }
 
   signatureZone(){
@@ -160,11 +164,13 @@ export class SignatureComponent implements AfterViewInit {
   }
 
   private writeSingle(prePos): void {
-    this.points.push(prePos);
-    if (this.points.length > 1) {
-      const prevPos = this.points[this.points.length - 1]
-      const currentPos = this.points[this.points.length - 2]
+    this._points.push(prePos);
+    if (this._points.length > 1) {
+      const prevPos = this._points[this._points.length - 1]
+      const currentPos = this._points[this._points.length - 2]
       this.drawOnCanvas(currentPos, prevPos);
+
+      this.canvaIsEmpty = false;
     }
   }
 

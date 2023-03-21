@@ -1,6 +1,7 @@
 import { Lookup } from "../interfaces/lookup";
 import { OfficeModel } from "./office.model";
 import { StatusUserLookup } from "../enums/lookups/status-user.lookup";
+import { LabelButton } from "../../shared/interfaces/label-button";
 
 export class UserModel {
   id: number;
@@ -19,6 +20,8 @@ export class UserModel {
   office: OfficeModel;
   isRecepcionist?: boolean;
   role: Lookup;
+  departmentManagerId?: number;
+  departmentManagerNoEmployee?: UserModel;
 
   constructor(user) {
     this.id = user.id;
@@ -36,13 +39,18 @@ export class UserModel {
     this.officeId = user.officeId;
     this.office = user.office;
     this.role = user.role;
+    this.departmentManagerId = user.departmentManagerId;
+    /**
+     * TODO: Quitar el hardcode de la clave del director de departamento
+     */
+    this.departmentManagerNoEmployee = user.departmentManagerNoEmployee ?? user.num_empleado_director;
   }
 
   get statusName(): string {
     return this.status.name;
   }
 
-  get labelStatus(): { text: string, textClass: string, bgClass: string } {
+  get labelStatus(): LabelButton {
     if (this.status.code === StatusUserLookup[StatusUserLookup.ACTIVE]) {
       return { text: this.statusName, textClass: 'text-green', bgClass: 'bg-green-light' };
     } else if (this.status.code === StatusUserLookup[StatusUserLookup.INACTIVE]) {

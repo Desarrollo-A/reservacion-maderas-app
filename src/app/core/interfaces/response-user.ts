@@ -13,6 +13,10 @@ interface DataUser {
   nom_oficina: string;
   email_empresarial?: string;
   tel_oficina?: string;
+  /**
+   * TODO: Revisar cómo se llama el campo que viene del endpoint de CH
+   */
+  num_empleado_director?: string;
 }
 
 export enum Result {

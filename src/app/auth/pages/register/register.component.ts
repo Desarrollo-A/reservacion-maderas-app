@@ -23,19 +23,33 @@ export class RegisterComponent implements OnInit {
   ngOnInit() {}
 
   checkUser(noEmployee: string): void {
-    this.authService.checkEmployee(noEmployee).subscribe(({resultado, data}) => { 
+    this.authService.checkEmployee(noEmployee).subscribe(({resultado, data}) => {
       if (resultado === Result.NOT_EXIST) {
         this.toastrService.warning('No existe el registro', 'Atención');
-      } else if (resultado === Result.USER_LOW) {
+        return;
+      }
+      if (resultado === Result.USER_LOW) {
         this.toastrService.warning('Empleado dado de baja.', 'Atención');
-      } else if (resultado === Result.ACTIVE_WITHOUT_EMAIL) {
+        return;
+      }
+      if (resultado === Result.ACTIVE_WITHOUT_EMAIL) {
         this.toastrService.warning('No tiene correo corporativo. Favor de acercarse a Capital Humano',
           'Empleado sin correo');
-      } else if (resultado === Result.ACTIVE_WITH_EMAIL) {
-        if((data[0].puesto.toUpperCase()).indexOf('CHOFER') !== -1){
+        return;
+      }
+      if (resultado === Result.ACTIVE_WITH_EMAIL) {
+        if (data[0].puesto.toUpperCase().indexOf('CHOFER') !== -1){
           this.toastrService.warning('Colaboradores con puesto "CHOFER" ya están registrados en el sistema', 'Atención');
           return;
         }
+        /**
+         * TODO: Revisar el hardcode de la palabra del puesto de director
+         */
+        if (data[0].puesto.toUpperCase().indexOf('DIRECTOR') !== -1) {
+          this.toastrService.warning('Colaboradores con puesto "CHOFER" ya están registrados en el sistema', 'Atención');
+          return;
+        }
+
         let state = new StateModel(data[0]);
         const office = new OfficeModel(data[0]);
         let user = new UserModel(data[0]);

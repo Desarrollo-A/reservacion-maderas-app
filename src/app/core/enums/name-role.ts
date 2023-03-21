@@ -3,4 +3,5 @@ export enum NameRole {
   RECEPCIONIST = 'Recepción',
   APPLICANT = 'Solicitante',
   DRIVER = 'Conductor',
+  DEPARTMENT_MANAGER = 'Director de departamento',
 }

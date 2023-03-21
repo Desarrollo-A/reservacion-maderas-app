@@ -2,7 +2,7 @@
   <vex-widget-assistant class="col-span-1 sm:col-span-2 md:col-span-4"></vex-widget-assistant>
 
   <ng-container *ngIf="!isAdmin">
-    <vex-widget-quick-value-center *ngIf="isRecepcionist || isApplicant"
+    <vex-widget-quick-value-center *ngIf="isRecepcionist || isApplicant || isDepartmentManager"
                                    icon="mat:post_add"
                                    iconClass="text-primary bg-primary/10"
                                    label="Nuevas"
@@ -19,7 +19,7 @@
                                    iconClass="text-red bg-red-light"
                                    label="Canceladas"
                                    [value]="cancelledRequests"></vex-widget-quick-value-center>
-    <vex-widget-quick-value-center *ngIf="isRecepcionist || isApplicant || isDriver"
+    <vex-widget-quick-value-center *ngIf="isRecepcionist || isApplicant || isDriver || isDepartmentManager"
                                    icon="mat:folder_open"
                                    iconClass="text-teal bg-teal-light"
                                    label="Total General"

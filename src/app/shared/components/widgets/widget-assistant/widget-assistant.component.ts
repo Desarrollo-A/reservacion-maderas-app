@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import { UserSessionService } from 'src/app/core/services/user-session.service';
-import { NameRole } from "../../../../core/enums/name-role";
 
 @Component({
   selector: 'vex-widget-assistant',
@@ -16,18 +15,22 @@ export class WidgetAssistantComponent {
   }
 
   get isAdmin(): boolean {
-    return this.userService.user.role?.name === NameRole.ADMIN;
+    return this.userService.isAdmin;
   }
 
   get isRecepcionist(): boolean {
-    return this.userService.user.role?.name === NameRole.RECEPCIONIST ?? false;
+    return this.userService.isRecepcionist;
   }
 
   get isApplicant(): boolean {
-    return this.userService.user.role?.name === NameRole.APPLICANT;
+    return this.userService.isApplicant;
   }
 
   get isDriver(): boolean {
-    return this.userService.user.role?.name === NameRole.DRIVER ?? false;
+    return this.userService.isDriver;
+  }
+
+  get isDepartmentManager(): boolean {
+    return this.userService.isDepartmentManager;
   }
 }

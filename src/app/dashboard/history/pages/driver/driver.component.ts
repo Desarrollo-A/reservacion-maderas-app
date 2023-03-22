@@ -65,7 +65,7 @@ export class DriverComponent implements OnInit {
 
   canDeleteRequest(request: RequestPackageViewModel): boolean {
     return (request.statusCode === StatusDriverRequestLookup[StatusDriverRequestLookup.NEW] &&
-      this.userSessionService.user.role.name === NameRole.APPLICANT);
+      this.userSessionService.isApplicant);
   }
 
   sortChange(sortState: Sort): void {

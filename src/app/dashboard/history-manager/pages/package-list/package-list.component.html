@@ -1,1 +1,148 @@
-<p>package-list works!</p>
+<vex-page-layout>
+  <vex-page-layout-header class="pb-16 flex flex-col items-start justify-center">
+    <div class="container w-full flex flex-col sm:flex-row justify-between">
+      <div>
+        <h1 class="title mt-0 mb-1">Historial</h1>
+        <vex-breadcrumbs></vex-breadcrumbs>
+      </div>
+    </div>
+  </vex-page-layout-header>
+
+  <vex-page-layout-content class="container -mt-6">
+    <div class="card overflow-auto -mt-16">
+      <div class="bg-app-bar px-6 h-16 border-b sticky left-0 flex items-center">
+        <h2 class="title my-0 ltr:pr-4 rtl:pl-4 ltr:mr-4 rtl:ml-4 ltr:border-r rtl:border-l hidden sm:block flex-none">
+          <span>Paquetería</span>
+        </h2>
+
+        <div class="bg-foreground rounded-full border px-4 max-w-[300px] flex-auto flex items-center border border-gray-300">
+          <mat-icon class="icon-sm text-secondary" svgIcon="mat:search"></mat-icon>
+          <input class="px-4 py-2 border-0 outline-none w-full bg-transparent"
+                 placeholder="Buscar..."
+                 type="search"
+                 [formControl]="searchCtrl"
+                 (keyup.enter)="search()">
+        </div>
+
+        <span class="flex-1"></span>
+
+        <button [matMenuTriggerFor]="columnFilterMenu"
+                class="ml-4 flex-none"
+                mat-icon-button
+                matTooltip="Filtrar columnas"
+                type="button">
+          <mat-icon svgIcon="mat:filter_list"></mat-icon>
+        </button>
+      </div>
+
+      <table @stagger [dataSource]="dataSource" class="w-full" mat-table matSort [trackBy]="trackById"
+             (matSortChange)="sortChange($event)">
+        <!-- Clave column -->
+        <ng-container matColumnDef="code">
+          <th *matHeaderCellDef class="uppercase" mat-header-cell mat-sort-header>Clave</th>
+          <td *matCellDef="let row" class="text-secondary" mat-cell>
+            {{ row.code }}
+          </td>
+        </ng-container>
+
+        <!-- Título column -->
+        <ng-container matColumnDef="title">
+          <th *matHeaderCellDef class="uppercase" mat-header-cell mat-sort-header>Título</th>
+          <td *matCellDef="let row" mat-cell>
+            {{ row.title }}
+          </td>
+        </ng-container>
+
+        <!-- Solicitante column -->
+        <ng-container matColumnDef="fullName">
+          <th *matHeaderCellDef class="uppercase" mat-header-cell mat-sort-header>Solicitante</th>
+          <td *matCellDef="let row" mat-cell>
+            {{ row.fullName }}
+          </td>
+        </ng-container>
+
+        <!-- Fecha column -->
+        <ng-container matColumnDef="startDate">
+          <th *matHeaderCellDef class="uppercase" mat-header-cell mat-sort-header>Fecha</th>
+          <td *matCellDef="let row" mat-cell>
+            {{ row.startDate | date:'dd-MM-y' }}
+          </td>
+        </ng-container>
+
+        <!-- Estado salida column -->
+        <ng-container matColumnDef="statePickup">
+          <th *matHeaderCellDef class="uppercase" mat-header-cell mat-sort-header>Lugar salida</th>
+          <td *matCellDef="let row" mat-cell>
+            {{ row.statePickup }}
+          </td>
+        </ng-container>
+
+        <!-- Estado llegada column -->
+        <ng-container matColumnDef="stateArrival">
+          <th *matHeaderCellDef class="uppercase" mat-header-cell mat-sort-header>Lugar llegada</th>
+          <td *matCellDef="let row" mat-cell>
+            {{ row.stateArrival }}
+          </td>
+        </ng-container>
+
+        <!-- Label Column -->
+        <ng-container matColumnDef="statusName">
+          <th *matHeaderCellDef class="uppercase" mat-header-cell mat-sort-header>Estatus</th>
+          <td *matCellDef="let row" mat-cell>
+            <div class="flex items-center gap-1">
+              <div [ngClass]="[row.statusLabel.textClass, row.statusLabel.bgClass]"
+                   class="rounded px-2 py-1 font-medium text-xs flex-none">
+                {{ row.statusLabel.text }}
+              </div>
+            </div>
+          </td>
+        </ng-container>
+
+        <!-- Action Column -->
+        <ng-container matColumnDef="actions">
+          <th *matHeaderCellDef mat-header-cell></th>
+          <td *matCellDef="let row" class="w-10 text-secondary" mat-cell>
+            <button (click)="$event.stopPropagation()"
+                    [matMenuTriggerData]="{ package: row }"
+                    [matMenuTriggerFor]="actionsMenu"
+                    mat-icon-button
+                    type="button">
+              <mat-icon svgIcon="mat:more_horiz"></mat-icon>
+            </button>
+          </td>
+        </ng-container>
+
+        <tr *matHeaderRowDef="visibleColumns" mat-header-row></tr>
+        <tr *matRowDef="let row; columns: visibleColumns;"
+            @fadeInUp
+            class="hover:bg-hover trans-ease-out cursor-pointer"
+            mat-row></tr>
+      </table>
+
+      <ng-container *ngIf="requestPackageResponse">
+        <app-paginator [pageSizeOptions]="pageSizeOptions"
+                       [meta]="requestPackageResponse.meta"
+                       (onChanges)="paginatorChanges($event)">
+        </app-paginator>
+      </ng-container>
+    </div>
+  </vex-page-layout-content>
+</vex-page-layout>
+
+<mat-menu #columnFilterMenu="matMenu" xPosition="before" yPosition="below">
+  <button (click)="toggleColumnVisibility(column, $event)" *ngFor="let column of columns"
+          class="checkbox-item mat-menu-item">
+    <mat-checkbox (click)="$event.stopPropagation()" [(ngModel)]="column.visible" color="primary">
+      {{ column.label }}
+    </mat-checkbox>
+  </button>
+</mat-menu>
+
+<mat-menu #actionsMenu="matMenu" xPosition="before" yPosition="below">
+  <ng-template let-requestPackage="package" matMenuContent>
+    <a mat-menu-item [routerLink]="['./', requestPackage.requestId]">
+      <mat-icon svgIcon="mat:visibility"></mat-icon>
+      <span>Detalle</span>
+    </a>
+  </ng-template>
+</mat-menu>

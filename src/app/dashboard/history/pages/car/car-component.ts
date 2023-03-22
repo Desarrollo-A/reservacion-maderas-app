@@ -45,7 +45,7 @@ export class CarComponent implements OnInit {
   orderBy: string = '-request_id';
   searchCtrl = new FormControl('');
   filters: Filters = {filters: []};
-  
+
   constructor(private requestCarService: RequestCarService,
               private toastrService: ToastrService,
               private dialog: MatDialog,
@@ -87,7 +87,7 @@ export class CarComponent implements OnInit {
 
   canDeleteRequestCar(requestCar: RequestCarViewModel): boolean{
     return (requestCar.statusCode === StatusCarRequestLookup[StatusCarRequestLookup.NEW] &&
-      this.userSessionService.user.role.name === NameRole.APPLICANT);
+      this.userSessionService.isApplicant);
   }
 
   deleteRequestCar(requestId: number): void{
@@ -134,7 +134,7 @@ export class CarComponent implements OnInit {
   private clearFilters(): void {
     this.filters = { filters: [] };
   }
-  
+
   private generateFilter(field: string, type: TypesEnum, value: any): void {
     this.filters.filters.push({ field, type, value });
   }

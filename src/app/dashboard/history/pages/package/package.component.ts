@@ -63,7 +63,7 @@ export class PackageComponent implements OnInit {
 
   canDeleteRequest(request: RequestPackageViewModel): boolean {
     return (request.statusCode === StatusPackageRequestLookup[StatusPackageRequestLookup.NEW] &&
-      this.userSessionService.user.role.name === NameRole.APPLICANT);
+      this.userSessionService.isApplicant);
   }
 
   sortChange(sortState: Sort): void {

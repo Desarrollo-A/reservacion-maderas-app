@@ -186,4 +186,9 @@ export class RequestPackageService {
         })
       );
   }
+
+  acceptCancelPackage(requestId: number, data: RequestModel): Observable<void> {
+    const url = `${this.url}/accept-cancel/${requestId}`;
+    return this.http.patch<void>(url, data);
+  }
 }

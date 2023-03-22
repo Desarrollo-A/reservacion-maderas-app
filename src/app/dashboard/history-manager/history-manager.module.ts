@@ -10,6 +10,9 @@ import { PaginatorModule } from "../../shared/components/paginator/paginator.mod
 import { BreadcrumbsModule } from "../../shared/components/breadcrumbs/breadcrumbs.module";
 import { PageNotFoundModule } from "../../shared/components/page-not-found/page-not-found.module";
 import { PackageDetailComponent } from './pages/package-detail/package-detail.component';
+import { HistoryModule } from "../history/history.module";
+import { AddressModule } from "../../shared/components/address/address.module";
+import { UrlModule } from "../../shared/pipes/url/url.module";
 
 
 @NgModule({
@@ -26,7 +29,10 @@ import { PackageDetailComponent } from './pages/package-detail/package-detail.co
     ReactiveFormsModule,
     PaginatorModule,
     BreadcrumbsModule,
-    PageNotFoundModule
+    PageNotFoundModule,
+    HistoryModule,
+    AddressModule,
+    UrlModule
   ]
 })
 export class HistoryManagerModule { }

@@ -83,6 +83,9 @@ import { PerDiemModule } from "../../shared/components/per-diem/per-diem.module"
     EmailRequestModule,
     AddressModule,
     PerDiemModule,
+  ],
+  exports: [
+    CancelRequestComponent
   ]
 })
 export class HistoryModule { }

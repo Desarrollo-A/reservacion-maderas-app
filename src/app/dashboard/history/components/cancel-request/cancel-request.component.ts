@@ -6,6 +6,9 @@ import { StatusRequestRoomLookup } from "../../../../core/enums/lookups/status-r
 import { CancelRequestModel } from "../../../../core/models/cancel-request.model";
 import { fadeInUp400ms } from "../../../../shared/animations/fade-in-up.animation";
 import { StatusPackageRequestLookup } from "../../../../core/enums/lookups/status-package-request.lookup";
+import { StatusDriverRequestLookup } from "../../../../core/enums/lookups/status-driver-request.lookup";
+import { StatusCarRequestLookup } from "../../../../core/enums/lookups/status-car-request.lookup";
+import { TypeLookup } from "../../../../core/enums/type-lookup";
 
 @Component({
   selector: 'app-cancel-request',
@@ -31,8 +34,15 @@ export class CancelRequestComponent implements OnInit {
   }
 
   get title(): string {
-    if (this.previousStatus.code === StatusRequestRoomLookup[StatusRequestRoomLookup.CANCELLED] ||
-      this.previousStatus.code === StatusPackageRequestLookup[StatusPackageRequestLookup.CANCELLED]) {
+    const code = this.previousStatus.code;
+    const type = this.previousStatus.type;
+
+    if (
+      (type === TypeLookup.STATUS_ROOM_REQUEST && code === StatusRequestRoomLookup[StatusRequestRoomLookup.CANCELLED]) ||
+      (type === TypeLookup.STATUS_PACKAGE_REQUEST && code === StatusPackageRequestLookup[StatusPackageRequestLookup.CANCELLED]) ||
+      (type === TypeLookup.STATUS_DRIVER_REQUEST && code === StatusDriverRequestLookup[StatusDriverRequestLookup.CANCELLED]) ||
+      (type === TypeLookup.STATUS_CAR_REQUEST && code === StatusCarRequestLookup[StatusCarRequestLookup.CANCELLED])
+    ) {
       return `Solicitud cancelada por ${this.cancelRequest.user.fullName}`;
     }
 

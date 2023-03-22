@@ -81,15 +81,21 @@ export const getStatusLabelRequestPackage = (statusName: string, code: string): 
   if (code === StatusPackageRequestLookup[StatusPackageRequestLookup.NEW]) {
     return { text: statusName, textClass: 'text-blue', bgClass: 'bg-blue-light' };
   }
-  if (code === StatusPackageRequestLookup[StatusPackageRequestLookup.APPROVED]) {
+  if (
+    code === StatusPackageRequestLookup[StatusPackageRequestLookup.APPROVED] ||
+    code === StatusPackageRequestLookup[StatusPackageRequestLookup.ACCEPT]
+  ) {
     return { text: statusName, textClass: 'text-green', bgClass: 'bg-green-light' };
   }
   if (code === StatusPackageRequestLookup[StatusPackageRequestLookup.REJECTED] ||
     code === StatusRequestRoomLookup[StatusRequestRoomLookup.CANCELLED]) {
     return { text: statusName, textClass: 'text-red', bgClass: 'bg-red-light' };
   }
-  if (code === StatusPackageRequestLookup[StatusPackageRequestLookup.PROPOSAL] ||
-    code === StatusPackageRequestLookup[StatusPackageRequestLookup.IN_REVIEW]) {
+  if (
+    code === StatusPackageRequestLookup[StatusPackageRequestLookup.PROPOSAL] ||
+    code === StatusPackageRequestLookup[StatusPackageRequestLookup.IN_REVIEW] ||
+    code === StatusPackageRequestLookup[StatusPackageRequestLookup.IN_REVIEW_MANAGER]
+  ) {
     return { text: statusName, textClass: 'text-orange', bgClass: 'bg-orange-light' };
   }
   if (code === StatusPackageRequestLookup[StatusPackageRequestLookup.EXPIRED]) {

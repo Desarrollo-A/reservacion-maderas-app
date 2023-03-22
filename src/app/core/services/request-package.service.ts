@@ -13,7 +13,6 @@ import { CancelRequestModel } from "../models/cancel-request.model";
 import { ApprovedPackageRequest } from "../../dashboard/history/interfaces/approved-package-request";
 import { AuthCodePackage } from 'src/app/package/interfaces/auth-code-package';
 import { DeliveredPackage } from 'src/app/package/interfaces/delivered-package';
-import { ProposalRequestModel } from "../models/proposal-request.model";
 import { DeliveredPackageModel } from "../models/delivered-package.model";
 import { ProposalPackageRequest } from "../../dashboard/history/interfaces/proposal-package-request";
 
@@ -171,5 +170,25 @@ export class RequestPackageService {
     formData.append('_method', 'PUT');
     const url = `${this.url}/signature/${data.packageId}`;
     return this.http.post<void>(url, formData);
+  }
+
+  findAllPackagesByManagerIdPaginated(
+    sort: string, itemsPerPage: number, page: number, search: string | null
+  ): Observable<PaginationResponse<RequestPackageViewModel>> {
+    const params = getPaginateParams(sort, itemsPerPage, page, search);
+    const url = `${this.url}/department-manager`
+
+    return this.http.get<PaginationResponse<RequestPackageViewModel>>(url, {params})
+      .pipe(
+        map(res => {
+          res.data = res.data.map(requestPackage => new RequestPackageViewModel(requestPackage));
+          return res;
+        })
+      );
+  }
+
+  acceptCancelPackage(requestId: number, data: RequestModel): Observable<void> {
+    const url = `${this.url}/accept-cancel/${requestId}`;
+    return this.http.patch<void>(url, data);
   }
 }

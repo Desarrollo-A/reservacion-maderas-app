@@ -3,68 +3,68 @@
     <img src="assets/img/illustrations/checklist.svg" style="height: 168px; width: 152px" alt="checklist">
   </div>
 
-  <div class="p-6 text-primary-contrast flex-auto" *ngIf="isRecepcionist">
+  <div class="p-6 text-primary-contrast flex-auto">
     <h2 class="headline m-0">¡Hola, {{ userFullName | titlecase }}!</h2>
     <p class="caption m-0 opacity-50">En tu panel podrás realizar las siguientes acciones:</p>
 
-    <div class="mt-4 flex items-center">
-      <mat-icon class="mr-2" svgIcon="mat:check_circle"></mat-icon>
-      <span class="body-2 cursor-pointer">Gestionar las solicitudes de sala de junta, paquetería, chofer y vehículo</span>
-    </div>
+    <ng-container *ngIf="isRecepcionist">
+      <div class="mt-4 flex items-center">
+        <mat-icon class="mr-2" svgIcon="mat:check_circle"></mat-icon>
+        <span class="body-2 cursor-pointer">Gestionar las solicitudes de sala de junta, paquetería, chofer y vehículo</span>
+      </div>
 
-    <div class="mt-1 flex items-center">
-      <mat-icon class="mr-2" svgIcon="mat:check_circle"></mat-icon>
-      <span class="body-2 cursor-pointer">Gestionar el inventario y stock de cada producto</span>
-    </div>
+      <div class="mt-1 flex items-center">
+        <mat-icon class="mr-2" svgIcon="mat:check_circle"></mat-icon>
+        <span class="body-2 cursor-pointer">Gestionar el inventario y stock de cada producto</span>
+      </div>
 
-    <div class="mt-1 flex items-center">
-      <mat-icon class="mr-2" svgIcon="mat:check_circle"></mat-icon>
-      <span class="body-2 cursor-pointer">Mantenimiento de salas de junta y vehículo</span>
-    </div>
-  </div>
+      <div class="mt-1 flex items-center">
+        <mat-icon class="mr-2" svgIcon="mat:check_circle"></mat-icon>
+        <span class="body-2 cursor-pointer">Mantenimiento de salas de junta y vehículo</span>
+      </div>
+    </ng-container>
 
-  <div class="p-6 text-primary-contrast flex-auto" *ngIf="isApplicant">
-    <h2 class="headline m-0">¡Hola, {{ userFullName | titlecase }}!</h2>
-    <p class="caption m-0 opacity-50">En tu panel podrás realizar las siguientes acciones:</p>
+    <ng-container *ngIf="isApplicant">
+      <div class="mt-4 flex items-center">
+        <mat-icon class="mr-2" svgIcon="mat:check_circle"></mat-icon>
+        <span class="body-2 cursor-pointer">Crear solicitudes</span>
+      </div>
 
-    <div class="mt-4 flex items-center">
-      <mat-icon class="mr-2" svgIcon="mat:check_circle"></mat-icon>
-      <span class="body-2 cursor-pointer">Crear solicitudes</span>
-    </div>
+      <div class="mt-1 flex items-center">
+        <mat-icon class="mr-2" svgIcon="mat:check_circle"></mat-icon>
+        <span class="body-2 cursor-pointer">Ver el historial de solicitudes</span>
+      </div>
 
-    <div class="mt-1 flex items-center">
-      <mat-icon class="mr-2" svgIcon="mat:check_circle"></mat-icon>
-      <span class="body-2 cursor-pointer">Ver el historial de solicitudes</span>
-    </div>
+      <div class="mt-1 flex items-center">
+        <mat-icon class="mr-2" svgIcon="mat:check_circle"></mat-icon>
+        <span class="body-2 cursor-pointer">Revisar el calendario las solicitudes aprobadas</span>
+      </div>
+    </ng-container>
 
-    <div class="mt-1 flex items-center">
-      <mat-icon class="mr-2" svgIcon="mat:check_circle"></mat-icon>
-      <span class="body-2 cursor-pointer">Revisar el calendario las solicitudes aprobadas</span>
-    </div>
-  </div>
+    <ng-container *ngIf="isDriver">
+      <div class="mt-4 flex items-center">
+        <mat-icon class="mr-2" svgIcon="mat:check_circle"></mat-icon>
+        <span class="body-2 cursor-pointer">Gestionar las solicitudes</span>
+      </div>
 
-  <div class="p-6 text-primary-contrast flex-auto" *ngIf="isAdmin">
-    <h2 class="headline m-0">¡Hola, {{ userFullName | titlecase }}!</h2>
-    <p class="caption m-0 opacity-50">En tu panel podrás realizar las siguientes acciones:</p>
+      <div class="mt-1 flex items-center">
+        <mat-icon class="mr-2" svgIcon="mat:check_circle"></mat-icon>
+        <span class="body-2 cursor-pointer">Generar reportes</span>
+      </div>
+    </ng-container>
 
-    <div class="mt-4 flex items-center">
-      <mat-icon class="mr-2" svgIcon="mat:check_circle"></mat-icon>
-      <span class="body-2 cursor-pointer">Ver el listado de usuarios del sistema</span>
-    </div>
-  </div>
+    <ng-container *ngIf="isAdmin">
+      <div class="mt-4 flex items-center">
+        <mat-icon class="mr-2" svgIcon="mat:check_circle"></mat-icon>
+        <span class="body-2 cursor-pointer">Ver el listado de usuarios del sistema</span>
+      </div>
+    </ng-container>
 
-  <div class="p-6 text-primary-contrast flex-auto" *ngIf="isDriver">
-    <h2 class="headline m-0">¡Hola, {{ userFullName | titlecase }}!</h2>
-    <p class="caption m-0 opacity-50">En tu panel podrás realizar las siguientes acciones:</p>
-
-    <div class="mt-4 flex items-center">
-      <mat-icon class="mr-2" svgIcon="mat:check_circle"></mat-icon>
-      <span class="body-2 cursor-pointer">Gestionar las solicitudes</span>
-    </div>
-
-    <div class="mt-1 flex items-center">
-      <mat-icon class="mr-2" svgIcon="mat:check_circle"></mat-icon>
-      <span class="body-2 cursor-pointer">Generar reportes</span>
-    </div>
+    <ng-container *ngIf="isDepartmentManager">
+      <div class="mt-4 flex items-center">
+        <mat-icon class="mr-2" svgIcon="mat:check_circle"></mat-icon>
+        <span class="body-2 cursor-pointer">Gestionar las solicitudes de paquetería</span>
+      </div>
+    </ng-container>
   </div>
 </div>

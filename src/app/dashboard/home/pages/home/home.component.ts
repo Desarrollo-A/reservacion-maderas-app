@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { UserSessionService } from 'src/app/core/services/user-session.service';
-import { NameRole } from 'src/app/core/enums/name-role';
 import { DashboardService } from "../../../../core/services/dashboard.service";
 @Component({
   selector: 'app-home',
@@ -19,23 +18,27 @@ export class HomeComponent implements OnInit {
     data: []
   }];
 
-  constructor(private userService: UserSessionService,
+  constructor(private userSessionService: UserSessionService,
               private homeService: DashboardService) { }
 
   get isRecepcionist(): boolean {
-   return this.userService.user.role?.name == NameRole.RECEPCIONIST;
+   return this.userSessionService.isRecepcionist;
   }
 
   get isAdmin(): boolean {
-    return this.userService.user?.role?.name === NameRole.ADMIN;
+    return this.userSessionService.isAdmin;
   }
 
   get isDriver(): boolean {
-    return this.userService.user?.role?.name === NameRole.DRIVER;
+    return this.userSessionService.isDriver;
   }
 
   get isApplicant(): boolean {
-    return this.userService.user?.role?.name === NameRole.APPLICANT;
+    return this.userSessionService.isApplicant;
+  }
+
+  get isDepartmentManager(): boolean {
+    return this.userSessionService.isDepartmentManager;
   }
 
   ngOnInit(): void {

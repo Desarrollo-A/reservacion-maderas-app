@@ -8,27 +8,18 @@ import { TableColumn } from "../../../../shared/interfaces/table-column.interfac
 import { FormControl } from "@angular/forms";
 import { Filters, TypesEnum } from "../../../../core/interfaces/filters";
 import { RequestPackageService } from "../../../../core/services/request-package.service";
-import { MatDialog } from "@angular/material/dialog";
-import { ToastrService } from "ngx-toastr";
-import { UserSessionService } from "../../../../core/services/user-session.service";
 import { Sort } from "@angular/material/sort";
 import { getSort } from "../../../../shared/utils/http-functions";
-import { NameRole } from "../../../../core/enums/name-role";
-import { DeleteConfirmComponent } from "../../../../shared/components/delete-confirm/delete-confirm.component";
-import { of, switchMap } from "rxjs";
-import { RequestService } from "../../../../core/services/request.service";
-import { StatusPackageRequestLookup } from "../../../../core/enums/lookups/status-package-request.lookup";
 
 @Component({
-  selector: 'app-package',
-  templateUrl: './package.component.html',
-  styleUrls: ['./package.component.scss'],
+  selector: 'app-package-list',
+  templateUrl: './package-list.component.html',
   animations: [
     fadeInUp400ms,
     stagger40ms
   ]
 })
-export class PackageComponent implements OnInit {
+export class PackageListComponent implements OnInit {
   requestPackageResponse: PaginationResponse<RequestPackageViewModel>;
   dataSource: MatTableDataSource<RequestPackageViewModel> | null;
   columns: TableColumn<RequestPackageViewModel>[] = [
@@ -46,11 +37,9 @@ export class PackageComponent implements OnInit {
   searchCtrl = new FormControl('');
   filters: Filters = { filters: [] };
 
-  constructor(private requestPackageService: RequestPackageService,
-              private requestService: RequestService,
-              private userSessionService: UserSessionService,
-              private dialog: MatDialog,
-              private toastrService: ToastrService) {}
+  constructor(
+    private requestPackageService: RequestPackageService
+  ) { }
 
   ngOnInit(): void {
     this.dataSource = new MatTableDataSource<RequestPackageViewModel>();
@@ -59,11 +48,6 @@ export class PackageComponent implements OnInit {
 
   get visibleColumns(): string[] {
     return this.columns.filter(column => column.visible).map(column => column.property);
-  }
-
-  canDeleteRequest(request: RequestPackageViewModel): boolean {
-    return (request.statusCode === StatusPackageRequestLookup[StatusPackageRequestLookup.NEW] &&
-      this.userSessionService.isApplicant);
   }
 
   sortChange(sortState: Sort): void {
@@ -87,17 +71,6 @@ export class PackageComponent implements OnInit {
     column.visible = !column.visible;
   }
 
-  deleteRequest(id: number): void {
-    this.dialog.open(DeleteConfirmComponent, { autoFocus: false }).afterClosed().pipe(
-      switchMap(confirm => (confirm) ? this.requestService.deleteRequestPackage(id) : of(false))
-    ).subscribe(confirm => {
-      if (confirm) {
-        this.toastrService.success('Solicitud eliminada', 'Proceso exitoso');
-        this.prepareFilters();
-      }
-    });
-  }
-
   trackById(index: number, item: RequestPackageViewModel) {
     return item.requestId;
   }
@@ -113,7 +86,6 @@ export class PackageComponent implements OnInit {
     this.generateFilter('code', TypesEnum.String, filter);
     this.generateFilter('title', TypesEnum.String, filter);
     this.generateFilter('username', TypesEnum.String, filter);
-    this.generateFilter('status_name', TypesEnum.String, filter);
     this.generateFilter('state_pickup', TypesEnum.String, filter);
     this.generateFilter('state_arrival', TypesEnum.String, filter);
 
@@ -130,7 +102,7 @@ export class PackageComponent implements OnInit {
       perPageInit = perPage;
     }
 
-    this.requestPackageService.findAllPaginated(this.orderBy, perPageInit, currentPageInit, searchQuery)
+    this.requestPackageService.findAllPackagesByManagerIdPaginated(this.orderBy, perPageInit, currentPageInit, searchQuery)
       .subscribe(requestPackageResponse => {
         this.requestPackageResponse = requestPackageResponse;
         this.dataSource.data = requestPackageResponse.data;

@@ -5,7 +5,6 @@ import { NotificationModel } from "../models/notification.model";
 import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
 import { Router } from "@angular/router";
 import { UserSessionService } from "../../../../../core/services/user-session.service";
-import { NameRole } from "../../../../../core/enums/name-role";
 import { TypeNotificationLookup } from "../enums/type-notification.lookup";
 import { I18nPlural } from "../../../../../core/interfaces/i18n-plural";
 import { MatDialog } from "@angular/material/dialog";
@@ -51,16 +50,18 @@ export class ToolbarNotificationsDropdownComponent implements OnInit {
   };
   menuTopLeftPosition: Position = { x: '0', y: '0' };
 
-  constructor(private notificationService: NotificationService,
-              private router: Router,
-              private userSessionService: UserSessionService,
-              private requestRoomService: RequestRoomService,
-              private dialog: MatDialog,
-              private toastrService: ToastrService,
-              private requestService: RequestService,
-              private requestPackageService: RequestPackageService,
-              private requestDriverService: RequestDriverService,
-              private requestCarService: RequestCarService) {}
+  constructor(
+    private notificationService: NotificationService,
+    private router: Router,
+    private userSessionService: UserSessionService,
+    private requestRoomService: RequestRoomService,
+    private dialog: MatDialog,
+    private toastrService: ToastrService,
+    private requestService: RequestService,
+    private requestPackageService: RequestPackageService,
+    private requestDriverService: RequestDriverService,
+    private requestCarService: RequestCarService
+  ) {}
 
   ngOnInit() {
     this.notificationService.notifications$.asObservable()
@@ -148,9 +149,9 @@ export class ToolbarNotificationsDropdownComponent implements OnInit {
   }
 
   private redirectRoom(notification: NotificationModel): void {
-    if (this.userSessionService.user.role.name === NameRole.RECEPCIONIST) {
+    if (this.userSessionService.isRecepcionist) {
       this.router.navigateByUrl(`/dashboard/solicitudes/sala/${notification.requestNotification.requestId}`);
-    } else if (this.userSessionService.user.role.name === NameRole.APPLICANT) {
+    } else if (this.userSessionService.isApplicant) {
       this.router.navigateByUrl(`/dashboard/historial/sala/${notification.requestNotification.requestId}`);
     }
   }
@@ -160,29 +161,34 @@ export class ToolbarNotificationsDropdownComponent implements OnInit {
   }
 
   private redirectPackage(notification: NotificationModel): void{
-    if (this.userSessionService.user.role.name === NameRole.RECEPCIONIST) {
+    if (this.userSessionService.isRecepcionist) {
       this.router.navigateByUrl(`/dashboard/solicitudes/paqueteria/${notification.requestNotification.requestId}`);
-    } else if (this.userSessionService.user.role.name === NameRole.APPLICANT) {
+
+    } else if (this.userSessionService.isApplicant) {
       this.router.navigateByUrl(`/dashboard/historial/paqueteria/${notification.requestNotification.requestId}`);
-    }else if(this.userSessionService.user.role.name === NameRole.DRIVER){
+
+    } else if (this.userSessionService.isDriver) {
       this.router.navigateByUrl(`/dashboard/solicitudes-asignadas/paqueteria/${notification.requestNotification.requestId}`);
+
+    } else if (this.userSessionService.isDepartmentManager) {
+      this.router.navigateByUrl(`/dashboard/director/solicitudes/paqueteria/${notification.requestNotification.requestId}`);
     }
   }
 
   private redirectDriver(notification: NotificationModel): void{
-    if(this.userSessionService.user.role.name === NameRole.RECEPCIONIST){
+    if(this.userSessionService.isRecepcionist){
       this.router.navigateByUrl(`/dashboard/solicitudes/conductor/${notification.requestNotification.requestId}`);
-    }else if(this.userSessionService.user.role.name === NameRole.APPLICANT){
+    }else if(this.userSessionService.isApplicant){
       this.router.navigateByUrl(`/dashboard/historial/conductor/${notification.requestNotification.requestId}`);
-    }else if(this.userSessionService.user.role.name === NameRole.DRIVER){
+    }else if(this.userSessionService.isDriver){
       this.router.navigateByUrl(`/dashboard/solicitudes-asignadas/conductor/${notification.requestNotification.requestId}`);
     }
   }
 
   private redirectCar(notification: NotificationModel): void {
-    if (this.userSessionService.user.role.name === NameRole.RECEPCIONIST) {
+    if (this.userSessionService.isRecepcionist) {
       this.router.navigateByUrl(`/dashboard/solicitudes/vehiculo/${notification.requestNotification.requestId}`);
-    } else if (this.userSessionService.user.role.name === NameRole.APPLICANT) {
+    } else if (this.userSessionService.isApplicant) {
       this.router.navigateByUrl(`/dashboard/historial/vehiculo/${notification.requestNotification.requestId}`);
     }
   }

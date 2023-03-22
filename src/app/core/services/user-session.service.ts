@@ -38,6 +38,18 @@ export class UserSessionService {
     return this.user?.role?.name === NameRole.RECEPCIONIST;
   }
 
+  get isAdmin(): boolean {
+    return this.user?.role?.name === NameRole.ADMIN;
+  }
+
+  get isDriver(): boolean {
+    return this.user?.role?.name === NameRole.DRIVER;
+  }
+
+  get isDepartmentManager(): boolean {
+    return this.user?.role?.name === NameRole.DEPARTMENT_MANAGER;
+  }
+
   setUser(userSession: UserSession): void {
     this._userSession = userSession;
   }

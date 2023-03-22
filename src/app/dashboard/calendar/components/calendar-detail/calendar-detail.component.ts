@@ -23,7 +23,7 @@ export class CalendarDetailComponent {
   }
 
   redirectRequestDetail(): void {
-    const part = (this.userSessionService.user.role.name === NameRole.RECEPCIONIST) ? 'solicitudes' : 'historial';
+    const part = (this.userSessionService.isRecepcionist) ? 'solicitudes' : 'historial';
 
     if (this.request.type.code === TypeRequestLookup[TypeRequestLookup.ROOM]) {
       this.dialogRef.close();

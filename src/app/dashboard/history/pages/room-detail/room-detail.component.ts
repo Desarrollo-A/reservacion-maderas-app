@@ -83,7 +83,7 @@ export class RoomDetailComponent {
       switchMap(status => {
         this.statusChange = status;
 
-        if (this.userSessionService.user.role.name === NameRole.RECEPCIONIST) {
+        if (this.userSessionService.isRecepcionist) {
           return this.inventoryService.findAllSnacks();
         }
 

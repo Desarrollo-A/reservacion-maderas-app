@@ -9,4 +9,6 @@ export enum StatusPackageRequestLookup {
   PROPOSAL,
   TRANSFER,
   IN_REVIEW,
+  IN_REVIEW_MANAGER,
+  ACCEPT,
 }

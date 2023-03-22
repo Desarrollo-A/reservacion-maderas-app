@@ -88,6 +88,18 @@ const routes: Routes = [
         canActivate: [ PermissionGuard ],
         canLoad: [ PermissionGuard ]
       },
+      {
+        path: 'director',
+        children: [
+          {
+            path: 'solicitudes',
+            loadChildren: () => import('./history-manager/history-manager.module').then(m => m.HistoryManagerModule),
+            data: { roles: [NameRole.DEPARTMENT_MANAGER] },
+            canActivate: [ PermissionGuard ],
+            canLoad: [ PermissionGuard ]
+          }
+        ]
+      },
       { path: '**', component: PageNotFoundComponent }
     ]
   }

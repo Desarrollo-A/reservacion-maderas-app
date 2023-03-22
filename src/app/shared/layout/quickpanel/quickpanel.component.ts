@@ -33,7 +33,7 @@ export class QuickpanelComponent implements OnInit {
   }
 
   redirectRequestDetail(request: RequestModel): void {
-    const part = (this.userSessionService.user.role.name === NameRole.RECEPCIONIST) ? 'solicitudes' : 'historial';
+    const part = (this.userSessionService.isRecepcionist) ? 'solicitudes' : 'historial';
     this.layoutService.closeQuickpanel();
 
     if (request.type.code === TypeRequestLookup[TypeRequestLookup.ROOM]) {

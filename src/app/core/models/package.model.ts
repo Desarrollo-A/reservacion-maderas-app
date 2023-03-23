@@ -6,8 +6,6 @@ import { ProposalPackageModel } from "./proposal-package.model";
 
 export class PackageModel {
   id: number;
-  authorizationFilename: string;
-  authorizationFile: File;
   nameReceive: string;
   emailReceive: string;
   commentReceive: string;
@@ -28,7 +26,6 @@ export class PackageModel {
 
   constructor(data) {
     this.id = data.id;
-    this.authorizationFilename = data.authorizationFilename;
     this.nameReceive = data.nameReceive;
     this.emailReceive = data.emailReceive;
     this.commentReceive = data.commentReceive;

@@ -27,7 +27,7 @@
 
     <mat-form-field class="flex-auto" *ngIf="costVisibility">
       <mat-label>Costo</mat-label>
-      <input matInput type="number" formControlName="cost" autocomplete="off" decimal>
+      <input matInput type="number" formControlName="cost" autocomplete="off" [decimal]="3">
 
       <mat-error *ngIf="formErrors.customError('cost', 'required')">
         Campo obligatorio.

@@ -13,7 +13,6 @@ import { ToastrService } from "ngx-toastr";
 import { UserSessionService } from "../../../../core/services/user-session.service";
 import { Sort } from "@angular/material/sort";
 import { getSort } from "../../../../shared/utils/http-functions";
-import { NameRole } from "../../../../core/enums/name-role";
 import { DeleteConfirmComponent } from "../../../../shared/components/delete-confirm/delete-confirm.component";
 import { of, switchMap } from "rxjs";
 import { RequestService } from "../../../../core/services/request.service";
@@ -62,7 +61,8 @@ export class PackageComponent implements OnInit {
   }
 
   canDeleteRequest(request: RequestPackageViewModel): boolean {
-    return (request.statusCode === StatusPackageRequestLookup[StatusPackageRequestLookup.NEW] &&
+    return ((request.statusCode === StatusPackageRequestLookup[StatusPackageRequestLookup.NEW] ||
+        request.statusCode === StatusPackageRequestLookup[StatusPackageRequestLookup.IN_REVIEW_MANAGER]) &&
       this.userSessionService.isApplicant);
   }
 

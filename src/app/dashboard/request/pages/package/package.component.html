@@ -49,7 +49,7 @@
           </mat-form-field>
         </div>
 
-        <div class="flex flex-col sm:flex-row sm:gap-4">
+        <div class="flex flex-col md:flex-row md:gap-4">
           <mat-form-field class="flex-auto">
             <mat-label>Fecha de envío</mat-label>
             <input [matDatepicker]="datepickerRef"
@@ -91,33 +91,23 @@
         </div>
 
         <div class="flex flex-col sm:flex-row sm:gap-4">
-          <div class="flex-auto mb-3 mt-2">
-            <mat-checkbox class="block px-4 py-7" formControlName="isUrgent" (change)="isUrgent($event.checked)">
+          <div class="flex-auto">
+            <mat-checkbox class="block px-4 py-3" formControlName="isUrgent">
               ¿El envío es urgente?
             </mat-checkbox>
           </div>
-          <div class="flex-auto mb-3 mt-2">
-            <div class="flex flex-col">
-              <label for="file" class="flex-auto form-label inline-block mb-2">
-                Autorización de envío de paquetería
-              </label>
-              <input class="flex-auto px-2 py-1 text-sm font-normal bg-clip-padding border border-solid
-              border-gray-300 rounded transition ease-in-out m-0 focus:border-blue-600 focus:outline-none cursor-pointer"
-                     formControlName="authorizationFile"
-                     accept="application/pdf"
-                     id="file"
-                     type="file"
-                     (change)="changeFile($event.target['files'][0])">
 
-              <mat-error *ngIf="formErrors.customError('authorizationFile', 'required')">
-                Campo obligatorio.
-              </mat-error>
-              <mat-error *ngIf="formErrors.customErrorFile('authorizationFileSrc', 'sizeFile')">
-                El tamaño del archivo debe ser menor a 3mb.
-              </mat-error>
-            </div>
+          <div class="flex-auto sm:mt-3 sm:ml-3" *ngIf="heavyShipping">
+            <mat-slide-toggle formControlName="isHeavyShipping">
+              ¿El paquete pesa más de {{ heavyShipping?.name }} kg?
+            </mat-slide-toggle>
           </div>
+        </div>
 
+        <div>
+          <app-heavy-shipment-table *ngIf="isHeavyShipping"
+                                    #heavyShipmentTableComponent>
+          </app-heavy-shipment-table>
         </div>
 
         <mat-form-field>

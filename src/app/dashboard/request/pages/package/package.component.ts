@@ -8,9 +8,9 @@ import { OfficeModel } from "../../../../core/models/office.model";
 import { trackById } from "../../../../shared/utils/track-by";
 import { ToastrService } from "ngx-toastr";
 import { StateService } from "../../../../core/services/state.service";
-import { dateAfter30Days, dateBeforeNow, sizeFile } from "../../../../shared/utils/form-validations";
+import { dateAfter30Days, dateBeforeNow } from "../../../../shared/utils/form-validations";
 import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
-import { switchMap, tap, of, forkJoin } from "rxjs";
+import { forkJoin, switchMap, tap } from "rxjs";
 import { OfficeService } from "../../../../core/services/office.service";
 import { AddressComponent } from "../../../../shared/components/address/address.component";
 import { RequestPackageService } from "../../../../core/services/request-package.service";
@@ -18,6 +18,11 @@ import { PackageModel } from "../../../../core/models/package.model";
 import { AddressModel } from "../../../../core/models/address.model";
 import { RequestModel } from "../../../../core/models/request.model";
 import { getDateFormat } from "../../../../shared/utils/utils";
+import { LookupService } from "../../../../core/services/lookup.service";
+import { HeavyShippingLookup } from "../../../../core/enums/lookups/heavy-shipping.lookup";
+import { TypeLookup } from "../../../../core/enums/type-lookup";
+import { Lookup } from "../../../../core/interfaces/lookup";
+import { HeavyShipmentTableComponent } from "../../components/heavy-shipment-table/heavy-shipment-table.component";
 
 @UntilDestroy()
 @Component({
@@ -34,6 +39,8 @@ export class PackageComponent implements OnInit {
   pickupAddressComponent: AddressComponent;
   @ViewChild('arrivalAddress')
   arrivalAddressComponent: AddressComponent;
+  @ViewChild('heavyShipmentTableComponent')
+  heavyShipmentTableComponent: HeavyShipmentTableComponent;
 
   form: FormGroup;
   formErrors: FormErrors;
@@ -41,17 +48,22 @@ export class PackageComponent implements OnInit {
   states: StateModel[] = [];
   offices: OfficeModel[] = [];
   allOffices: OfficeModel[] = [];
+  heavyShipping: Lookup;
 
   trackById = trackById;
 
-  constructor(private fb: FormBuilder,
-              private stateService: StateService,
-              private officeService: OfficeService,
-              private toastrService: ToastrService,
-              private requestPackageService: RequestPackageService) {}
+  constructor(
+    private fb: FormBuilder,
+    private stateService: StateService,
+    private officeService: OfficeService,
+    private toastrService: ToastrService,
+    private requestPackageService: RequestPackageService,
+    private lookupService: LookupService
+  ) {}
 
   ngOnInit(): void {
     this.getAllStatesAndOffices();
+
     this.form = this.fb.group({
       title: [null, [Validators.required, Validators.minLength(3), Validators.maxLength(100)]],
       state: [null, Validators.required],
@@ -61,40 +73,25 @@ export class PackageComponent implements OnInit {
       nameReceive: [null, [Validators.required, Validators.minLength(5), Validators.maxLength(150)]],
       emailReceive: [null, [Validators.required, Validators.email, Validators.maxLength(150)]],
       comment: [null,  [Validators.required, Validators.maxLength(2500)]],
-      authorizationFile: [null],
-      authorizationFileSrc: [null, sizeFile(3000000)],
       isUrgent: [false],
+      isHeavyShipping: [false]
     });
     this.formErrors = new FormErrors(this.form);
 
     this.form.get('state')?.valueChanges.pipe(
       untilDestroyed(this),
       tap(() => this.form.get('officeId')?.reset()),
-      switchMap(state => this.officeService.getOfficeByStateWithDriver(state))
+      switchMap(state => this.officeService.getOfficeByStateId(state))
     ).subscribe(offices => {
       if (offices.length === 0) {
-        this.toastrService.info('No hay oficinas con choferes en esta sede', 'Información');
+        this.toastrService.info('No hay oficinas disponibles', 'Información');
       }
       this.offices = offices;
-    });    
-  }
-
-  isUrgent(checked: boolean): void{
-    const refElemt = this.form.get('authorizationFile');
-    if (!checked){
-      refElemt.clearValidators();
-    }else{
-      refElemt.setValidators([
-        Validators.required
-      ])
-    }
-    refElemt.updateValueAndValidity();
-  }
-
-  changeFile(file: File): void {
-    this.form.patchValue({
-      authorizationFileSrc: file
     });
+  }
+
+  get isHeavyShipping(): boolean {
+    return this.form.get('isHeavyShipping').value;
   }
 
   save(): void {
@@ -105,15 +102,23 @@ export class PackageComponent implements OnInit {
       return;
     }
 
+    if (this.heavyShipmentTableComponent?.heavyshipments.length === 0) {
+      this.toastrService.warning('Debe agregar al menos un artículo', 'Validación');
+      return;
+    }
+
     const formValues = this.form.getRawValue();
+
     const pickupAddress: AddressModel = {
-                                          ...this.pickupAddressComponent.form.value,
-                                          isExternal: this.pickupAddressComponent.isExternalControl.value
-                                        };
+      ...this.pickupAddressComponent.form.value,
+      isExternal: this.pickupAddressComponent.isExternalControl.value
+    };
+
     const arrivalAddress: AddressModel =  {
-                                            ...this.arrivalAddressComponent.form.value,
-                                            isExternal: this.arrivalAddressComponent.isExternalControl.value
-                                          };
+      ...this.arrivalAddressComponent.form.value,
+      isExternal: this.arrivalAddressComponent.isExternalControl.value
+    };
+
     const packageModel: PackageModel = <PackageModel> {
       pickupAddress,
       arrivalAddress,
@@ -123,7 +128,10 @@ export class PackageComponent implements OnInit {
       emailReceive: formValues.emailReceive,
       officeId: formValues.officeId,
       isUrgent: formValues.isUrgent,
+      isHeavyShipping: formValues.isHeavyShipping,
+      heavyShipments: this.heavyShipmentTableComponent?.heavyshipments ?? []
     };
+
     const request: RequestModel = <RequestModel> {
       title: formValues.title,
       startDate: getDateFormat(formValues.date),
@@ -131,31 +139,31 @@ export class PackageComponent implements OnInit {
       addGoogleCalendar: formValues.addGoogleCalendar,
       package: packageModel
     };
-    this.requestPackageService.store(request).pipe(
-      switchMap(res => {
-        return (formValues.authorizationFileSrc === null) 
-        ? of(void 0)
-        : this.requestPackageService.uploadFile(res.id, formValues.authorizationFileSrc)
-      })
-    )
-      .subscribe(() => {
-        this.form.reset({
-          addGoogleCalendar: false,
-          isUrgent: false
-        }, { emitEvent: false });
-        this.form.get('authorizationFile').clearValidators();
-        this.form.get('authorizationFile').updateValueAndValidity();
-        this.pickupAddressComponent.clearData();
-        this.arrivalAddressComponent.clearData();
 
-        this.toastrService.success('Solicitud creada', 'Proceso existoso');
-      });
+    this.requestPackageService.store(request).subscribe(() => {
+      this.form.reset({
+        addGoogleCalendar: false,
+        isUrgent: false,
+        isHeavyShipment: false
+      }, { emitEvent: false });
+
+      this.pickupAddressComponent.clearData();
+      this.arrivalAddressComponent.clearData();
+
+      this.toastrService.success('Solicitud creada', 'Proceso existoso');
+    });
   }
 
   private getAllStatesAndOffices(): void {
-    forkJoin([this.stateService.findAll(), this.officeService.getAllOffices()]).subscribe(([states, offices]) => {
-      this.states = states;
-      this.allOffices = offices;
-    });
+    forkJoin([
+      this.stateService.findAll(),
+      this.officeService.getAllOffices(),
+      this.lookupService.findByCodeAndType(HeavyShippingLookup[HeavyShippingLookup.NUMBER], TypeLookup.HEAVY_SHIPPING)
+    ])
+      .subscribe(([states, offices, lookup]) => {
+        this.states = states;
+        this.allOffices = offices;
+        this.heavyShipping = lookup;
+      });
   }
 }

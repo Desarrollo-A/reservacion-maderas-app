@@ -197,3 +197,7 @@ export const downloadFile = (data: Blob, filename: string): void => {
 
 export const compareDate = (d: Date, date: Date): boolean => d.getDate() === date.getDate()
   && d.getMonth() === date.getMonth() && d.getFullYear() === date.getFullYear();
+
+export const uid = (): string => String(
+  Date.now().toString(32) + Math.random().toString(16)
+).replace(/\./g, '');

@@ -60,16 +60,6 @@
               <mat-label>Fecha de salida del paquete</mat-label>
               <input matInput readonly [value]="requestPackage.request.startDate|date:'dd-MM-y'">
             </mat-form-field>
-
-            <div class="flex-auto sm:mt-2 mb-4 sm:mb-0" *ngIf="requestPackage.authorizationFilename">
-              <a class="relative flex items-center cursor-pointer select-none rounded-full px-4 py-1 hover:bg-primary/10 trans-ease-out"
-                   matRipple [href]="requestPackage.authorizationFilename | url" target="_blank">
-                <div class="p-2 bg-primary/10 text-primary rounded-full ltr:mr-4 rtl:ml-4">
-                  <mat-icon class="block" svgIcon="mat:picture_as_pdf"></mat-icon>
-                </div>
-                <p class="font-medium text-primary">Archivo de autorización</p>
-              </a>
-            </div>
           </div>
 
           <div class="flex flex-col sm:flex-row sm:gap-4">

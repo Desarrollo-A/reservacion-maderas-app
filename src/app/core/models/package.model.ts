@@ -3,11 +3,10 @@ import { RequestModel } from "./request.model";
 import { DriverPackageScheduleModel } from "./driver-package-schedule.model";
 import { DeliveredPackageModel } from "./delivered-package.model";
 import { ProposalPackageModel } from "./proposal-package.model";
+import { HeavyShipmentModel } from "./heavy-shipment.model";
 
 export class PackageModel {
   id: number;
-  authorizationFilename: string;
-  authorizationFile: File;
   nameReceive: string;
   emailReceive: string;
   commentReceive: string;
@@ -25,10 +24,11 @@ export class PackageModel {
   driverPackageSchedule?: DriverPackageScheduleModel;
   deliveredPackage: DeliveredPackageModel;
   proposalPackage?: ProposalPackageModel;
+  isHeavyShipping: boolean;
+  heavyShipments: HeavyShipmentModel[];
 
   constructor(data) {
     this.id = data.id;
-    this.authorizationFilename = data.authorizationFilename;
     this.nameReceive = data.nameReceive;
     this.emailReceive = data.emailReceive;
     this.commentReceive = data.commentReceive;
@@ -47,5 +47,7 @@ export class PackageModel {
       : null;
     this.deliveredPackage = data.deliveredPackage;
     this.proposalPackage = data.proposalPackage;
+    this.isHeavyShipping = data.isHeavyShipping;
+    this.heavyShipments = data.heavyShipments;
   }
 }

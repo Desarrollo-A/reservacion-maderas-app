@@ -13,6 +13,13 @@ import { AddressModule } from "../../shared/components/address/address.module";
 import { DriverComponent } from './pages/driver/driver.component';
 import { CarComponent } from './pages/car/car.component';
 import { TermsConditionsModule } from "../../shared/components/terms-conditions/terms-conditions.module";
+import { HeavyShipmentTableComponent } from './components/heavy-shipment-table/heavy-shipment-table.component';
+import {
+  ItemCreateUpdateComponent
+} from './components/heavy-shipment-table/item-create-update/item-create-update.component';
+import { PageLayoutModule } from "../../shared/components/page-layout/page-layout.module";
+import { SimplePaginatorModule } from "../../shared/components/simple-paginator/simple-paginator.module";
+import { DecimalModule } from "../../shared/directives/decimal/decimal.module";
 
 
 @NgModule({
@@ -20,7 +27,9 @@ import { TermsConditionsModule } from "../../shared/components/terms-conditions/
     RoomComponent,
     PackageComponent,
     DriverComponent,
-    CarComponent
+    CarComponent,
+    HeavyShipmentTableComponent,
+    ItemCreateUpdateComponent
   ],
   imports: [
     CommonModule,
@@ -32,6 +41,9 @@ import { TermsConditionsModule } from "../../shared/components/terms-conditions/
     EmailRequestModule,
     AddressModule,
     TermsConditionsModule,
+    PageLayoutModule,
+    SimplePaginatorModule,
+    DecimalModule
   ]
 })
 export class RequestModule { }

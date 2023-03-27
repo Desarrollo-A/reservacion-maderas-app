@@ -11,17 +11,6 @@
              type="search"
              [formControl]="searchCtrl">
     </div>
-
-    <span class="flex-1"></span>
-
-    <button class="ml-4 flex-none"
-            color="primary"
-            mat-mini-fab
-            matTooltip="Agregar artículo"
-            type="button"
-            (click)="openDialog()">
-      <mat-icon svgIcon="mat:add"></mat-icon>
-    </button>
   </div>
 
   <table @stagger [dataSource]="dataSource" class="w-full" mat-table matSort>
@@ -97,14 +86,9 @@
 <mat-menu #actionsMenu="matMenu" xPosition="before" yPosition="below">
   <ng-template let-heavyShipment="heavyShipment" matMenuContent>
     <button mat-menu-item
-            (click)="openDialog(heavyShipment)">
-      <mat-icon svgIcon="mat:edit"></mat-icon>
-      <span>Modificar</span>
-    </button>
-    <button mat-menu-item
-            (click)="deleteItem(heavyShipment)">
-      <mat-icon svgIcon="mat:delete"></mat-icon>
-      <span>Eliminar</span>
+            (click)="openDialog(heavyShipment.id)">
+      <mat-icon svgIcon="mat:visibility"></mat-icon>
+      <span>Detalle</span>
     </button>
   </ng-template>
 </mat-menu>

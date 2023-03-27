@@ -13,6 +13,7 @@ import { PackageDetailComponent } from './pages/package-detail/package-detail.co
 import { HistoryModule } from "../history/history.module";
 import { AddressModule } from "../../shared/components/address/address.module";
 import { UrlModule } from "../../shared/pipes/url/url.module";
+import { HeavyShippingTableModule } from "../../shared/components/heavy-shipping-table/heavy-shipping-table.module";
 
 
 @NgModule({
@@ -32,7 +33,8 @@ import { UrlModule } from "../../shared/pipes/url/url.module";
     PageNotFoundModule,
     HistoryModule,
     AddressModule,
-    UrlModule
+    UrlModule,
+    HeavyShippingTableModule
   ]
 })
 export class HistoryManagerModule { }

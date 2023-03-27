@@ -31,6 +31,9 @@ import { DecimalModule } from "../../shared/directives/decimal/decimal.module";
     HeavyShipmentTableComponent,
     ItemCreateUpdateComponent
   ],
+  exports: [
+    HeavyShipmentTableComponent
+  ],
   imports: [
     CommonModule,
     RequestRoutingModule,

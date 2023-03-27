@@ -38,6 +38,7 @@ import { ProposalRequestDriverComponent } from './components/proposal-request-dr
 import { ProposalRequestCarComponent } from './components/proposal-request-car/proposal-request-car.component';
 import { ExtraInformationRequestCarComponent } from './components/extra-information-request-car/extra-information-request-car.component';
 import { PerDiemModule } from "../../shared/components/per-diem/per-diem.module";
+import { HeavyShippingTableModule } from "../../shared/components/heavy-shipping-table/heavy-shipping-table.module";
 
 
 @NgModule({
@@ -83,6 +84,7 @@ import { PerDiemModule } from "../../shared/components/per-diem/per-diem.module"
     EmailRequestModule,
     AddressModule,
     PerDiemModule,
+    HeavyShippingTableModule
   ],
   exports: [
     CancelRequestComponent

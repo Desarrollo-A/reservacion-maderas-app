@@ -1,0 +1,118 @@
+<form [formGroup]="form">
+  <div class="flex items-center" mat-dialog-title>
+
+    <h3 class="headline m-0 flex-auto">Artículo a enviar</h3>
+
+    <button class="text-secondary" mat-dialog-close mat-icon-button type="button">
+      <mat-icon svgIcon="mat:close"></mat-icon>
+    </button>
+  </div>
+
+  <mat-divider class="-mx-6 text-border"></mat-divider>
+
+  <mat-dialog-content class="flex flex-col gap-3 mt-4">
+    <div class="flex flex-col sm:flex-row sm:gap-3">
+      <mat-form-field class="flex-auto">
+        <mat-label>Altura (cm)</mat-label>
+        <input matInput
+               type="number"
+               autocomplete="off"
+               formControlName="high"
+               [decimal]="2">
+
+        <mat-error *ngIf="formErrors.customError('high', 'required')">
+          Campo obligatorio.
+        </mat-error>
+        <mat-error *ngIf="formErrors.customError('high', 'min')">
+          La altura debe ser igual o mayor a {{ formErrors.minNumber('high') }}.
+        </mat-error>
+        <mat-error *ngIf="formErrors.customError('high', 'max')">
+          La altura debe ser igual o menor a {{ formErrors.maxNumber('high') }}.
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field class="flex-auto">
+        <mat-label>Largo (cm)</mat-label>
+        <input matInput
+               type="number"
+               autocomplete="off"
+               formControlName="long"
+               [decimal]="2">
+
+        <mat-error *ngIf="formErrors.customError('long', 'required')">
+          Campo obligatorio.
+        </mat-error>
+        <mat-error *ngIf="formErrors.customError('long', 'min')">
+          El largo debe ser igual o mayor a {{ formErrors.minNumber('long') }}.
+        </mat-error>
+        <mat-error *ngIf="formErrors.customError('long', 'max')">
+          El largo debe ser igual o menor a {{ formErrors.maxNumber('long') }}.
+        </mat-error>
+      </mat-form-field>
+    </div>
+
+    <div class="flex flex-col sm:flex-row sm:gap-3">
+      <mat-form-field class="flex-auto">
+        <mat-label>Ancho (cm)</mat-label>
+        <input matInput
+               type="number"
+               autocomplete="off"
+               formControlName="width"
+               [decimal]="2">
+
+        <mat-error *ngIf="formErrors.customError('width', 'required')">
+          Campo obligatorio.
+        </mat-error>
+        <mat-error *ngIf="formErrors.customError('width', 'min')">
+          El ancho debe ser igual o mayor a {{ formErrors.minNumber('width') }}.
+        </mat-error>
+        <mat-error *ngIf="formErrors.customError('width', 'max')">
+          El ancho debe ser igual o menor a {{ formErrors.maxNumber('width') }}.
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field class="flex-auto">
+        <mat-label>Peso (kg)</mat-label>
+        <input matInput
+               type="number"
+               autocomplete="off"
+               formControlName="weight"
+               [decimal]="2">
+
+        <mat-error *ngIf="formErrors.customError('weight', 'required')">
+          Campo obligatorio.
+        </mat-error>
+        <mat-error *ngIf="formErrors.customError('weight', 'min')">
+          El peso debe ser igual o mayor a {{ formErrors.minNumber('weight') }}.
+        </mat-error>
+        <mat-error *ngIf="formErrors.customError('weight', 'max')">
+          El peso debe ser igual o menor a {{ formErrors.maxNumber('weight') }}.
+        </mat-error>
+      </mat-form-field>
+    </div>
+
+    <mat-form-field class="flex-auto">
+      <mat-label>Descripción del artículo</mat-label>
+      <textarea matInput
+                formControlName="description"></textarea>
+
+      <mat-error *ngIf="formErrors.customError('description', 'required')">
+        Campo obligatorio.
+      </mat-error>
+    </mat-form-field>
+  </mat-dialog-content>
+
+  <mat-dialog-actions align="end">
+    <button mat-button
+            mat-dialog-close
+            type="button">
+      Cancelar
+    </button>
+
+    <button mat-flat-button
+            color="primary"
+            (click)="save()">
+      Guardar
+    </button>
+  </mat-dialog-actions>
+</form>

@@ -20,4 +20,9 @@ export class LookupService {
     const url = `${this.url}/find-all-type/${type}`;
     return this.http.get<Lookup[]>(url);
   }
+
+  findByCodeAndType(code: string, type: number): Observable<Lookup> {
+    const url = `${this.url}/find-by-code-type/${type}/${code}`;
+    return this.http.get<Lookup>(url);
+  }
 }

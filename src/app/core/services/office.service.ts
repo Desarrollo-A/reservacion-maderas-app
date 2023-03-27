@@ -5,7 +5,6 @@ import { map, Observable } from "rxjs";
 import { OfficeModel } from "../models/office.model";
 import { PaginationResponse } from "../interfaces/pagination-response";
 import { getPaginateParams } from "../../shared/utils/http-functions";
-import { OfficeModule } from "../../dashboard/office/office.module";
 
 @Injectable({
   providedIn: 'root'
@@ -19,7 +18,7 @@ export class OfficeService {
     return environment.baseUrl + environment.api + this._baseUrl;
   }
 
-  getOfficeByStateWithDriver(stateId: number): Observable<OfficeModel[]> {
+  getOfficeByStateId(stateId: number): Observable<OfficeModel[]> {
     const url = `${this.url}/state-driver/${stateId}`;
     return this.http.get<OfficeModel[]>(url);
   }

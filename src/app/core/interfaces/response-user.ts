@@ -13,6 +13,7 @@ interface DataUser {
   nom_oficina: string;
   email_empresarial?: string;
   tel_oficina?: string;
+  director: string[] | boolean
 }
 
 export enum Result {

@@ -19,6 +19,7 @@ export class UserModel {
   office: OfficeModel;
   isRecepcionist?: boolean;
   role: Lookup;
+  managers?: string[];
 
   constructor(user) {
     this.id = user.id;
@@ -29,6 +30,7 @@ export class UserModel {
     this.personalPhone = user.personalPhone ?? user.tel_personal;
     this.officePhone = user.officePhone ?? user.tel_oficina;
     this.position = user.position ?? user.puesto;
+    this.managers = user.director;
     this.area = user.area;
     this.statusId = user.statusId;
     this.status = user.status;

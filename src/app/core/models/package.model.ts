@@ -4,6 +4,7 @@ import { DriverPackageScheduleModel } from "./driver-package-schedule.model";
 import { DeliveredPackageModel } from "./delivered-package.model";
 import { ProposalPackageModel } from "./proposal-package.model";
 import { HeavyShipmentModel } from "./heavy-shipment.model";
+import { DetailExternalParcelModel } from "./detail-external-parcel.model";
 
 export class PackageModel {
   id: number;
@@ -14,9 +15,6 @@ export class PackageModel {
   arrivalAddressId: number;
   requestId: number;
   officeId: number;
-  trackingCode?: string;
-
-  urlTracking?: string;
   isUrgent: boolean;
   pickupAddress: AddressModel;
   arrivalAddress: AddressModel;
@@ -26,6 +24,7 @@ export class PackageModel {
   proposalPackage?: ProposalPackageModel;
   isHeavyShipping: boolean;
   heavyShipments: HeavyShipmentModel[];
+  detailExternalParcel: DetailExternalParcelModel;
 
   constructor(data) {
     this.id = data.id;
@@ -36,8 +35,6 @@ export class PackageModel {
     this.arrivalAddressId = data.arrivalAddressId;
     this.requestId = data.requestId;
     this.officeId = data.officeId;
-    this.trackingCode = data.trackingCode;
-    this.urlTracking = data.urlTracking;
     this.isUrgent = data.isUrgent;
     this.pickupAddress = data.pickupAddress;
     this.arrivalAddress = data.arrivalAddress;
@@ -49,5 +46,6 @@ export class PackageModel {
     this.proposalPackage = data.proposalPackage;
     this.isHeavyShipping = data.isHeavyShipping;
     this.heavyShipments = data.heavyShipments;
+    this.detailExternalParcel = data.detailExternalParcel;
   }
 }

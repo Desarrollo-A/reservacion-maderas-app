@@ -37,11 +37,13 @@ export class DriverPackageAssignComponent implements OnInit {
   approvedPackagesHistory: PackageModel[] = [];
 
   trackById = trackById;
-  constructor(private fb: FormBuilder,
-              private driverService: DriverService,
-              private carService: CarService,
-              private requestPackageService: RequestPackageService,
-              private toastrService: ToastrService) {}
+  constructor(
+    private fb: FormBuilder,
+    private driverService: DriverService,
+    private carService: CarService,
+    private requestPackageService: RequestPackageService,
+    private toastrService: ToastrService
+  ) {}
 
   ngOnInit(): void {
     this.loadDrivers();
@@ -49,6 +51,7 @@ export class DriverPackageAssignComponent implements OnInit {
     this.form = this.fb.group({
       driverId: [null, Validators.required],
       carId: [null, Validators.required],
+      companyName: [null],
       trackingCode: [null],
       urlTracking: [null],
       endDate: [null]
@@ -61,10 +64,21 @@ export class DriverPackageAssignComponent implements OnInit {
       this.form.get('driverId')?.clearValidators();
       this.form.get('carId')?.clearValidators();
 
-      this.form.get('trackingCode')?.addValidators([Validators.required, Validators.minLength(10),
-        Validators.maxLength(25)]);
-      this.form.get('urlTracking')?.addValidators([Validators.required, Validators.minLength(10),
-        Validators.maxLength(255)]);
+      this.form.get('companyName')?.addValidators([
+        Validators.required,
+        Validators.minLength(3),
+        Validators.maxLength(75)
+      ]);
+      this.form.get('trackingCode')?.addValidators([
+        Validators.required,
+        Validators.minLength(10),
+        Validators.maxLength(25)
+      ]);
+      this.form.get('urlTracking')?.addValidators([
+        Validators.required,
+        Validators.minLength(10),
+        Validators.maxLength(255)
+      ]);
 
       this.form.get('endDate').setValue(new Date(this.requestPackage.request.endDate));
       this.form.get('endDate').disable();
@@ -99,12 +113,28 @@ export class DriverPackageAssignComponent implements OnInit {
       this.form.get('driverId')?.clearValidators();
       this.form.get('carId')?.clearValidators();
 
-      this.form.get('trackingCode')?.addValidators([Validators.required, Validators.minLength(10),
-        Validators.maxLength(25)]);
-      this.form.get('urlTracking')?.addValidators([Validators.required, Validators.minLength(10),
-        Validators.maxLength(255)]);
-      this.form.get('endDate')?.addValidators([Validators.required, dateBeforeNow])
+      this.form.get('companyName')?.addValidators([
+        Validators.required,
+        Validators.minLength(3),
+        Validators.maxLength(75)
+      ]);
+      this.form.get('trackingCode')?.addValidators([
+        Validators.required,
+        Validators.minLength(10),
+        Validators.maxLength(25)
+      ]);
+      this.form.get('urlTracking')?.addValidators([
+        Validators.required,
+        Validators.minLength(10),
+        Validators.maxLength(255)
+      ]);
+      this.form.get('endDate')?.addValidators([
+        Validators.required,
+        dateBeforeNow
+      ]);
+
     } else {
+      this.form.get('companyName')?.clearValidators();
       this.form.get('trackingCode')?.clearValidators();
       this.form.get('urlTracking')?.clearValidators();
       this.form.get('endDate')?.clearValidators();

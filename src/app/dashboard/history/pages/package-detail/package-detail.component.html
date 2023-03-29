@@ -94,30 +94,39 @@
           </div>
 
           <!-- Información de la paquetería externa que entregará el pedido -->
-          <div class="flex flex-col md:flex-row md:gap-4" *ngIf="requestPackage.trackingCode &&
+          <ng-container *ngIf="requestPackage.detailExternalParcel &&
             statusRequest[statusRequest.APPROVED] === requestPackage.request.status.code">
-            <mat-form-field appearance="outline" class="flex-auto vex-flex-form-field">
-              <mat-label>Clave de rastreo</mat-label>
-              <input matInput readonly [value]="requestPackage.trackingCode">
-            </mat-form-field>
+            <div class="flex flex-col sm:flex-row sm:gap-4">
+              <mat-form-field appearance="outline" class="flex-auto vex-flex-form-field">
+                <mat-label>Paquetería</mat-label>
+                <input matInput readonly [value]="requestPackage.detailExternalParcel.companyName">
+              </mat-form-field>
 
-            <mat-form-field appearance="outline" class="flex-auto vex-flex-form-field">
-              <mat-label>Fecha de entrega aproximada</mat-label>
-              <input matInput readonly [value]="requestPackage.request.endDate | date:'dd-MM-y'">
-            </mat-form-field>
+              <mat-form-field appearance="outline" class="flex-auto vex-flex-form-field">
+                <mat-label>Fecha de entrega aproximada</mat-label>
+                <input matInput readonly [value]="requestPackage.request.endDate | date:'dd-MM-y'">
+              </mat-form-field>
+            </div>
 
-            <div class="flex-auto">
-              <div class="flex-auto md:mt-2 mb-4 md:mb-0">
-                <a class="relative flex items-center cursor-pointer select-none rounded-full px-4 py-1 hover:bg-primary/10 trans-ease-out"
-                   matRipple [href]="requestPackage.urlTracking" target="_blank">
-                  <div class="p-2 bg-primary/10 text-primary rounded-full ltr:mr-4 rtl:ml-4">
-                    <mat-icon class="block" svgIcon="mat:local_shipping"></mat-icon>
-                  </div>
-                  <p class="font-medium text-primary">URL de rastreo</p>
-                </a>
+            <div class="flex flex-col sm:flex-row sm:gap-4">
+              <mat-form-field appearance="outline" class="flex-auto vex-flex-form-field">
+                <mat-label>Clave de rastreo</mat-label>
+                <input matInput readonly [value]="requestPackage.detailExternalParcel.trackingCode">
+              </mat-form-field>
+
+              <div class="flex-auto">
+                <div class="flex-auto sm:mt-2 mb-4 sm:mb-0">
+                  <a class="relative flex items-center cursor-pointer select-none rounded-full px-4 py-1 hover:bg-primary/10 trans-ease-out"
+                     matRipple [href]="requestPackage.detailExternalParcel.urlTracking" target="_blank">
+                    <div class="p-2 bg-primary/10 text-primary rounded-full ltr:mr-4 rtl:ml-4">
+                      <mat-icon class="block" svgIcon="mat:local_shipping"></mat-icon>
+                    </div>
+                    <p class="font-medium text-primary">URL de rastreo</p>
+                  </a>
+                </div>
               </div>
             </div>
-          </div>
+          </ng-container>
 
           <div class="flex flex-col md:flex-row md:gap-4"
                *ngIf="requestPackage.request.score || requestPackage.deliveredPackage">

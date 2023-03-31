@@ -12,6 +12,7 @@ import { LookupService } from "../../../../core/services/lookup.service";
 import { forkJoin } from "rxjs";
 import { TypeLookup } from "../../../../core/enums/type-lookup";
 import { Lookup } from "../../../../core/interfaces/lookup";
+import { NameRole } from "../../../../core/enums/name-role";
 
 @Component({
   selector: 'app-update-user',
@@ -24,6 +25,7 @@ export class UpdateUserComponent implements OnInit {
 
   offices: OfficeModel[] = [];
   statusUser: Lookup[] = [];
+  userManagers: UserModel[] = [];
 
   trackById = trackById;
 
@@ -49,10 +51,19 @@ export class UpdateUserComponent implements OnInit {
       position: [this.data.position, [Validators.required, Validators.maxLength(100)]],
       area: [this.data.area, [Validators.required, Validators.maxLength(100)]],
       officeId: [this.data.officeId, [Validators.required]],
-      statusId: [this.data.statusId, [Validators.required]]
+      statusId: [this.data.statusId, [Validators.required]],
+      departmentManagerId: [this.data.departmentManagerId]
     });
 
+    if (this.isApplicant) {
+      this.form.get('departmentManagerId').addValidators(Validators.required);
+    }
+
     this.formErrors = new FormErrors(this.form);
+  }
+
+  get isApplicant(): boolean {
+    return this.data.role.name === NameRole.APPLICANT;
   }
 
   save(): void {
@@ -76,10 +87,12 @@ export class UpdateUserComponent implements OnInit {
   private loadData(): void {
     forkJoin([
       this.lookupService.findAllByType(TypeLookup.STATUS_USER),
-      this.officeService.getAllOffices()
-    ]).subscribe(([statusUser, offices]) => {
+      this.officeService.getAllOffices(),
+      this.userService.findAllDepartmentManagers()
+    ]).subscribe(([statusUser, offices, managers]) => {
       this.statusUser = statusUser;
       this.offices = offices;
+      this.userManagers = managers;
     });
   }
 }

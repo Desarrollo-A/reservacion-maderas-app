@@ -50,4 +50,9 @@ export class UserService {
     const url = `${this.url}/${id}`;
     return this.http.put<UserModel>(url, data);
   }
+
+  findAllDepartmentManagers(): Observable<UserModel[]> {
+    const url = `${this.url}/department-manager`;
+    return this.http.get<UserModel[]>(url);
+  }
 }

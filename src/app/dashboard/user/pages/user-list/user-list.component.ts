@@ -45,8 +45,10 @@ export class UserListComponent implements OnInit {
   filters: Filters = {filters: []};
   trackById = trackById;
 
-  constructor(private dialog: MatDialog,
-              private userService: UserService) {
+  constructor(
+    private dialog: MatDialog,
+    private userService: UserService
+  ) {
   }
 
   ngOnInit(): void {

@@ -130,7 +130,8 @@
       </mat-form-field>
     </div>
 
-    <div class="flex flex-col sm:flex-row sm:gap-3">
+    <div class="flex flex-col sm:flex-row sm:gap-3"
+         [ngClass]="{'sm:flex-row sm:gap-3': !isApplicant, 'md:flex-row md:gap-3': isApplicant}">
       <mat-form-field class="flex-auto">
         <mat-label>Oficina</mat-label>
 
@@ -157,6 +158,22 @@
         </mat-select>
 
         <mat-error *ngIf="formErrors.customError('statusId', 'required')">
+          Campo obligatorio.
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field class="flex-auto"
+                      *ngIf="isApplicant">
+        <mat-label>Director</mat-label>
+
+        <mat-select formControlName="departmentManagerId">
+          <mat-option *ngFor="let manager of userManagers; trackBy: trackById"
+                      [value]="manager.id">
+            {{ manager.noEmployee }} - {{ manager.fullName }}
+          </mat-option>
+        </mat-select>
+
+        <mat-error *ngIf="formErrors.customError('departmentManagerId', 'required')">
           Campo obligatorio.
         </mat-error>
       </mat-form-field>

@@ -20,6 +20,7 @@ export class UserModel {
   isRecepcionist?: boolean;
   role: Lookup;
   managers?: string[];
+  departmentManagerId?: number;
 
   constructor(user) {
     this.id = user.id;
@@ -38,6 +39,7 @@ export class UserModel {
     this.officeId = user.officeId;
     this.office = user.office;
     this.role = user.role;
+    this.departmentManagerId = user.departmentManagerId;
   }
 
   get statusName(): string {

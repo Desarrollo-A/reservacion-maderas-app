@@ -121,7 +121,7 @@
   <ng-template matMenuContent>
     <ng-container *ngFor="let status of statusChange; trackBy: trackById">
       <button mat-menu-item (click)="changeStatus(status)">
-        <span>{{ status.name }}</span>
+        <span>{{ status.value }}</span>
       </button>
     </ng-container>
   </ng-template>

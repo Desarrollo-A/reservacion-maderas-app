@@ -14,7 +14,7 @@
       <mat-label>Tipo de inventario</mat-label>
       <mat-select multiple formControlName="types">
         <mat-option *ngFor="let type of typeInventories" [value]="type.id">
-          {{ type.name }}
+          {{ type.value }}
         </mat-option>
       </mat-select>
     </mat-form-field>

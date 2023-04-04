@@ -153,7 +153,7 @@
         <mat-select formControlName="statusId">
           <mat-option *ngFor="let status of statusUser; trackBy: trackById"
                       [value]="status.id">
-            {{ status.name }}
+            {{ status.value }}
           </mat-option>
         </mat-select>
 

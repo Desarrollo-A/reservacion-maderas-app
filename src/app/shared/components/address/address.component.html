@@ -150,7 +150,7 @@
                 <mat-select formControlName="countryId">
                   <mat-option *ngFor="let country of countries"
                               [value]="country.id">
-                    {{ country.name }}
+                    {{ country.value }}
                   </mat-option>
                 </mat-select>
 
@@ -226,7 +226,7 @@
                           class="vex-flex-form-field flex-auto"
                           color="primary">
             <mat-label>País</mat-label>
-            <input matInput [value]="data.country.name" readonly>
+            <input matInput [value]="data.country.value" readonly>
           </mat-form-field>
         </div>
       </div>

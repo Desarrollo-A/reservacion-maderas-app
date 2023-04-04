@@ -146,7 +146,7 @@
             <mat-select formControlName="levelId">
               <mat-option *ngFor="let type of meetingTypes; trackBy: trackById"
                           [value]="type.id">
-                {{ type.name }}
+                {{ type.value }}
               </mat-option>
             </mat-select>
 

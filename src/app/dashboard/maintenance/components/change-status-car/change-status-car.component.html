@@ -20,7 +20,7 @@
       <mat-select formControlName="statusId" cdkFocusInitial>
         <mat-option *ngFor="let lookup of status; trackBy: trackById"
                     [value]="lookup.id">
-          {{ lookup.name }}
+          {{ lookup.value }}
         </mat-option>
       </mat-select>
 

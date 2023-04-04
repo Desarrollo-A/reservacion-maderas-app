@@ -18,11 +18,11 @@ export class ConfirmRequestComponent {
     const typeCode = this.notification.type.code;
 
     if (typeCode === TypeNotificationLookup[TypeNotificationLookup.ROOM]) {
-      return `${this.notification.type.name} ${this.notification.requestNotification.request.requestRoom.room.name}
+      return `${this.notification.type.value} ${this.notification.requestNotification.request.requestRoom.room.name}
       en la Oficina ${this.notification.requestNotification.request.requestRoom.room.office.name}`
     }
 
-    return this.notification.type.name;
+    return this.notification.type.value;
   }
 
   get date(): string {

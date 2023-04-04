@@ -100,7 +100,7 @@
         <mat-select formControlName="typeId" #type>
           <mat-option *ngFor="let lookup of typeInventories; trackBy: trackById"
                       [value]="lookup.id">
-            {{ lookup.name }}
+            {{ lookup.value }}
           </mat-option>
         </mat-select>
 
@@ -114,7 +114,7 @@
         <mat-select formControlName="unitId">
           <mat-option *ngFor="let lookup of unitInventories; trackBy: trackById"
                       [value]="lookup.id">
-            {{ lookup.name }}
+            {{ lookup.value }}
           </mat-option>
         </mat-select>
 

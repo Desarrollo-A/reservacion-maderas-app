@@ -29,10 +29,10 @@ export class NotificationModel {
   }
 
   get colorHex(): string {
-    return this.color.name;
+    return this.color.value;
   }
 
   get matIcon(): string {
-    return this.icon.name;
+    return this.icon.value;
   }
 }

@@ -19,6 +19,7 @@
   font-size: 7vw;
   line-height: 3rem;
   width: 75%;
+  color: black !important;
   @apply m-0 rounded-none border-r-0 border-l-0 border-t-0 font-bold bg-transparent;
 
   &:focus {
@@ -28,7 +29,7 @@
 
 .search-hint {
   width: 75%;
-  @apply text-base text-right py-4 mx-auto text-hint font-bold;
+  @apply text-base text-right py-4 mx-auto font-bold;
 }
 
 .search-overlay {

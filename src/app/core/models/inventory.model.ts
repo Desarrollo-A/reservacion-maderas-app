@@ -42,10 +42,10 @@ export class InventoryModel {
   }
 
   get typeInventoryName(): string {
-      return this.type.name;
+      return this.type.value;
   }
 
   get unitName(): string {
-      return this.unit.name;
+      return this.unit.value;
   }
 }

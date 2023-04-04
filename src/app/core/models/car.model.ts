@@ -42,7 +42,7 @@ export class CarModel {
   }
 
   get statusName(): string {
-    return this.status.name;
+    return this.status.value;
   }
 
   get labelStatus(): { text: string, textClass: string, bgClass: string } {

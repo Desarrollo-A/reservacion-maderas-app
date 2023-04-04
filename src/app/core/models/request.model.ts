@@ -75,7 +75,7 @@ export class RequestModel {
   }
 
   get statusName(): string {
-    return this.status.name;
+    return this.status.value;
   }
 
   get statusLabelRequestRoom(): LabelButton {

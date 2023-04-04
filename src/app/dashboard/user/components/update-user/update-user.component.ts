@@ -63,7 +63,7 @@ export class UpdateUserComponent implements OnInit {
   }
 
   get isApplicant(): boolean {
-    return this.data.role.name === NameRole.APPLICANT;
+    return this.data.role.value === NameRole.APPLICANT;
   }
 
   save(): void {

@@ -26,10 +26,7 @@ export const getFiltersQueryParams = (filters: Filters): HttpParams => {
     .append('q', (filters.filters.length === 0) ? '' : encodeURI(JSON.stringify(filters)));
 }
 
-export const acceptApplicationPdfHeader = (): HttpHeaders => {
-  return new HttpHeaders().set('Accept', 'application/pdf');
-}
+export const acceptApplicationPdfHeader = (): HttpHeaders =>  new HttpHeaders().set('Accept', 'application/pdf');
 
-export const acceptApplicationExcelHeader = (): HttpHeaders => {
-  return new HttpHeaders().set('Accept', 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9');
-}
+export const acceptApplicationExcelHeader = (): HttpHeaders =>
+  new HttpHeaders().set('Accept', 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9');

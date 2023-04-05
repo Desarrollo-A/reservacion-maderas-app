@@ -144,7 +144,7 @@ export class PackageComponent implements OnInit {
       this.form.reset({
         addGoogleCalendar: false,
         isUrgent: false,
-        isHeavyShipment: false
+        isHeavyShipping: false
       }, { emitEvent: false });
 
       this.pickupAddressComponent.clearData();

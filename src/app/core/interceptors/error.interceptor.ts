@@ -61,13 +61,30 @@ export class ErrorInterceptor implements HttpInterceptor {
       } else {
         this.toastr.error(errors.error, 'Error');
       }
-    } else {
+
+      return;
+    }
+
+    if (errors.error instanceof Map) {
       Object.entries(errors.error!).forEach(([, msgs]) => {
         const messages = msgs as string[];
         messages.forEach(msg => {
           this.toastr.warning(msg, 'Validación');
         });
       });
+    }
+
+    if (error.error instanceof Blob) {
+      this.errorBlob(error);
+      return;
+    }
+  }
+
+  async errorBlob(error) {
+    const errorObj: ErrorResponse = JSON.parse(await error.error.text());
+
+    if (typeof errorObj.error === 'string') {
+      this.toastr.warning(errorObj.error, 'Atención');
     }
   }
 }

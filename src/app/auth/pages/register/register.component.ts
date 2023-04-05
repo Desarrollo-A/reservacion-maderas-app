@@ -39,8 +39,11 @@ export class RegisterComponent implements OnInit {
           return;
         }
 
-        if (response.puesto.toUpperCase().indexOf('DIRECCION') !== -1) {
-          this.toastrService.warning('Colaboradores con puesto "DIRECCION" ya están registrados en el sistema', 'Atención');
+        if (
+          response.puesto.toUpperCase().indexOf('DIRECCION') !== -1 ||
+          response.puesto.toUpperCase().indexOf('DIRECTOR') !== -1
+        ) {
+          this.toastrService.warning('Colaboradores con puesto "DIRECTOR" ya están registrados en el sistema', 'Atención');
           return;
         }
 

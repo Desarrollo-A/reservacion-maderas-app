@@ -6,6 +6,7 @@ import { RequestCarModel } from "../../../../core/models/request-car.model";
 import { isNil } from "../../../../shared/utils/isNil";
 import { RequestCarService } from "../../../../core/services/request-car.service";
 import { Observable, switchMap } from "rxjs";
+import { StatusCarRequestLookup } from "../../../../core/enums/lookups/status-car-request.lookup";
 
 @Component({
   selector: 'app-extra-information-request-car',
@@ -68,8 +69,9 @@ export class ExtraInformationRequestCarComponent implements OnInit {
    * Se habilitan los campos de kilometraje final y comentarios de condiciones de entrega de vehículo
    */
   get enableSecondSubmit(): boolean {
-    return (isNil(this.requestCar.finalKm) || isNil(this.requestCar.deliveryCondition) &&
-      (!isNil(this.requestCar.imageZip) && !isNil(this.requestCar.initialKm)));
+    return (isNil(this.requestCar.finalKm) || isNil(this.requestCar.deliveryCondition)) &&
+      (!isNil(this.requestCar.imageZip) && !isNil(this.requestCar.initialKm)) &&
+      this.requestCar.request.status.code === StatusCarRequestLookup[StatusCarRequestLookup.FINISHED];
   }
 
   changeImageZipFile(file: File): void {

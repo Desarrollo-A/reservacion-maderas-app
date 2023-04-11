@@ -127,9 +127,8 @@ export const dateAfterNow = (control: FormControl): ValidationErrors | null => {
 
 export const workingHours = (control: FormControl): ValidationErrors | null => {
   if (control.value) {
-    const timeParts = control.value.split(':');
-    const hour = parseInt(timeParts[0]);
-    const minutes = parseInt(timeParts[1]);
+    const hour = control.value.getHours();
+    const minutes = control.value.getMinutes();
 
     if (hour < START_WORKING_HOUR || (hour === FINISH_WORKING_HOUR && minutes === 30) || hour > FINISH_WORKING_HOUR) {
       return { outOfTime: true };

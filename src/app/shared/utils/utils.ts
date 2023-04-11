@@ -9,10 +9,9 @@ export const convertCamelCaseToSnakeCase = (str: string): string => {
   return str.replace(/[A-Z]/g, letter => `_${letter.toLowerCase()}`);
 }
 
-export const roundedTime = (time: string, minutesToRound: number = 30): string => {
-  const timeParts = time.split(':');
-  const hours = parseInt(timeParts[0]);
-  const minutes = parseInt(timeParts[1]);
+export const roundedTime = (time: Date, minutesToRound: number = 30): Date => {
+  const hours = time.getHours();
+  const minutes = time.getMinutes();
 
   const allTime = (hours * 60) + minutes;
 
@@ -20,15 +19,15 @@ export const roundedTime = (time: string, minutesToRound: number = 30): string =
   const rHr = `${Math.floor(rounded / 60)}`;
   const rMin = `${rounded % 60}`;
 
-  return `${rHr.padStart(2, '0')}:${rMin.padStart(2, '0')}`;
+  const date = new Date();
+  date.setHours(Number(rHr), Number(rMin), 0)
+
+  return date;
 }
 
-export const compareTimes = (startTime: string, endTime: string): boolean => {
-  const [startHours, startMinutes] = startTime.split(':');
-  const [endHours, endMinutes] = endTime.split(':');
-
-  const startAllMinutes = (parseInt(startHours) * 60) + parseInt(startMinutes);
-  const endAllMinutes = (parseInt(endHours) * 60) + parseInt(endMinutes);
+export const compareTimes = (startTime: Date, endTime: Date): boolean => {
+  const startAllMinutes = (startTime.getHours() * 60) + startTime.getMinutes();
+  const endAllMinutes = (endTime.getHours() * 60) + endTime.getMinutes();
 
   return (startAllMinutes >= endAllMinutes);
 }

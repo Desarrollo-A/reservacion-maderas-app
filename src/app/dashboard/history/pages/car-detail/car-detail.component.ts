@@ -140,9 +140,9 @@ export class CarDetailComponent implements OnInit {
     }
   }
 
-  onSubmitFormRedirectBack(): void {
+  onSubmitForm(): void {
     this.toastrService.success('Datos guardados', 'Proceso exitoso');
-    this.router.navigateByUrl(this.urlRedirectBack);
+    this.findByRequestId(this.requestCar.requestId);
   }
 
   termsAndConditions(): void {

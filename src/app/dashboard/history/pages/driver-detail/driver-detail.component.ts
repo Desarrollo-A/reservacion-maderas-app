@@ -138,9 +138,9 @@ export class DriverDetailComponent {
     }
   }
 
-  onSubmitFormRedirectBack(): void {
+  onSubmitPerDiemForm(): void {
     this.toastrService.success('Datos guardados', 'Proceso exitoso');
-    this.router.navigateByUrl(this.urlRedirectBack);
+    this.findByRequestId(this.requestDriver.requestId);
   }
 
   private cancelRequest(): void {

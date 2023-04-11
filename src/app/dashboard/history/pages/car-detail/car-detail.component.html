@@ -94,7 +94,7 @@
                                                 previousStatus.code === statusRequest[statusRequest.FINISHED])
                                                 && isRecepcionist"
                                              [requestCar]="requestCar"
-                                             (submitForm)="onSubmitFormRedirectBack()">
+                                             (submitForm)="onSubmitForm()">
           </app-extra-information-request-car>
 
           <app-per-diem *ngIf="(previousStatus.code === statusRequest[statusRequest.APPROVED]
@@ -104,7 +104,7 @@
                         [isRecepcionist]="isRecepcionist"
                         [isApplicant]="isApplicant"
                         [perDiem]="requestCar.request.perDiem"
-                        (submitForm)="onSubmitFormRedirectBack()"
+                        (submitForm)="onSubmitForm()"
                         class="flex-auto mb-2">
           </app-per-diem>
 

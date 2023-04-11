@@ -11,7 +11,7 @@ import { StateService } from "../../../../core/services/state.service";
 import { OfficeService } from "../../../../core/services/office.service";
 import { ToastrService } from "ngx-toastr";
 import { RequestCarService } from "../../../../core/services/request-car.service";
-import { getDateFormat, roundedTime } from "../../../../shared/utils/utils";
+import { getDateFormat, getTimeFormat, roundedTime } from "../../../../shared/utils/utils";
 import {
   dateAfter30Days,
   dateBeforeNow,
@@ -47,6 +47,8 @@ export class CarComponent implements OnInit {
 
   states: StateModel[] = [];
   offices: OfficeModel[] = [];
+  renderTimepicker = false;
+
   trackById = trackById;
 
   constructor(
@@ -105,7 +107,7 @@ export class CarComponent implements OnInit {
     ).subscribe(offices => this.offices = offices);
   }
 
-  roundedTime(field: string, value: string): void {
+  roundedTime(field: string, value: Date): void {
     this.form.get(field)?.setValue(roundedTime(value));
   }
 
@@ -126,8 +128,8 @@ export class CarComponent implements OnInit {
     };
     const request: RequestModel = <RequestModel>{
       title: formValues.title,
-      startDate: `${getDateFormat(formValues.startDate)} ${formValues.startTime}`,
-      endDate: `${getDateFormat(formValues.endDate)} ${formValues.endTime}`,
+      startDate: `${getDateFormat(formValues.startDate)} ${getTimeFormat(formValues.startTime)}`,
+      endDate: `${getDateFormat(formValues.endDate)} ${getTimeFormat(formValues.endTime)}`,
       people: formValues.people,
       comment: formValues.comment,
       addGoogleCalendar: formValues.addGoogleCalendar,
@@ -139,6 +141,12 @@ export class CarComponent implements OnInit {
       this.form.reset({
         addGoogleCalendar: false
       }, { emitEvent: false });
+
+      this.renderTimepicker = true;
+      setTimeout(() => {
+        this.renderTimepicker = false;
+      }, 1);
+
       this.emailRequestTableComponent.clearData();
 
       this.toastrService.success('Solicitud creada', 'Proceso existoso');

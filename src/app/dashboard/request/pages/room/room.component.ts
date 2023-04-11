@@ -13,7 +13,7 @@ import { ToastrService } from "ngx-toastr";
 import { dateAfter30Days, dateBeforeNow, workingHours } from "../../../../shared/utils/form-validations";
 import {
   compareTimes,
-  getDateFormat,
+  getDateFormat, getTimeFormat,
   removeError,
   roundedTime,
   weekendsOffCalendar
@@ -51,8 +51,9 @@ export class RoomComponent implements OnInit {
   states: StateModel[] = [];
   rooms: RoomModel[] = [];
   meetingTypes: Lookup[] = [];
-  trackById = trackById;
+  renderTimepicker = false;
 
+  trackById = trackById;
   weekendsOff = weekendsOffCalendar;
 
   constructor(private fb: FormBuilder,
@@ -77,14 +78,14 @@ export class RoomComponent implements OnInit {
         if (rooms.length === 0) {
           this.toastrService.info('No hay salas de junta en esta sede','Información');
         }
-        this.rooms = rooms
+        this.rooms = rooms;
       });
 
     this.toastrService.info('Si encuentras algún desperfecto en la sala de juntas, por favor reportarlo en recepción.',
       'Información', { timeOut: 7500 });
   }
 
-  changeTime(field: string, value: string): void {
+  changeTime(field: string, value: Date): void {
     this.form.get(field)?.setValue(roundedTime(value));
 
     const startTime = this.form.get('startTime')?.value;
@@ -117,8 +118,8 @@ export class RoomComponent implements OnInit {
 
     const request: RequestModel = <RequestModel> {
       title: formValues.title,
-      startDate: `${getDateFormat(formValues.date)} ${formValues.startTime}`,
-      endDate: `${getDateFormat(formValues.date)} ${formValues.endTime}`,
+      startDate: `${getDateFormat(formValues.date)} ${getTimeFormat(formValues.startTime)}`,
+      endDate: `${getDateFormat(formValues.date)} ${getTimeFormat(formValues.endTime)}`,
       people: formValues.people,
       addGoogleCalendar: formValues.addGoogleCalendar,
       comment: formValues.comment,
@@ -133,6 +134,12 @@ export class RoomComponent implements OnInit {
         externalPeople: 0,
         addGoogleCalendar: false
       }, { emitEvent: false });
+
+      this.renderTimepicker = true;
+      setTimeout(() => {
+        this.renderTimepicker = false;
+      }, 1);
+
       this.rooms = [];
       // this.phoneRequestTableComponent.clearData();
       this.emailRequestTableComponent.clearData();

@@ -70,12 +70,22 @@
             </mat-error>
           </mat-form-field>
 
-          <mat-form-field class="flex-auto">
+          <mat-form-field class="flex-auto" *ngIf="!renderTimepicker">
             <mat-label>Hora inicio</mat-label>
-            <input #startTime matInput type="time"
-                   step="900" min="08:00" max="18:00"
+            <input matTimepicker
+                   matInput
+                   class="cursor-pointer"
+                   okLabel="Aceptar"
+                   cancelLabel="Cerrar"
+                   mode="12h"
                    formControlName="startTime"
-                   (change)="changeTime('startTime', startTime.value)">
+                   [readonly]="true"
+                   (timeChange)="changeTime('startTime', $event)">
+            <button mat-icon-button
+                    matSuffix
+                    type="button">
+              <mat-icon svgIcon="mat:schedule"></mat-icon>
+            </button>
 
             <mat-error *ngIf="formErrors.customError('startTime','required')">
               Campo obligatorio.
@@ -85,12 +95,22 @@
             </mat-error>
           </mat-form-field>
 
-          <mat-form-field class="flex-auto">
+          <mat-form-field class="flex-auto" *ngIf="!renderTimepicker">
             <mat-label>Hora final</mat-label>
-            <input #endTime matInput type="time"
-                   step="900" min="08:00" max="18:00"
+            <input matTimepicker
+                   matInput
+                   class="cursor-pointer"
+                   okLabel="Aceptar"
+                   cancelLabel="Cerrar"
+                   mode="12h"
                    formControlName="endTime"
-                   (change)="changeTime('endTime', endTime.value)">
+                   [readonly]="true"
+                   (timeChange)="changeTime('endTime', $event)">
+            <button mat-icon-button
+                    matSuffix
+                    type="button">
+              <mat-icon svgIcon="mat:schedule"></mat-icon>
+            </button>
 
             <mat-error *ngIf="formErrors.customError('endTime','required')">
               Campo obligatorio.

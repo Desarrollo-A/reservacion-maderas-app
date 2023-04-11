@@ -17,7 +17,7 @@ import {
   endDateIsAfterToStartDate,
   endTimeIsAfterToStarTimeWithDates
 } from "../../../../shared/utils/form-validations";
-import { getDateFormat, roundedTime } from "../../../../shared/utils/utils";
+import { getDateFormat, getTimeFormat, roundedTime } from "../../../../shared/utils/utils";
 import {
   EmailRequestTableComponent
 } from "../../../../shared/components/email-request/components/email-request-table/email-request-table.component";
@@ -51,6 +51,7 @@ export class DriverComponent implements OnInit {
   states: StateModel[] = [];
   offices: OfficeModel[] = [];
   allOffices: OfficeModel[] = [];
+  renderTimepicker = false;
 
   trackById = trackById;
 
@@ -106,7 +107,7 @@ export class DriverComponent implements OnInit {
     ).subscribe(offices => this.offices = offices);
   }
 
-  roundedTime(field: string, value: string): void {
+  roundedTime(field: string, value: Date): void {
     this.form.get(field)?.setValue(roundedTime(value));
   }
 
@@ -120,13 +121,15 @@ export class DriverComponent implements OnInit {
 
     const formValues = this.form.getRawValue();
     const pickupAddress: AddressModel = {
-                                          ...this.pickupAddressComponent.form.value,
-                                          isExternal: this.pickupAddressComponent.isExternalControl.value
-                                        };
+      ...this.pickupAddressComponent.form.value,
+      isExternal: this.pickupAddressComponent.isExternalControl.value
+    };
+
     const arrivalAddress: AddressModel =  {
-                                            ...this.arrivalAddressComponent.form.value,
-                                            isExternal: this.arrivalAddressComponent.isExternalControl.value
-                                          };
+      ...this.arrivalAddressComponent.form.value,
+      isExternal: this.arrivalAddressComponent.isExternalControl.value
+    };
+
     const requestDriver: RequestDriverModel = <RequestDriverModel>{
       pickupAddress,
       arrivalAddress,
@@ -137,8 +140,8 @@ export class DriverComponent implements OnInit {
 
     const request: RequestModel = <RequestModel>{
       title: formValues.title,
-      startDate: `${getDateFormat(formValues.startDate)} ${formValues.startTime}`,
-      endDate: `${getDateFormat(formValues.endDate)} ${formValues.endTime}`,
+      startDate: `${getDateFormat(formValues.startDate)} ${getTimeFormat(formValues.startTime)}`,
+      endDate: `${getDateFormat(formValues.endDate)} ${getTimeFormat(formValues.endTime)}`,
       people: formValues.people,
       comment: formValues.comment,
       addGoogleCalendar: formValues.addGoogleCalendar,
@@ -150,6 +153,12 @@ export class DriverComponent implements OnInit {
       this.form.reset({
         addGoogleCalendar: false
       }, { emitEvent: false });
+
+      this.renderTimepicker = true;
+      setTimeout(() => {
+        this.renderTimepicker = false;
+      }, 1);
+
       this.pickupAddressComponent.clearData();
       this.arrivalAddressComponent.clearData();
       this.emailRequestTableComponent.clearData();
@@ -159,9 +168,10 @@ export class DriverComponent implements OnInit {
   }
 
   private getAllStates(): void {
-    forkJoin([this.stateService.findAll(), this.officeService.getAllOffices()]).subscribe(([states, offices]) => {
-      this.states = states;
-      this.allOffices = offices;
-    });
+    forkJoin([this.stateService.findAll(), this.officeService.getAllOffices()])
+      .subscribe(([states, offices]) => {
+        this.states = states;
+        this.allOffices = offices;
+      });
   }
 }

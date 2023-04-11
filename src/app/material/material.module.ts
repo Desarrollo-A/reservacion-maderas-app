@@ -28,6 +28,7 @@ import { MatChipsModule } from "@angular/material/chips";
 import { MatCardModule } from "@angular/material/card";
 import { MatBadgeModule } from "@angular/material/badge";
 import { MatExpansionModule } from "@angular/material/expansion";
+import { MatTimepickerModule } from "mat-timepicker";
 
 
 @NgModule({
@@ -63,6 +64,7 @@ import { MatExpansionModule } from "@angular/material/expansion";
     MatSortModule,
     MatTableModule,
     MatTabsModule,
+    MatTimepickerModule,
     MatToolbarModule,
     MatTooltipModule
   ]

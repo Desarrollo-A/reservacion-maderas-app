@@ -65,7 +65,7 @@ export class ErrorInterceptor implements HttpInterceptor {
       return;
     }
 
-    if (errors.error instanceof Map) {
+    if (errors.code === 422) {
       Object.entries(errors.error!).forEach(([, msgs]) => {
         const messages = msgs as string[];
         messages.forEach(msg => {

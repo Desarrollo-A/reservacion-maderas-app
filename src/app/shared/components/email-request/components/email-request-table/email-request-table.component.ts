@@ -18,6 +18,7 @@ import { EmailCreateUpdateComponent } from "../email-create-update/email-create-
 import { DeleteConfirmComponent } from "../../../delete-confirm/delete-confirm.component";
 import { StatusDriverRequestLookup } from "../../../../../core/enums/lookups/status-driver-request.lookup";
 import { StatusCarRequestLookup } from "../../../../../core/enums/lookups/status-car-request.lookup";
+import { MatAccordion } from "@angular/material/expansion";
 
 @UntilDestroy()
 @Component({
@@ -31,6 +32,9 @@ import { StatusCarRequestLookup } from "../../../../../core/enums/lookups/status
   ]
 })
 export class EmailRequestTableComponent implements OnInit, AfterViewInit {
+  @ViewChild(MatAccordion)
+  accordion: MatAccordion;
+
   @Input()
   emails: RequestEmailModel[] = [];
   @Input()
@@ -120,6 +124,7 @@ export class EmailRequestTableComponent implements OnInit, AfterViewInit {
     this.emails = [];
     this.dataSource.data = this.emails;
     this.searchCtrl.setValue('');
+    this.accordion.closeAll();
   }
 
   private saveEmail(email: RequestEmailModel): void {

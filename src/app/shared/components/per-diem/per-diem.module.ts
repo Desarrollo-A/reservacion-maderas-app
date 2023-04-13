@@ -5,6 +5,7 @@ import { MaterialModule } from "../../../material/material.module";
 import { ReactiveFormsModule } from "@angular/forms";
 import { UrlModule } from "../../pipes/url/url.module";
 
+import { DecimalModule } from "../../directives/decimal/decimal.module";
 
 @NgModule({
   declarations: [
@@ -15,6 +16,7 @@ import { UrlModule } from "../../pipes/url/url.module";
     MaterialModule,
     ReactiveFormsModule,
     UrlModule,
+    DecimalModule
   ],
   exports: [
     PerDiemComponent

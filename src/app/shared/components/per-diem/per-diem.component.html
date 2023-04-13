@@ -15,7 +15,9 @@
           <input matInput
                  type="number"
                  formControlName="gasoline"
-                 autocomplete="off">
+                 autocomplete="off"
+                 [decimal]="3">
+          <mat-icon class="mr-2" matPrefix svgIcon="mat:attach_money"></mat-icon>
 
           <mat-error *ngIf="formErrors.customError('gasoline', 'required')">
             Campo obligatorio.
@@ -33,7 +35,9 @@
           <input matInput
                  type="number"
                  formControlName="tollbooths"
-                 autocomplete="off">
+                 autocomplete="off"
+                 [decimal]="3">
+          <mat-icon class="mr-2" matPrefix svgIcon="mat:attach_money"></mat-icon>
 
           <mat-error *ngIf="formErrors.customError('tollbooths', 'required')">
             Campo obligatorio.
@@ -51,7 +55,9 @@
           <input matInput
                  type="number"
                  formControlName="food"
-                 autocomplete="off">
+                 autocomplete="off"
+                 [decimal]="3">
+          <mat-icon class="mr-2" matPrefix svgIcon="mat:attach_money"></mat-icon>
 
           <mat-error *ngIf="formErrors.customError('food', 'required')">
             Campo obligatorio.
@@ -70,19 +76,19 @@
         <mat-form-field appearance="outline"
                         class="flex-auto vex-flex-form-field">
           <mat-label>Gasolina</mat-label>
-          <input matInput readonly [value]="perDiem?.gasoline.toString()">
+          <input matInput readonly [value]="perDiem?.gasoline | currency:'MXN'">
         </mat-form-field>
 
         <mat-form-field appearance="outline"
                         class="flex-auto vex-flex-form-field">
           <mat-label>Caseta de cobro</mat-label>
-          <input matInput readonly [value]="perDiem?.tollbooths.toString()">
+          <input matInput readonly [value]="perDiem?.tollbooths | currency:'MXN'">
         </mat-form-field>
 
         <mat-form-field appearance="outline"
                         class="flex-auto vex-flex-form-field">
           <mat-label>Comida</mat-label>
-          <input matInput readonly [value]="perDiem?.food.toString()">
+          <input matInput readonly [value]="perDiem?.food | currency:'MXN'">
         </mat-form-field>
       </div>
 
@@ -92,7 +98,9 @@
           <input matInput
                  type="number"
                  formControlName="spent"
-                 autocomplete="off">
+                 autocomplete="off"
+                 [decimal]="3">
+          <mat-icon class="mr-2" matPrefix svgIcon="mat:attach_money"></mat-icon>
 
           <mat-error *ngIf="formErrors.customError('spent', 'required')">
             Campo obligatorio.
@@ -134,7 +142,7 @@
            class="flex flex-col md:flex-row md:gap-4">
         <mat-form-field appearance="outline" class="flex-auto vex-flex-form-field">
           <mat-label>Total gastado durante el viaje</mat-label>
-          <input matInput readonly [value]="perDiem.spent.toString()">
+          <input matInput readonly [value]="perDiem.spent | currency:'MXN'">
         </mat-form-field>
 
         <div class="flex-auto sm:mt-2 mb-4 sm:mb-0">

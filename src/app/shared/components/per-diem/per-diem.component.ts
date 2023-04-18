@@ -75,15 +75,9 @@ export class PerDiemComponent implements OnInit {
    * Se habilitan los campos de gasolina, casetas de cobro y alimentos, además de que sea recepcionista
    */
   get enableFirstSubmit(): boolean {
-    return (
-        isNil(this.perDiem?.gasoline) &&
-        isNil(this.perDiem?.tollbooths) &&
-        isNil(this.perDiem?.food) &&
-        this.perDiem?.files.length === 0 &&
-        isNil(this.perDiem?.spent)
-      )
-      && this.isRecepcionist
-      && (
+    return !this.perDiem &&
+      this.isRecepcionist &&
+      (
         (this._status.type === TypeLookup.STATUS_CAR_REQUEST &&
           this._status.code === StatusCarRequestLookup[StatusCarRequestLookup.APPROVED]) ||
         (this._status.type === TypeLookup.STATUS_DRIVER_REQUEST &&

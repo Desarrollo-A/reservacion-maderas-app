@@ -6,6 +6,7 @@ import { ReactiveFormsModule } from "@angular/forms";
 import { UrlModule } from "../../pipes/url/url.module";
 
 import { DecimalModule } from "../../directives/decimal/decimal.module";
+import { UploadMultipleFilesModule } from "../upload-multiple-files/upload-multiple-files.module";
 
 @NgModule({
   declarations: [
@@ -16,7 +17,8 @@ import { DecimalModule } from "../../directives/decimal/decimal.module";
     MaterialModule,
     ReactiveFormsModule,
     UrlModule,
-    DecimalModule
+    DecimalModule,
+    UploadMultipleFilesModule,
   ],
   exports: [
     PerDiemComponent

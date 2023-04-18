@@ -20,17 +20,21 @@ export class PerDiemService {
     return this.http.post<PerDiemModel>(this.url, data);
   }
 
-  updateSpent(requestId: number, data: PerDiemModel): Observable<PerDiemModel> {
-    const url = `${this.url}/spent/${requestId}`;
+  updateSpent(id: number, data: PerDiemModel): Observable<PerDiemModel> {
+    const url = `${this.url}/spent/${id}`;
     return this.http.put<PerDiemModel>(url, data);
   }
 
-  updateImage(requestId: number, bill: File): Observable<void> {
+  updateBillFiles(id: number, files: File[]): Observable<void> {
     const data = new FormData();
-    data.append('bill', bill);
+    const url = `${this.url}/upload-bill-files/${id}`;
+
     data.append('_method', 'PUT');
 
-    const url = `${this.url}/upload-bill/${requestId}`;
+    for (let i = 0; i < files.length; i++) {
+      data.append('files[]', files[i]);
+    }
+
     return this.http.post<void>(url, data);
   }
 }

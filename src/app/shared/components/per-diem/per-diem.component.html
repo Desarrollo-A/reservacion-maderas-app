@@ -113,47 +113,26 @@
           </mat-error>
         </mat-form-field>
 
-        <div class="flex flex-col">
-          <label for="billFile"
-                 class="flex-auto form-label inline-block mb-2">
-            Archivo ZIP con las facturas del viaje
-          </label>
-          <input class="flex-auto px-2 py-1 text-sm font-normal bg-clip-padding border border-solid
-                border-gray-300 rounded transition ease-in-out m-0 focus:border-blue-600 focus:outline-none cursor-pointer"
-                 formControlName="billFile"
-                 accept="application/zip"
-                 id="billFile"
-                 type="file"
-                 (change)="changeBillZipFile($event.target['files'][0])">
-
-          <mat-hint>
-            Adjunta todas las facturas (PDF y XML) emitidas durante el viaje para la comprobación de gastos
-          </mat-hint>
-          <mat-error *ngIf="formErrors.customError('billFile', 'required')">
-            Campo obligatorio.
-          </mat-error>
-          <mat-error *ngIf="formErrors.customErrorFile('billFile', 'sizeFile')">
-            El tamaño del archivo debe ser menor a 5mb.
-          </mat-error>
+        <div class="flex-auto">
+          <app-upload-multiple-files #uploadMultipleFilesComponent
+                                     labelTxt="Facturas del viaje"
+                                     hintTxt="Adjunta todas las facturas (PDF y XML) emitidas durante el viaje para la comprobación de gastos"
+                                     accept="application/pdf,application/xml"
+                                     [lengthFiles]="3">
+          </app-upload-multiple-files>
         </div>
       </div>
 
       <div *ngIf="showSecondSubmit"
-           class="flex flex-col md:flex-row md:gap-4">
+           class="flex flex-col">
         <mat-form-field appearance="outline" class="flex-auto vex-flex-form-field">
           <mat-label>Total gastado durante el viaje</mat-label>
           <input matInput readonly [value]="perDiem.spent | currency:'MXN'">
         </mat-form-field>
 
-        <div class="flex-auto sm:mt-2 mb-4 sm:mb-0">
-          <a class="relative flex items-center cursor-pointer select-none rounded-full px-4 py-1 hover:bg-primary/10 trans-ease-out"
-             matRipple [href]="perDiem.billFilename | url" target="_blank">
-            <div class="p-2 bg-primary/10 text-primary rounded-full ltr:mr-4 rtl:ml-4">
-              <mat-icon class="block" svgIcon="mat:picture_as_pdf"></mat-icon>
-            </div>
-            <p class="font-medium text-primary">Facturas ZIP</p>
-          </a>
-        </div>
+        <app-file-list-readonly class="flex-auto"
+                                [files]="perDiem.files">
+        </app-file-list-readonly>
       </div>
 
       <div class="flex items-center justify-end">

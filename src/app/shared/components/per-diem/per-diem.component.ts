@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { Lookup } from "../../../core/interfaces/lookup";
 import { PerDiemModel } from "../../../core/models/per-diem.model";
 import { isNil } from "../../utils/isNil";
@@ -6,10 +6,11 @@ import { StatusCarRequestLookup } from "../../../core/enums/lookups/status-car-r
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { FormErrors } from "../../utils/form-error";
 import { PerDiemService } from "../../../core/services/per-diem.service";
-import { sizeFile } from "../../utils/form-validations";
 import { Observable, switchMap } from "rxjs";
 import { StatusDriverRequestLookup } from "../../../core/enums/lookups/status-driver-request.lookup";
 import { TypeLookup } from "../../../core/enums/type-lookup";
+import { UploadMultipleFilesComponent } from "../upload-multiple-files/upload-multiple-files.component";
+import { ToastrService } from "ngx-toastr";
 
 @Component({
   selector: 'app-per-diem',
@@ -17,6 +18,9 @@ import { TypeLookup } from "../../../core/enums/type-lookup";
   styleUrls: ['./per-diem.component.scss']
 })
 export class PerDiemComponent implements OnInit {
+  @ViewChild('uploadMultipleFilesComponent')
+  uploadMultipleFileComponent: UploadMultipleFilesComponent;
+
   @Input()
   requestId: number;
   @Input()
@@ -40,27 +44,23 @@ export class PerDiemComponent implements OnInit {
 
   constructor(
     private fb: FormBuilder,
-    private perDiemService: PerDiemService
+    private perDiemService: PerDiemService,
+    private toastrService: ToastrService
   ) { }
 
   ngOnInit(): void {
     if (this.enableFirstSubmit) {
       this.form = this.fb.group({
-        gasoline: [null, [Validators.required, Validators.min(1), Validators.max(999999)]],
+        gasoline: [null, [
+          Validators.required, Validators.min(1), Validators.max(999999)
+        ]],
         tollbooths: [null, [Validators.required, Validators.min(0), Validators.max(999999)]],
         food: [null, [Validators.required, Validators.min(0), Validators.max(999999)]],
-        billFile: [null],
-        billFileSrc: [null],
         spent: [null]
       });
 
-      this.form.get('billFile').disable();
-      this.form.get('spent').disable();
-
     } else if (this.enableSecondSubmit) {
       this.form = this.fb.group({
-        billFile: [null, Validators.required],
-        billFileSrc: [null, sizeFile(5000000)],
         spent: [null, [Validators.required, Validators.min(1), Validators.max(999999)]]
       });
 
@@ -79,7 +79,7 @@ export class PerDiemComponent implements OnInit {
         isNil(this.perDiem?.gasoline) &&
         isNil(this.perDiem?.tollbooths) &&
         isNil(this.perDiem?.food) &&
-        isNil(this.perDiem?.billFilename) &&
+        this.perDiem?.files.length === 0 &&
         isNil(this.perDiem?.spent)
       )
       && this.isRecepcionist
@@ -96,7 +96,7 @@ export class PerDiemComponent implements OnInit {
    */
   get enableSecondSubmit(): boolean {
     return (
-        isNil(this.perDiem?.billFilename) &&
+        this.perDiem?.files.length === 0 &&
         isNil(this.perDiem?.spent) &&
         !isNil(this.perDiem?.gasoline) &&
         !isNil(this.perDiem?.tollbooths) &&
@@ -112,7 +112,7 @@ export class PerDiemComponent implements OnInit {
   }
 
   get showSecondSubmit(): boolean {
-    return !isNil(this.perDiem?.billFilename) && !isNil(this.perDiem?.spent);
+    return !isNil(this.perDiem?.spent) && this.perDiem.files.length > 0;
   }
 
   get disableSaveButton(): boolean {
@@ -121,12 +121,6 @@ export class PerDiemComponent implements OnInit {
     }
 
     return !this.enableSecondSubmit;
-  }
-
-  changeBillZipFile(file: File): void {
-    this.form.patchValue({
-      billFileSrc: file
-    });
   }
 
   save(): void {
@@ -149,12 +143,17 @@ export class PerDiemComponent implements OnInit {
 
       request$ = this.perDiemService.store(data);
     } else if (this.enableSecondSubmit) {
+      if (this.uploadMultipleFileComponent.files.length === 0) {
+        this.toastrService.warning('Debe de agregar al menos un archivo PDF o XML');
+        return;
+      }
+
       data = <PerDiemModel> {
         spent: formValues.spent
       };
 
-      request$ = this.perDiemService.updateSpent(this.requestId, data).pipe(
-        switchMap(() => this.perDiemService.updateImage(this.requestId, formValues.billFileSrc))
+      request$ = this.perDiemService.updateSpent(this.perDiem.id, data).pipe(
+        switchMap(() => this.perDiemService.updateBillFiles(this.perDiem.id, this.uploadMultipleFileComponent.files))
       );
     }
 

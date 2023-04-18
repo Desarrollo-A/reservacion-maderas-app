@@ -45,6 +45,7 @@ import {
 } from './components/extra-information-request-car/extra-information-request-car.component';
 import { PerDiemModule } from "../../shared/components/per-diem/per-diem.module";
 import { HeavyShippingTableModule } from "../../shared/components/heavy-shipping-table/heavy-shipping-table.module";
+import { UploadMultipleFilesModule } from "../../shared/components/upload-multiple-files/upload-multiple-files.module";
 
 
 @NgModule({
@@ -90,7 +91,8 @@ import { HeavyShippingTableModule } from "../../shared/components/heavy-shipping
     EmailRequestModule,
     AddressModule,
     PerDiemModule,
-    HeavyShippingTableModule
+    HeavyShippingTableModule,
+    UploadMultipleFilesModule,
   ],
   exports: [
     CancelRequestComponent

@@ -6,43 +6,8 @@
       </mat-panel-title>
     </mat-expansion-panel-header>
 
-    <div class="flex flex-col gap-4"
+    <div class="flex flex-col gap-2"
                   [formGroup]="form">
-      <div class="flex flex-col"
-           *ngIf="!requestCar.imageZip">
-        <label for="imageZipFile"
-               class="flex-auto form-label inline-block mb-2">
-          Archivo ZIP con las imágenes del vehículo
-        </label>
-        <input class="flex-auto px-2 py-1 text-sm font-normal bg-clip-padding border border-solid
-                border-gray-300 rounded transition ease-in-out m-0 focus:border-blue-600 focus:outline-none cursor-pointer"
-               formControlName="imageZipFile"
-               accept="application/zip"
-               id="imageZipFile"
-               type="file"
-               (change)="changeImageZipFile($event.target['files'][0])">
-
-        <mat-error *ngIf="formErrors.customError('imageZipFile', 'required')">
-          Campo obligatorio.
-        </mat-error>
-        <mat-error *ngIf="formErrors.customErrorFile('imageZipFileSrc', 'sizeFile')">
-          El tamaño del archivo debe ser menor a 5mb.
-        </mat-error>
-      </div>
-
-      <div class="flex flex-col sm:flex-row sm:gap-4"
-           *ngIf="requestCar.imageZip">
-        <div class="flex-auto sm:mt-2 mb-4 sm:mb-0">
-          <a class="relative flex items-center cursor-pointer select-none rounded-full px-4 py-1 hover:bg-primary/10 trans-ease-out"
-             matRipple [href]="requestCar.imageZip | url" target="_blank">
-            <div class="p-2 bg-primary/10 text-primary rounded-full ltr:mr-4 rtl:ml-4">
-              <mat-icon class="block" svgIcon="mat:picture_as_pdf"></mat-icon>
-            </div>
-            <p class="font-medium text-primary">Imágenes ZIP del vehículo</p>
-          </a>
-        </div>
-      </div>
-
       <div class="flex flex-col md:flex-row md:gap-4">
         <mat-form-field class="flex-auto"
                         *ngIf="!requestCar.initialKm">
@@ -66,7 +31,7 @@
         <mat-form-field appearance="outline" class="flex-auto vex-flex-form-field"
                         *ngIf="requestCar.initialKm">
           <mat-label>Kilometraje inicial</mat-label>
-          <input matInput readonly [value]="requestCar.initialKm.toString()">
+          <input matInput readonly [value]="requestCar.initialKm | number">
         </mat-form-field>
 
         <mat-form-field class="flex-auto"
@@ -91,8 +56,17 @@
         <mat-form-field appearance="outline" class="flex-auto vex-flex-form-field"
                         *ngIf="requestCar.finalKm">
           <mat-label>Kilometraje final</mat-label>
-          <input matInput readonly [value]="requestCar.finalKm.toString()">
+          <input matInput readonly [value]="requestCar.finalKm | number">
         </mat-form-field>
+      </div>
+
+      <div class="flex-auto" *ngIf="requestCar.files.length === 0">
+        <app-upload-multiple-files #uploadMultipleFilesComponent
+                                   labelTxt="Imágenes del vehículo"
+                                   hintTxt="Adjunta todas las imágenes del vehículo"
+                                   accept="image/jpeg,image/png,image/gif"
+                                   [lengthFiles]="5">
+        </app-upload-multiple-files>
       </div>
 
       <mat-form-field *ngIf="enableSecondSubmit">
@@ -114,6 +88,12 @@
         <mat-label>Condiciones del vehículo al momento de recibirlo</mat-label>
         <textarea matInput readonly [value]="requestCar.deliveryCondition"></textarea>
       </mat-form-field>
+
+      <div class="flex flex-col" *ngIf="requestCar.files.length > 0">
+        <app-file-list-readonly class="flex-auto"
+                                [files]="requestCar.files">
+        </app-file-list-readonly>
+      </div>
     </div>
 
     <div class="flex items-center justify-end mt-3">

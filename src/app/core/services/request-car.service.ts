@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from "@angular/common/http";
 import { environment } from "../../../environments/environment";
-import { Observable, map } from "rxjs";
+import { map, Observable } from "rxjs";
 import { RequestModel } from "../models/request.model";
 import { RequestCarModel } from "../models/request-car.model";
 import { RequestCarViewModel } from '../models/request-car-view.model';
@@ -91,13 +91,17 @@ export class RequestCarService {
     return this.http.patch<void>(url, data);
   }
 
-  uploadZipImages(id: number, zip: File): Observable<void> {
-    const formData = new FormData();
-    formData.append('imageZipFile', zip);
-    formData.append('_method', 'PUT');
+  uploadImageFiles(id: number, files: File[]): Observable<void> {
+    const data = new FormData();
+    const url = `${this.url}/upload-image-files/${id}`;
 
-    const url = `${this.url}/upload-zip/${id}`;
-    return this.http.post<void>(url, formData);
+    data.append('_method', 'PUT');
+
+    for (let i = 0; i < files.length; i++) {
+      data.append('files[]', files[i]);
+    }
+
+    return this.http.post<void>(url, data);
   }
 
   addExtraCarInformation(id: number, data: RequestCarModel): Observable<void> {

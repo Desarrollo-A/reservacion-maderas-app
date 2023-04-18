@@ -1,10 +1,10 @@
 import { RequestModel } from "./request.model";
 import { CarRequestScheduleModel } from "./car-request-schedule.model";
 import { OfficeModel } from "./office.model";
+import { FileModel } from "./file.model";
 
 export class RequestCarModel {
   id: number;
-  imageZip?: string;
   requestId: number;
   request: RequestModel;
   officeId: number;
@@ -13,10 +13,10 @@ export class RequestCarModel {
   deliveryCondition?: string;
   carRequestSchedule?: CarRequestScheduleModel;
   office: OfficeModel;
+  files: FileModel[];
 
   constructor(requestCar) {
     this.id = requestCar.id;
-    this.imageZip = requestCar.imageZip;
     this.requestId = requestCar.requestId;
     this.request = new RequestModel(requestCar.request);
     this.officeId = requestCar.officeId;
@@ -27,5 +27,6 @@ export class RequestCarModel {
       ? new CarRequestScheduleModel(requestCar.carRequestSchedule)
       : null;
     this.office = requestCar.office;
+    this.files = requestCar.files;
   }
 }

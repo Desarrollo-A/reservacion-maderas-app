@@ -1,12 +1,15 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { FormErrors } from "../../../../shared/utils/form-error";
-import { sizeFile } from "../../../../shared/utils/form-validations";
 import { RequestCarModel } from "../../../../core/models/request-car.model";
 import { isNil } from "../../../../shared/utils/isNil";
 import { RequestCarService } from "../../../../core/services/request-car.service";
 import { Observable, switchMap } from "rxjs";
 import { StatusCarRequestLookup } from "../../../../core/enums/lookups/status-car-request.lookup";
+import {
+  UploadMultipleFilesComponent
+} from "../../../../shared/components/upload-multiple-files/upload-multiple-files.component";
+import { ToastrService } from "ngx-toastr";
 
 @Component({
   selector: 'app-extra-information-request-car',
@@ -14,6 +17,9 @@ import { StatusCarRequestLookup } from "../../../../core/enums/lookups/status-ca
   styleUrls: ['./extra-information-request-car.component.scss']
 })
 export class ExtraInformationRequestCarComponent implements OnInit {
+  @ViewChild('uploadMultipleFilesComponent')
+  uploadMultipleFileComponent: UploadMultipleFilesComponent;
+
   @Input()
   requestCar: RequestCarModel;
 
@@ -23,14 +29,15 @@ export class ExtraInformationRequestCarComponent implements OnInit {
   form: FormGroup;
   formErrors: FormErrors;
 
-  constructor(private fb: FormBuilder,
-              private requestCarService: RequestCarService) { }
+  constructor(
+    private fb: FormBuilder,
+    private requestCarService: RequestCarService,
+    private toastrService: ToastrService
+  ) { }
 
   ngOnInit(): void {
     if (this.enableFirstSubmit) {
       this.form = this.fb.group({
-        imageZipFile: [null, Validators.required],
-        imageZipFileSrc: [null, sizeFile(5000000)],
         initialKm: [null, [Validators.required, Validators.min(1), Validators.max(999999)]],
         finalKm: [null],
         deliveryCondition: [null]
@@ -41,8 +48,6 @@ export class ExtraInformationRequestCarComponent implements OnInit {
 
     } else if (this.enableSecondSubmit) {
       this.form = this.fb.group({
-        imageZipFile: [null],
-        imageZipFileSrc: [null],
         initialKm: [null],
         finalKm: [null, [Validators.required, Validators.min(1), Validators.max(999999)]],
         deliveryCondition: [null, [Validators.required, Validators.maxLength(2500)]]
@@ -62,22 +67,22 @@ export class ExtraInformationRequestCarComponent implements OnInit {
    * Se habilitan los campos de archivo de responsiva, archivo ZIP para imágenes y kilometraje inicial
    */
   get enableFirstSubmit(): boolean {
-    return isNil(this.requestCar.imageZip) || isNil(this.requestCar.initialKm);
+    return this.requestCar.files.length === 0 || isNil(this.requestCar.initialKm);
   }
 
   /**
    * Se habilitan los campos de kilometraje final y comentarios de condiciones de entrega de vehículo
    */
   get enableSecondSubmit(): boolean {
-    return (isNil(this.requestCar.finalKm) || isNil(this.requestCar.deliveryCondition)) &&
-      (!isNil(this.requestCar.imageZip) && !isNil(this.requestCar.initialKm)) &&
+    return (
+      isNil(this.requestCar.finalKm) ||
+      isNil(this.requestCar.deliveryCondition)
+      ) &&
+      (
+        this.requestCar.files.length > 0 &&
+        !isNil(this.requestCar.initialKm)
+      ) &&
       this.requestCar.request.status.code === StatusCarRequestLookup[StatusCarRequestLookup.FINISHED];
-  }
-
-  changeImageZipFile(file: File): void {
-    this.form.patchValue({
-      imageZipFileSrc: file
-    });
   }
 
   save(): void {
@@ -93,12 +98,17 @@ export class ExtraInformationRequestCarComponent implements OnInit {
     let request$: Observable<void>;
 
     if (this.enableFirstSubmit) {
+      if (this.uploadMultipleFileComponent.files.length === 0) {
+        this.toastrService.warning('Debe de agregar al menos una imagen');
+        return;
+      }
+
       data = <RequestCarModel> {
         initialKm: formValues.initialKm
       };
 
       request$ = this.requestCarService.addExtraCarInformation(id, data).pipe(
-        switchMap(() => this.requestCarService.uploadZipImages(id, formValues.imageZipFileSrc))
+        switchMap(() => this.requestCarService.uploadImageFiles(id, this.uploadMultipleFileComponent.files))
       );
     } else if (this.enableSecondSubmit) {
       data = <RequestCarModel> {

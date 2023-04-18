@@ -1,0 +1,18 @@
+<mat-list class="list mat-elevation-z1">
+  <h3 mat-subheader>
+    Archivos
+  </h3>
+
+  <mat-list-item *ngFor="let file of files">
+    <mat-icon svgIcon="mat:description"
+              mat-list-icon></mat-icon>
+
+    <h3 matLine>
+      <a [href]="file.filename | url"
+         target="_blank"
+         class="text-primary">
+        {{ filename(file) }}
+      </a>
+    </h3>
+  </mat-list-item>
+</mat-list>

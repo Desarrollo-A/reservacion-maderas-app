@@ -120,8 +120,7 @@ export class DriverDetailComponent {
     const statusCode = this.requestDriver.request.status.code;
 
     if (statusCode === StatusDriverRequestLookup[StatusDriverRequestLookup.CANCELLED] &&
-      (this.previousStatus.code === StatusDriverRequestLookup[StatusDriverRequestLookup.APPROVED] ||
-        this.previousStatus.code === StatusDriverRequestLookup[StatusDriverRequestLookup.NEW])) {
+      this.previousStatus.code === StatusDriverRequestLookup[StatusDriverRequestLookup.APPROVED]) {
       this.cancelRequest();
 
     } else if (statusCode === StatusDriverRequestLookup[StatusDriverRequestLookup.TRANSFER]) {

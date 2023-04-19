@@ -7,4 +7,5 @@ export interface ApprovedPackageRequest {
   requestId: number;
   packageId: number;
   endDate: Date;
+  weight: number;
 }

@@ -26,7 +26,6 @@ export class ItemCreateUpdateComponent implements OnInit {
       high: [this.data?.high ?? null, [Validators.required, Validators.min(1), Validators.max(999999)]],
       long: [this.data?.long ?? null, [Validators.required, Validators.min(1), Validators.max(999999)]],
       width: [this.data?.width ?? null, [Validators.required, Validators.min(1), Validators.max(999999)]],
-      weight: [this.data?.weight ?? null, [Validators.required, Validators.min(0.01), Validators.max(999999)]],
       description: [this.data?.description ?? null, [
         Validators.required, Validators.minLength(3), Validators.maxLength(2500)
       ]]

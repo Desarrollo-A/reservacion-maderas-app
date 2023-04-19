@@ -46,6 +46,7 @@ import {
 import { PerDiemModule } from "../../shared/components/per-diem/per-diem.module";
 import { HeavyShippingTableModule } from "../../shared/components/heavy-shipping-table/heavy-shipping-table.module";
 import { UploadMultipleFilesModule } from "../../shared/components/upload-multiple-files/upload-multiple-files.module";
+import { DecimalModule } from "../../shared/directives/decimal/decimal.module";
 
 
 @NgModule({
@@ -93,6 +94,7 @@ import { UploadMultipleFilesModule } from "../../shared/components/upload-multip
     PerDiemModule,
     HeavyShippingTableModule,
     UploadMultipleFilesModule,
+    DecimalModule,
   ],
   exports: [
     CancelRequestComponent

@@ -4,6 +4,5 @@ export class HeavyShipmentModel {
   high: number;
   long: number;
   width: number;
-  weight: number;
   description: string;
 }

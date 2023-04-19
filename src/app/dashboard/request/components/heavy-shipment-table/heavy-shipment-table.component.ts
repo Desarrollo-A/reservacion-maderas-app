@@ -38,7 +38,6 @@ export class HeavyShipmentTableComponent implements OnInit, AfterViewInit {
       { label: 'Altura', property: 'high', type: 'text', visible: true },
       { label: 'Largo', property: 'long', type: 'text', visible: true },
       { label: 'Ancho', property: 'width', type: 'text', visible: true },
-      { label: 'Peso', property: 'weight', type: 'text', visible: true },
       { label: 'Descripción', property: 'description', type: 'text', visible: true },
       { label: 'Acciones', property: 'actions', type: 'text', visible: true },
     ];

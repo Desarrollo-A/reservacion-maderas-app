@@ -54,31 +54,15 @@ export class DriverPackageAssignComponent implements OnInit {
       companyName: [null],
       trackingCode: [null],
       urlTracking: [null],
-      endDate: [null]
+      endDate: [null],
+      weight: [null]
     });
 
     if (this.requestPackage.proposalPackage) {
       this.externalDelivery.setValue(true);
       this.externalDelivery.disable();
 
-      this.form.get('driverId')?.clearValidators();
-      this.form.get('carId')?.clearValidators();
-
-      this.form.get('companyName')?.addValidators([
-        Validators.required,
-        Validators.minLength(3),
-        Validators.maxLength(75)
-      ]);
-      this.form.get('trackingCode')?.addValidators([
-        Validators.required,
-        Validators.minLength(10),
-        Validators.maxLength(25)
-      ]);
-      this.form.get('urlTracking')?.addValidators([
-        Validators.required,
-        Validators.minLength(10),
-        Validators.maxLength(255)
-      ]);
+      this.addValidatorsToExternalPackage();
 
       this.form.get('endDate').setValue(new Date(this.requestPackage.request.endDate));
       this.form.get('endDate').disable();
@@ -110,24 +94,8 @@ export class DriverPackageAssignComponent implements OnInit {
 
   changeToggle(value: boolean): void {
     if (value) {
-      this.form.get('driverId')?.clearValidators();
-      this.form.get('carId')?.clearValidators();
+      this.addValidatorsToExternalPackage();
 
-      this.form.get('companyName')?.addValidators([
-        Validators.required,
-        Validators.minLength(3),
-        Validators.maxLength(75)
-      ]);
-      this.form.get('trackingCode')?.addValidators([
-        Validators.required,
-        Validators.minLength(10),
-        Validators.maxLength(25)
-      ]);
-      this.form.get('urlTracking')?.addValidators([
-        Validators.required,
-        Validators.minLength(10),
-        Validators.maxLength(255)
-      ]);
       this.form.get('endDate')?.addValidators([
         Validators.required,
         dateBeforeNow
@@ -138,6 +106,7 @@ export class DriverPackageAssignComponent implements OnInit {
       this.form.get('trackingCode')?.clearValidators();
       this.form.get('urlTracking')?.clearValidators();
       this.form.get('endDate')?.clearValidators();
+      this.form.get('weight')?.clearValidators();
 
       this.form.get('driverId')?.addValidators([Validators.required]);
       this.form.get('carId')?.addValidators([Validators.required]);
@@ -154,5 +123,31 @@ export class DriverPackageAssignComponent implements OnInit {
         this.toastrService.info('No hay choferes disponibles', 'Información');
       }
     });
+  }
+
+  private addValidatorsToExternalPackage(): void {
+    this.form.get('driverId')?.clearValidators();
+    this.form.get('carId')?.clearValidators();
+
+    this.form.get('companyName')?.addValidators([
+      Validators.required,
+      Validators.minLength(3),
+      Validators.maxLength(75)
+    ]);
+    this.form.get('trackingCode')?.addValidators([
+      Validators.required,
+      Validators.minLength(10),
+      Validators.maxLength(25)
+    ]);
+    this.form.get('urlTracking')?.addValidators([
+      Validators.required,
+      Validators.minLength(10),
+      Validators.maxLength(255)
+    ]);
+    this.form.get('weight')?.addValidators([
+      Validators.required,
+      Validators.min(0.01),
+      Validators.max(999999)
+    ]);
   }
 }

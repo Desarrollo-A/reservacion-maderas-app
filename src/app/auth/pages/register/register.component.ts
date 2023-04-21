@@ -27,10 +27,10 @@ export class RegisterComponent implements OnInit {
       if (resultado === Result.NOT_EXIST) {
         this.toastrService.warning('No existe el registro', 'Atención');
       } else if (resultado === Result.USER_LOW) {
-        this.toastrService.warning('Empleado dado de baja.', 'Atención');
+        this.toastrService.warning('Colaborador dado de baja.', 'Atención');
       } else if (resultado === Result.ACTIVE_WITHOUT_EMAIL) {
         this.toastrService.warning('No tiene correo corporativo. Favor de acercarse a Capital Humano',
-          'Empleado sin correo');
+          'Colaborador sin correo');
       } else if (resultado === Result.ACTIVE_WITH_EMAIL) {
         const response = data[0];
 

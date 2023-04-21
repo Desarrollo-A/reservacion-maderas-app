@@ -1,0 +1,53 @@
+<div class="flex items-center" mat-dialog-title>
+  <h2 class="headline m-0 flex-auto block">
+    Opciones del menú
+  </h2>
+
+  <button class="text-secondary" mat-dialog-close mat-icon-button type="button">
+    <mat-icon svgIcon="mat:close"></mat-icon>
+  </button>
+</div>
+
+<mat-divider class="-mx-6 text-border"></mat-divider>
+
+<mat-dialog-content class="flex flex-col gap-2 mt-4">
+  <mat-tree [dataSource]="dataSource" [treeControl]="treeControl">
+    <mat-tree-node *matTreeNodeDef="let node" matTreeNodeToggle matTreeNodePadding>
+      <button mat-icon-button disabled></button>
+
+      <mat-checkbox class="checklist-leaf-node"
+                    [checked]="checklistSelection.isSelected(node)"
+                    (change)="todoLeafItemSelectionToggle(node)">
+        {{node.item.label}}
+      </mat-checkbox>
+
+      <mat-icon *ngIf="node.item.icon"
+                class="h-5 ml-1.5"
+                [svgIcon]="node.item.icon">
+      </mat-icon>
+    </mat-tree-node>
+
+    <mat-tree-node *matTreeNodeDef="let node; when: hasChild" matTreeNodePadding>
+      <button mat-icon-button matTreeNodeToggle
+              [attr.aria-label]="'Toggle ' + node.item.label">
+        <mat-icon [svgIcon]="getIcon(treeControl.isExpanded(node))"></mat-icon>
+      </button>
+
+      <mat-checkbox [checked]="descendantsAllSelected(node)"
+                    [indeterminate]="descendantsPartiallySelected(node)"
+                    (change)="todoItemSelectionToggle(node)">
+        {{node.item.label}}
+      </mat-checkbox>
+
+      <mat-icon *ngIf="node.item.icon"
+                class="h-5 ml-1.5"
+                [svgIcon]="node.item.icon">
+      </mat-icon>
+    </mat-tree-node>
+  </mat-tree>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-button mat-dialog-close type="button">Cancelar</button>
+  <button color="primary" mat-flat-button>Guardar</button>
+</mat-dialog-actions>

@@ -70,7 +70,7 @@ const routes: Routes = [
       {
         path: 'usuarios',
         loadChildren: () => import('./user/user.module').then(m => m.UserModule),
-        data: { roles: [ NameRole.ADMIN ] },
+        data: { roles: [ NameRole.ADMIN, NameRole.DEPARTMENT_MANAGER ] },
         canActivate: [ PermissionGuard ],
         canLoad: [ PermissionGuard ]
       },

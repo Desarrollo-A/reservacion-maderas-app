@@ -1,29 +1,30 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl } from '@angular/forms';
-import { Sort } from '@angular/material/sort';
-import { MatTableDataSource } from '@angular/material/table';
-import { fadeInUp400ms } from 'src/app/shared/animations/fade-in-up.animation';
-import { stagger40ms } from 'src/app/shared/animations/stagger.animation';
-import { TableColumn } from 'src/app/shared/interfaces/table-column.interface';
-import { UserModel } from '../../../../core/models/user.model';
+import { fadeInUp400ms } from "../../../../shared/animations/fade-in-up.animation";
+import { stagger40ms } from "../../../../shared/animations/stagger.animation";
 import { Meta, PaginationResponse } from "../../../../core/interfaces/pagination-response";
+import { UserModel } from "../../../../core/models/user.model";
+import { MatTableDataSource } from "@angular/material/table";
+import { TableColumn } from "../../../../shared/interfaces/table-column.interface";
+import { FormControl } from "@angular/forms";
 import { Filters, TypesEnum } from "../../../../core/interfaces/filters";
-import { MatDialog } from "@angular/material/dialog";
-import { UserService } from "../../../../core/services/user.service";
-import { getSort } from "../../../../shared/utils/http-functions";
 import { trackById } from "../../../../shared/utils/track-by";
-import { UpdateUserComponent } from "../../components/update-user/update-user.component";
+import { UserService } from "../../../../core/services/user.service";
+import { Sort } from "@angular/material/sort";
+import { getSort } from "../../../../shared/utils/http-functions";
+import { MatDialog } from "@angular/material/dialog";
+import { NavigationService } from "../../../../core/services/navigation.service";
+import { AssignPermisionComponent } from "../../components/assign-permision/assign-permision.component";
 
 @Component({
-  selector: 'app-user-list',
-  templateUrl: './user-list.component.html',
-  styleUrls: ['./user-list.component.scss'],
+  selector: 'app-user-permission',
+  templateUrl: './user-permission.component.html',
+  styles: [],
   animations: [
     fadeInUp400ms,
     stagger40ms
   ]
 })
-export class UserListComponent implements OnInit {
+export class UserPermissionComponent implements OnInit {
   userResponse: PaginationResponse<UserModel>;
   dataSource: MatTableDataSource<UserModel> | null;
   columns: TableColumn<UserModel>[] = [
@@ -33,8 +34,6 @@ export class UserListComponent implements OnInit {
     {label: 'Teléfono', property: 'personalPhone', type: 'text', visible: true},
     {label: 'Puesto', property: 'position', type: 'text', visible: false},
     {label: 'Área', property: 'area', type: 'text', visible: false},
-    {label: 'Estatus', property: 'status', type: 'button', visible: true},
-    {label: 'Rol', property: 'role', type: 'button', visible: true},
     {label: 'Acciones', property: 'actions', type: 'button', visible: true}
   ];
   pageSizeOptions: number[] = [5, 10, 20, 50];
@@ -44,10 +43,10 @@ export class UserListComponent implements OnInit {
   trackById = trackById;
 
   constructor(
+    private userService: UserService,
     private dialog: MatDialog,
-    private userService: UserService
-  ) {
-  }
+    private navigationService: NavigationService
+  ) { }
 
   ngOnInit(): void {
     this.dataSource = new MatTableDataSource<UserModel>();
@@ -79,15 +78,11 @@ export class UserListComponent implements OnInit {
     column.visible = !column.visible;
   }
 
-  updateDialog(id: number): void {
-    this.userService.findByid(id).subscribe(user => {
-      this.dialog.open(UpdateUserComponent, {
-        width: '100%',
-        data: user
-      }).afterClosed().subscribe(updated => {
-        if (updated) {
-          this.prepareFilters();
-        }
+  openDialog(userId: number): void {
+    this.navigationService.getNavigationByUserId(userId).subscribe(navigation => {
+      this.dialog.open(AssignPermisionComponent, {
+        data: navigation,
+        autoFocus: false
       });
     });
   }
@@ -106,8 +101,6 @@ export class UserListComponent implements OnInit {
     this.generateFilter('personal_phone', TypesEnum.String, filter);
     this.generateFilter('position', TypesEnum.String, filter);
     this.generateFilter('area', TypesEnum.String, filter);
-    this.generateFilter('lookup', TypesEnum.String, filter);
-    this.generateFilter('role', TypesEnum.String, filter);
 
     this.getData();
   }
@@ -122,7 +115,7 @@ export class UserListComponent implements OnInit {
       perPageInit = perPage;
     }
 
-    this.userService.findAllPaginated(this.orderBy, perPageInit, currentPageInit, searchQuery)
+    this.userService.findAllUserPermissionPaginated(this.orderBy, perPageInit, currentPageInit, searchQuery)
       .subscribe(userResponse => {
         this.userResponse = userResponse;
         this.dataSource.data = userResponse.data;

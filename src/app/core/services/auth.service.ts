@@ -23,13 +23,15 @@ import { PusherService } from "./pusher.service";
 export class AuthService {
   private _baseUrl = 'auth';
 
-  constructor(private http: HttpClient,
-              private userSessionService: UserSessionService,
-              private navigationService: NavigationService,
-              private userService: UserService,
-              private configService: ConfigService,
-              private notificacionService: NotificationService,
-              private pusherService: PusherService) {}
+  constructor(
+    private http: HttpClient,
+    private userSessionService: UserSessionService,
+    private navigationService: NavigationService,
+    private userService: UserService,
+    private configService: ConfigService,
+    private notificacionService: NotificationService,
+    private pusherService: PusherService
+  ) {}
 
   get url(): string {
     return environment.baseUrl + environment.api + this._baseUrl;

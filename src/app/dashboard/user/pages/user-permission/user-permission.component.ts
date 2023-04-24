@@ -14,6 +14,7 @@ import { getSort } from "../../../../shared/utils/http-functions";
 import { MatDialog } from "@angular/material/dialog";
 import { NavigationService } from "../../../../core/services/navigation.service";
 import { AssignPermisionComponent } from "../../components/assign-permision/assign-permision.component";
+import { NavigationData } from "../../interfaces/navigation-data";
 
 @Component({
   selector: 'app-user-permission',
@@ -80,10 +81,12 @@ export class UserPermissionComponent implements OnInit {
 
   openDialog(userId: number): void {
     this.navigationService.getNavigationByUserId(userId).subscribe(navigation => {
-      this.dialog.open(AssignPermisionComponent, {
-        data: navigation,
-        autoFocus: false
-      });
+      const data: NavigationData = {
+        menus: navigation,
+        userId
+      };
+
+      this.dialog.open(AssignPermisionComponent, { data, autoFocus: false });
     });
   }
 

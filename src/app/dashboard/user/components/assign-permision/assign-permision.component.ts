@@ -1,11 +1,15 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { MAT_DIALOG_DATA } from "@angular/material/dialog";
+import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material/dialog";
 import { Menu, Submenu } from "../../../../core/interfaces/menu";
 import { FlatTreeControl } from "@angular/cdk/tree";
 import { MatTreeFlatDataSource, MatTreeFlattener } from "@angular/material/tree";
 import { SelectionModel } from "@angular/cdk/collections";
 import { ItemFlatNode } from "../../../../core/classes/item-flat-node";
 import { ItemNode } from "../../../../core/classes/item.node";
+import { SyncNavigation } from "../../interfaces/sync-navigation";
+import { NavigationService } from "../../../../core/services/navigation.service";
+import { NavigationData } from "../../interfaces/navigation-data";
+import { ToastrService } from "ngx-toastr";
 
 @Component({
   selector: 'app-assign-permision',
@@ -23,7 +27,10 @@ export class AssignPermisionComponent implements OnInit {
   checklistSelection = new SelectionModel<ItemFlatNode<Menu|Submenu>>(true);
 
   constructor(
-    @Inject(MAT_DIALOG_DATA) public navigation: Menu[]
+    private navigationService: NavigationService,
+    private toastrService: ToastrService,
+    private dialogRef: MatDialogRef<AssignPermisionComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: NavigationData
   ) {
     this.initialize();
 
@@ -40,7 +47,7 @@ export class AssignPermisionComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.checkMenu();
+    this.previousSelected();
   }
 
   getLevel = (node: ItemFlatNode<Menu|Submenu>) => node.level;
@@ -139,22 +146,44 @@ export class AssignPermisionComponent implements OnInit {
     return (value) ? 'mat:expand_more' : 'mat:chevron_right';
   }
 
-  private checkMenu(): void {
-    for (let i = 0; i < this.treeControl.dataNodes.length; i++) {
-      const node = this.treeControl.dataNodes[i];
+  save(): void {
+    let menus: number[] = [];
+    let submenus: number[] = [];
 
-      if(node.item.isSelected) {
-        this.checklistSelection.toggle(this.treeControl.dataNodes[i]);
+    this.treeControl.dataNodes.forEach(node => {
+      if (this.checklistSelection.isSelected(node)) {
+        if (this.instanceOfMenu(node.item)) {
+          menus.push(node.item.id);
+        }
+
+        if (this.instanceOfSubmenu(node.item)) {
+          submenus.push(node.item.id);
+          menus.push(node.item.menuId);
+        }
+      }
+    });
+
+    const data: SyncNavigation = { menus: [...new Set(menus)], submenus };
+    this.navigationService.syncNavigation(this.data.userId, data).subscribe(() => {
+      this.toastrService.success('Datos guardados correctamente', 'Proceso exitoso');
+      this.dialogRef.close();
+    });
+  }
+
+  private previousSelected(): void {
+    this.treeControl.dataNodes.forEach(node => {
+      if (node.item.isSelected) {
+        this.checklistSelection.toggle(node);
       }
 
-      this.treeControl.expand(this.treeControl.dataNodes[i])
-    }
+      this.treeControl.expand(node)
+    });
   }
 
   private initialize(): ItemNode<Menu|Submenu>[] {
     let data: ItemNode<Menu|Submenu>[] = [];
 
-    this.navigation.forEach(menu => {
+    this.data.menus.forEach(menu => {
       const node = new ItemNode<Menu|Submenu>();
       node.item = menu;
 
@@ -174,5 +203,13 @@ export class AssignPermisionComponent implements OnInit {
     });
 
     return data;
+  }
+
+  private instanceOfMenu(object: any): object is Menu {
+    return 'submenu' in object;
+  }
+
+  private instanceOfSubmenu(object: any): object is Submenu {
+    return 'menuId' in object;
   }
 }

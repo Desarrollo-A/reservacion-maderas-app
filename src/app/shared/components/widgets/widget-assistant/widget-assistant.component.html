@@ -5,22 +5,24 @@
 
   <div class="p-6 text-primary-contrast flex-auto">
     <h2 class="headline m-0">¡Hola, {{ userFullName | titlecase }}!</h2>
-    <p class="caption m-0 opacity-50">En tu panel podrás realizar las siguientes acciones:</p>
+    <p class="caption m-0 opacity-50"
+       *ngIf="!isRecepcionist">
+      En tu panel podrás realizar las siguientes acciones:
+    </p>
 
     <ng-container *ngIf="isRecepcionist">
       <div class="mt-4 flex items-center">
-        <mat-icon class="mr-2" svgIcon="mat:check_circle"></mat-icon>
-        <span class="body-2 cursor-pointer">Gestionar las solicitudes de sala de junta, paquetería, chofer y vehículo</span>
+        <mat-icon class="mr-2" svgIcon="mat:chevron_right"></mat-icon>
+        <span class="body-2 cursor-pointer">
+          En tu panel podrás realizar diferentes acciones dependiendo de los permisos que te asignó tu director de departamento
+        </span>
       </div>
 
-      <div class="mt-1 flex items-center">
-        <mat-icon class="mr-2" svgIcon="mat:check_circle"></mat-icon>
-        <span class="body-2 cursor-pointer">Gestionar el inventario y stock de cada producto</span>
-      </div>
-
-      <div class="mt-1 flex items-center">
-        <mat-icon class="mr-2" svgIcon="mat:check_circle"></mat-icon>
-        <span class="body-2 cursor-pointer">Mantenimiento de salas de junta y vehículo</span>
+      <div class="mt-4 flex items-center">
+        <mat-icon class="mr-2" svgIcon="mat:chevron_right"></mat-icon>
+        <span class="body-2 cursor-pointer">
+          Cualquier duda o pregunta, acércate a tu director para revisar los permisos asignados
+        </span>
       </div>
     </ng-container>
 
@@ -64,6 +66,11 @@
       <div class="mt-4 flex items-center">
         <mat-icon class="mr-2" svgIcon="mat:check_circle"></mat-icon>
         <span class="body-2 cursor-pointer">Gestionar las solicitudes de paquetería</span>
+      </div>
+
+      <div class="mt-4 flex items-center">
+        <mat-icon class="mr-2" svgIcon="mat:check_circle"></mat-icon>
+        <span class="body-2 cursor-pointer">Gestionar los permisos de los usarios recepcionista y asistente a tu cargo</span>
       </div>
     </ng-container>
   </div>

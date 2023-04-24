@@ -27,21 +27,23 @@ export class RegisterComponent implements OnInit {
       if (resultado === Result.NOT_EXIST) {
         this.toastrService.warning('No existe el registro', 'Atención');
       } else if (resultado === Result.USER_LOW) {
-        this.toastrService.warning('Empleado dado de baja.', 'Atención');
+        this.toastrService.warning('Colaborador dado de baja.', 'Atención');
       } else if (resultado === Result.ACTIVE_WITHOUT_EMAIL) {
         this.toastrService.warning('No tiene correo corporativo. Favor de acercarse a Capital Humano',
-          'Empleado sin correo');
+          'Colaborador sin correo');
       } else if (resultado === Result.ACTIVE_WITH_EMAIL) {
         const response = data[0];
 
-        if (response.puesto.toUpperCase().indexOf('CHOFER') !== -1) {
+        if (response.puesto.toUpperCase().includes('CHOFER')) {
           this.toastrService.warning('Colaboradores con puesto "CHOFER" ya están registrados en el sistema', 'Atención');
           return;
         }
 
         if (
-          response.puesto.toUpperCase().indexOf('DIRECCION') !== -1 ||
-          response.puesto.toUpperCase().indexOf('DIRECTOR') !== -1
+          (
+            response.puesto.toUpperCase().includes('DIRECCION') || response.puesto.toUpperCase().includes('DIRECTOR')
+          ) &&
+          !response.puesto.toUpperCase().includes('ASISTENTE')
         ) {
           this.toastrService.warning('Colaboradores con puesto "DIRECTOR" ya están registrados en el sistema', 'Atención');
           return;
@@ -55,7 +57,8 @@ export class RegisterComponent implements OnInit {
         let state = new StateModel(response);
         const office = new OfficeModel(response);
         let user = new UserModel(response);
-        user.isRecepcionist = (user.position.toUpperCase() === 'RECEPCIONISTA');
+        user.isRecepcionist = (user.position.toUpperCase() === 'RECEPCIONISTA' ||
+          user.position.toUpperCase().includes('ASISTENTE'));
         user.office = office;
         user.office.state = state;
         this.userData = user;

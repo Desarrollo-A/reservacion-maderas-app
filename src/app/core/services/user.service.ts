@@ -55,4 +55,17 @@ export class UserService {
     const url = `${this.url}/department-manager`;
     return this.http.get<UserModel[]>(url);
   }
+
+  findAllUserPermissionPaginated(sort: string, itemsPerPage: number, page: number, search: string | null): Observable<PaginationResponse<UserModel>> {
+    const params = getPaginateParams(sort, itemsPerPage, page, search);
+    const url = `${this.url}/permission`;
+
+    return this.http.get<PaginationResponse<UserModel>>(url, { params })
+      .pipe(
+        map(res => {
+          res.data = res.data.map(user => new UserModel(user))
+          return res;
+        })
+      );
+  }
 }

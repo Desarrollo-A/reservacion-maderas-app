@@ -28,7 +28,7 @@ export class DriverComponent implements OnInit {
   driveResponse: PaginationResponse<DriverModel>;
   dataSource: MatTableDataSource<DriverModel> | null;
   colums: TableColumn<DriverModel>[] = [
-    {label: 'N° de empleado', property: 'noEmployee', type: 'text', visible: true},
+    {label: 'N° de colaborador', property: 'noEmployee', type: 'text', visible: true},
     {label: 'Nombre completo', property: 'fullName', type: 'text', visible: true},
     {label: 'Correo electronico', property: 'email', type: 'text', visible: true},
     {label: 'Telefono personal', property: 'personalPhone', type: 'text', visible: true},
@@ -94,16 +94,16 @@ export class DriverComponent implements OnInit {
   private prepareFilters(): void{
     this.clearFilters();
     const filter = this.searchCtrl.value;
-    
+
     if(filter === ''){
       return this.getData();
     }
-    
+
     this.generateFilter('no_employee', TypesEnum.String, filter);
     this.generateFilter('full_name', TypesEnum.String, filter);
     this.generateFilter('email', TypesEnum.String, filter);
     this.generateFilter('personal_phone', TypesEnum.String, filter);
-    
+
     this.getData();
   }
 

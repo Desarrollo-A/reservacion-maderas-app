@@ -149,11 +149,7 @@ export class ToolbarNotificationsDropdownComponent implements OnInit {
   }
 
   private redirectRoom(notification: NotificationModel): void {
-    if (this.userSessionService.isRecepcionist) {
-      this.router.navigateByUrl(`/dashboard/solicitudes/sala/${notification.requestNotification.requestId}`);
-    } else if (this.userSessionService.isApplicant) {
-      this.router.navigateByUrl(`/dashboard/historial/sala/${notification.requestNotification.requestId}`);
-    }
+    this.router.navigateByUrl(`/dashboard/historial/sala/${notification.requestNotification.requestId}`);
   }
 
   private redirectInventory(): void {
@@ -161,10 +157,7 @@ export class ToolbarNotificationsDropdownComponent implements OnInit {
   }
 
   private redirectPackage(notification: NotificationModel): void{
-    if (this.userSessionService.isRecepcionist) {
-      this.router.navigateByUrl(`/dashboard/solicitudes/paqueteria/${notification.requestNotification.requestId}`);
-
-    } else if (this.userSessionService.isApplicant) {
+    if (this.userSessionService.isRecepcionist || this.userSessionService.isApplicant) {
       this.router.navigateByUrl(`/dashboard/historial/paqueteria/${notification.requestNotification.requestId}`);
 
     } else if (this.userSessionService.isDriver) {
@@ -176,9 +169,7 @@ export class ToolbarNotificationsDropdownComponent implements OnInit {
   }
 
   private redirectDriver(notification: NotificationModel): void{
-    if(this.userSessionService.isRecepcionist){
-      this.router.navigateByUrl(`/dashboard/solicitudes/conductor/${notification.requestNotification.requestId}`);
-    }else if(this.userSessionService.isApplicant){
+    if(this.userSessionService.isRecepcionist || this.userSessionService.isApplicant){
       this.router.navigateByUrl(`/dashboard/historial/conductor/${notification.requestNotification.requestId}`);
     }else if(this.userSessionService.isDriver){
       this.router.navigateByUrl(`/dashboard/solicitudes-asignadas/conductor/${notification.requestNotification.requestId}`);
@@ -186,11 +177,7 @@ export class ToolbarNotificationsDropdownComponent implements OnInit {
   }
 
   private redirectCar(notification: NotificationModel): void {
-    if (this.userSessionService.isRecepcionist) {
-      this.router.navigateByUrl(`/dashboard/solicitudes/vehiculo/${notification.requestNotification.requestId}`);
-    } else if (this.userSessionService.isApplicant) {
-      this.router.navigateByUrl(`/dashboard/historial/vehiculo/${notification.requestNotification.requestId}`);
-    }
+    this.router.navigateByUrl(`/dashboard/historial/vehiculo/${notification.requestNotification.requestId}`);
   }
 
   private confirmNotification(notification: NotificationModel): void {

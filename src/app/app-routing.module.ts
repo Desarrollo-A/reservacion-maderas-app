@@ -22,7 +22,7 @@ const routes: Routes = [
     ]
   },
   {
-    path: 'paqueteria', 
+    path: 'paqueteria',
     loadChildren: () => import ('./package/package.module').then(m => m.PackageModule)
   },
   { path: '**', component: PageNotFoundComponent }

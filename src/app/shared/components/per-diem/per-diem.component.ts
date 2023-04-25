@@ -90,7 +90,7 @@ export class PerDiemComponent implements OnInit {
    */
   get enableSecondSubmit(): boolean {
     return (
-        this.perDiem?.files.length === 0 &&
+        this.perDiem?.files?.length === 0 &&
         isNil(this.perDiem?.spent) &&
         !isNil(this.perDiem?.gasoline) &&
         !isNil(this.perDiem?.tollbooths) &&
@@ -106,7 +106,7 @@ export class PerDiemComponent implements OnInit {
   }
 
   get showSecondSubmit(): boolean {
-    return !isNil(this.perDiem?.spent) && this.perDiem.files.length > 0;
+    return !isNil(this.perDiem?.spent) && this.perDiem?.files?.length > 0;
   }
 
   get disableSaveButton(): boolean {

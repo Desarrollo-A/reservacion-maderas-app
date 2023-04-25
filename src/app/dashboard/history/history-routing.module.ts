@@ -9,17 +9,94 @@ import { DriverComponent } from "./pages/driver/driver.component";
 import { DriverDetailComponent } from "./pages/driver-detail/driver-detail.component";
 import { CarComponent } from './pages/car/car-component';
 import { CarDetailComponent } from "./pages/car-detail/car-detail.component";
+import { PermissionPathRouteGuard } from "../../core/guards/permission-path-route.guard";
 
 const routes: Routes = [
-  {path: '', redirectTo: 'sala', pathMatch: 'full'},
-  {path: 'vehiculo', component: CarComponent, title: 'Vehículo'},
-  {path: 'conductor', component: DriverComponent, title: 'Chofer'},
-  {path: 'sala', component: RoomComponent, title: 'Sala de Juntas'},
-  {path: 'paqueteria', component: PackageComponent, title: 'Paquetería'},
-  {path: 'vehiculo/:id', component: CarDetailComponent, title: 'Solicitud detalle'},
-  {path: 'conductor/:id', component: DriverDetailComponent, title: 'Solicitud detalle'},
-  {path: 'sala/:id', component: RoomDetailComponent, title: 'Solicitud detalle'},
-  {path: 'paqueteria/:id', component: PackageDetailComponent, title: 'Solicitud detalle'},
+  {
+    path: '',
+    redirectTo: 'sala',
+    pathMatch: 'full'
+  },
+  {
+    path: 'vehiculo',
+    component: CarComponent,
+    title: 'Vehículo',
+    data: {
+      pathRoute: '/dashboard/historial/vehiculo'
+    },
+    canActivate: [ PermissionPathRouteGuard ],
+    canLoad: [ PermissionPathRouteGuard ]
+  },
+  {
+    path: 'conductor',
+    component: DriverComponent,
+    title: 'Chofer',
+    data: {
+      pathRoute: '/dashboard/historial/conductor'
+    },
+    canActivate: [ PermissionPathRouteGuard ],
+    canLoad: [ PermissionPathRouteGuard ]
+  },
+  {
+    path: 'sala',
+    component: RoomComponent,
+    title: 'Sala de Juntas',
+    data: {
+      pathRoute: '/dashboard/historial/sala'
+    },
+    canActivate: [ PermissionPathRouteGuard ],
+    canLoad: [ PermissionPathRouteGuard ]
+  },
+  {
+    path: 'paqueteria',
+    component: PackageComponent,
+    title: 'Paquetería',
+    data: {
+      pathRoute: '/dashboard/historial/paqueteria'
+    },
+    canActivate: [ PermissionPathRouteGuard ],
+    canLoad: [ PermissionPathRouteGuard ]
+  },
+  {
+    path: 'vehiculo/:id',
+    component: CarDetailComponent,
+    title: 'Solicitud detalle',
+    data: {
+      pathRoute: '/dashboard/historial/vehiculo'
+    },
+    canActivate: [ PermissionPathRouteGuard ],
+    canLoad: [ PermissionPathRouteGuard ]
+  },
+  {
+    path: 'conductor/:id',
+    component: DriverDetailComponent,
+    title: 'Solicitud detalle',
+    data: {
+      pathRoute: '/dashboard/historial/conductor'
+    },
+    canActivate: [ PermissionPathRouteGuard ],
+    canLoad: [ PermissionPathRouteGuard ]
+  },
+  {
+    path: 'sala/:id',
+    component: RoomDetailComponent,
+    title: 'Solicitud detalle',
+    data: {
+      pathRoute: '/dashboard/historial/sala'
+    },
+    canActivate: [ PermissionPathRouteGuard ],
+    canLoad: [ PermissionPathRouteGuard ]
+  },
+  {
+    path: 'paqueteria/:id',
+    component: PackageDetailComponent,
+    title: 'Solicitud detalle',
+    data: {
+      pathRoute: '/dashboard/historial/paqueteria'
+    },
+    canActivate: [ PermissionPathRouteGuard ],
+    canLoad: [ PermissionPathRouteGuard ]
+  },
   {path: '**', component: PageNotFoundComponent}
 ];
 

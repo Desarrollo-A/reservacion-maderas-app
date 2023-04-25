@@ -13,7 +13,7 @@ import { UserSessionService } from "../services/user-session.service";
 @Injectable({
   providedIn: 'root'
 })
-export class PermissionGuard implements CanActivate, CanLoad {
+export class PermissionRoleGuard implements CanActivate, CanLoad {
   constructor(private router: Router,
               private userSessionService: UserSessionService) {}
 

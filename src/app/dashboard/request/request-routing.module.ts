@@ -5,14 +5,54 @@ import { PageNotFoundComponent } from "../../shared/components/page-not-found/pa
 import { PackageComponent } from "./pages/package/package.component";
 import { DriverComponent } from "./pages/driver/driver.component";
 import { CarComponent } from "./pages/car/car.component";
+import { PermissionPathRouteGuard } from "../../core/guards/permission-path-route.guard";
 
 const routes: Routes = [
-  {path: '', redirectTo: 'sala', pathMatch: 'full'},
-  {path: 'vehiculo', component: CarComponent, title: 'Vehículo'},
-  {path: 'conductor', component: DriverComponent, title: 'Chofer'},
-  {path: 'paqueteria', component: PackageComponent, title: 'Paquetería'},
-  {path: 'sala', component: RoomComponent, title: 'Sala de Juntas'},
-  {path: '**', component: PageNotFoundComponent}
+  { path: '', redirectTo: 'sala', pathMatch: 'full' },
+  {
+    path: 'vehiculo',
+    component: CarComponent,
+    title: 'Vehículo',
+    data: {
+      pathRoute: '/dashboard/solicitud/vehiculo'
+    },
+    canActivate: [ PermissionPathRouteGuard ],
+    canLoad: [ PermissionPathRouteGuard ]
+  },
+  {
+    path: 'conductor',
+    component: DriverComponent,
+    title: 'Chofer',
+    data: {
+      pathRoute: '/dashboard/solicitud/conductor'
+    },
+    canActivate: [ PermissionPathRouteGuard ],
+    canLoad: [ PermissionPathRouteGuard ]
+  },
+  {
+    path: 'paqueteria',
+    component: PackageComponent,
+    title: 'Paquetería',
+    data: {
+      pathRoute: '/dashboard/solicitud/paqueteria'
+    },
+    canActivate: [ PermissionPathRouteGuard ],
+    canLoad: [ PermissionPathRouteGuard ]
+  },
+  {
+    path: 'sala',
+    component: RoomComponent,
+    title: 'Sala de Juntas',
+    data: {
+      pathRoute: '/dashboard/solicitud/sala'
+    },
+    canActivate: [ PermissionPathRouteGuard ],
+    canLoad: [ PermissionPathRouteGuard ]
+  },
+  {
+    path: '**',
+    component: PageNotFoundComponent
+  }
 ];
 
 @NgModule({

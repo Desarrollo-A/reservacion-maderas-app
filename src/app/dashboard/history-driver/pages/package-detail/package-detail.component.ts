@@ -48,8 +48,7 @@ export class PackageDetailComponent {
               private requestPackageService: RequestPackageService,
               private toastrService: ToastrService,
               private ngZone: NgZone) {
-    const [,,part] = this.router.url.split('/', 3);
-    this.urlRedirectBack = `/dashboard/${part}/paqueteria`;
+    this.urlRedirectBack = `/dashboard/historial/paqueteria`;
     this.breadcrumbs.push({
       link: this.urlRedirectBack,
       label: 'Solicitudes'

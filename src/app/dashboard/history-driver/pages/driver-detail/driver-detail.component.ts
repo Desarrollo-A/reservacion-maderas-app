@@ -29,8 +29,7 @@ export class DriverDetailComponent {
   constructor(private activatedRoute: ActivatedRoute,
               private router: Router,
               private requestDriverService: RequestDriverService) {
-    const [,,part] = this.router.url.split('/', 3);
-    this.urlRedirectBack = `/dashboard/${part}/conductor`;
+    this.urlRedirectBack = `/dashboard/historial/conductor`;
     this.breadcrumbs.push({
       link: this.urlRedirectBack,
       label: 'Solicitudes'

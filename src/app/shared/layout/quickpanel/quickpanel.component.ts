@@ -33,17 +33,16 @@ export class QuickpanelComponent implements OnInit {
   }
 
   redirectRequestDetail(request: RequestModel): void {
-    const part = (this.userSessionService.isRecepcionist) ? 'solicitudes' : 'historial';
     this.layoutService.closeQuickpanel();
 
     if (request.type.code === TypeRequestLookup[TypeRequestLookup.ROOM]) {
-      this.router.navigateByUrl(`/dashboard/${part}/sala/${request.id}`);
+      this.router.navigateByUrl(`/dashboard/historial/sala/${request.id}`);
     } else if (request.type.code === TypeRequestLookup[TypeRequestLookup.PARCEL]) {
-      this.router.navigateByUrl(`/dashboard/${part}/paqueteria/${request.id}`);
+      this.router.navigateByUrl(`/dashboard/historial/paqueteria/${request.id}`);
     } else if (request.type.code === TypeRequestLookup[TypeRequestLookup.DRIVER]) {
-      this.router.navigateByUrl(`/dashboard/${part}/conductor/${request.id}`);
+      this.router.navigateByUrl(`/dashboard/historial/conductor/${request.id}`);
     } else if (request.type.code === TypeRequestLookup[TypeRequestLookup.CAR]) {
-      this.router.navigateByUrl(`/dashboard/${part}/vehiculo/${request.id}`);
+      this.router.navigateByUrl(`/dashboard/historial/vehiculo/${request.id}`);
     }
   }
 

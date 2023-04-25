@@ -14,7 +14,7 @@ const routes: Routes = [
   },
   {
     path: ':id',
-    component: ReceivedPackageComponent, 
+    component: ReceivedPackageComponent,
     canActivate:[AuthCodePackageGuard, ValidRequestPackageGuard],
     title: 'Estatus del paquete'
   },

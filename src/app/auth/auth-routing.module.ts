@@ -17,9 +17,9 @@ const routes: Routes = [
     title: 'Inicio de sesión'
   },
   {
-    path: 'reestablecer',
+    path: 'restablecer',
     component: ForgotPasswordComponent,
-    title: 'Reestablecer contraseña'
+    title: 'Restablecer contraseña'
   },
   {
     path: 'registro',

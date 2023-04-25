@@ -23,20 +23,18 @@ export class CalendarDetailComponent {
   }
 
   redirectRequestDetail(): void {
-    const part = (this.userSessionService.isRecepcionist) ? 'solicitudes' : 'historial';
-
     if (this.request.type.code === TypeRequestLookup[TypeRequestLookup.ROOM]) {
       this.dialogRef.close();
-      this.router.navigateByUrl(`/dashboard/${part}/sala/${this.request.id}`);
+      this.router.navigateByUrl(`/dashboard/historial/sala/${this.request.id}`);
     } else if (this.request.type.code === TypeRequestLookup[TypeRequestLookup.PARCEL]) {
       this.dialogRef.close();
-      this.router.navigateByUrl(`/dashboard/${part}/paqueteria/${this.request.id}`);
+      this.router.navigateByUrl(`/dashboard/historial/paqueteria/${this.request.id}`);
     } else if (this.request.type.code === TypeRequestLookup[TypeRequestLookup.DRIVER]) {
       this.dialogRef.close();
-      this.router.navigateByUrl(`/dashboard/${part}/conductor/${this.request.id}`);
+      this.router.navigateByUrl(`/dashboard/historial/conductor/${this.request.id}`);
     } else if (this.request.type.code === TypeRequestLookup[TypeRequestLookup.CAR]) {
       this.dialogRef.close();
-      this.router.navigateByUrl(`/dashboard/${part}/vehiculo/${this.request.id}`);
+      this.router.navigateByUrl(`/dashboard/historial/vehiculo/${this.request.id}`);
     }
   }
 }

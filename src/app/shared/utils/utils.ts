@@ -168,7 +168,10 @@ export const getDateFormat = (date: Date): string => {
 };
 
 export const getTimeFormat = (date: Date): string => {
-  return (date.getHours() < 10) ? `0${date.toLocaleTimeString()}` : date.toLocaleTimeString();
+  const hour = (date.getHours() < 10) ? `0${date.getHours()}` : date.getHours();
+  const minutes = (date.getMinutes() < 10) ? `0${date.getMinutes()}` : date.getMinutes();
+  const seconds = (date.getSeconds() < 10) ? `0${date.getSeconds()}` : date.getSeconds();
+  return `${hour}:${minutes}:${seconds}`;
 }
 
 export const getFullDateFormat = (date: Date): string => {

@@ -162,7 +162,8 @@ export class PackageDetailComponent {
     const statusCode = this.requestPackage.request.status.code;
 
     if (statusCode === StatusPackageRequestLookup[StatusPackageRequestLookup.CANCELLED] &&
-      this.previousStatus.code === StatusPackageRequestLookup[StatusPackageRequestLookup.NEW]) {
+      (this.previousStatus.code === StatusPackageRequestLookup[StatusPackageRequestLookup.APPROVED] ||
+        this.previousStatus.code === StatusPackageRequestLookup[StatusPackageRequestLookup.NEW])) {
       this.cancelRequest();
     } else if (statusCode === StatusPackageRequestLookup[StatusPackageRequestLookup.TRANSFER]) {
       this.transferRequest();

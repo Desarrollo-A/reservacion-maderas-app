@@ -125,7 +125,7 @@ export class CarDetailComponent implements OnInit {
       this.transferRequest();
 
     } else if (statusCode === StatusCarRequestLookup[StatusCarRequestLookup.CANCELLED] &&
-      this.previousStatus.code === StatusCarRequestLookup[StatusCarRequestLookup.NEW]) {
+      this.previousStatus.code === StatusCarRequestLookup[StatusCarRequestLookup.APPROVED]) {
       this.cancelRequest();
 
     } else if (statusCode === StatusCarRequestLookup[StatusCarRequestLookup.APPROVED] &&

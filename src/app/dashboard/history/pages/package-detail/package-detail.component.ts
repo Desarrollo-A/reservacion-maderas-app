@@ -163,7 +163,7 @@ export class PackageDetailComponent {
 
     if (statusCode === StatusPackageRequestLookup[StatusPackageRequestLookup.CANCELLED] &&
       (this.previousStatus.code === StatusPackageRequestLookup[StatusPackageRequestLookup.APPROVED] ||
-        this.previousStatus.code === StatusPackageRequestLookup[StatusPackageRequestLookup.NEW])) {
+        this.previousStatus.code === StatusPackageRequestLookup[StatusPackageRequestLookup.IN_REVIEW_MANAGER])) {
       this.cancelRequest();
     } else if (statusCode === StatusPackageRequestLookup[StatusPackageRequestLookup.TRANSFER]) {
       this.transferRequest();

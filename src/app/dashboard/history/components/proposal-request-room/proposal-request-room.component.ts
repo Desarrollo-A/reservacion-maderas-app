@@ -58,7 +58,7 @@ export class ProposalRequestRoomComponent implements OnInit {
               private userSessionService: UserSessionService) {}
 
   ngOnInit(): void {
-    if (this.userSessionService.isApplicant) {
+    if (this.isApplicant) {
       this.columns.push({label: 'Acción', property: 'action', type: 'button', visible: true});
     }
 
@@ -114,7 +114,7 @@ export class ProposalRequestRoomComponent implements OnInit {
       })
     ).subscribe(availableSchedule => this.availableScheduleDate2 = availableSchedule);
 
-    if (this.proposalData.length > 0) {
+    if (this.proposalData.length > 0 && this.isApplicant) {
       this.toastrService.info('Puedes aceptar una propuesta o rechazar la solicitud.', 'Información');
     }
   }

@@ -1,9 +1,9 @@
-name: Deploy website on push
+name: Deploy website on push PROD
 
 on:
   push:
     branches:
-      - test
+      - master
 
 jobs:
   build:
@@ -27,7 +27,7 @@ jobs:
       - name: Build
         run: |
           npm install
-          npm run-script deploy-test
+          npm run-script deploy-prod
 
       - name: Copy files via SSH key
         uses: appleboy/scp-action@master
@@ -36,6 +36,6 @@ jobs:
           username: ${{ secrets.USERNAME_TEST }}
           key: ${{ secrets.SFTP_SSH_PRIVATE_KEY }}
           source: "./dist"
-          target: ${{ secrets.URL_FOLDER_TEST }}
+          target: ${{ secrets.URL_FOLDER_PROD }}
           strip_components: 2
           rm: true

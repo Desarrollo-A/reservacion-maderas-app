@@ -17,7 +17,26 @@ export const defaultChartOptions = (options: Partial<ApexOptions> = {}): ApexOpt
     },
     sparkline: {
       enabled: true
-    }
+    },
+    defaultLocale: 'es',
+    locales: [{
+      name: 'es',
+      options: {
+        months: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
+        shortMonths: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'],
+        days: ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'],
+        shortDays: ['Dom', 'Lun', 'Mar', 'Mie', 'Jue', 'Vie', 'Sab'],
+        toolbar: {
+          download: 'Descargar SVG',
+          selection: 'Selección',
+          selectionZoom: 'Selección zoom',
+          zoomIn: 'Acercarse',
+          zoomOut: 'Alejarse',
+          pan: 'Panorámica',
+          reset: 'Reestablecer zoom',
+        }
+      }
+    }]
   },
   labels: [],
   dataLabels: {

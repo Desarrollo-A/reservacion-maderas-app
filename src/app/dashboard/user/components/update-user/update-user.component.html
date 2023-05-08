@@ -98,7 +98,8 @@
       </mat-form-field>
     </div>
 
-    <div class="flex flex-col sm:flex-row sm:gap-3">
+    <div class="flex flex-col"
+         [ngClass]="{'sm:flex-row sm:gap-3': !isDepartmentManager, 'md:flex-row md:gap-3': isDepartmentManager}">
       <mat-form-field class="flex-auto">
         <mat-label>Puesto</mat-label>
         <input matInput
@@ -128,9 +129,15 @@
           El área debe tener menos de {{ formErrors.maxLengthNumber('area') }} caracteres.
         </mat-error>
       </mat-form-field>
+
+      <div class="flex-auto mt-0 md:mt-3 mb-1 md:mb-0" *ngIf="isDepartmentManager">
+        <mat-checkbox color="primary" formControlName="isOfficeManager">
+          ¿Es administrador(a) de su oficina?
+        </mat-checkbox>
+      </div>
     </div>
 
-    <div class="flex flex-col sm:flex-row sm:gap-3"
+    <div class="flex flex-col"
          [ngClass]="{'sm:flex-row sm:gap-3': !isApplicant, 'md:flex-row md:gap-3': isApplicant}">
       <mat-form-field class="flex-auto">
         <mat-label>Oficina</mat-label>

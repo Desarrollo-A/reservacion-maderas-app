@@ -52,7 +52,8 @@ export class UpdateUserComponent implements OnInit {
       area: [this.data.area, [Validators.required, Validators.maxLength(100)]],
       officeId: [this.data.officeId, [Validators.required]],
       statusId: [this.data.statusId, [Validators.required]],
-      departmentManagerId: [this.data.departmentManagerId]
+      departmentManagerId: [this.data.departmentManagerId],
+      isOfficeManager: [!!(this.data.officeManager)]
     });
 
     if (this.isApplicant) {
@@ -63,7 +64,11 @@ export class UpdateUserComponent implements OnInit {
   }
 
   get isApplicant(): boolean {
-    return this.data.role.value === NameRole.APPLICANT;
+    return this.data.role.name === NameRole.APPLICANT;
+  }
+
+  get isDepartmentManager(): boolean {
+    return this.data.role.name === NameRole.DEPARTMENT_MANAGER;
   }
 
   save(): void {

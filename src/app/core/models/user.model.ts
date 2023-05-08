@@ -1,6 +1,8 @@
 import { Lookup } from "../interfaces/lookup";
 import { OfficeModel } from "./office.model";
 import { StatusUserLookup } from "../enums/lookups/status-user.lookup";
+import { RoleModel } from "./role.model";
+import { OfficeManagerModel } from "./office-manager.model";
 
 export class UserModel {
   id: number;
@@ -18,9 +20,10 @@ export class UserModel {
   officeId: number;
   office: OfficeModel;
   isRecepcionist?: boolean;
-  role: Lookup;
+  role: RoleModel;
   managers?: string[];
   departmentManagerId?: number;
+  officeManager: OfficeManagerModel;
 
   constructor(user) {
     this.id = user.id;
@@ -40,6 +43,7 @@ export class UserModel {
     this.office = user.office;
     this.role = user.role;
     this.departmentManagerId = user.departmentManagerId;
+    this.officeManager = user.officeManager;
   }
 
   get statusName(): string {

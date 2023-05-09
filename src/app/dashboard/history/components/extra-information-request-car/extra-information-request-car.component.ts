@@ -49,7 +49,7 @@ export class ExtraInformationRequestCarComponent implements OnInit {
     } else if (this.enableSecondSubmit) {
       this.form = this.fb.group({
         initialKm: [null],
-        finalKm: [null, [Validators.required, Validators.min(1), Validators.max(999999)]],
+        finalKm: [null, [Validators.required, Validators.min(this.requestCar.initialKm), Validators.max(999999)]],
         deliveryCondition: [null, [Validators.required, Validators.maxLength(2500)]]
       });
     } else {
@@ -95,31 +95,27 @@ export class ExtraInformationRequestCarComponent implements OnInit {
 
     const id = this.requestCar.id;
     let data: RequestCarModel;
-    let request$: Observable<void>;
+
+    if (this.uploadMultipleFileComponent.files.length === 0) {
+      this.toastrService.warning('Debe de agregar al menos una imagen');
+      return;
+    }
 
     if (this.enableFirstSubmit) {
-      if (this.uploadMultipleFileComponent.files.length === 0) {
-        this.toastrService.warning('Debe de agregar al menos una imagen');
-        return;
-      }
-
       data = <RequestCarModel> {
         initialKm: formValues.initialKm
       };
 
-      request$ = this.requestCarService.addExtraCarInformation(id, data).pipe(
-        switchMap(() => this.requestCarService.uploadImageFiles(id, this.uploadMultipleFileComponent.files))
-      );
     } else if (this.enableSecondSubmit) {
       data = <RequestCarModel> {
         finalKm: formValues.finalKm,
         deliveryCondition: formValues.deliveryCondition
       };
-
-      request$ = this.requestCarService.addExtraCarInformation(id, data);
     }
 
-    request$.subscribe(() => {
+    this.requestCarService.addExtraCarInformation(id, data).pipe(
+      switchMap(() => this.requestCarService.uploadImageFiles(id, this.uploadMultipleFileComponent.files))
+    ).subscribe(() => {
       this.submitForm.emit(true);
     });
   }

@@ -60,7 +60,7 @@
         </mat-form-field>
       </div>
 
-      <div class="flex-auto" *ngIf="requestCar.files.length === 0">
+      <div class="flex-auto" *ngIf="enableFirstSubmit || enableSecondSubmit">
         <app-upload-multiple-files #uploadMultipleFilesComponent
                                    labelTxt="Imágenes del vehículo"
                                    hintTxt="Adjunta todas las imágenes del vehículo"

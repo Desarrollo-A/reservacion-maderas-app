@@ -1,9 +1,9 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
-import { FormErrors } from "../../../../../shared/utils/form-error";
+import { FormErrors } from "../../../../../../shared/utils/form-error";
 import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material/dialog";
-import { HeavyShipmentModel } from "../../../../../core/models/heavy-shipment.model";
-import { uid } from "../../../../../shared/utils/utils";
+import { HeavyShipmentModel } from "../../../../../../core/models/heavy-shipment.model";
+import { uid } from "../../../../../../shared/utils/utils";
 
 @Component({
   selector: 'app-item-create-update',

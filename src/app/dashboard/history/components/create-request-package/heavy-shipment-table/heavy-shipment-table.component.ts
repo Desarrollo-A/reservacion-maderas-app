@@ -1,11 +1,11 @@
 import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
-import { fadeInUp400ms } from "../../../../shared/animations/fade-in-up.animation";
-import { stagger40ms } from "../../../../shared/animations/stagger.animation";
+import { fadeInUp400ms } from "../../../../../shared/animations/fade-in-up.animation";
+import { stagger40ms } from "../../../../../shared/animations/stagger.animation";
 import { MatSort } from "@angular/material/sort";
 import { MatTableDataSource } from "@angular/material/table";
-import { HeavyShipmentModel } from "../../../../core/models/heavy-shipment.model";
+import { HeavyShipmentModel } from "../../../../../core/models/heavy-shipment.model";
 import { FormControl } from "@angular/forms";
-import { TableColumn } from "../../../../shared/interfaces/table-column.interface";
+import { TableColumn } from "../../../../../shared/interfaces/table-column.interface";
 import { MatDialog } from "@angular/material/dialog";
 import { ToastrService } from "ngx-toastr";
 import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";

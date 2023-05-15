@@ -17,6 +17,9 @@ import { DeleteConfirmComponent } from "../../../../shared/components/delete-con
 import { of, switchMap } from "rxjs";
 import { RequestService } from "../../../../core/services/request.service";
 import { StatusPackageRequestLookup } from "../../../../core/enums/lookups/status-package-request.lookup";
+import {
+  CreateRequestPackageComponent
+} from "../../components/create-request-package/create-request-package.component";
 
 @Component({
   selector: 'app-package',
@@ -64,6 +67,18 @@ export class PackageComponent implements OnInit {
     return ((request.statusCode === StatusPackageRequestLookup[StatusPackageRequestLookup.NEW] ||
         request.statusCode === StatusPackageRequestLookup[StatusPackageRequestLookup.IN_REVIEW_MANAGER]) &&
       this.userSessionService.isApplicant);
+  }
+
+  createRequest(): void {
+    this.dialog.open(CreateRequestPackageComponent, {
+      width: '100%',
+      autoFocus: false,
+      disableClose: true
+    }).afterClosed().subscribe(result => {
+      if (result === true) {
+        this.prepareFilters();
+      }
+    });
   }
 
   sortChange(sortState: Sort): void {

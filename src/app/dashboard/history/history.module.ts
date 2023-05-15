@@ -47,6 +47,13 @@ import { PerDiemModule } from "../../shared/components/per-diem/per-diem.module"
 import { HeavyShippingTableModule } from "../../shared/components/heavy-shipping-table/heavy-shipping-table.module";
 import { UploadMultipleFilesModule } from "../../shared/components/upload-multiple-files/upload-multiple-files.module";
 import { DecimalModule } from "../../shared/directives/decimal/decimal.module";
+import { CreateRequestPackageComponent } from './components/create-request-package/create-request-package.component';
+import {
+  HeavyShipmentTableComponent
+} from "./components/create-request-package/heavy-shipment-table/heavy-shipment-table.component";
+import {
+  ItemCreateUpdateComponent
+} from "./components/create-request-package/heavy-shipment-table/item-create-update/item-create-update.component";
 
 
 @NgModule({
@@ -73,7 +80,10 @@ import { DecimalModule } from "../../shared/directives/decimal/decimal.module";
     RequestPackaheDriverInfoComponent,
     ProposalRequestDriverComponent,
     ProposalRequestCarComponent,
-    ExtraInformationRequestCarComponent
+    ExtraInformationRequestCarComponent,
+    CreateRequestPackageComponent,
+    HeavyShipmentTableComponent,
+    ItemCreateUpdateComponent
   ],
   imports: [
     CommonModule,

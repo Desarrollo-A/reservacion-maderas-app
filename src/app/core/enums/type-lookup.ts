@@ -16,4 +16,5 @@ export enum TypeLookup {
   STATUS_DRIVER_REQUEST = 15,
   STATUS_CAR_REQUEST = 16,
   HEAVY_SHIPPING = 17,
+  WEEK_DAYS = 18,
 }

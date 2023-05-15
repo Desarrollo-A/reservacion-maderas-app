@@ -14,6 +14,7 @@ import { getSort } from 'src/app/shared/utils/http-functions';
 import { RelationCarDriverComponent } from '../../components/relation-car-driver/relation-car-driver.component';
 import { MatDialog } from '@angular/material/dialog';
 import { InfoDriverComponent } from '../../components/info-driver/info-driver/info-driver.component';
+import { DriverParcelDaysComponent } from "../../components/driver-parcel-days/driver-parcel-days.component";
 
 @Component({
   selector: 'app-driver',
@@ -54,7 +55,7 @@ export class DriverComponent implements OnInit {
     return this.colums.filter(column => column.visible).map(column => column.property);
   }
 
-  openDialog(id: number): void {
+  carAssign(id: number): void {
     this.driverService.findById(id).subscribe( driver => {
       this.matDialog.open(RelationCarDriverComponent, {
         data: driver
@@ -71,6 +72,15 @@ export class DriverComponent implements OnInit {
       this.matDialog.open(InfoDriverComponent, {
         data: driver,
         width: '400px',
+        autoFocus: false
+      });
+    });
+  }
+
+  parcelDays(id: number): void {
+    this.driverService.findById(id).subscribe(driver => {
+      this.matDialog.open(DriverParcelDaysComponent, {
+        data: driver,
         autoFocus: false
       });
     });

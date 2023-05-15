@@ -203,3 +203,12 @@ export const compareDate = (d: Date, date: Date): boolean => d.getDate() === dat
 export const uid = (): string => String(
   Date.now().toString(32) + Math.random().toString(16)
 ).replace(/\./g, '');
+
+export const dayName = (day: number | string): string => {
+  if (typeof day === 'string') {
+    day = parseInt(day);
+  }
+
+  const dayNames = ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'];
+  return dayNames[day];
+}

@@ -57,8 +57,8 @@ export class RegisterComponent implements OnInit {
         let state = new StateModel(response);
         const office = new OfficeModel(response);
         let user = new UserModel(response);
-        user.isRecepcionist = (user.position.toUpperCase() === 'RECEPCIONISTA' ||
-          user.position.toUpperCase().includes('ASISTENTE'));
+        user.isRecepcionist = user.position.toUpperCase().includes('RECEPCIONISTA');
+        user.isAssistant = user.position.toUpperCase().includes('ASISTENTE');
         user.office = office;
         user.office.state = state;
         this.userData = user;

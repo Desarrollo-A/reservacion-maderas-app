@@ -20,6 +20,7 @@ export class UserModel {
   officeId: number;
   office: OfficeModel;
   isRecepcionist?: boolean;
+  isAssistant?: boolean;
   role: RoleModel;
   managers?: string[];
   departmentManagerId?: number;

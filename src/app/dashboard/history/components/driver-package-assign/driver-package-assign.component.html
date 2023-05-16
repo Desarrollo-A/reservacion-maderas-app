@@ -102,38 +102,6 @@
           </mat-form-field>
 
           <mat-form-field class="flex-auto">
-            <mat-label>Peso del paquete (kg)</mat-label>
-            <input matInput type="number" formControlName="weight" autocomplete="off" [decimal]="3">
-
-            <mat-error *ngIf="formErrors.customError('weight', 'required')">
-              Campo obligatorio.
-            </mat-error>
-            <mat-error *ngIf="formErrors.customError('weight', 'min')">
-              El peso debe ser igual o mayor a {{ formErrors.minNumber('weight') }}.
-            </mat-error>
-            <mat-error *ngIf="formErrors.customError('weight', 'max')">
-              El peso debe ser igual o menor a {{ formErrors.maxNumber('weight') }}.
-            </mat-error>
-          </mat-form-field>
-        </div>
-
-        <div class="flex flex-col sm:flex-row sm:gap-4">
-          <mat-form-field class="flex-auto">
-            <mat-label>Fecha de llegada aproximada</mat-label>
-            <input [matDatepicker]="datepickerRef"
-                   formControlName="endDate" matInput readonly>
-            <mat-datepicker-toggle [for]="datepickerRef" matSuffix></mat-datepicker-toggle>
-            <mat-datepicker #datepickerRef></mat-datepicker>
-
-            <mat-error *ngIf="formErrors.customError('endDate','required')">
-              Campo obligatorio.
-            </mat-error>
-            <mat-error *ngIf="formErrors.customError('endDate','dateBeforeNow')">
-              La fecha debe ser igual o mayor a la actual.
-            </mat-error>
-          </mat-form-field>
-
-          <mat-form-field class="flex-auto">
             <mat-label>URL de consulta de estatus de envío</mat-label>
             <input matInput type="text" formControlName="urlTracking" autocomplete="off">
             <button mat-icon-button matSuffix type="button">
@@ -148,6 +116,53 @@
             </mat-error>
             <mat-error *ngIf="formErrors.customError('urlTracking', 'maxlength')">
               La URL de la página de rastreo debe tener menos de {{ formErrors.maxLengthNumber('urlTracking') }} caracteres.
+            </mat-error>
+          </mat-form-field>
+        </div>
+
+        <div class="flex flex-col sm:flex-row sm:gap-4">
+          <mat-form-field class="flex-auto">
+            <mat-label>Peso del paquete (kg)</mat-label>
+            <input matInput type="number" formControlName="weight" autocomplete="off" [decimal]="3">
+
+            <mat-error *ngIf="formErrors.customError('weight', 'required')">
+              Campo obligatorio.
+            </mat-error>
+            <mat-error *ngIf="formErrors.customError('weight', 'min')">
+              El peso debe ser igual o mayor a {{ formErrors.minNumber('weight') }}.
+            </mat-error>
+            <mat-error *ngIf="formErrors.customError('weight', 'max')">
+              El peso debe ser igual o menor a {{ formErrors.maxNumber('weight') }}.
+            </mat-error>
+          </mat-form-field>
+
+          <mat-form-field class="flex-auto">
+            <mat-label>Costo del envío</mat-label>
+            <input matInput type="number" formControlName="cost" autocomplete="off" [decimal]="2">
+
+            <mat-error *ngIf="formErrors.customError('cost', 'required')">
+              Campo obligatorio.
+            </mat-error>
+            <mat-error *ngIf="formErrors.customError('cost', 'min')">
+              El costo debe ser igual o mayor a {{ formErrors.minNumber('cost') }}.
+            </mat-error>
+            <mat-error *ngIf="formErrors.customError('cost', 'max')">
+              El costo debe ser igual o menor a {{ formErrors.maxNumber('cost') }}.
+            </mat-error>
+          </mat-form-field>
+
+          <mat-form-field class="flex-auto">
+            <mat-label>Fecha de llegada aproximada</mat-label>
+            <input [matDatepicker]="datepickerRef"
+                   formControlName="endDate" matInput readonly>
+            <mat-datepicker-toggle [for]="datepickerRef" matSuffix></mat-datepicker-toggle>
+            <mat-datepicker #datepickerRef></mat-datepicker>
+
+            <mat-error *ngIf="formErrors.customError('endDate','required')">
+              Campo obligatorio.
+            </mat-error>
+            <mat-error *ngIf="formErrors.customError('endDate','dateBeforeNow')">
+              La fecha debe ser igual o mayor a la actual.
             </mat-error>
           </mat-form-field>
         </div>

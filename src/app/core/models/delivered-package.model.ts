@@ -3,4 +3,5 @@ export class DeliveredPackageModel {
   nameReceive: string;
   signature: string;
   signatureFile: File;
+  observations: string;
 }

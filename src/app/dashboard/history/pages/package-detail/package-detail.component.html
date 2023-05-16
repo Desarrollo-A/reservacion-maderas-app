@@ -138,6 +138,11 @@
             </div>
           </ng-container>
 
+          <mat-form-field appearance="outline" class="flex-auto vex-flex-form-field">
+            <mat-label>Observaciones</mat-label>
+            <textarea matInput readonly [value]="requestPackage.deliveredPackage.observations"></textarea>
+          </mat-form-field>
+
           <div class="flex flex-col md:flex-row md:gap-4"
                *ngIf="requestPackage.request.score || requestPackage.deliveredPackage">
             <app-score-request class="flex-auto"

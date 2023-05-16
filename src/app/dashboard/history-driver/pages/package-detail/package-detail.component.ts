@@ -33,7 +33,7 @@ export class PackageDetailComponent {
   codeStatusToChange: string;
 
   breadcrumbs: Breadcrumbs[] = [];
-  urlRedirectBack = '';
+  urlRedirectBack = '/dashboard/solicitudes-asignadas/paqueteria';
 
   enableCssClass: StatusClass = { button: ['bg-blue-600'], text: []};
   disableCssClass: StatusClass = { button: ['bg-gray-400', 'cursor-pointer'], text: ['text-gray-400'] };
@@ -48,7 +48,6 @@ export class PackageDetailComponent {
               private requestPackageService: RequestPackageService,
               private toastrService: ToastrService,
               private ngZone: NgZone) {
-    this.urlRedirectBack = `/dashboard/historial/paqueteria`;
     this.breadcrumbs.push({
       link: this.urlRedirectBack,
       label: 'Solicitudes'
@@ -133,7 +132,8 @@ export class PackageDetailComponent {
         const formData = this.deliveredPackageComponent.form.getRawValue();
         const data = <DeliveredPackageModel>{
           packageId: this.requestPackage.id,
-          nameReceive: formData.nameReceive
+          nameReceive: formData.nameReceive,
+          observations: formData.observations
         };
 
         return this.requestPackageService.deliveredPackage(data);

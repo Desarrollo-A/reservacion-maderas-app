@@ -138,7 +138,9 @@
             </div>
           </ng-container>
 
-          <mat-form-field appearance="outline" class="flex-auto vex-flex-form-field">
+          <mat-form-field appearance="outline"
+                          class="flex-auto vex-flex-form-field"
+                          *ngIf="requestPackage.deliveredPackage">
             <mat-label>Observaciones</mat-label>
             <textarea matInput readonly [value]="requestPackage.deliveredPackage.observations"></textarea>
           </mat-form-field>

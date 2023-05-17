@@ -32,12 +32,6 @@ import { CarComponent } from './pages/car/car-component';
 import { DriverRequestAssignComponent } from './components/driver-request-assign/driver-request-assign.component';
 import { CarDetailComponent } from './pages/car-detail/car-detail.component';
 import { CarRequestAssignComponent } from './components/car-request-assign/car-request-assign.component';
-import {
-  ProposalRequestPackageComponent
-} from './components/proposal-request-package/proposal-request-package.component';
-import {
-  RequestPackaheDriverInfoComponent
-} from './components/proposal-request-package/request-packahe-driver-info/request-packahe-driver-info.component';
 import { ProposalRequestDriverComponent } from './components/proposal-request-driver/proposal-request-driver.component';
 import { ProposalRequestCarComponent } from './components/proposal-request-car/proposal-request-car.component';
 import {
@@ -76,8 +70,6 @@ import {
     DriverRequestAssignComponent,
     CarDetailComponent,
     CarRequestAssignComponent,
-    ProposalRequestPackageComponent,
-    RequestPackaheDriverInfoComponent,
     ProposalRequestDriverComponent,
     ProposalRequestCarComponent,
     ExtraInformationRequestCarComponent,

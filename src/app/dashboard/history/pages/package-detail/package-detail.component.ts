@@ -19,16 +19,10 @@ import { StatusPackageRequestLookup } from "../../../../core/enums/lookups/statu
 import { OfficeModel } from "../../../../core/models/office.model";
 import { OfficeService } from "../../../../core/services/office.service";
 import { ErrorResponse } from 'src/app/core/interfaces/error-response';
-import { MatDialog } from "@angular/material/dialog";
-import {
-  ProposalRequestPackageComponent
-} from "../../components/proposal-request-package/proposal-request-package.component";
 import { MatTableDataSource } from "@angular/material/table";
 import { ProposalRequestModel } from "../../../../core/models/proposal-request.model";
 import { TableColumn } from "../../../../shared/interfaces/table-column.interface";
-import { ConfirmProposalComponent } from "../../components/confirm-proposal/confirm-proposal.component";
 import { RequestModel } from "../../../../core/models/request.model";
-import { UserSessionService } from "../../../../core/services/user-session.service";
 
 @Component({
   selector: 'app-package-detail',
@@ -64,13 +58,13 @@ export class PackageDetailComponent {
 
   trackById = trackById;
 
-  constructor(private activatedRoute: ActivatedRoute,
-              private router: Router,
-              private requestPackageService: RequestPackageService,
-              private toastrService: ToastrService,
-              private officeService: OfficeService,
-              private dialog: MatDialog,
-              private userSessionService: UserSessionService) {
+  constructor(
+    private activatedRoute: ActivatedRoute,
+    private router: Router,
+    private requestPackageService: RequestPackageService,
+    private toastrService: ToastrService,
+    private officeService: OfficeService
+  ) {
     const [,,part] = this.router.url.split('/', 3);
     this.urlRedirectBack = `/dashboard/${part}/paqueteria`;
     this.breadcrumbs.push({
@@ -85,16 +79,6 @@ export class PackageDetailComponent {
 
   get statusRequest(): typeof StatusPackageRequestLookup {
     return StatusPackageRequestLookup;
-  }
-
-  get proposalVisibleColumns() {
-    return this.columns.filter(column => column.visible).map(column => column.property);
-  }
-
-  get enableProposal(): boolean {
-    return this.previousStatus.code === StatusPackageRequestLookup[StatusPackageRequestLookup.PROPOSAL] &&
-      this.requestPackage.request.status.code === StatusPackageRequestLookup[StatusPackageRequestLookup.PROPOSAL] &&
-      this.userSessionService.isApplicant;
   }
 
   findByRequestId(requestId: number): void {
@@ -129,33 +113,7 @@ export class PackageDetailComponent {
       if (!this.requestPackage.proposalPackage) {
         this.toastrService.info('Selecciona el método de envío', 'Información');
       }
-    } else if (status.code === StatusPackageRequestLookup[StatusPackageRequestLookup.PROPOSAL]) {
-      this.dialog.open(ProposalRequestPackageComponent, {
-        data: this.requestPackage,
-        width: '750px',
-        autoFocus: false
-      })
-        .afterClosed()
-        .subscribe((hasAction: boolean) => {
-          if (!hasAction) {
-            this.requestPackage.request.status = {... this.previousStatus};
-          } else {
-            this.proposalRequest();
-          }
-        });
     }
-  }
-
-  confirmationProposal(id: number, index: number): void {
-    const { proposalRequest } = this.requestPackage.request;
-    this.dialog.open(ConfirmProposalComponent, {data: index+1, autoFocus: false})
-      .afterClosed()
-      .subscribe((confirm: boolean) => {
-        if (confirm) {
-          const data = proposalRequest.find(proposal => proposal.id === id);
-          this.responseRejectRequest(data);
-        }
-      });
   }
 
   save(): void {
@@ -222,11 +180,6 @@ export class PackageDetailComponent {
       this.toastrService.success('Solicitud aprobada', 'Proceso exitoso');
       this.router.navigateByUrl(this.urlRedirectBack);
     });
-  }
-
-  private proposalRequest(): void {
-    this.toastrService.success('Propuesta enviada', 'Proceso exitoso');
-    this.router.navigateByUrl(this.urlRedirectBack);
   }
 
   public responseRejectRequest(proposalRequest?: ProposalRequestModel): void {

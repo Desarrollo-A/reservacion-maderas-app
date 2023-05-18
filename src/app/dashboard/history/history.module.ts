@@ -32,12 +32,6 @@ import { CarComponent } from './pages/car/car-component';
 import { DriverRequestAssignComponent } from './components/driver-request-assign/driver-request-assign.component';
 import { CarDetailComponent } from './pages/car-detail/car-detail.component';
 import { CarRequestAssignComponent } from './components/car-request-assign/car-request-assign.component';
-import {
-  ProposalRequestPackageComponent
-} from './components/proposal-request-package/proposal-request-package.component';
-import {
-  RequestPackaheDriverInfoComponent
-} from './components/proposal-request-package/request-packahe-driver-info/request-packahe-driver-info.component';
 import { ProposalRequestDriverComponent } from './components/proposal-request-driver/proposal-request-driver.component';
 import { ProposalRequestCarComponent } from './components/proposal-request-car/proposal-request-car.component';
 import {
@@ -47,6 +41,13 @@ import { PerDiemModule } from "../../shared/components/per-diem/per-diem.module"
 import { HeavyShippingTableModule } from "../../shared/components/heavy-shipping-table/heavy-shipping-table.module";
 import { UploadMultipleFilesModule } from "../../shared/components/upload-multiple-files/upload-multiple-files.module";
 import { DecimalModule } from "../../shared/directives/decimal/decimal.module";
+import { CreateRequestPackageComponent } from './components/create-request-package/create-request-package.component';
+import {
+  HeavyShipmentTableComponent
+} from "./components/create-request-package/heavy-shipment-table/heavy-shipment-table.component";
+import {
+  ItemCreateUpdateComponent
+} from "./components/create-request-package/heavy-shipment-table/item-create-update/item-create-update.component";
 
 
 @NgModule({
@@ -69,11 +70,12 @@ import { DecimalModule } from "../../shared/directives/decimal/decimal.module";
     DriverRequestAssignComponent,
     CarDetailComponent,
     CarRequestAssignComponent,
-    ProposalRequestPackageComponent,
-    RequestPackaheDriverInfoComponent,
     ProposalRequestDriverComponent,
     ProposalRequestCarComponent,
-    ExtraInformationRequestCarComponent
+    ExtraInformationRequestCarComponent,
+    CreateRequestPackageComponent,
+    HeavyShipmentTableComponent,
+    ItemCreateUpdateComponent
   ],
   imports: [
     CommonModule,

@@ -2,7 +2,6 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { RoomComponent } from './pages/room/room.component';
 import { PageNotFoundComponent } from "../../shared/components/page-not-found/page-not-found.component";
-import { PackageComponent } from "./pages/package/package.component";
 import { DriverComponent } from "./pages/driver/driver.component";
 import { CarComponent } from "./pages/car/car.component";
 import { PermissionPathRouteGuard } from "../../core/guards/permission-path-route.guard";
@@ -25,16 +24,6 @@ const routes: Routes = [
     title: 'Chofer',
     data: {
       pathRoute: '/dashboard/solicitud/conductor'
-    },
-    canActivate: [ PermissionPathRouteGuard ],
-    canLoad: [ PermissionPathRouteGuard ]
-  },
-  {
-    path: 'paqueteria',
-    component: PackageComponent,
-    title: 'Paquetería',
-    data: {
-      pathRoute: '/dashboard/solicitud/paqueteria'
     },
     canActivate: [ PermissionPathRouteGuard ],
     canLoad: [ PermissionPathRouteGuard ]

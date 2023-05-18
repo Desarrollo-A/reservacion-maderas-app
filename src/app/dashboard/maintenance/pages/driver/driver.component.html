@@ -59,7 +59,7 @@
               </div>
             </td>
           </ng-container>
-          
+
           <ng-container matColumnDef="status">
             <th *matHeaderCellDef class="uppercase" mat-header-cell>Estatus</th>
             <td *matCellDef="let row" mat-cell>
@@ -105,13 +105,17 @@
 
   <mat-menu #actionsMenu="matMenu" xPosition="before" yPosition="below">
     <ng-template let-driver="driver" matMenuContent>
-      <button mat-menu-item (click) = "details(driver.id)">
+      <button mat-menu-item (click)="details(driver.id)">
         <mat-icon svgIcon="mat:visibility"></mat-icon>
         <span>Detalle</span>
       </button>
-      <button mat-menu-item (click) = "openDialog(driver.id)">
+      <button mat-menu-item (click)="carAssign(driver.id)">
         <mat-icon svgIcon="mat:directions_car"></mat-icon>
         <span>Asignar vehículo</span>
+      </button>
+      <button mat-menu-item (click)="parcelDays(driver.id)">
+        <mat-icon svgIcon="mat:calendar_today"></mat-icon>
+        <span>Días de paquetería</span>
       </button>
     </ng-template>
 

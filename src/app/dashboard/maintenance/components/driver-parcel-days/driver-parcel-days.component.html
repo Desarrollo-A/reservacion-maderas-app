@@ -1,0 +1,33 @@
+<form [formGroup]="form">
+  <div class="flex items-center" mat-dialog-title>
+    <h2 class="headline m-0 flex-auto block">
+      Días designados al envío de paquetería
+    </h2>
+
+    <button class="text-secondary" mat-dialog-close mat-icon-button type="button">
+      <mat-icon svgIcon="mat:close"></mat-icon>
+    </button>
+  </div>
+
+  <mat-divider class="-mx-6 text-border"></mat-divider>
+
+  <div class="flex flex-col p-4 items-center justify-center">
+    <div class="flex content-center items-start flex-col flex-wrap gap-2"
+         formArrayName="driverParcelDay">
+      <ng-container *ngFor="let dayForm of driverParcelDay.controls; let i = index">
+        <div class="inline-block flex-initial" [formGroupName]="i">
+          <mat-checkbox color="primary" formControlName="checked">
+            <p class="text-lg">
+              {{ dayName(dayForm.get('lookup').value.value) }}
+            </p>
+          </mat-checkbox>
+        </div>
+      </ng-container>
+    </div>
+  </div>
+
+  <mat-dialog-actions align="end">
+    <button mat-button mat-dialog-close type="button">Cancelar</button>
+    <button color="primary" mat-flat-button (click)="save()">Guardar</button>
+  </mat-dialog-actions>
+</form>

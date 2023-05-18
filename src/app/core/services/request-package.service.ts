@@ -14,7 +14,6 @@ import { ApprovedPackageRequest } from "../../dashboard/history/interfaces/appro
 import { AuthCodePackage } from 'src/app/package/interfaces/auth-code-package';
 import { DeliveredPackage } from 'src/app/package/interfaces/delivered-package';
 import { DeliveredPackageModel } from "../models/delivered-package.model";
-import { ProposalPackageRequest } from "../../dashboard/history/interfaces/proposal-package-request";
 
 @Injectable({
   providedIn: 'root'
@@ -112,11 +111,6 @@ export class RequestPackageService {
   findAllByDateAndOffice(officeId: number, date: string): Observable<PackageModel[]> {
     const url = `${this.url}/date/${officeId}/${date}`;
     return this.http.get<PackageModel[]>(url);
-  }
-
-  proposalRequest(data: ProposalPackageRequest): Observable<void> {
-    const url = `${this.url}/proposal`;
-    return this.http.patch<void>(url, data);
   }
 
   responseRejectRequest(requestId: number, data: RequestModel): Observable<void> {

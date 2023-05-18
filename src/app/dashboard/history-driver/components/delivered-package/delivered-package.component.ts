@@ -20,6 +20,7 @@ export class DeliveredPackageComponent implements OnInit {
   ngOnInit(): void {
     this.form = this.fb.group({
       nameReceive: [null, [Validators.required, Validators.minLength(3), Validators.maxLength(150)]],
+      observations: [null, [Validators.required, Validators.minLength(3), Validators.maxLength(2500)]]
     });
 
     this.formErrors = new FormErrors(this.form);

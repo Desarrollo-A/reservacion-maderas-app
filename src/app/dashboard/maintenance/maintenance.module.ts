@@ -17,6 +17,7 @@ import { CarCreateUpdateComponent } from './components/car-create-update/car-cre
 import { DriverComponent } from './pages/driver/driver.component';
 import { RelationCarDriverComponent } from './components/relation-car-driver/relation-car-driver.component';
 import { InfoDriverComponent } from './components/info-driver/info-driver/info-driver.component';
+import { DriverParcelDaysComponent } from './components/driver-parcel-days/driver-parcel-days.component';
 
 
 @NgModule({
@@ -29,7 +30,8 @@ import { InfoDriverComponent } from './components/info-driver/info-driver/info-d
     CarCreateUpdateComponent,
     DriverComponent,
     RelationCarDriverComponent,
-    InfoDriverComponent
+    InfoDriverComponent,
+    DriverParcelDaysComponent
   ],
   imports: [
     CommonModule,

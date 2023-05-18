@@ -119,6 +119,11 @@
                 <input matInput readonly [value]="requestPackage.detailExternalParcel.trackingCode">
               </mat-form-field>
 
+              <mat-form-field appearance="outline" class="flex-auto vex-flex-form-field">
+                <mat-label>Costo</mat-label>
+                <input matInput readonly [value]="requestPackage.detailExternalParcel.cost | currency:'MXN'">
+              </mat-form-field>
+
               <div class="flex-auto">
                 <div class="flex-auto sm:mt-2 mb-4 sm:mb-0">
                   <a class="relative flex items-center cursor-pointer select-none rounded-full px-4 py-1 hover:bg-primary/10 trans-ease-out"
@@ -132,6 +137,13 @@
               </div>
             </div>
           </ng-container>
+
+          <mat-form-field appearance="outline"
+                          class="flex-auto vex-flex-form-field"
+                          *ngIf="requestPackage.deliveredPackage">
+            <mat-label>Observaciones</mat-label>
+            <textarea matInput readonly [value]="requestPackage.deliveredPackage.observations"></textarea>
+          </mat-form-field>
 
           <div class="flex flex-col md:flex-row md:gap-4"
                *ngIf="requestPackage.request.score || requestPackage.deliveredPackage">
@@ -198,55 +210,6 @@
                                      requestPackage.request.status.code === statusRequest[statusRequest.APPROVED]"
                                      [requestPackage]="requestPackage">
           </app-driver-package-assign>
-        </div>
-      </div>
-
-      <div class="flex-auto" *ngIf="requestPackage.request.proposalRequest.length > 0 && enableProposal">
-        <div class="px-6 flex flex-col gap-2">
-          <div class="px-6 h-16 border-b sticky left-0 flex items-center">
-            <h2 class="title my-0 ltr:pr-4 rtl:pl-4 ltr:mr-4 rtl:ml-4 ltr:border-r rtl:border-l hidden sm:block flex-none">
-              <span>Propuesta</span>
-            </h2>
-          </div>
-
-          <table @stagger [dataSource]="proposalDataSource" class="w-full" mat-table>
-            <ng-container matColumnDef="number">
-              <th *matHeaderCellDef class="uppercase" mat-header-cell>#</th>
-              <td *matCellDef="let row; let i = index" mat-cell>{{ i+1 }}</td>
-            </ng-container>
-
-            <ng-container matColumnDef="date">
-              <th *matHeaderCellDef class="uppercase" mat-header-cell>
-                {{(requestPackage.proposalPackage.isDriverSelected) ? 'Fecha' : 'Fecha salida'}}
-              </th>
-              <td *matCellDef="let row" mat-cell>{{ row.startDate | date:'dd-MM-y' }}</td>
-            </ng-container>
-
-            <ng-container matColumnDef="endDate"
-                          *ngIf="!requestPackage.proposalPackage.isDriverSelected">
-              <th *matHeaderCellDef class="uppercase" mat-header-cell>Fecha llegada aproximada</th>
-              <td *matCellDef="let row" mat-cell>{{ row.endDate | date:'dd-MM-y' }}</td>
-            </ng-container>
-
-            <ng-container matColumnDef="action">
-              <th *matHeaderCellDef class="uppercase" mat-header-cell>Acciones</th>
-              <td *matCellDef="let row; let i = index" mat-cell>
-                <div class="flex">
-                  <button (click)="confirmationProposal(row.id, i)"
-                          class="w-8 h-8 leading-none flex items-center justify-center hover:bg-hover text-primary bg-primary/10"
-                          mat-icon-button>
-                    <mat-icon class="icon-sm" svgIcon="mat:done"></mat-icon>
-                  </button>
-                </div>
-              </td>
-            </ng-container>
-
-            <tr *matHeaderRowDef="proposalVisibleColumns" mat-header-row></tr>
-            <tr *matRowDef="let row; columns: proposalVisibleColumns;"
-                @fadeInUp
-                class="hover:bg-hover trans-ease-out"
-                mat-row></tr>
-          </table>
         </div>
       </div>
 

@@ -2,6 +2,7 @@ import { LabelButton } from "src/app/shared/interfaces/label-button";
 import { Lookup } from "../interfaces/lookup";
 import { CarModel } from "./car.model";
 import { StatusUserLookup } from "../enums/lookups/status-user.lookup";
+import { DriverParcelDayModel } from "./driver-parcel-day.model";
 
 export class DriverModel {
   id:             number;
@@ -16,6 +17,7 @@ export class DriverModel {
   status:         Lookup;
   cars:           CarModel[];
   availableCars?: CarModel[];
+  driverParcelDays: DriverParcelDayModel[];
 
   constructor(driver) {
     this.id = driver.id;
@@ -30,6 +32,7 @@ export class DriverModel {
     this.status = driver.status;
     this.cars = driver.cars;
     this.availableCars = (driver.availableCars) ? driver.availableCars.map(car => new CarModel(car)) : null;
+    this.driverParcelDays = driver.driverParcelDays;
   }
 
   get statusName(): string{

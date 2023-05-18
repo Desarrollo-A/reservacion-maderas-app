@@ -55,7 +55,8 @@ export class DriverPackageAssignComponent implements OnInit {
       trackingCode: [null],
       urlTracking: [null],
       endDate: [null],
-      weight: [null]
+      weight: [null],
+      cost: [null]
     });
 
     if (this.requestPackage.proposalPackage) {
@@ -107,6 +108,7 @@ export class DriverPackageAssignComponent implements OnInit {
       this.form.get('urlTracking')?.clearValidators();
       this.form.get('endDate')?.clearValidators();
       this.form.get('weight')?.clearValidators();
+      this.form.get('cost')?.clearValidators();
 
       this.form.get('driverId')?.addValidators([Validators.required]);
       this.form.get('carId')?.addValidators([Validators.required]);
@@ -148,6 +150,11 @@ export class DriverPackageAssignComponent implements OnInit {
       Validators.required,
       Validators.min(0.01),
       Validators.max(999999)
+    ]);
+    this.form.get('cost')?.addValidators([
+      Validators.required,
+      Validators.min(0.01),
+      Validators.max(9999999)
     ]);
   }
 }

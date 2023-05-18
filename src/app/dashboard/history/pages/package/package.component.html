@@ -33,6 +33,14 @@
                 type="button">
           <mat-icon svgIcon="mat:filter_list"></mat-icon>
         </button>
+        <button class="ml-4 flex-none"
+                color="primary"
+                mat-mini-fab
+                matTooltip="Nueva solicitud"
+                type="button"
+                (click)="createRequest()">
+          <mat-icon svgIcon="mat:add"></mat-icon>
+        </button>
       </div>
 
       <table @stagger [dataSource]="dataSource" class="w-full" mat-table matSort [trackBy]="trackById"

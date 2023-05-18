@@ -1,0 +1,149 @@
+<form [formGroup]="form">
+  <div class="flex items-center" mat-dialog-title>
+    <h2 class="headline m-0 flex-auto block">
+      Nueva solicitud de paquetería
+    </h2>
+
+    <button class="text-secondary" mat-dialog-close mat-icon-button type="button">
+      <mat-icon svgIcon="mat:close"></mat-icon>
+    </button>
+  </div>
+
+  <mat-divider class="-mx-6 text-border"></mat-divider>
+
+  <mat-dialog-content class="flex flex-col gap-2 mt-4">
+    <div class="flex flex-col sm:flex-row sm:gap-4">
+      <mat-form-field class="flex-auto">
+        <mat-label>Título de la solicitud</mat-label>
+        <input matInput type="text" formControlName="title" autocomplete="off">
+
+        <mat-error *ngIf="formErrors.customError('title', 'required')">
+          Campo obligatorio.
+        </mat-error>
+        <mat-error *ngIf="formErrors.customError('title', 'minlength')">
+          El título debe tener más de {{ formErrors.minLengthNumber('title') }} caracteres.
+        </mat-error>
+        <mat-error *ngIf="formErrors.customError('title', 'maxlength')">
+          El título debe tener menos de {{ formErrors.maxLengthNumber('title') }} caracteres.
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field class="flex-auto">
+        <mat-label>Fecha de envío</mat-label>
+        <input [matDatepicker]="datepickerRef"
+               formControlName="date" matInput readonly>
+        <mat-datepicker-toggle [for]="datepickerRef" matSuffix></mat-datepicker-toggle>
+        <mat-datepicker #datepickerRef></mat-datepicker>
+
+        <mat-error *ngIf="formErrors.customError('date','required')">
+          Campo obligatorio.
+        </mat-error>
+        <mat-error *ngIf="formErrors.customError('date','dateBeforeNow')">
+          La fecha debe ser igual o mayor a la actual.
+        </mat-error>
+        <mat-error *ngIf="formErrors.customError('date','dateAfter30Days')">
+          La fecha no debe pasar 30 días después a la actual.
+        </mat-error>
+      </mat-form-field>
+    </div>
+
+    <div class="flex flex-col gap-5">
+      <app-address #pickupAddress
+                   title="Dirección de salida"
+                   subtitle="Información del lugar de salida del paquete"
+                   [offices] = "allOffices">
+      </app-address>
+
+      <app-address #arrivalAddress
+                   title="Dirección de llegada"
+                   subtitle="Información del lugar de llegada del paquete"
+                   [offices] = "allOffices">
+      </app-address>
+    </div>
+
+    <div class="flex flex-col sm:flex-row sm:gap-4">
+      <div class="flex-auto">
+        <mat-checkbox class="block px-4 py-3" formControlName="isUrgent">
+          ¿El envío es urgente?
+        </mat-checkbox>
+      </div>
+
+      <div class="flex-auto sm:mt-3 sm:ml-3" *ngIf="heavyShipping">
+        <mat-slide-toggle formControlName="isHeavyShipping">
+          ¿El paquete pesa más de {{ heavyShipping?.value }} kg?
+        </mat-slide-toggle>
+      </div>
+    </div>
+
+    <div>
+      <app-heavy-shipment-table *ngIf="isHeavyShipping"
+                                #heavyShipmentTableComponent>
+      </app-heavy-shipment-table>
+    </div>
+
+    <mat-form-field>
+      <mat-label>Comentarios sobre el paquete</mat-label>
+      <textarea placeholder="Describa aquí las instrucciones de envío..."
+                matInput
+                formControlName="comment"></textarea>
+      <mat-error *ngIf="formErrors.customError('comment', 'required')">
+        Campo obligatorio.
+      </mat-error>
+    </mat-form-field>
+
+    <div class="border-b flex flex-col">
+      <h2 class="title mb-2">Información de quien recibe</h2>
+    </div>
+
+    <div class="flex flex-col sm:flex-row sm:gap-4">
+      <mat-form-field class="flex-auto">
+        <mat-label>Nombre completo</mat-label>
+        <input matInput
+               formControlName="nameReceive"
+               autocomplete="off">
+
+        <mat-error *ngIf="formErrors.customError('nameReceive', 'required')">
+          Campo obligatorio.
+        </mat-error>
+        <mat-error *ngIf="formErrors.customError('nameReceive', 'minlength')">
+          El nombre debe tener más de {{ formErrors.minLengthNumber('nameReceive') }} caracteres.
+        </mat-error>
+        <mat-error *ngIf="formErrors.customError('nameReceive', 'maxlength')">
+          El nombre debe tener menos de {{ formErrors.maxLengthNumber('nameReceive') }} caracteres.
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field class="flex-auto">
+        <mat-label>Correo electrónico</mat-label>
+        <input matInput
+               formControlName="emailReceive"
+               autocomplete="off">
+
+        <mat-error *ngIf="formErrors.customError('emailReceive', 'required')">
+          Campo obligatorio.
+        </mat-error>
+        <mat-error *ngIf="formErrors.customError('emailReceive','maxlength')">
+          El correo debe tener menos de {{ formErrors.maxLengthNumber('emailReceive') }} caracteres.
+        </mat-error>
+        <mat-error *ngIf="formErrors.customError('emailReceive','email')">
+          Debe ingresar un correo válido.
+        </mat-error>
+      </mat-form-field>
+    </div>
+  </mat-dialog-content>
+
+  <mat-dialog-actions align="end">
+    <button mat-button
+            mat-dialog-close
+            type="button">
+      Cancelar
+    </button>
+
+    <button color="primary"
+            mat-raised-button
+            type="button"
+            (click)="save()">
+      Crear solicitud
+    </button>
+  </mat-dialog-actions>
+</form>

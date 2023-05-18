@@ -1,40 +1,41 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { stagger60ms } from "../../../../shared/animations/stagger.animation";
 import { fadeInUp400ms } from "../../../../shared/animations/fade-in-up.animation";
+import { UntilDestroy } from "@ngneat/until-destroy";
+import { AddressComponent } from "../../../../shared/components/address/address.component";
+import { HeavyShipmentTableComponent } from "./heavy-shipment-table/heavy-shipment-table.component";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { FormErrors } from "../../../../shared/utils/form-error";
 import { StateModel } from "../../../../core/models/state.model";
 import { OfficeModel } from "../../../../core/models/office.model";
+import { Lookup } from "../../../../core/interfaces/lookup";
 import { trackById } from "../../../../shared/utils/track-by";
-import { ToastrService } from "ngx-toastr";
 import { StateService } from "../../../../core/services/state.service";
-import { dateAfter30Days, dateBeforeNow } from "../../../../shared/utils/form-validations";
-import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
-import { forkJoin, switchMap, tap } from "rxjs";
 import { OfficeService } from "../../../../core/services/office.service";
-import { AddressComponent } from "../../../../shared/components/address/address.component";
+import { ToastrService } from "ngx-toastr";
 import { RequestPackageService } from "../../../../core/services/request-package.service";
-import { PackageModel } from "../../../../core/models/package.model";
+import { LookupService } from "../../../../core/services/lookup.service";
+import { dateAfter30Days, dateBeforeNow } from "../../../../shared/utils/form-validations";
+import { forkJoin } from "rxjs";
 import { AddressModel } from "../../../../core/models/address.model";
+import { PackageModel } from "../../../../core/models/package.model";
 import { RequestModel } from "../../../../core/models/request.model";
 import { getDateFormat } from "../../../../shared/utils/utils";
-import { LookupService } from "../../../../core/services/lookup.service";
 import { HeavyShippingLookup } from "../../../../core/enums/lookups/heavy-shipping.lookup";
 import { TypeLookup } from "../../../../core/enums/type-lookup";
-import { Lookup } from "../../../../core/interfaces/lookup";
-import { HeavyShipmentTableComponent } from "../../components/heavy-shipment-table/heavy-shipment-table.component";
+import { MatDialogRef } from "@angular/material/dialog";
 
 @UntilDestroy()
 @Component({
-  selector: 'app-package',
-  templateUrl: './package.component.html',
-  styleUrls: ['./package.component.scss'],
+  selector: 'app-create-request-package',
+  templateUrl: './create-request-package.component.html',
+  styles: [],
   animations: [
     stagger60ms,
     fadeInUp400ms
   ]
 })
-export class PackageComponent implements OnInit {
+export class CreateRequestPackageComponent implements OnInit {
   @ViewChild('pickupAddress')
   pickupAddressComponent: AddressComponent;
   @ViewChild('arrivalAddress')
@@ -58,36 +59,25 @@ export class PackageComponent implements OnInit {
     private officeService: OfficeService,
     private toastrService: ToastrService,
     private requestPackageService: RequestPackageService,
-    private lookupService: LookupService
-  ) {}
+    private lookupService: LookupService,
+    private dialogRef: MatDialogRef<CreateRequestPackageComponent>
+  ) { }
 
   ngOnInit(): void {
     this.getAllStatesAndOffices();
 
     this.form = this.fb.group({
       title: [null, [Validators.required, Validators.minLength(3), Validators.maxLength(100)]],
-      state: [null, Validators.required],
-      officeId: [null, Validators.required],
       date: [null, [Validators.required, dateBeforeNow, dateAfter30Days]],
-      addGoogleCalendar: [false],
+      addGoogleCalendar: [true],
       nameReceive: [null, [Validators.required, Validators.minLength(5), Validators.maxLength(150)]],
       emailReceive: [null, [Validators.required, Validators.email, Validators.maxLength(150)]],
       comment: [null,  [Validators.required, Validators.maxLength(2500)]],
       isUrgent: [false],
       isHeavyShipping: [false]
     });
-    this.formErrors = new FormErrors(this.form);
 
-    this.form.get('state')?.valueChanges.pipe(
-      untilDestroyed(this),
-      tap(() => this.form.get('officeId')?.reset()),
-      switchMap(state => this.officeService.getOfficeByStateId(state))
-    ).subscribe(offices => {
-      if (offices.length === 0) {
-        this.toastrService.info('No hay oficinas disponibles', 'Información');
-      }
-      this.offices = offices;
-    });
+    this.formErrors = new FormErrors(this.form);
   }
 
   get isHeavyShipping(): boolean {
@@ -102,12 +92,12 @@ export class PackageComponent implements OnInit {
       return;
     }
 
-    if (this.heavyShipmentTableComponent?.heavyshipments.length === 0) {
+    const formValues = this.form.getRawValue();
+
+    if (formValues.isHeavyShipping && this.heavyShipmentTableComponent?.heavyshipments.length === 0) {
       this.toastrService.warning('Debe agregar al menos un artículo', 'Validación');
       return;
     }
-
-    const formValues = this.form.getRawValue();
 
     const pickupAddress: AddressModel = {
       ...this.pickupAddressComponent.form.value,
@@ -141,16 +131,8 @@ export class PackageComponent implements OnInit {
     };
 
     this.requestPackageService.store(request).subscribe(() => {
-      this.form.reset({
-        addGoogleCalendar: false,
-        isUrgent: false,
-        isHeavyShipping: false
-      }, { emitEvent: false });
-
-      this.pickupAddressComponent.clearData();
-      this.arrivalAddressComponent.clearData();
-
       this.toastrService.success('Solicitud creada', 'Proceso existoso');
+      this.dialogRef.close(true);
     });
   }
 

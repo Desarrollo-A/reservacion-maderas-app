@@ -5,6 +5,7 @@ import { getPaginateParams } from 'src/app/shared/utils/http-functions';
 import { environment } from 'src/environments/environment';
 import { PaginationResponse } from '../interfaces/pagination-response';
 import { DriverModel } from '../models/driver.model';
+import { DriverParcelDayModel } from "../models/driver-parcel-day.model";
 
 @Injectable({
   providedIn: 'root'
@@ -78,5 +79,10 @@ export class DriverService {
         return drivers;
       })
     );
+  }
+
+  updateParcelDays(id: number, data: DriverParcelDayModel[]): Observable<void> {
+    const url = `${this.url}/parcel-days/${id}`;
+    return this.http.put<void>(url, { driverParcelDay: data });
   }
 }

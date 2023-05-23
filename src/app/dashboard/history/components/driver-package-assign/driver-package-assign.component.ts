@@ -118,8 +118,8 @@ export class DriverPackageAssignComponent implements OnInit {
   }
 
   private loadDrivers(): void {
-    const { officeId, request: { startDate } } = this.requestPackage;
-    this.driverService.getAvailablePackageRequest(officeId, getDateFormat(new Date(startDate))).subscribe(drivers => {
+    const { request: { startDate } } = this.requestPackage;
+    this.driverService.getAvailablePackageRequest(getDateFormat(new Date(startDate))).subscribe(drivers => {
       this.drivers = drivers;
       if (drivers.length === 0) {
         this.toastrService.info('No hay choferes disponibles', 'Información');

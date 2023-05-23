@@ -45,8 +45,8 @@ export class DriverService {
     return this.http.post<void>(url, request);
   }
 
-  getAvailablePackageRequest(officeId: number, date: string): Observable<DriverModel[]> {
-    const url = `${this.url}/available-package/${officeId}/${date}`;
+  getAvailablePackageRequest(date: string): Observable<DriverModel[]> {
+    const url = `${this.url}/available-package/${date}`;
     return this.http.get<DriverModel[]>(url).pipe(
       map(drivers => {
         drivers = drivers.map(driver => new DriverModel(driver));

@@ -20,7 +20,7 @@
             <mat-select formControlName="driverId">
               <mat-option *ngFor="let driver of drivers; trackBy: trackById"
                           [value]="driver.id">
-                {{ driver.fullName }}
+                {{ driver.fullName }} - Sede {{ driver.office.state.name }}
               </mat-option>
             </mat-select>
 

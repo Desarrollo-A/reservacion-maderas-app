@@ -3,6 +3,7 @@ import { Lookup } from "../interfaces/lookup";
 import { CarModel } from "./car.model";
 import { StatusUserLookup } from "../enums/lookups/status-user.lookup";
 import { DriverParcelDayModel } from "./driver-parcel-day.model";
+import { OfficeModel } from "./office.model";
 
 export class DriverModel {
   id:             number;
@@ -15,6 +16,7 @@ export class DriverModel {
   statusId:       number;
   area:           string;
   status:         Lookup;
+  office:         OfficeModel;
   cars:           CarModel[];
   availableCars?: CarModel[];
   driverParcelDays: DriverParcelDayModel[];
@@ -30,6 +32,7 @@ export class DriverModel {
     this.statusId = driver.statusId;
     this.area = driver.area;
     this.status = driver.status;
+    this.office = driver.office;
     this.cars = driver.cars;
     this.availableCars = (driver.availableCars) ? driver.availableCars.map(car => new CarModel(car)) : null;
     this.driverParcelDays = driver.driverParcelDays;

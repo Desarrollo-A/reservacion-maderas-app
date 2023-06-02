@@ -10,6 +10,8 @@ import { DriverDetailComponent } from "./pages/driver-detail/driver-detail.compo
 import { CarComponent } from './pages/car/car-component';
 import { CarDetailComponent } from "./pages/car-detail/car-detail.component";
 import { PermissionPathRouteGuard } from "../../core/guards/permission-path-route.guard";
+import { PermissionRoleGuard } from "../../core/guards/permission-role.guard";
+import { NameRole } from "../../core/enums/name-role";
 
 const routes: Routes = [
   {
@@ -22,80 +24,88 @@ const routes: Routes = [
     component: CarComponent,
     title: 'Vehículo',
     data: {
+      roles: [NameRole.RECEPCIONIST, NameRole.APPLICANT],
       pathRoute: '/dashboard/historial/vehiculo'
     },
-    canActivate: [ PermissionPathRouteGuard ],
-    canLoad: [ PermissionPathRouteGuard ]
+    canActivate: [ PermissionRoleGuard, PermissionPathRouteGuard ],
+    canLoad: [ PermissionRoleGuard, PermissionPathRouteGuard ]
   },
   {
     path: 'conductor',
     component: DriverComponent,
     title: 'Chofer',
     data: {
+      roles: [NameRole.RECEPCIONIST, NameRole.APPLICANT],
       pathRoute: '/dashboard/historial/conductor'
     },
-    canActivate: [ PermissionPathRouteGuard ],
-    canLoad: [ PermissionPathRouteGuard ]
+    canActivate: [ PermissionRoleGuard, PermissionPathRouteGuard ],
+    canLoad: [ PermissionRoleGuard, PermissionPathRouteGuard ]
   },
   {
     path: 'sala',
     component: RoomComponent,
     title: 'Sala de Juntas',
     data: {
+      roles: [NameRole.RECEPCIONIST, NameRole.APPLICANT],
       pathRoute: '/dashboard/historial/sala'
     },
-    canActivate: [ PermissionPathRouteGuard ],
-    canLoad: [ PermissionPathRouteGuard ]
+    canActivate: [ PermissionRoleGuard, PermissionPathRouteGuard ],
+    canLoad: [ PermissionRoleGuard, PermissionPathRouteGuard ]
   },
   {
     path: 'paqueteria',
     component: PackageComponent,
     title: 'Paquetería',
     data: {
+      roles: [NameRole.RECEPCIONIST],
       pathRoute: '/dashboard/historial/paqueteria'
     },
-    canActivate: [ PermissionPathRouteGuard ],
-    canLoad: [ PermissionPathRouteGuard ]
+    canActivate: [ PermissionRoleGuard, PermissionPathRouteGuard ],
+    canLoad: [ PermissionRoleGuard, PermissionPathRouteGuard ]
   },
   {
     path: 'vehiculo/:id',
     component: CarDetailComponent,
     title: 'Solicitud detalle',
     data: {
+      roles: [NameRole.RECEPCIONIST, NameRole.APPLICANT],
       pathRoute: '/dashboard/historial/vehiculo'
     },
-    canActivate: [ PermissionPathRouteGuard ],
-    canLoad: [ PermissionPathRouteGuard ]
+    canActivate: [ PermissionRoleGuard, PermissionPathRouteGuard ],
+    canLoad: [ PermissionRoleGuard, PermissionPathRouteGuard ]
   },
   {
     path: 'conductor/:id',
     component: DriverDetailComponent,
     title: 'Solicitud detalle',
     data: {
+      roles: [NameRole.RECEPCIONIST, NameRole.APPLICANT],
       pathRoute: '/dashboard/historial/conductor'
     },
-    canActivate: [ PermissionPathRouteGuard ],
-    canLoad: [ PermissionPathRouteGuard ]
+    canActivate: [ PermissionRoleGuard, PermissionPathRouteGuard ],
+    canLoad: [ PermissionRoleGuard, PermissionPathRouteGuard ]
   },
   {
     path: 'sala/:id',
     component: RoomDetailComponent,
     title: 'Solicitud detalle',
     data: {
+      roles: [NameRole.RECEPCIONIST, NameRole.APPLICANT],
       pathRoute: '/dashboard/historial/sala'
     },
-    canActivate: [ PermissionPathRouteGuard ],
-    canLoad: [ PermissionPathRouteGuard ]
+    canActivate: [ PermissionRoleGuard, PermissionPathRouteGuard ],
+    canLoad: [ PermissionRoleGuard, PermissionPathRouteGuard ]
   },
   {
     path: 'paqueteria/:id',
     component: PackageDetailComponent,
     title: 'Solicitud detalle',
     data: {
+      roles: [NameRole.RECEPCIONIST],
       pathRoute: '/dashboard/historial/paqueteria'
     },
-    canActivate: [ PermissionPathRouteGuard ],
-    canLoad: [ PermissionPathRouteGuard ]
+    canActivate: [PermissionRoleGuard, PermissionPathRouteGuard ],
+    canLoad: [ PermissionRoleGuard, PermissionPathRouteGuard ]
   },
   {path: '**', component: PageNotFoundComponent}
 ];
